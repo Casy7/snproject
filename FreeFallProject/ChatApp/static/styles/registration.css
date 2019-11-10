@@ -1,0 +1,83 @@
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 35%;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.social_icon span {
+    font-size: 60px;
+    margin-left: 10px;
+    color: rgb(212, 161, 7);
+}
+
+.social_icon span:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input-group-prepend span {
+    width: 30px;
+    background-color: rgb(240, 173, 29);
+    color: black;
+    border: 0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.reg_btn {
+    color: black;
+    background-color: rgb(240, 173, 29);
+    align-items: center;
+    width: 30%;
+}
+
+.gender_radiobutton {
+    display: inline-block;
+    color: white;
+}
+
+.gender_radiobutton p {
+    margin-right: 20px;
+    color: white;
+    display: inline-block;
+}
+
+.gender_radiobutton input {
+    margin-right: 20px;
+    margin-left: 20px;
+    color: white;
+    display: inline-block;
+}
+
+.login_btn:hover {
+    color: black;
+    background-color: white;
+}
+
+.links {
+    color: white;
+}
+
+.links a {
+    margin-left: 4px;
+}
+
+h1 {
+    color: rgb(255, 255, 235);
+}
