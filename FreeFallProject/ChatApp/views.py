@@ -1,6 +1,7 @@
 from django.views.generic import View, TemplateView
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import *
 # Create your views here.
@@ -26,9 +27,10 @@ class Registration(View):
         for prop in form:
             if prop not in ('csrfmiddlewaretoken','username') and form[prop]!="":
                 user_props[prop] = form[prop]
-        print(user_props)
+        # print(user_props)
         StandartUser.objects.create_user(username = form['username'],**user_props)
-        print(form)
+        # print(form)
+        return HttpResponseRedirect("/login")
 
 
 
@@ -43,19 +45,17 @@ class UserLogin(View):
     # form_class = LoginUser
 
     def get(self, request):
-        if self.error == 0:
-            context = {'error': ''}
-        else:
-            context = {'error': '1'}
-            self.error = 0
+        context = {
+
+        }
         # context['form'] = self.form_class()
         return render(request, "login.html", context)
 
     def post(self, request):
         context = {}
         form = request.POST
-        validation = UserForm(request.POST)
-        if validation.is_valid():
+        # validation = UserForm(request.POST)
+        if True: # validation.is_valid():
             # print(form)
             username = form['username']
             password = form['password']
@@ -68,6 +68,12 @@ class UserLogin(View):
                     login(request, user)
                     context['name'] = username
                     return HttpResponseRedirect("/")
+            elif authenticate(username=username, password=password) is not None:
+                user = authenticate(email=username, password=password)
+                if user.is_active:
+                    login(request, user)
+                    context['name'] = username
+                    return HttpResponseRedirect("/")                
             else:
                 self.error = 1
                 # return Posts.get(self,request)
