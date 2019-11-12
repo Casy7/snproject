@@ -1,8 +1,9 @@
-
 * {
     margin: 0;
     padding: 0;
 }
+
+
 /*
 .sidebar {
     top: 40px;
@@ -29,8 +30,7 @@
     display: flex;
 }*/
 
-
-img{
+img {
     width: 45px;
     float: left;
     background: rgb(71, 71, 80);
@@ -41,54 +41,65 @@ img{
     transition: width .3s;
     overflow: auto;
     width: 100%;
-    background: rgb(35, 35, 37);
+    background: rgb(14, 22, 33);
     height: 100%;
     float: right;
-  }
+}
 
 .content:checked {
     width: 96.5%;
-  }
+}
+
 .header {
     position: fixed;
-    background: rgb(71, 71, 80);
+    background: rgb(23, 33 ,43);
     width: 100%;
     float: top;
     height: 40px;
 }
-.btn{
-    background: rgb(71, 71, 80);
+
+.btn {
+    background: transparent;
     color: rgb(189, 189, 202);
     border-radius: 0px;
     height: 40px;
 }
 
-.logo{
+.logo {
     width: 38px;
     float: inline-end;
-    background: rgb(71, 71, 80);
+    background: transparent;
     height: 39px;
-    
 }
-.logo:active, .logo:hover{
+
+.logo:active,
+.logo:hover {
     border: 0.5px solid rgb(230, 167, 33);
-    
 }
-.rightElement{
+
+.rightElement {
     float: right;
 }
-a{
+
+a {
     color: rgb(182, 182, 182);
 }
-a:link,a:active,a:hover{
+
+a:link,
+a:active,
+a:hover {
     color: rgb(201, 139, 25);
 }
 
-
-.sidebar_btn:active, .sidebar_btn:hover,.btn:hover{
+.sidebar_btn:active,
+.sidebar_btn:hover,
+.btn:hover {
     border: 0.5px solid rgb(230, 167, 33);
 }
-h1{
+
+h1 {
     color: rgb(247, 241, 230);
     font-size: 5px;
 }
+
+.input-group-text {}
