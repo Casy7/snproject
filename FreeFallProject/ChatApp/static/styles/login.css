@@ -47,23 +47,12 @@ input:focus {
     width: 30%;
 }
 
-.gender_radiobutton {
-    display: inline-block;
-    color: white;
+.remember {
+    margin-right: 20px;
+    margin-left: 2%;
+    color: rgb(219, 219, 219);
 }
 
-.gender_radiobutton p {
-    margin-right: 20px;
-    color: white;
-    display: inline-block;
-}
-
-.gender_radiobutton input {
-    margin-right: 20px;
-    margin-left: 20px;
-    color: white;
-    display: inline-block;
-}
 
 .login_btn:hover {
     color: black;

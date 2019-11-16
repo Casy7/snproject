@@ -3,6 +3,7 @@
 <head>
     {% load static %}{%csrf_token%}
     <title>FreeFall:</title>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/bootstrap-cyborg-v3.3.6.css"
         media="screen">
     <!--<link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/custom.min.css">
@@ -15,12 +16,18 @@
         
     <div class="header">
         <div>
+            {% if username == "none"%}
+            
             <a href="/login"><button type="button" class="btn">Login</button></a>
-            <a href="#"><button type="button" class="btn">Posts</button></a>
-            <a href="#"><button type="button" class="btn">Create</button></a>
-            <a href="#"><button type="button" class="btn rightElement">Logout</button></a>
-            <a href="#">
-                <div class="logo"><img class="logo" src="{% static '/icons/logo.png' %}"></a></div>
+           
+            {% else %}
+            <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo" src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
+            
+            {% endif %}
+            <button type="button" class="header_button" onclick="window.location.href = '/login'">Posts</button>
+            <button type="button" class="header_button" onclick="window.location.href = '/new_hike'">Create</button>
+            <button type="button" class="header_button rightElement" onclick="window.location.href = '/logout'">Logout</button></a>
+            
         </div>
     </div>
     <div class="content">

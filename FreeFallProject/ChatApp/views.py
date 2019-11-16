@@ -4,35 +4,42 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import *
-# Create your views here.
+
+
+def base_context(request):
+    context = {}
+    user = request.user
+    if user != None:
+        context['username'] = user.username
+    else:
+        context['username'] = "none"
+
+    return context
 
 
 def home(request):
-    context = {
-
-    }
+    context = base_context(request)
     return render(request, "main.html", context)
+
 
 class Registration(View):
     def get(self, request):
-        context = {
-
-        }
+        context = base_context(request)
 
         return render(request, "registration.html", context)
+
     def post(self, request):
         context = {}
         form = request.POST
         user_props = {}
         for prop in form:
-            if prop not in ('csrfmiddlewaretoken','username') and form[prop]!="":
+            if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
                 user_props[prop] = form[prop]
         # print(user_props)
-        StandartUser.objects.create_user(username = form['username'],**user_props)
+        StandartUser.objects.create_user(
+            username=form['username'], **user_props)
         # print(form)
         return HttpResponseRedirect("/login")
-
-
 
 
 class UserLogin(View):
@@ -45,9 +52,7 @@ class UserLogin(View):
     # form_class = LoginUser
 
     def get(self, request):
-        context = {
-
-        }
+        context = base_context(request)
         # context['form'] = self.form_class()
         return render(request, "login.html", context)
 
@@ -55,7 +60,7 @@ class UserLogin(View):
         context = {}
         form = request.POST
         # validation = UserForm(request.POST)
-        if True: # validation.is_valid():
+        if True:  # validation.is_valid():
             # print(form)
             username = form['username']
             password = form['password']
@@ -73,7 +78,7 @@ class UserLogin(View):
                 if user.is_active:
                     login(request, user)
                     context['name'] = username
-                    return HttpResponseRedirect("/")                
+                    return HttpResponseRedirect("/")
             else:
                 self.error = 1
                 # return Posts.get(self,request)
@@ -81,3 +86,27 @@ class UserLogin(View):
         else:
             return HttpResponse("Data isn't valid")
 
+
+class NewHike(View):
+    def get(self, request):
+        context = base_context(request)
+        return render(request, "new_hike.html", context)
+
+    def post(self, request):
+        context = {}
+        form = request.POST
+        user_props = {}
+        for prop in form:
+            if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
+                user_props[prop] = form[prop]
+        # print(user_props)
+        StandartUser.objects.create_user(
+            username=form['username'], **user_props)
+        # print(form)
+        return render(request, "new_hike.html", context)
+
+
+class Logout (View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect("/")

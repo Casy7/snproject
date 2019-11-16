@@ -3,7 +3,6 @@
     padding: 0;
 }
 
-
 /*
 .sidebar {
     top: 40px;
@@ -52,48 +51,67 @@ img {
 
 .header {
     position: fixed;
-    background: rgb(23, 33 ,43);
+    background: rgb(23, 33, 43);
     width: 100%;
     float: top;
     height: 40px;
 }
 
-.btn {
+.header_button {
+    border: none;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
     background: transparent;
     color: rgb(189, 189, 202);
     border-radius: 0px;
     height: 40px;
+    align-content: center;
+    padding-top: 0px;
+    touch-action: manipulation;
+    font-size: 14px;
+}
+
+.header_button .user {
+    text-align: right;
+    display: flex;
+    right: 0px;
+    vertical-align:middle;
 }
 
 .logo {
-    width: 38px;
-    float: inline-end;
+    padding: none;
     background: transparent;
-    height: 39px;
+    vertical-align:middle;
+    width: 35px;
+    height: 35px;
+
 }
 
-.logo:active,
+/* .logo:active,
 .logo:hover {
-    border: 0.5px solid rgb(230, 167, 33);
-}
-
+    border: 0.2px solid rgb(230, 167, 33);
+} */
+.header_button:hover {
+    border: 0.5px solid rgb(230, 167, 33);}
 .rightElement {
     float: right;
 }
 
 a {
     color: rgb(182, 182, 182);
+    border: none;
 }
 
-a:link,
-a:active,
-a:hover {
+a:link, a:active, a:hover {
     color: rgb(201, 139, 25);
+    border: none;
+    background: none;
 }
 
-.sidebar_btn:active,
-.sidebar_btn:hover,
-.btn:hover {
+.sidebar_btn:active, .sidebar_btn:hover, .btn:hover {
     border: 0.5px solid rgb(230, 167, 33);
 }
 

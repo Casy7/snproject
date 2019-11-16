@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!--<script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script>-->
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+<p>uy</p>
+<form method="POST">
+    {%csrf_token%}
+    <div id="toolbar-container" class="editor"></div>
+    <textarea name="content" id="editor">
+            &lt;p&gt;This is some sample content.&lt;/p&gt;
+        </textarea>
+    <!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
+    <p><input type="submit" value="Submit"></p>
+</form>
+
+<script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
+{% endblock %}
