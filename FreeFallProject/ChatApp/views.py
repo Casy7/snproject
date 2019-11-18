@@ -110,3 +110,20 @@ class Logout (View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect("/")
+
+class AllHikes(View):
+
+    def get(self, request):
+
+        context = {}
+        hikes = []
+        for hike in Hike.objects.all():
+            
+            text = {}
+            text['name'] = hike.name
+            text['start_date'] = hike.start_date
+            text['end_date'] = hike.end_date
+
+            hikes.append(text)
+        context['content'] = hikes
+        return render(request, "hikes.html", context)

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+        <head><title>Hikes</title></head>
+        <body>
+            {% for hike in content %}
+            <h2 class="h2">{{hike.name}}</h2>
+            <p  style = "color: gray; white-space: pre-wrap">{{hike.start_date}} - {{hike.end_date}}</p>
+            {% endfor %}
+        <body>
+</form>
+
+<h1 class="h1"></h1>
+<button><a  href="/new_hike">Create new hike</a></button>
+
+
+{% endblock %}
