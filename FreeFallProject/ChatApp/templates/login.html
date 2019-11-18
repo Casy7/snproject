@@ -47,6 +47,11 @@
         </form>
       </div>
       <div class="card-footer">
+        {% if error == 1 %}
+          <div class="d-flex justify-content-center links error-message">
+              Invalid username or password 
+          </div>     
+        {% endif %}   
         <div class="d-flex justify-content-center links">
           Don't have an account?<a href="/registration">Sign Up</a>
         </div>
