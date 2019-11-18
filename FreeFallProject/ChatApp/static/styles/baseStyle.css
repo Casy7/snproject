@@ -32,11 +32,26 @@
 img {
     width: 45px;
     float: left;
-    background: rgb(71, 71, 80);
-    height: 48px;
+    background: rgb(49, 49, 49);
+    height: 345px;
+}
+h1{
+    clear: both;
+    font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 2px;
+    font-size: 35px;
+    color: rgb(247, 241, 230);
 }
 
 .content {
+
+    margin-left: auto;
+    padding-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
     transition: width .3s;
     overflow: auto;
     width: 100%;
@@ -114,10 +129,13 @@ a:link, a:active, a:hover {
 .sidebar_btn:active, .sidebar_btn:hover, .btn:hover {
     border: 0.5px solid rgb(230, 167, 33);
 }
-
-h1 {
-    color: rgb(247, 241, 230);
-    font-size: 5px;
+input{
+    color: white;
+    background: black;
+    border: none;
+}
+input :active{
+    border: 0.5px solid rgb(230, 167, 33);
 }
 
 .input-group-text {}
