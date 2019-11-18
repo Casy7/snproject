@@ -131,7 +131,7 @@ a:link, a:active, a:hover {
 }
 input{
     color: white;
-    background: black;
+    background: #242F3D;
     border: none;
 }
 input :active{

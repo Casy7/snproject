@@ -11,4 +11,8 @@ class StandartUser (User):
 class Hike(models.Model):
     name = models.CharField(max_length=200, default='A new hike')
     description = models.CharField(max_length=200000, default='desc')
-    user = models.ForeignKey(StandartUser, on_delete = models.CASCADE)
+    start_date = models.DateField(default="2020-01-02")
+    end_date = models.DateField(default="2020-01-02")
+    image = models.ImageField(null=True)
+    creator = models.ForeignKey(StandartUser, null = True, default=None, related_name="creator", on_delete = models.CASCADE)
+    members = models.ManyToManyField(StandartUser, limit_choices_to=200)
