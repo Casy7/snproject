@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View, TemplateView
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -53,6 +54,7 @@ class UserLogin(View):
 
     def get(self, request):
         context = base_context(request)
+        context['error'] = 0
         # context['form'] = self.form_class()
         return render(request, "login.html", context)
 
@@ -80,14 +82,16 @@ class UserLogin(View):
                     context['name'] = username
                     return HttpResponseRedirect("/")
             else:
-                self.error = 1
+                context = base_context(request)
+                context['error'] = 1
                 # return Posts.get(self,request)
-                return HttpResponse("Authentication error. Password or username is invalid.")
+                return render(request, "login.html", context)
         else:
             return HttpResponse("Data isn't valid")
 
 
-class NewHike(View):
+class NewHike(LoginRequiredMixin, View):
+    template_name = 'main.html'
     def get(self, request):
         context = base_context(request)
         return render(request, "new_hike.html", context)
