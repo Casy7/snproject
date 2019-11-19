@@ -3,7 +3,7 @@
         <head><title>Hikes</title></head>
         <body>
             {% for hike in content %}
-            <h2 class="h2">{{hike.name}}</h2>
+            <h2 class="h2"><a  href={{hike.link}}>{{hike.name}}</a></h2>
             <p  style = "color: gray; white-space: pre-wrap">{{hike.start_date}} - {{hike.end_date}}</p>
             {% endfor %}
         <body>

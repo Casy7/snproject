@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+        <head><h2 class="h2">{{content.name}}</h2></head>
+        <body>
+            <p>{{content.start_date}} - {{content.end_date}}</p>
+            <pre>{{content.description|safe}}</pre>
+        <body>
+</form>
+
+
+
+
+{% endblock %}
