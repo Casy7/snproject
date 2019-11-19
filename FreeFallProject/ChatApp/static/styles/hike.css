@@ -2,3 +2,16 @@
     width: 70%;
     height: 50%;
 }
+.upload{
+    background: gray;
+    height: 60pt;
+    width: 60pt;
+    font-size: 60pt;
+    text-align: center;
+    transform-origin: 0 0;
+    /* transform: scaleY(1.2); */
+}
+td{
+    width: 90pt;
+    height: 40pt;
+}
