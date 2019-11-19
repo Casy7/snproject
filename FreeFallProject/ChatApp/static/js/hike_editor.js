@@ -6,3 +6,6 @@ ClassicEditor
 .catch(error => {
     console.error(error);
 });
+
+var x = document.createElement("INPUT");
+x.setAttribute("type", "image");

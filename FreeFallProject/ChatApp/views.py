@@ -97,12 +97,19 @@ class NewHike(LoginRequiredMixin, View):
         return render(request, "new_hike.html", context)
 
     def post(self, request):
-        context = {}
+        context = base_context(request)
         form = request.POST
         user_props = {}
         print(form)
         user = StandartUser.objects.get(id =2)
-        hike = Hike(name = form['name'], creator = user, description = form['description'],start_date = form['start'], end_date = form['end'])
+        hike = Hike(
+            name = form['name'], 
+            creator = user, 
+            description = form['description'],
+            start_date = form['start'], 
+            end_date = form['end'],
+            category = form['category'],
+            type_of_hike  = form['type'])
         hike.save()
         
         return render(request, "new_hike.html", context)
@@ -117,7 +124,7 @@ class AllHikes(View):
 
     def get(self, request):
 
-        context = {}
+        context = base_context(request)
         hikes = []
         for hike in Hike.objects.all():
             
@@ -133,7 +140,7 @@ class AllHikes(View):
 
 class SetHike(View):
     def get(self, request, id):
-        context = {}
+        context = base_context(request)
         hike = Hike.objects.get(id=id)
         text = {}
         text['name'] = hike.name

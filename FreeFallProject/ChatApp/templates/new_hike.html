@@ -18,7 +18,7 @@
         <table>
             <tbody>
                 <tr>
-                    <td rowspan="2" width="2"><i class="fas fa-camera upload"></i></td>
+                    <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td>
                     <td rowspan="2" width="2"></td>
                     <td height="70">
                         <div class="nameline"><span><input type="text" class="name" name="name"
@@ -42,17 +42,46 @@
                 </tr>
             </tbody>
         </table>
-        <input type="date" name="bday" min="2000-01-02" value="2019-01-02"><br>
-        <div id="toolbar-container" class="editor"></div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Категория</td>
+                    <td width="2"></td>
+                    <td><span><select name="category">
+                                <option value="none">Без категории</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="V">V</option>
+                                <option value="VI">VI</option>
+                            </select></span></td>
+                </tr>
+                <tr>
+                    <td>Тип</td>
+                    <td width="2"></td>
+                    <td><span><select name="type">
+                                <option value="Пеший">Пеший</option>
+                                <option value="Горный">Горный</option>
+                                <option value="Водный">Водный</option>
+                                <option value="Вело">Вело</option>
+                                <option value="Спелео">Спелео</option>
+                            </select></span></td>
+                </tr>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="toolbar-container" class="edtor"></div>
         <textarea name="description" id="editor" class="description">
             &lt;p&gt;This is some sample content.&lt;/p&gt;
         </textarea>
-<!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
+        <!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
 
         <div class="form-group">
             <input type="submit" value="Post" class="btn">
         </div>
     </form>
-<script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
+    <script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
 </div>
 {% endblock %}
