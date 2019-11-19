@@ -100,13 +100,11 @@ class NewHike(LoginRequiredMixin, View):
         context = {}
         form = request.POST
         user_props = {}
-        for prop in form:
-            if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
-                user_props[prop] = form[prop]
-        # print(user_props)
-        StandartUser.objects.create_user(
-            username=form['username'], **user_props)
-        # print(form)
+        print(form)
+        user = StandartUser.objects.get(id =2)
+        hike = Hike(name = form['name'], creator = user, description = form['description'],start_date = form['start'], end_date = form['end'])
+        hike.save()
+        
         return render(request, "new_hike.html", context)
 
 
@@ -124,6 +122,7 @@ class AllHikes(View):
         for hike in Hike.objects.all():
             
             text = {}
+            text['link'] = '/hike/' + str(hike.id)
             text['name'] = hike.name
             text['start_date'] = hike.start_date
             text['end_date'] = hike.end_date
@@ -131,3 +130,15 @@ class AllHikes(View):
             hikes.append(text)
         context['content'] = hikes
         return render(request, "hikes.html", context)
+
+class SetHike(View):
+    def get(self, request, id):
+        context = {}
+        hike = Hike.objects.get(id=id)
+        text = {}
+        text['name'] = hike.name
+        text['start_date'] = hike.start_date
+        text['end_date'] = hike.end_date
+        text['description'] = hike.description
+        context['content'] = text
+        return render(request, "hike.html", context)

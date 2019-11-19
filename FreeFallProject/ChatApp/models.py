@@ -14,5 +14,5 @@ class Hike(models.Model):
     start_date = models.DateField(default="2020-01-02")
     end_date = models.DateField(default="2020-01-02")
     image = models.ImageField(null=True)
-    creator = models.ForeignKey(StandartUser, null = True, default=None, related_name="creator", on_delete = models.CASCADE)
+    creator = models.ForeignKey(User, null = True, default=None, related_name="creator", on_delete = models.CASCADE)
     # members = models.ManyToManyField(StandartUser, limit_choices_to=200)
