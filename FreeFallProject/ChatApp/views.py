@@ -7,6 +7,16 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+def new_format(coordinates):
+    coordinates = list(coordinates.split(";"))
+    new_coords = []
+    for coord in coordinates:
+        if coord != "":
+            new_coords.append(
+                (coord[3:coord.find("lat=")], coord[coord.find("lat=")+4:]))
+    return new_coords
+
+
 def base_context(request):
     context = {}
     user = request.user
@@ -103,6 +113,7 @@ class NewHike(LoginRequiredMixin, View):
         user_props = {}
         print(form)
         user = StandartUser.objects.get(id=2)
+
         hike = Hike(
             name=form['name'],
             creator=user,
@@ -110,7 +121,9 @@ class NewHike(LoginRequiredMixin, View):
             start_date=form['start'],
             end_date=form['end'],
             category=form['category'],
-            type_of_hike=form['type'])
+            type_of_hike=form['type'],
+            coordinates=new_format(form['coordinates'])
+        )
         hike.save()
 
         return render(request, "new_hike.html", context)
