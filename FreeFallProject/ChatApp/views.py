@@ -92,6 +92,7 @@ class UserLogin(View):
 
 class NewHike(LoginRequiredMixin, View):
     template_name = 'main.html'
+
     def get(self, request):
         context = base_context(request)
         return render(request, "new_hike.html", context)
@@ -101,17 +102,17 @@ class NewHike(LoginRequiredMixin, View):
         form = request.POST
         user_props = {}
         print(form)
-        user = StandartUser.objects.get(id =2)
+        user = StandartUser.objects.get(id=2)
         hike = Hike(
-            name = form['name'], 
-            creator = user, 
-            description = form['description'],
-            start_date = form['start'], 
-            end_date = form['end'],
-            category = form['category'],
-            type_of_hike  = form['type'])
+            name=form['name'],
+            creator=user,
+            description=form['description'],
+            start_date=form['start'],
+            end_date=form['end'],
+            category=form['category'],
+            type_of_hike=form['type'])
         hike.save()
-        
+
         return render(request, "new_hike.html", context)
 
 
@@ -120,6 +121,7 @@ class Logout (View):
         logout(request)
         return HttpResponseRedirect("/")
 
+
 class AllHikes(View):
 
     def get(self, request):
@@ -127,7 +129,7 @@ class AllHikes(View):
         context = base_context(request)
         hikes = []
         for hike in Hike.objects.all():
-            
+
             text = {}
             text['link'] = '/hike/' + str(hike.id)
             text['name'] = hike.name
@@ -137,6 +139,7 @@ class AllHikes(View):
             hikes.append(text)
         context['content'] = hikes
         return render(request, "hikes.html", context)
+
 
 class SetHike(View):
     def get(self, request, id):

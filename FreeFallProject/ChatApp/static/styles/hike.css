@@ -10,7 +10,9 @@
     transform-origin: 0 0;
     /* transform: scaleY(1.2); */
 }
-
+.ck-content {
+    height: 80%;
+}
 
 table{
     background: transparent;
