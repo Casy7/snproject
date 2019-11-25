@@ -50,21 +50,35 @@ def home(request):
 class Registration(View):
     def get(self, request):
         context = base_context(request)
-
+        context['error'] = 0
         return render(request, "registration.html", context)
 
     def post(self, request):
         context = {}
         form = request.POST
         user_props = {}
-        for prop in form:
-            if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
-                user_props[prop] = form[prop]
-        # print(user_props)
-        User.objects.create_user(
-            username=form['username'], **user_props)
-        # print(form)
-        return HttpResponseRedirect("/login")
+        username = form['username']
+        password = form['password']
+
+        # new_post.author = Author.objects.get(id = request.POST.author)
+        # new_post.save()
+        user = User.objects.filter(username = username)
+        if user == []:
+            for prop in form:
+                if prop not in ('csrfmiddlewaretoken', 'username','gender') and form[prop] != "":
+                    user_props[prop] = form[prop]
+            # print(user_props)
+            User.objects.create_user(
+                username=form['username'], **user_props)
+            user_desc = Description(User.objects.get(username = form['username']), gender = form['gender'])
+            user_desc.save()
+
+            # print(form)
+            return HttpResponseRedirect("/login")
+        else:
+            context = base_context(request)
+            context['error'] = 1
+            return render(request, "registration.html", context)
 
 
 class UserLogin(View):

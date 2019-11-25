@@ -72,6 +72,11 @@
 				</form>
 			</div>
 			<div class="card-footer">
+				{% if error == 1 %}
+					<div class="d-flex justify-content-center links error-message">
+						User with the same username already exists 
+					</div>     
+				  {% endif %}   
 				<div class="d-flex justify-content-center links">
 					<a href="#">Sign In</a>
 				</div>

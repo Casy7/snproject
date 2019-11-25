@@ -99,3 +99,6 @@ h1 {
     border: 1px solid rgb(63 150 208);
     box-shadow:rgb(36, 47, 61);
 }
+.error-message{
+    color: rgb(235, 155, 64);
+}
