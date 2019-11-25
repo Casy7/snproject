@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<script src="{% static 'js/map.js' %}"></script>
+
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+<link rel="stylesheet" href="{% static 'styles/hike.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<!-- 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+<!--<script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script>-->
+<h1>Трек похода</h1>
+
+<body onload="GetMap();">
+    <div class="container">
+        <form method="POST">
+            {%csrf_token%}
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td rowspan="1" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td>
+                        <td rowspan="1" width="2"></td>
+                        <td height="70">
+                            <div class="nameline"><span><input type="text" class="name" name="name"
+                                        placeholder="Название похода"></span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="OSMap" style="position:absolute; width:80%; height:500px;"></div>
+                    </td>
+                    <td>
+                        <div>Fyuyjty</div>
+                    </td>
+                </tr>
+    </div>
+
+    </div>
+</body>
+{% endblock %}

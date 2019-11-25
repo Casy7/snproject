@@ -141,8 +141,8 @@ class NewHike(View):
         user_props = {}
         print(form)
         
-        username = form['username']
-        password = form['password']
+        username = request.user.username
+        password = request.user.password
         
         user = authenticate(username=username, password=password)
 
@@ -170,7 +170,7 @@ class NewHike(View):
             hike.participants.add(pt)
         hike.save()
 
-        return render(request, "new_hike.html", context)
+        return HttpResponseRedirect("/map/"+str(hike.id))
 
 
 class Logout (View):
@@ -209,3 +209,9 @@ class SetHike(View):
         text['description'] = hike.description
         context['content'] = text
         return render(request, "hike.html", context)
+
+
+class MapOfHike(View):
+    def get(self, request, id):
+        context = base_context(request)
+        return render(request, "map.html", context)
