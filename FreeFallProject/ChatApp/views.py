@@ -63,14 +63,14 @@ class Registration(View):
         # new_post.author = Author.objects.get(id = request.POST.author)
         # new_post.save()
         user = User.objects.filter(username = username)
-        if user == []:
+        if list(user) == []:
             for prop in form:
-                if prop not in ('csrfmiddlewaretoken', 'username','gender') and form[prop] != "":
+                if prop not in ('csrfmiddlewaretoken', 'username','gender') and form[prop] != '':
                     user_props[prop] = form[prop]
             # print(user_props)
             User.objects.create_user(
                 username=form['username'], **user_props)
-            user_desc = Description(User.objects.get(username = form['username']), gender = form['gender'])
+            user_desc = Description(user = User.objects.get(username = form['username']), gender = form['gender'])
             user_desc.save()
 
             # print(form)
