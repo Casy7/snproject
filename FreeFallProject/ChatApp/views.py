@@ -129,6 +129,7 @@ class NewHike(View):
         if context['username'] !='':
             return render(request, "new_hike.html", context)
         else:
+            context = base_context(request)
             context['error'] = 2
         # context['form'] = self.form_class()
             return render(request, "login.html", context)
@@ -136,12 +137,13 @@ class NewHike(View):
     def post(self, request):
         context = base_context(request)
         form = request.POST
+
         user_props = {}
         print(form)
-        participants = participants_format(form['participants'])
-        username = request.user.username
-        password = request.user.password
-
+        
+        username = form['username']
+        password = form['password']
+        
         user = authenticate(username=username, password=password)
 
         if user is not None:
@@ -163,7 +165,7 @@ class NewHike(View):
             coordinates=new_format(form['coordinates'])
         )
         hike.save()
-
+        participants = participants_format(form['participants'])
         for pt in participants:
             hike.participants.add(pt)
         hike.save()
