@@ -1,4 +1,14 @@
 var coord_list = [];
+function format_names(){
+    line = document.getElementById('participants').value;
+    if (line[0] !='@')
+    {
+        line = '@'+ line;
+    }
+    document.getElementById('participants').value = line.replace(',', "\t@");
+    //alert(str),
+
+}
 function GetMap() {
     map = new OpenLayers.Map("OSMap");//инициализация карты
     var mapnik = new OpenLayers.Layer.OSM();//создание слоя карты
