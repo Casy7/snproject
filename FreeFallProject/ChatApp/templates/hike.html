@@ -4,6 +4,9 @@
         <body>
             <p>{{content.start_date}} - {{content.end_date}}</p>
             <pre>{{content.description|safe}}</pre>
+            {% for landmark in content.landmarks %}
+            <p>{{landmark.name}}</p>>
+            {% endfor %}
         <body>
 </form>
 

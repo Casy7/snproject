@@ -47,8 +47,8 @@ class Registration(View):
             if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
                 user_props[prop] = form[prop]
         # print(user_props)
-        StandartUser.objects.create_user(
-            username=form['username'], **user_props)
+        # StandartUser.objects.create_user(
+        #     username=form['username'], **user_props)
         # print(form)
         return HttpResponseRedirect("/login")
 
@@ -175,5 +175,9 @@ class SetHike(View):
         text['start_date'] = hike.start_date
         text['end_date'] = hike.end_date
         text['description'] = hike.description
+        landmarks = []
+        for landmark in hike.landmarks:
+            landmarks.append(landmark)
+        text['landmarks'] = landmarks
         context['content'] = text
         return render(request, "hike.html", context)
