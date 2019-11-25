@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 # Для регистрации модели добавить её в models
-models = [StandartUser, Hike
+models = [Hike
 
 ]
 

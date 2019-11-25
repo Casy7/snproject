@@ -112,7 +112,19 @@ class NewHike(LoginRequiredMixin, View):
         form = request.POST
         user_props = {}
         print(form)
-        user = StandartUser.objects.get(id=2)
+
+        username = request.user.username
+        password = request.user.password
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                context['name'] = username
+                return HttpResponseRedirect("/")
+        else:
+            user = User.objects.get(username = 'admin')
 
         hike = Hike(
             name=form['name'],
@@ -120,7 +132,7 @@ class NewHike(LoginRequiredMixin, View):
             description=form['description'],
             start_date=form['start'],
             end_date=form['end'],
-            category=form['category'],
+            difficulty=form['difficulty'],
             type_of_hike=form['type'],
             coordinates=new_format(form['coordinates'])
         )
