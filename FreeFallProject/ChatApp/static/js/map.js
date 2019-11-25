@@ -1,11 +1,14 @@
 var coord_list = [];
 function format_names(){
     line = document.getElementById('participants').value;
-    if (line[0] !='@')
+    if (line[0] !='@' && line.length !=0)
     {
+        //alert(line[0])
         line = '@'+ line;
     }
-    document.getElementById('participants').value = line.replace(',', "\t@");
+    line = line.replace(/\t\t/g, '\t');
+    line = line.replace(/@ /g, "\t@");
+    document.getElementById('participants').value = line.replace(/,/g, '\t@');
     //alert(str),
 
 }

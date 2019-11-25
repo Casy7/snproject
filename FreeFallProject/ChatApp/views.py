@@ -28,6 +28,20 @@ def base_context(request):
     return context
 
 
+def participants_format(participants):
+    participants = str(participants)
+    participants = participants.replace('\t','').replace(' ', '')
+    participants = participants.split(sep='@')
+
+    pt_list = []
+    for pt in participants:
+        if pt !='':
+            user = User.objects.filter(username = pt)[0]
+            pt_list.append(user)
+    return pt_list
+
+
+
 def home(request):
     context = base_context(request)
     return render(request, "main.html", context)
@@ -47,7 +61,7 @@ class Registration(View):
             if prop not in ('csrfmiddlewaretoken', 'username') and form[prop] != "":
                 user_props[prop] = form[prop]
         # print(user_props)
-        StandartUser.objects.create_user(
+        User.objects.create_user(
             username=form['username'], **user_props)
         # print(form)
         return HttpResponseRedirect("/login")
@@ -112,7 +126,7 @@ class NewHike(LoginRequiredMixin, View):
         form = request.POST
         user_props = {}
         print(form)
-
+        participants = participants_format(form['participants'])
         username = request.user.username
         password = request.user.password
 
@@ -136,6 +150,10 @@ class NewHike(LoginRequiredMixin, View):
             type_of_hike=form['type'],
             coordinates=new_format(form['coordinates'])
         )
+        hike.save()
+
+        for pt in participants:
+            hike.participants.add(pt)
         hike.save()
 
         return render(request, "new_hike.html", context)
