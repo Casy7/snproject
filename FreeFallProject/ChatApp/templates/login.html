@@ -50,7 +50,11 @@
         {% if error == 1 %}
           <div class="d-flex justify-content-center links error-message">
               Invalid username or password 
-          </div>     
+          </div>  
+        {% elif error == 2 %}   
+        <div class="d-flex justify-content-center links error-message">
+            You are not logged in.
+        </div>           
         {% endif %}   
         <div class="d-flex justify-content-center links">
           Don't have an account?<a href="/registration">Sign Up</a>

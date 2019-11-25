@@ -17,9 +17,9 @@
         
     <div class="header">
         <div>
-            {% if username == "none"%}
+            {% if username == ''%}
             
-            <a href="/login"><button type="button" class="btn">Login</button></a>
+            <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo" src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
            
             {% else %}
             <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo" src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
@@ -27,8 +27,10 @@
             {% endif %}
             <button type="button" class="header_button" onclick="window.location.href = '/all_hikes'">Hikes</button>
             <button type="button" class="header_button" onclick="window.location.href = '/new_hike'">Create</button>
+            {% if username == ''%}
+            <button type="button" class="header_button rightElement" onclick="window.location.href = '/login'">Sign In</button></a>            {% else %}
             <button type="button" class="header_button rightElement" onclick="window.location.href = '/logout'">Logout</button></a>
-            
+            {% endif %}
         </div>
     </div>
     <style>

@@ -113,12 +113,7 @@ class UserLogin(View):
                     login(request, user)
                     context['name'] = username
                     return HttpResponseRedirect("/")
-            elif authenticate(username=username, password=password) is not None:
-                user = authenticate(email=username, password=password)
-                if user.is_active:
-                    login(request, user)
-                    context['name'] = username
-                    return HttpResponseRedirect("/")
+
             else:
                 context = base_context(request)
                 context['error'] = 1
@@ -128,12 +123,15 @@ class UserLogin(View):
             return HttpResponse("Data isn't valid")
 
 
-class NewHike(LoginRequiredMixin, View):
-    template_name = 'main.html'
-
+class NewHike(View):
     def get(self, request):
         context = base_context(request)
-        return render(request, "new_hike.html", context)
+        if context['username'] !='':
+            return render(request, "new_hike.html", context)
+        else:
+            context['error'] = 2
+        # context['form'] = self.form_class()
+            return render(request, "login.html", context)
 
     def post(self, request):
         context = base_context(request)
