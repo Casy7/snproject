@@ -5,7 +5,7 @@
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
-<link rel="stylesheet" href= "{% static 'styles/hike.css' %}">
+<link rel="stylesheet" href="{% static 'styles/hike.css' %}">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <!-- 
@@ -71,6 +71,13 @@
                                 <option value="Спелео">Спелео</option>
                             </select></span></td>
                 </tr>
+                <tr>
+                    <td>Участники</td>
+                    <td width="2"></td>
+                    <td><span>
+                            <div class="nameline"><span><input id = "participants" type="text" class="short_desc" name="participants"
+                                        placeholder="Введите никнеймы через запятую" onkeypress="format_names()"></span></div>
+                        </span></td>
                 </tr>
             </tbody>
         </table>
@@ -81,15 +88,17 @@
         </textarea>
         <!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
 
-        <input type="text" hidden = True id="coordinates" name="coordinates" value="[]">
+        <input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
         <div class="form-group">
             <input type="submit" value="Post" class="btn">
-        </div><script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
+        </div>
+        <script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
     </form>
+
     <body onload="GetMap();">
         <h2>OpenStreetMap</h2>
         <div id="OSMap" style="position:absolute; width:80%; height:500px;"></div>
-    </div>
-    
+</div>
+
 </div>
 {% endblock %}

@@ -4,8 +4,13 @@
         <body>
             <p>{{content.start_date}} - {{content.end_date}}</p>
             <pre>{{content.description|safe}}</pre>
-            {% for landmark in content.landmarks %}
-            <p>{{landmark.name}}</p>>
+            <h2 class="h2">Достопримечательности:</h2>
+            {% for name in content.landmarks.all %}
+            <li>{{name}}</li>
+            {% endfor %}
+            <h2 class="h2">Участники:</h2>
+            {% for username in content.partisipants.all %}
+            <li>{{username}}</li>
             {% endfor %}
         <body>
 </form>

@@ -12,6 +12,9 @@ class Description(models.Model):
 class Landmark(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200000, default='desc')
+    
+    def __str__(self):
+        return f'{self.name}'  
 
 class Hike(models.Model):
     name = models.CharField(max_length=200, default='A new hike')
