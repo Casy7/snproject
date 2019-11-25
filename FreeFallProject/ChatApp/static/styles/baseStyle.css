@@ -1,5 +1,4 @@
 
-
 /*
 .sidebar {
     top: 40px;
@@ -52,9 +51,10 @@ h1{
     transition: width .3s;
     overflow: auto;
     width: 100%;
-    background: rgb(14, 22, 33);
+    background: rgba(14, 22, 33, 0.589);
     height: 100%;
     float: right;
+    
 }
 
 .content:checked {
