@@ -209,6 +209,9 @@ class MapOfHike(View):
         hike = Hike.objects.get(id = id)
         context['name'] = hike.name
         return render(request, "map.html", context)
+    def post(self, request, id):
+        
+        form = context.POST
 
 
 class SetHike(View):
