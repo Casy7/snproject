@@ -36,8 +36,10 @@ def participants_format(participants):
     pt_list = []
     for pt in participants:
         if pt !='':
-            user = User.objects.filter(username = pt)[0]
-            pt_list.append(user)
+
+            user = User.objects.filter(username = pt)
+            if list(user) != []:
+                pt_list.append(user[0])
     return pt_list
 
 
@@ -198,6 +200,12 @@ class AllHikes(View):
         return render(request, "hikes.html", context)
 
 
+class MapOfHike(View):
+    def get(self, request, id):
+        context = base_context(request)
+        return render(request, "map.html", context)
+
+
 class SetHike(View):
     def get(self, request, id):
         context = base_context(request)
@@ -207,11 +215,13 @@ class SetHike(View):
         text['start_date'] = hike.start_date
         text['end_date'] = hike.end_date
         text['description'] = hike.description
+        landmarks = []
+        for landmark in hike.landmarks.all():
+            landmarks.append(landmark.name)
+        text['landmarks'] = hike.landmarks
+        participants = []
+        for participant in hike.participants.all():
+            participants.append(participant.username)
+        text['participants'] = participants
         context['content'] = text
         return render(request, "hike.html", context)
-
-
-class MapOfHike(View):
-    def get(self, request, id):
-        context = base_context(request)
-        return render(request, "map.html", context)

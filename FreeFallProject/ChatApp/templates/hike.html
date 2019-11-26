@@ -6,11 +6,12 @@
             <pre>{{content.description|safe}}</pre>
             <h2 class="h2">Достопримечательности:</h2>
             {% for name in content.landmarks.all %}
-            <li>{{name}}</li>
+            <ul><li>{{name}}</li></ul>
             {% endfor %}
             <h2 class="h2">Участники:</h2>
-            {% for username in content.partisipants.all %}
-            <li>{{username}}</li>
+            {% for username in content.participants %}
+            <ul>
+            <li>{{username}}</li></ul>
             {% endfor %}
         <body>
 </form>
