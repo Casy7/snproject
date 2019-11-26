@@ -159,6 +159,7 @@ class NewHike(View):
         hike = Hike(
             name=form['name'],
             creator=user,
+            short_description = form['short_description'],
             description=form['description'],
             start_date=form['start'],
             end_date=form['end'],
@@ -194,6 +195,8 @@ class AllHikes(View):
             text['name'] = hike.name
             text['start_date'] = hike.start_date
             text['end_date'] = hike.end_date
+            text['short_description'] = hike.short_description
+            
 
             hikes.append(text)
         context['content'] = hikes
@@ -203,6 +206,8 @@ class AllHikes(View):
 class MapOfHike(View):
     def get(self, request, id):
         context = base_context(request)
+        hike = Hike.objects.get(id = id)
+        context['name'] = hike.name
         return render(request, "map.html", context)
 
 

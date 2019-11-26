@@ -19,6 +19,7 @@ class Landmark(models.Model):
 class Hike(models.Model):
     name = models.CharField(max_length=200, default='A new hike')
     description = models.CharField(max_length=200000, default='desc')
+    short_description = models.CharField(max_length=1000, default='short desc')
     participants = models.ManyToManyField(User, blank=True)
     landmarks = models.ManyToManyField(Landmark)
     start_date = models.DateField(default="2020-01-02")
