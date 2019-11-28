@@ -1,0 +1,10 @@
+diff a/FreeFallProject/FreeFallProject/settings.py b/FreeFallProject/FreeFallProject/settings.py	(rejected hunks)
+@@ -82,7 +82,7 @@
+         'USER': 'postgres',
+         'PASSWORD': '3141592653589793238',
+         'HOST': '',
+-        'PORT': 5050, 
++        'PORT': 5432, 
+     }
+ }
+ 
