@@ -1,84 +1,70 @@
 <html>
 
-    <head>
-        {% load static %}
-        {%csrf_token%}
-        <title>FreeFall</title>
+<head>
+    {% load static %}{%csrf_token%}
+    <title>FreeFall:</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static '/styles/bootstrap.css' %}">
+    <!-- <link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/bootstrap-cyborg-v3.3.6.css"
+        media="screen"> -->
+    <!--<link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/custom.min.css">
+    -->
+    <link rel="stylesheet" href="{% static 'styles/baseStyle.css' %}">
+    <script src="{% static '/js/baseScripts.js' %}" type="text/javascript"></script>
+</head>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <link rel="stylesheet" href="{% static '/libs/bootstrap/css/bootstrap.css' %}">
-        <link rel="stylesheet" href="{% static 'styles/baseStyle.css' %}">
-
-        <script src="{% static '/libs/bootstrap/js/bootstrap.css' %}" type="text/javascript"></script>
-        <script src="{% static '/js/baseScripts.js' %}" type="text/javascript"></script>
-    </head>
-
-    <body>
+<body>
         
-        <div class="header">
-            <div>
-                {% if username == ''%}
-
-                <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo"
-                        src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
-
-                {% else %}
-                <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo"
-                        src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
-
-                {% endif %}
-                <button type="button" class="header_button" onclick="window.location.href = '/all_hikes'">Hikes</button>
-                <button type="button" class="header_button" onclick="window.location.href = '/new_hike'">Create</button>
-                {% if username == ''%}
-                <button type="button" class="header_button rightElement" onclick="window.location.href = '/login'">Sign
-                    In</button></a> {% else %}
-                <button type="button" class="header_button rightElement"
-                    onclick="window.location.href = '/logout'">Logout</button></a>
-                {% endif %}
-            </div>
+    <div class="header">
+        <div>
+            {% if username == ''%}
+            
+            <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo" src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
+           
+            {% else %}
+            <button class="header_button user" onclick="window.location.href = '/login'"><img class="logo" src="{% static '/icons/logo_grey.png' %}">{{username}}</button>
+            
+            {% endif %}
+            <button type="button" class="header_button" onclick="window.location.href = '/all_hikes'">Hikes</button>
+            <button type="button" class="header_button" onclick="window.location.href = '/new_hike'">Create</button>
+            {% if username == ''%}
+            <button type="button" class="header_button rightElement" onclick="window.location.href = '/login'">Sign In</button></a>            {% else %}
+            <button type="button" class="header_button rightElement" onclick="window.location.href = '/logout'">Logout</button></a>
+            {% endif %}
         </div>
-        <style>
-            body {
-                background-image: url("{% static 'icons/background.jpg' %}");
-            }
+    </div>
+    <style>
+    body{
+        background-image: url("{% static 'icons/background.jpg' %}");
+    }
+    .content{
+        
+    }
+    </style>
+    <div class="content">
+                {%block content%} {%endblock%}
 
-            .content {}
-        </style>
-        <div class="content">
-            {%block content%} {%endblock%}
-
-            <!--<nav class="sidebar" id = "sidebar1">
-            <ul>
-                <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
-                                src="https://gitlab.com/uploads/-/system/user/avatar/4166319/avatar.png?width=400">Профиль</button>
-                </li></a>
-                </a>
-                <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
-                                src="https://maxcdn.icons8.com/Share/icon/p1em/Messaging/message1600.png">Сообщения</button>
-                </li></a>
-                <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
-                                src="https://png.pngtree.com/svg/20170420/person_1058396.png">Люди</button></li></a>
-                <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
-                                src="http://icons.iconarchive.com/icons/icons8/windows-8/512/Very-Basic-Document-icon.png">Посты</button>
-                </li></a>
-            </ul>
+        <!--<nav class="sidebar" id = "sidebar1">
+        <ul>
+            <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
+                            src="https://gitlab.com/uploads/-/system/user/avatar/4166319/avatar.png?width=400">Профиль</button>
+            </li></a>
+            </a>
+            <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
+                            src="https://maxcdn.icons8.com/Share/icon/p1em/Messaging/message1600.png">Сообщения</button>
+            </li></a>
+            <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
+                            src="https://png.pngtree.com/svg/20170420/person_1058396.png">Люди</button></li></a>
+            <li><a href="#"><button type="button" class="sidebar_btn"><img class="icon"
+                            src="http://icons.iconarchive.com/icons/icons8/windows-8/512/Very-Basic-Document-icon.png">Посты</button>
+            </li></a>
+        </ul>
 
 
-        </nav>
+    </nav>
 
-        <div class="footer">FOOTER</div>-->
-        </div>
-    </body>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <div class="footer">FOOTER</div>-->
+    </div>
+</body>
 
 </html>
