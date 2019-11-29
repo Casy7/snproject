@@ -48,9 +48,10 @@ def participants_format(participants):
     return pt_list
 
 
-def home(request):
-    context = base_context(request)
-    return render(request, "main.html", context)
+class HomePage(View):
+    def get(self, request):
+        context = base_context(request, title='Home', header='Lorem Ipsum')
+        return render(request, "main.html", context)
 
 
 class Registration(View):
