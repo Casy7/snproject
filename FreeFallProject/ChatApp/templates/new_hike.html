@@ -5,7 +5,7 @@
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
-<link rel="stylesheet" href="{% static 'styles/hike.css' %}">
+<link rel="stylesheet" href="{% static 'css/hike.css' %}">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <!-- 
@@ -21,15 +21,13 @@
             <tbody>
                 <tr>
                     <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td>
-                    <td rowspan="2" width="2"></td>
-                    <td height="70">
-                        <div class="nameline"><span><input type="text" class="name" name="name"
-                                    placeholder="Название похода"></span></div>
+                    <td height="70"><span><input type="text" class="form-control" name="name"
+                                    placeholder="Название похода"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="nameline"><span><input type="text" class="short_desc" name="short_description"
+                        <div class="nameline"><span><input type="text" class="form-control" name="short_description"
                                     placeholder="Краткое описание"></span></div>
                     </td>
                 </tr>
@@ -38,9 +36,9 @@
         <table>
             <tbody>
                 <tr>
-                    <td><span><input type="date" name="start"></span></td>
+                    <td><span><input type="date" name="start" class="form-control" ></span></td>
                     <td> </td>
-                    <td><span><input type="date" name="end"></span></td>
+                    <td><span><input type="date" name="end" class="form-control" ></span></td>
                 </tr>
             </tbody>
         </table>
@@ -49,7 +47,7 @@
                 <tr>
                     <td>Сложность</td>
                     <td width="2"></td>
-                    <td><span><select name="difficulty">
+                    <td><span><select name="difficulty" class = "form-control">
                                 <option value="none">Без категории</option>
                                 <option value="I">I</option>
                                 <option value="II">II</option>
@@ -62,7 +60,7 @@
                 <tr>
                     <td>Тип</td>
                     <td width="2"></td>
-                    <td><span><select name="type">
+                    <td><span><select name="type" class = "form-control">
                                 <option value="Пеший">Пеший</option>
                                 <option value="Горный">Горный</option>
                                 <option value="Водный">Водный</option>
@@ -74,9 +72,9 @@
                     <td>Участники</td>
                     <td width="2"></td>
                     <td><span>
-                            <div class="nameline"><span><input id="participants" type="text" class="short_desc"
+                            <span><input id="participants" type="text" class="form-control"
                                         name="participants" placeholder="Введите никнеймы через запятую"
-                                        onkeypress="format_names()"></span></div>
+                                        onkeypress="format_names()"></span>
                         </span></td>
                 </tr>
             </tbody>
