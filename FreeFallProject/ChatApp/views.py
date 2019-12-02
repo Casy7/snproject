@@ -52,7 +52,10 @@ class HomePage(View):
     def get(self, request):
         context = base_context(request, title='Home', header='Lorem Ipsum')
         return render(request, "main.html", context)
-
+class HomePage_test(View):
+    def get(self, request):
+        context = base_context(request, title='Home', header='Lorem Ipsum')
+        return render(request, "test_base.html", context)
 
 class Registration(View):
     def get(self, request):

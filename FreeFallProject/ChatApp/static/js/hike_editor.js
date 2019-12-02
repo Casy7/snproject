@@ -9,3 +9,7 @@ ClassicEditor
 
 var x = document.createElement("INPUT");
 x.setAttribute("type", "image");
+
+function add_landmark (){
+    
+}

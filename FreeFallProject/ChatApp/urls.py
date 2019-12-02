@@ -11,4 +11,5 @@ urlpatterns = [
     path("all_hikes/", AllHikes.as_view(), name="all_hikes"),
     path('hike/<int:id>/', SetHike.as_view(), name="hike"),
     path('map/<int:id>/', MapOfHike.as_view(), name="map"),
+
 ]

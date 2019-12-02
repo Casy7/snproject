@@ -1,3 +1,31 @@
+h1 {
+    font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+blockquote{
+    font-size: 14px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 19px;
+    line-height: 1.7em;
+    color: rgb(119, 119, 119);
+}
+.bg-grey {
+    position: fixed;
+    width: 100%;
+    float: top;
+    height: 40px;
+}
 /*
 .sidebar {
     top: 40px;
@@ -24,25 +52,15 @@
     display: flex;
 }*/
 
-img {
+/* img {
     width: 45px;
     float: left;
     background: rgb(49, 49, 49);
     height: 345px;
-}
+} */
 
-h1 {
-    font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 700;
-    line-height: 2;
-    
-    font-size: 35px;
-    /* color: rgb(247, 241, 230); */
-}
 
-.content {
+/* .content {
     margin-left: auto;
     padding-top: 50px;
     padding-left: 20px;
@@ -53,21 +71,19 @@ h1 {
     background: rgba(14, 22, 33, 0.589);
     height: 100%;
     float: right;
-}
+} */
 
-.content:checked {
-    width: 96.5%;
-}
 
-.header {
+
+/* .header {
     position: fixed;
     background: rgb(23, 33, 43);
     width: 100%;
     float: top;
     height: 40px;
-}
+} */
 
-.header_button {
+/* .header_button {
     border: none;
     padding: .375rem .75rem;
     margin-bottom: 0;
@@ -82,9 +98,9 @@ h1 {
     padding-top: 0px;
     touch-action: manipulation;
     font-size: 14px;
-}
+} */
 
-.header_button .user {
+/* .header_button .user {
     text-align: right;
     display: flex;
     right: 0px;
@@ -103,7 +119,7 @@ h1 {
 .logo:hover {
     border: 0.2px solid rgb(230, 167, 33);
 } */
-
+/*
 .header_button:hover {
     border: 0.5px solid rgb(230, 167, 33);
 }
@@ -137,4 +153,221 @@ input :active {
     border: 0.5px solid rgb(230, 167, 33);
 }
 
-.input-group-text {}
+.input-group-text {} */
+/*
+    DEMO STYLE
+*/
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar{
+    /* padding: 15px 10px; */
+    background-color: rgb(247, 247, 247);
+    color: rgb(190, 190, 190);
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    
+    box-shadow: .5px .5px .5px rgba(119, 119, 119, 0.363); 
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    perspective: 1500px;
+}
+
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: rgb(184, 190, 214);
+    color: rgb(27, 24, 24);
+    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+    transform-origin: bottom left;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+    transform: rotateY(100deg);
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #b1b6cc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #787f83;
+}
+
+#sidebar ul p {
+    color: rgb(61, 61, 61);
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: rgb(0, 0, 0);
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: rgb(101, 101, 119)27, 23, 23);
+    background: #8bc4fa;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #ced4f1;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: rgb(214, 221, 252);
+}
+
+a.article, a.article:hover {
+    background: #bfc9f7 !important;
+    color: #fff !important;
+}
+
+.nav-item .nav-link{
+    color: #555
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+#sidebarCollapse {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+#sidebarCollapse span {
+    width: 80%;
+    height: 2px;
+    margin: 0 auto;
+    display: block;
+    background: #555;
+    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+    transition-delay: 0.2s;
+}
+
+#sidebarCollapse span:first-of-type {
+    transform: rotate(45deg) translate(2px, 2px);
+}
+#sidebarCollapse span:nth-of-type(2) {
+    opacity: 0;
+}
+#sidebarCollapse span:last-of-type {
+    transform: rotate(-45deg) translate(1px, -1px);
+}
+
+
+#sidebarCollapse.active span {
+    transform: none;
+    opacity: 1;
+    margin: 5px auto;
+}
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+        transform: rotateY(90deg);
+    }
+    #sidebar.active {
+        margin-left: 0;
+        transform: none;
+    }
+    #sidebarCollapse span:first-of-type,
+    #sidebarCollapse span:nth-of-type(2),
+    #sidebarCollapse span:last-of-type {
+        transform: none;
+        opacity: 1;
+        margin: 5px auto;
+    }
+    #sidebarCollapse.active span {
+        margin: 0 auto;
+    }
+    #sidebarCollapse.active span:first-of-type {
+        transform: rotate(45deg) translate(2px, 2px);
+    }
+    #sidebarCollapse.active span:nth-of-type(2) {
+        opacity: 0;
+    }
+    #sidebarCollapse.active span:last-of-type {
+        transform: rotate(-45deg) translate(1px, -1px);
+    }
+
+}
