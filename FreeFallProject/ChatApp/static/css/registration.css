@@ -5,6 +5,89 @@
 
 .card {
     height: auto;
+    box-sizing: content-box;
+    width: 25%;
+    height: 20%;
+    box-shadow: 1px solid gray;
+}
+
+.social_icon span {
+    font-size: 60px;
+    margin-left: 10px;
+    color: rgb(72, 255, 0);
+}
+
+.social_icon span:hover {
+    /* color: white; */
+    cursor: pointer;
+}
+
+.social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input-group-prepend span {
+    width: 30px;
+    /* background-color: rgb(46, 119, 179); */
+    color: black;
+    /* border: 0 !important; */
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.login_btn {
+    color: black;
+    /* background-color: rgb(46, 119, 179); */
+    align-items: center;
+    width: 30%;
+}
+
+.remember {
+    padding-left: 5%; 
+    
+    /* margin-right: 20px;
+   
+    color: rgb(219, 219, 219); */
+}
+
+
+.login_btn:hover {
+    color: black;
+    background-color: white;
+}
+
+button{
+
+}
+
+.links {
+    /* color: white; */
+}
+
+.links a {
+    /* margin-left: 4px; */
+}
+
+.card-body{
+    box-sizing: content-box;
+}
+
+.error-message{
+    color: rgb(235, 155, 64);
+}
+
+/* .container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: auto;
     margin-top: auto;
     margin-bottom: auto;
     width: 35%;
@@ -101,4 +184,4 @@ h1 {
 }
 .error-message{
     color: rgb(235, 155, 64);
-}
+} */

@@ -5,10 +5,10 @@
 
 .card {
     height: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 35%;
-    background-color: rgba(0, 0, 0, 0.5) !important;
+    box-sizing: content-box;
+    width: 25%;
+    height: 20%;
+    box-shadow: 1px solid gray;
 }
 
 .social_icon span {
@@ -18,7 +18,7 @@
 }
 
 .social_icon span:hover {
-    color: white;
+    /* color: white; */
     cursor: pointer;
 }
 
@@ -30,9 +30,9 @@
 
 .input-group-prepend span {
     width: 30px;
-    background-color: rgb(46, 119, 179);
+    /* background-color: rgb(46, 119, 179); */
     color: black;
-    border: 0 !important;
+    /* border: 0 !important; */
 }
 
 input:focus {
@@ -42,15 +42,17 @@ input:focus {
 
 .login_btn {
     color: black;
-    background-color: rgb(46, 119, 179);
+    /* background-color: rgb(46, 119, 179); */
     align-items: center;
     width: 30%;
 }
 
 .remember {
-    margin-right: 20px;
-    margin-left: 2%;
-    color: rgb(219, 219, 219);
+    padding-left: 5%; 
+    
+    /* margin-right: 20px;
+   
+    color: rgb(219, 219, 219); */
 }
 
 
@@ -60,34 +62,18 @@ input:focus {
 }
 
 button{
-    color: rgb(46, 119, 179);
-    background: rgb(46, 119, 179);
+
 }
 
 .links {
-    color: white;
+    /* color: white; */
 }
 
 .links a {
-    margin-left: 4px;
+    /* margin-left: 4px; */
 }
 
-h1 {
-    color: rgb(255, 255, 235);
-}
 
-.form-control {
-    background: rgb(36, 47, 61);
-    color: white;
-    border: none;
-    background-color: rgb(36, 47, 61);
-}
-.form-control :active, :focus, :hover  {
-    background-color: rgb(36, 47, 61);
-    background: rgb(36, 47, 61);
-    border: 1px solid rgb(63 150 208);
-    box-shadow:rgb(36, 47, 61);
-}
 .error-message{
     color: rgb(235, 155, 64);
 }
