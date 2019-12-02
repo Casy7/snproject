@@ -1,0 +1,21 @@
+.side_panel{
+    background: rgba(14, 12, 27, 0.568);
+}
+.map{
+    width: 80%;
+    float: left;
+}
+.sidebar_days{
+    width: 80%;
+    float: right;
+}
+.btn{
+    padding-left: 10px;
+    height: 70px;
+} 
+td .other_props{
+    width:30px;
+    height: 60px;
+    line-height: 1.25;
+    /* padding-left: 10px; */
+}
