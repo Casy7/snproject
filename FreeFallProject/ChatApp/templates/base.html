@@ -23,13 +23,13 @@
     <!-- STYLES -->
     <link rel="stylesheet" href="{% static '/styles/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static '/libs/modules/bootstrap/css/bootstrap.css' %}">
-    
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
-    
-    
-        <!-- SCRIPTS -->
+
+
+    <!-- SCRIPTS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
         integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
         crossorigin="anonymous"></script>
@@ -72,11 +72,15 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Bootstrap Sidebar</h3>
+                {% if username == ''%}
+                <h3>FreeFall</h3>
+                {% else %}
+                <h3>{{username}}</h3>
+                {% endif %}
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
+                <!-- <p>Dummy Heading</p> -->
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -129,7 +133,7 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-sm navbar-light bg-grey sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-light bg-grey sticky-top">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="navbar-btn">

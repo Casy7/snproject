@@ -21,11 +21,12 @@ p {
     color: rgb(119, 119, 119);
 }
 .bg-grey {
-    position: fixed;
-    width: 100%;
-    float: top;
+    /* position: fixed;
+    
+    float: top; */
     height: 40px;
-}
+    width: 100%;
+} 
 /*
 .sidebar {
     top: 40px;
@@ -169,14 +170,14 @@ a, a:hover, a:focus {
 }
 
 .navbar{
-    /* padding: 15px 10px; */
+    padding-right: 0px;
     background-color: rgb(247, 247, 247);
     color: rgb(190, 190, 190);
     border: none;
     border-radius: 0;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     
-    box-shadow: .5px .5px .5px rgba(119, 119, 119, 0.363); 
+    /* box-shadow: .5px .5px .5px rgba(119, 119, 119, 0.363);  */
 }
 
 .navbar-btn {
@@ -207,8 +208,8 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: rgb(184, 190, 214);
-    color: rgb(27, 24, 24);
+    background: rgb(232, 232, 236);
+    color: rgb(10, 10, 10);
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
 }
@@ -220,7 +221,7 @@ a, a:hover, a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #b1b6cc;
+    background: #d3d3d3;
 }
 
 #sidebar ul.components {
@@ -240,7 +241,7 @@ a, a:hover, a:focus {
 }
 #sidebar ul li a:hover {
     color: #7386D5;
-    background: rgb(0, 0, 0);
+    background: rgb(168, 168, 168);
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
