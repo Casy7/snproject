@@ -249,13 +249,13 @@ a, a:hover, a:focus {
     display: block;
 }
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: rgb(168, 168, 168);
+    color: rgb(13, 22, 17);
+    background: #dbe1e7;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: rgb(101, 101, 119)27, 23, 23);
-    background: #8bc4fa;
+    color: rgb(19, 27, 26);
+    background: #dbe1e7;
 }
 
 
