@@ -81,20 +81,19 @@
 
             <ul class="list-unstyled components sticky-top">
                 <!-- <p>Dummy Heading</p> -->
+                {% if  username != '' %}
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Hikes</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
+
+                        {% for hike in hikes %}
                         <li>
-                            <a href="#">Hike 1</a>
+                            <a href="/hike/{{hike.1}}">{{hike.0}}</a>
                         </li>
-                        <li>
-                            <a href="#">Hike 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Hike 3</a>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </li>
+
                 <li>
                     
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
@@ -111,6 +110,7 @@
                         </li>
                     </ul>
                 </li>
+                {% endif %}
                 <li>
                     <a href="#">Something</a>
                 </li>

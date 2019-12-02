@@ -20,13 +20,20 @@ def new_format(coordinates):
 def base_context(request, **args):
     context = {}
     user = request.user
+
     context['title'] = 'none'
     context['header'] = 'none'
     context['error'] = 0
-    if user != None:
+    if user.is_anonymous != True:
         context['username'] = user.username
+        
+        context['hikes'] = []
+        hikes = Hike.objects.filter(creator = user)
+        
+        for hike in hikes:
+            context['hikes'].append([hike.name, hike.id])
     else:
-        context['username'] = 'none'
+        context['username'] = ''
     if args != None:
         for arg in args:
             context[arg] = args[arg]
