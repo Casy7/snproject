@@ -1,17 +1,34 @@
 {% extends 'base.html' %}
 {% block content %}
-        <head><title>Hikes</title></head>
-        <body>
-            {% for hike in content %}
-            <h2 class="h2"><a  href={{hike.link}}>{{hike.name}}</a></h2>
-            <p  style = "color: gray; white-space: pre-wrap">{{hike.short_description}}</p>
-            <p  style = "color: gray; white-space: pre-wrap">{{hike.start_date}} - {{hike.end_date}}</p>
-            {% endfor %}
-        <body>
-</form>
+{% load static %}
 
-<h1 class="h1"></h1>
-<button><a  href="/new_hike">Create new hike</a></button>
+<head>
+    <title>Hikes</title>
+</head>
+
+<body>
+    {% for hike_row in hike %}
+    <div class="card-deck">
+        {% for hike in hike_row %}
+
+        <div class="card"><a href={{hike.link}}>
+            <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h2 class="h2">{{hike.name}}</h2>
+                <p class="card-text">{{hike.short_description}}</p>
+                <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
+            </div></a>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <body>
+        </form>
+
+        <h1 class="h1"></h1>
+        <button><a href="/new_hike">Create new hike</a></button>
 
 
-{% endblock %}
+        {% endblock %}

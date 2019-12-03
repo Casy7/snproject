@@ -26,10 +26,10 @@ def base_context(request, **args):
     context['error'] = 0
     if user.is_anonymous != True:
         context['username'] = user.username
-        
+
         context['hikes'] = []
-        hikes = Hike.objects.filter(creator = user)
-        
+        hikes = Hike.objects.filter(creator=user)
+
         for hike in hikes:
             context['hikes'].append([hike.name, hike.id])
     else:
@@ -59,10 +59,13 @@ class HomePage(View):
     def get(self, request):
         context = base_context(request, title='Home', header='Lorem Ipsum')
         return render(request, "main.html", context)
+
+
 class HomePage_test(View):
     def get(self, request):
         context = base_context(request, title='Home', header='Lorem Ipsum')
         return render(request, "test_base.html", context)
+
 
 class Registration(View):
     def get(self, request):
@@ -206,18 +209,30 @@ class AllHikes(View):
     def get(self, request):
         context = base_context(
             request, title='Hikes')
-        hikes = []
-        for hike in Hike.objects.all():
 
-            text = {}
-            text['link'] = '/hike/' + str(hike.id)
-            text['name'] = hike.name
-            text['start_date'] = hike.start_date
-            text['end_date'] = hike.end_date
-            text['short_description'] = hike.short_description
 
-            hikes.append(text)
-        context['content'] = hikes
+        context['hike'] = []
+        hikes = Hike.objects.all()
+        hike_stack = []
+        stack_index = 0
+        index = 0
+        while index < len(hikes):
+            stack_index = 0
+            hike_row = []
+            while stack_index < 4:
+                hike = hikes[index]
+                text = {}
+                text['link'] = '/hike/' + str(hike.id)
+                text['name'] = hike.name
+                text['start_date'] = hike.start_date
+                text['end_date'] = hike.end_date
+                text['short_description'] = hike.short_description
+                hike_row.append(text)
+                stack_index += 1
+                index += 1
+
+            context['hike'].append(hike_row)
+
         return render(request, "hikes.html", context)
 
 
