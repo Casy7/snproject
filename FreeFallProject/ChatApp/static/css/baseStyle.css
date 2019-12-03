@@ -14,6 +14,7 @@ blockquote{
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
+    font-size: medium;
 }
 
 p {
@@ -35,6 +36,9 @@ p {
     align-self: center;
     box-sizing: content-box;
     
+}
+.card{
+    border: none;
 }
 /*
 .sidebar {

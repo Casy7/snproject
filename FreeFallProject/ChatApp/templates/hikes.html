@@ -8,13 +8,14 @@
 
 <body>
     {% for hike_row in hike %}
-    <div class="card-deck">
+    <div class="card-deck text-center" style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
         {% for hike in hike_row %}
 
         <div class="card"><a href={{hike.link}}>
+            <h2 class="card-title">{{hike.name}}</h2>
             <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
             <div class="card-body">
-                <h2 class="h2">{{hike.name}}</h2>
+                
                 <p class="card-text">{{hike.short_description}}</p>
                 <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
             </div></a>
