@@ -17,69 +17,68 @@
     <form method="POST">
         {%csrf_token%}
 
-        <table>
-            <tbody>
-                <tr>
-                    <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td>
-                    <td height="70"><span><input type="text" class="form-control" name="name"
-                                    placeholder="Название похода"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="nameline"><span><input type="text" class="form-control" name="short_description"
-                                    placeholder="Краткое описание"></span></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <tbody>
-                <tr>
-                    <td><span><input type="date" name="start" class="form-control" ></span></td>
-                    <td> </td>
-                    <td><span><input type="date" name="end" class="form-control" ></span></td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <tbody>
-                <tr>
-                    <td>Сложность</td>
-                    <td width="2"></td>
-                    <td><span><select name="difficulty" class = "form-control">
-                                <option value="none">Без категории</option>
-                                <option value="I">I</option>
-                                <option value="II">II</option>
-                                <option value="III">III</option>
-                                <option value="IV">IV</option>
-                                <option value="V">V</option>
-                                <option value="VI">VI</option>
-                            </select></span></td>
-                </tr>
-                <tr>
-                    <td>Тип</td>
-                    <td width="2"></td>
-                    <td><span><select name="type" class = "form-control">
-                                <option value="Пеший">Пеший</option>
-                                <option value="Горный">Горный</option>
-                                <option value="Водный">Водный</option>
-                                <option value="Вело">Вело</option>
-                                <option value="Спелео">Спелео</option>
-                            </select></span></td>
-                </tr>
-                <tr>
-                    <td>Участники</td>
-                    <td width="2"></td>
-                    <td><span>
-                            <span><input id="participants" type="text" class="form-control"
-                                        name="participants" placeholder="Введите никнеймы через запятую"
-                                        onkeypress="format_names()"></span>
-                        </span></td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- <div id="accordion">
+        <div class="container">
+            <div class="row">
+                <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
+                <div class="col-sm-1"><i class="fas fa-camera upload"></i></div>
+                <div class="col-md"><span><input type="text" class="form-control" name="name"
+                            placeholder="Название похода"></span>
+                </div>
+                <div class="row">
+
+                    <div class="col-md"><span><input type="text" class="form-control" name="short_description"
+                                placeholder="Краткое описание"></span></div>
+
+                 
+                </div>
+            </div>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td><span><input type="date" name="start" class="form-control"></span></td>
+                        <td> </td>
+                        <td><span><input type="date" name="end" class="form-control"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Сложность</td>
+                        <td width="2"></td>
+                        <td><span><select name="difficulty" class="form-control">
+                                    <option value="none">Без категории</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>
+                                </select></span></td>
+                    </tr>
+                    <tr>
+                        <td>Тип</td>
+                        <td width="2"></td>
+                        <td><span><select name="type" class="form-control">
+                                    <option value="Пеший">Пеший</option>
+                                    <option value="Горный">Горный</option>
+                                    <option value="Водный">Водный</option>
+                                    <option value="Вело">Вело</option>
+                                    <option value="Спелео">Спелео</option>
+                                </select></span></td>
+                    </tr>
+                    <tr>
+                        <td>Участники</td>
+                        <td width="2"></td>
+                        <td><span>
+                                <span><input id="participants" type="text" class="form-control" name="participants"
+                                        placeholder="Введите никнеймы через запятую" onkeypress="format_names()"></span>
+                            </span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div id="accordion">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
@@ -142,17 +141,17 @@
         </div> -->
 
 
-        <div id="toolbar-container" class="edtor"></div>
-        <textarea name="description" id="editor" class="description">
+            <div id="toolbar-container" class="edtor"></div>
+            <textarea name="description" id="editor" class="description">
             &lt;p&gt;This is some sample content.&lt;/p&gt;
         </textarea>
-        <!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
+            <!-- <textarea name="content" id="editor">This is some sample content.</textarea> -->
 
-        <input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
-        <div class="form-group">
-            <input type="submit" value="Post" class="btn">
-        </div>
-        <script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
+            <input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
+            <div class="form-group">
+                <input type="submit" value="Post" class="btn">
+            </div>
+            <script src="{% static '/js/hike_editor.js' %}" type="text/javascript"></script>
     </form>
 </div>
 

@@ -1,11 +1,11 @@
 .upload {
     background: rgba(255, 255, 255, 0);
     
-    height: 60pt;
-    width: 60pt;
-    padding-top: 10pt;
-    font-size: 35pt;
-    border: 2px solid rgb(168, 168, 168);
+
+    width: 50pt;
+    padding: 10pt;
+    font-size: 15pt;
+    border: .5px solid rgb(202, 202, 202);
     text-align: center;
     transform-origin: 0 0;
     /* transform: scaleY(1.2); */

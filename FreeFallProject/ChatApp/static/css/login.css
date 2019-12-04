@@ -6,7 +6,7 @@
 .card {
     height: auto;
     box-sizing: content-box;
-    width: 25%;
+    width: 45%;
     height: 20%;
     box-shadow: 1px solid gray;
 }
@@ -61,17 +61,6 @@ input:focus {
     background-color: white;
 }
 
-button{
-
-}
-
-.links {
-    /* color: white; */
-}
-
-.links a {
-    /* margin-left: 4px; */
-}
 
 
 .error-message{

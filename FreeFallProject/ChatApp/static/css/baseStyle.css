@@ -4,17 +4,30 @@
 h1 {
     font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
     text-transform: uppercase;
+    font-size: 3.4rem;
     letter-spacing: 2px;
 }
-
-blockquote{
+h2{
+    font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;    
+    font-size: 17px;
+}
+h3{
+    font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    letter-spacing: 1px;    
+    font-weight: 800;
     font-size: 14px;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-    font-size: medium;
+    background: transparent;
+    font-size: 15px;
 }
 
 p {
@@ -22,7 +35,14 @@ p {
     font-size: 14px;
     font-weight: 19px;
     line-height: 1.7em;
-    color: rgb(119, 119, 119);
+    color: rgb(80, 79, 79);
+}
+
+blockquote{
+    font-size: 16.5px;
+    font-family: 'Book antiqua', sans-serif;
+    font-style: normal;
+
 }
 .bg-grey {
     /* position: fixed;
