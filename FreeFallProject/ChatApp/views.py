@@ -207,8 +207,7 @@ class Logout (View):
 class AllHikes(View):
 
     def get(self, request):
-        context = base_context(
-            request, title='Hikes')
+        context = base_context(request, title='Hikes')
 
 
         context['hike'] = []
@@ -219,14 +218,17 @@ class AllHikes(View):
         while index < len(hikes):
             stack_index = 0
             hike_row = []
-            while stack_index < 4:
+            while stack_index < 4 and index<len(hikes):
                 hike = hikes[index]
+
                 text = {}
                 text['link'] = '/hike/' + str(hike.id)
                 text['name'] = hike.name
                 text['start_date'] = hike.start_date
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
+                if len(text['short_description'])>200:
+                    text['short_description'] = text['short_description'][0:198]+'...'
                 hike_row.append(text)
                 stack_index += 1
                 index += 1
