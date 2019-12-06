@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!-- <script src="{% static 'js/map.js' %}"></script> -->
+
+<!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+<script src="{% static 'js/editor.js' %}"></script>
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<!-- 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+<!--<script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script>-->
+<!-- <link rel="stylesheet" href="{% static 'styles/hike.css' %}"> -->
+<form method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Базовые параметры
+                </button>
+
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="card-body">
+                        <label for="exampleFormControlInput1">Название похода</label>
+                        <div class="card-title"><span><input type="text" class="form-control" name="name"
+                                    placeholder=" "></span>
+                        </div>
+                        <label for="exampleFormControlInput1">Краткое описание</label>
+                        <span>
+                            <textarea class="form-control" name="short_description" placeholder="Пару строк о походе">
+                                                        </textarea>
+                        </span>
+                        <label for="exampleFormControlInput2">Временные рамки</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="date" name="start" class="form-control">
+                            </div>
+                            <div class="col">
+                                <input type="date" name="end" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="exampleFormControlInput2">Сложность</label>
+                                <span>
+                                    <select name="difficulty" class="form-control">
+                                        <option value="none">Без категории</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col">
+                                <label for="exampleFormControlInput2">Тип</label>
+                                <span>
+                                    <select name="type" class="form-control">
+                                        <option value="Пеший">Пеший</option>
+                                        <option value="Горный">Горный</option>
+                                        <option value="Водный">Водный</option>
+                                        <option value="Вело">Вело</option>
+                                        <option value="Спелео">Спелео</option>
+                                    </select>
+                                </span>
+                            </div>
+
+                        </div>
+                        <label for="exampleFormControlInput6">Участники</label>
+                        <input id="participants" type="text" class="form-control" name="participants"
+                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()">
+                        <br>
+                        <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    Подробное описание
+                </button>
+            </div>
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+<!-- PASTE CODE HERE -->
+            </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Collapsible Group Item #2
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3
+                        wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum
+                        eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                        nulla
+                        assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                        nesciunt
+                        sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                        farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                        labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Collapsible Group Item #3
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3
+                        wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        laborum
+                        eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+                        nulla
+                        assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                        nesciunt
+                        sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                        farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                        labore sustainable VHS.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <input type="submit" class="btn btn-secondary btn-block" value="Создать">
+    </div>
+</form>
+</button>
+</div>
+{%csrf_token%}
+
+<!-- 
+<input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
+</form>
+ -->
+{% endblock %}

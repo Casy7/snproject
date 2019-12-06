@@ -195,7 +195,24 @@ class NewHike(View):
             hike.participants.add(pt)
         hike.save()
 
-        return HttpResponseRedirect("/map/"+str(hike.id))
+        return HttpResponseRedirect("/editor/"+str(hike.id))
+
+
+class HikeEditor(View):
+    def get(self, request, id):
+        
+        hike = Hike.objects.get(id=id)
+        context = base_context(
+            request, title='Track', header='Изменение похода: '+hike.name)
+        
+        context['name'] = hike.name
+        return render(request, "editor.html", context)
+
+    def post(self, request, id):
+
+        form = context.POST
+        return 0
+
 
 
 class Logout (View):
