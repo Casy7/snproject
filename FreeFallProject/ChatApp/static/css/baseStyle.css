@@ -1,10 +1,12 @@
 *{
-    box-sizing: content-box;
+    /* box-sizing: content-box; */
+    font-size: 15px;
 }
 h1 {
     font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
     text-transform: uppercase;
     font-size: 3.4rem;
+
     letter-spacing: 4.35px;
 }
 h2{
@@ -54,7 +56,7 @@ blockquote{
 .container{
     width: 60%;
     align-self: center;
-    box-sizing: content-box;
+    /* box-sizing: content-box; */
     
 }
 .card{

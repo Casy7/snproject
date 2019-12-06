@@ -5,7 +5,7 @@
 
 .card {
     height: auto;
-    box-sizing: content-box;
+    /* box-sizing: content-box; */
     width: 45%;
     height: 20%;
     box-shadow: 1px solid gray;

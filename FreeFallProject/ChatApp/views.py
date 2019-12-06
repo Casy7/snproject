@@ -182,12 +182,12 @@ class NewHike(View):
             name=form['name'],
             creator=user,
             short_description=form['short_description'],
-            description=form['description'],
+            # description=form['description'],
             start_date=form['start'],
             end_date=form['end'],
             difficulty=form['difficulty'],
             type_of_hike=form['type'],
-            coordinates=new_format(form['coordinates'])
+            # coordinates=new_format(form['coordinates'])
         )
         hike.save()
         participants = participants_format(form['participants'])
