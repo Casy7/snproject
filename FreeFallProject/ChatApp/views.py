@@ -256,7 +256,7 @@ class AllHikes(View):
 
 
 class MapOfHike(View):
-    def get(self, request):
+    def get(self, request, id):
         return render(request, "map.html")
 
 
