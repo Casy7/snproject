@@ -4,6 +4,8 @@
 <!-- <script src="{% static 'js/map.js' %}"></script> -->
 
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <script src="{% static 'js/editor.js' %}"></script>
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
@@ -113,7 +115,44 @@
 
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
-                    <h1 style="color: red;">МАКС, ВОТ ТУТ ДОЛЖЕН БЫТЬ ТВОЙ КОД</h1>
+
+                        <div id="osm_map" style="width:1200px;height:500px"></div>
+
+                        <script>
+                          mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+                          var osm_map = new mapboxgl.Map({
+                              container: 'osm_map',
+                              style: 'mapbox://styles/mapbox/bright-v9',
+                              center: [13.291408333333237,42.628386111111126], 
+                              zoom: 16 
+                          });
+                         
+                          osm_map.addControl(new mapboxgl.NavigationControl());
+                    
+                    
+                    
+                    
+                        </script>
+                    
+                        {% for coordinates in map %}
+                        <script type="text/javascript">
+                        coordinates = {{coordinates|safe}};
+                    
+                        var el = document.createElement('div');
+                          el.className = 'marker';
+                          el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+                          el.style.width = '50px';
+                          el.style.height = '50px';
+                          var a = coordinates[0]
+                          var b = coordinates[1]
+                          var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
+                            .setLngLat([a, b])
+                            .addTo(osm_map);
+                            alert("a")
+                        </script>
+                        {% endfor %}
+
+                    </script>
                 </div>
             </div>
         </div>

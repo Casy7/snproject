@@ -257,7 +257,9 @@ class AllHikes(View):
 
 class MapOfHike(View):
     def get(self, request, id):
-        return render(request, "map.html")
+        context = base_context(request, title='Map')
+        context['map'] = [[13.291408333333237,42.628386111111126], [13.391408333333237,42.628386111111126], [13.491408333333237,42.628386111111126]]
+        return render(request, "map.html", context)
 
 
 class SetHike(View):

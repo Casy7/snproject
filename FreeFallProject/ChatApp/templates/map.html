@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,7 +10,7 @@
 
   </head>
   <body>
-           <div id="osm_map" style="width:70%;height:70%"></div>
+           <div id="osm_map" style="width:1200px;height:500px"></div>
 
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
@@ -22,29 +23,42 @@
      
       osm_map.addControl(new mapboxgl.NavigationControl());
 
-      map.on('click', map, function (e) {
+
+
+
+    </script>
+
+    {% for coordinates in map %}
+    <script type="text/javascript">
+    coordinates = {{coordinates|safe}};
+
     var el = document.createElement('div');
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       el.style.width = '50px';
       el.style.height = '50px';
-
-      new mapboxgl.Marker(el, {offset: [-30, -35]})
-        .setLngLat(e.xy)
+      var a = coordinates[0]
+      var b = coordinates[1]
+      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
+        .setLngLat([a, b])
         .addTo(osm_map);
-    });
-
-      var el = document.createElement('div');
+    </script>
+    {% endfor %}
+    <script>
+    
+    osm_map.on('click', function (e) {
+        var el = document.createElement('div');
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       el.style.width = '50px';
       el.style.height = '50px';
-
-      new mapboxgl.Marker(el, {offset: [-30, -35]})
-        .setLngLat([13.291408333333237,42.628386111111126])
+      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
+        .setLngLat(e.lngLat.wrap())
         .addTo(osm_map);
-
+    })
+    
     </script>
   </body>
 </html>
 {% endblock %}
+
