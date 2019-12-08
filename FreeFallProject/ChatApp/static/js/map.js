@@ -27,7 +27,7 @@ function GetMap() {
     map.events.register('click', map, function (e) {
         var size = new OpenLayers.Size(21, 25);//размер картинки для маркера
         var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h); //смещение картинки для маркера
-        var icon = new OpenLayers.Icon('.icons/logo.png', size, offset);//картинка для маркера
+        var icon = new OpenLayers.Icon('data/mark.png', size, offset);//картинка для маркера
         //var coord = map.getLonLatFromViewPortPx(e.xy);
         //document.getElementById();//TODO 
         layerMarkers.addMarker(//добавляем маркер к слою маркеров
