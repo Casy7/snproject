@@ -256,16 +256,8 @@ class AllHikes(View):
 
 
 class MapOfHike(View):
-    def get(self, request, id):
-        context = base_context(
-            request, title='Track', header='Создание маршрута похода')
-        hike = Hike.objects.get(id=id)
-        context['name'] = hike.name
-        return render(request, "map.html", context)
-
-    def post(self, request, id):
-
-        form = context.POST
+    def get(self, request):
+        return render(request, "map.html")
 
 
 class SetHike(View):

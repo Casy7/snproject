@@ -1,56 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load static %}
-<script src="{% static 'js/map.js' %}"></script>
+<!DOCTYPE html>
+<html>
+  <head>
 
-<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<!-- 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-<!--<script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script>-->
-<link rel="stylesheet" href="{% static 'styles/hike.css' %}">
-<h1>Трек похода</h1>
+  </head>
+  <body>
+           <div id="osm_map" style="width:70%;height:70%"></div>
 
-<body onload="GetMap();">
-    <div class="container">
-        <form method="POST">
-            {%csrf_token%}
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+      var osm_map = new mapboxgl.Map({
+          container: 'osm_map',
+          style: 'mapbox://styles/mapbox/bright-v9',
+          center: [13.291408333333237,42.628386111111126], 
+          zoom: 16 
+      });
+     
+      osm_map.addControl(new mapboxgl.NavigationControl());
+      alert("!")
 
-            <table>
-                <tbody>
-                    <tr>
-                        <td rowspan="1" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td>
-                        <td rowspan="1" width="2"></td>
-                        <td height="70">
-                            <div class="nameline">
-                                <span>
-                                    <input type="text" class="name" name="name" disabled placeholder="{{ name }}">
-                                </span>
-                            </div>
-                        </td>
-                        <td><div class="form-group"><input type="submit" value="Save" class="other_props"></div></td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
-        </form>
+      map.on('click', map, function (e) {
+          alert("!")
+    var el = document.createElement('div');
+      el.className = 'marker';
+      el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+      el.style.width = '50px';
+      el.style.height = '50px';
 
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <div id="OSMap" style="position:absolute; width:80%; height:500px;"></div>
-                    </td>
-                    <td>
-                        <div class = "sidebar_days">Fyuyjty</div>
-                    </td>
-                </tr>
-    </div>
+      new mapboxgl.Marker(el, {offset: [-30, -35]})
+        .setLngLat(e.xy)
+        .addTo(osm_map);
+    });
 
-    </div>
-</body>
+      var el = document.createElement('div');
+      el.className = 'marker';
+      el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+      el.style.width = '50px';
+      el.style.height = '50px';
+
+      new mapboxgl.Marker(el, {offset: [-30, -35]})
+        .setLngLat([13.291408333333237,42.628386111111126])
+        .addTo(osm_map);
+
+    </script>
+  </body>
+</html>
 {% endblock %}
