@@ -13,50 +13,80 @@
            <div id="osm_map" style="width:1200px;height:500px"></div>
 
     <script>
+      coordinates = {{content.coordinates|safe}};
       mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
       var osm_map = new mapboxgl.Map({
           container: 'osm_map',
           style: 'mapbox://styles/mapbox/bright-v9',
-          center: [13.291408333333237,42.628386111111126], 
-          zoom: 16 
+          center: coordinates[Math.floor(coordinates.length/2)],
+          zoom: 14 
       });
      
       osm_map.addControl(new mapboxgl.NavigationControl());
 
+      
 
 
 
     </script>
-
-    {% for coordinates in map %}
     <script type="text/javascript">
-    coordinates = {{coordinates|safe}};
-
-    var el = document.createElement('div');
+    coordinates = {{content.coordinates|safe}};
+ 
+      for (i = 0; i < coordinates.length; i++) {
+      var el = document.createElement('div');
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       el.style.width = '50px';
       el.style.height = '50px';
-      var a = coordinates[0]
-      var b = coordinates[1]
-      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
-        .setLngLat([a, b])
-        .addTo(osm_map);
+      var x = coordinates[i][0];
+      var y = coordinates[i][1];
+      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}}).setLngLat([x, y]).addTo(osm_map);
+      }
+
+      osm_map.on('load', function () {
+ 
+        osm_map.addLayer({
+      "id": "route",
+      "type": "line",
+      "source": {
+      "type": "geojson",
+      "data": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+      "type": "LineString",
+      "coordinates": coordinates
+      }
+      }
+      },
+      "layout": {
+      "line-join": "round",
+      "line-cap": "round"
+      },
+      "paint": {
+      "line-color": "#888",
+      "line-width": 5
+      }
+      });
+      });
+
     </script>
-    {% endfor %}
+
+
     <script>
-    
+
     osm_map.on('click', function (e) {
         var el = document.createElement('div');
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       el.style.width = '50px';
       el.style.height = '50px';
+      
       var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
         .setLngLat(e.lngLat.wrap())
         .addTo(osm_map);
-    })
-    
+      alert(e.lngLat.wrap())
+      });
     </script>
   </body>
 </html>

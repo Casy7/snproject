@@ -267,7 +267,10 @@ class AllHikes(View):
 class MapOfHike(View):
     def get(self, request, id):
         context = base_context(request, title='Map')
-        context['map'] = [[13.291408333333237,42.628386111111126], [13.391408333333237,42.628386111111126], [13.491408333333237,42.628386111111126]]
+        text = {}
+        hike = Hike.objects.get(id=id)
+        text['coordinates'] = hike.coordinates
+        context['content'] = text
         return render(request, "map.html", context)
 
 
@@ -282,6 +285,7 @@ class SetHike(View):
         text['end_date'] = hike.end_date
         text['short_description'] = hike.short_description
         text['description'] = hike.description
+        text['link'] = '/map/' + str(hike.id)
         landmarks = []
         for landmark in hike.landmarks.all():
             landmarks.append(landmark.name)
@@ -290,5 +294,6 @@ class SetHike(View):
         for participant in User.objects.filter(hike__participants = id):
             participants.append(participant.username)
         text['participants'] = participants
+        text['coordinates'] = hike.coordinates
         context['content'] = text
         return render(request, "hike.html", context)
