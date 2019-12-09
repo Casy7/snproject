@@ -37,9 +37,11 @@
                         </div>
                         <label for="exampleFormControlInput1">Краткое описание</label>
                         <span>
-                            <textarea class="form-control" name="short_description" placeholder="Пару строк о походе" value = {{short_description}}>
+                            <textarea class="form-control" id="sh_desc" name="short_description"
+                                placeholder="Пару строк о походе" value="{{short_description}}">
                                                         </textarea>
                         </span>
+
                         <label for="exampleFormControlInput2">Временные рамки</label>
                         <div class="form-row">
                             <div class="col">
@@ -53,26 +55,26 @@
                             <div class="col">
                                 <label for="exampleFormControlInput2">Сложность</label>
                                 <span>
-                                    <select name="difficulty" class="form-control">
-                                        <option value="none">Без категории</option>
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
+                                    <select name="difficulty" class="form-control" id = "difficulty" value = "II">
+                                        <option value="none" id="none">Без категории</option>
+                                        <option value="I" id="I">I</option>
+                                        <option value="II" id="II">II</option>
+                                        <option value="III" id="III_">III</option>
+                                        <option value="IV" id="IV">IV</option>
+                                        <option value="V" id="V">V</option>
+                                        <option value="VI" id="VI">VI</option>
                                     </select>
                                 </span>
                             </div>
                             <div class="col">
                                 <label for="exampleFormControlInput2">Тип</label>
                                 <span>
-                                    <select name="type" class="form-control">
-                                        <option value="Пеший">Пеший</option>
-                                        <option value="Горный">Горный</option>
-                                        <option value="Водный">Водный</option>
-                                        <option value="Вело">Вело</option>
-                                        <option value="Спелео">Спелео</option>
+                                    <select name="type" class="form-control" id="type_of_hike">
+                                        <option value="Пеший" id="wlk_type">Пеший</option>
+                                        <option value="Горный" id="mnt_type">Горный</option>
+                                        <option value="Водный" id="wtr_type">Водный</option>
+                                        <option value="Вело" id="bck_type">Вело</option>
+                                        <option value="Спелео" id="cv_type">Спелео</option>
                                     </select>
                                 </span>
                             </div>
@@ -80,13 +82,18 @@
                         </div>
                         <label for="exampleFormControlInput6">Участники</label>
                         <input id="participants" type="text" class="form-control" name="participants"
-                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()">
+                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()" value="{{participants}}">
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById("sh_desc").value = "{{short_description}}";
+            document.getElementById("difficulty").value = "{{difficulty}}";
+            document.getElementById("type_of_hike").value = "{{type_of_hike}}";
+        </script>
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo"
@@ -133,6 +140,7 @@
                             overflow-wrap: break-word !important;
                             cursor: grab !important;
                         }
+
                         ;
 
                         .mapboxgl-canvas {

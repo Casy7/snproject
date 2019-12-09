@@ -55,6 +55,13 @@ def participants_format(participants):
     return pt_list
 
 
+def parts_revert_format(participants):
+    text_format = ""
+    for pt in participants:
+        text_format+='@'+pt.username+'\t'
+    return text_format
+
+
 class HomePage(View):
     def get(self, request):
         context = base_context(request, title='Home', header='Lorem Ipsum')
@@ -203,12 +210,13 @@ class HikeEditor(View):
         
         context.update({
             'name': hike.name,
-            'short_description': hike.short_description ,
+            'short_description': hike.short_description,
             'start_date':str(hike.start_date),
             'end_date':str(hike.end_date),
             'difficulty':hike.difficulty,
             'type_of_hike':hike.type_of_hike,
-            # '':hike.,
+            
+            'participants':parts_revert_format(User.objects.filter(hike__participants = id)),
             # '':hike.,
             'description':hike.description,
             'coordinates':hike.coordinates,
@@ -218,9 +226,44 @@ class HikeEditor(View):
         return render(request, "editor.html", context)
 
     def post(self, request, id):
+        context = base_context(request)
+        form = request.POST
 
-        form = context.POST
-        return 0
+        print(form)
+
+        username = request.user.username
+        password = request.user.password
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                context['name'] = username
+                return HttpResponseRedirect("/")
+        else:
+            user = User.objects.get(username='admin')
+
+        hike = Hike.objects.get(id = id)
+        hike.name = form['name']
+        hike.creator=user
+        hike.short_description=form['short_description']
+        hike.description=form['description']
+        hike.start_date=form['start']
+        hike.end_date=form['end']
+        hike.difficulty=form['difficulty']
+        hike.type_of_hike=form['type']
+            
+        
+        hike.save()
+        participants = participants_format(form['participants'])
+        already_in_hike = User.objects.filter(hike__participants = id)
+        for pt in participants:
+            if pt not in already_in_hike:
+                hike.participants.add(pt)
+        hike.save()
+
+        return HttpResponseRedirect("/hike/"+str(hike.id))
 
 
 
