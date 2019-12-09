@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-        <head><h2 class="h2">{{content.name}}</h2></head>
         <body>
             <p>{{content.start_date}} - {{content.end_date}}</p>
+            <p>{{content.short_description}}</p>
             <pre>{{content.description|safe}}</pre>
             <h2 class="h2">Достопримечательности:</h2>
             {% for name in content.landmarks.all %}

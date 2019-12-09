@@ -61,11 +61,6 @@ class HomePage(View):
         return render(request, "main.html", context)
 
 
-class HomePage_test(View):
-    def get(self, request):
-        context = base_context(request, title='Home', header='Lorem Ipsum')
-        return render(request, "test_base.html", context)
-
 
 class Registration(View):
     def get(self, request):
@@ -202,10 +197,24 @@ class HikeEditor(View):
     def get(self, request, id):
         
         hike = Hike.objects.get(id=id)
+
         context = base_context(
             request, title='Track', header='Изменение похода: '+hike.name)
         
-        context['name'] = hike.name
+        context.update({
+            'name': hike.name,
+            'short_description': hike.short_description ,
+            'start_date':hike.start_date,
+            'end_date':hike.end_date,
+            'difficulty':hike.difficulty,
+            'type_of_hike':hike.type_of_hike,
+            # '':hike.,
+            # '':hike.,
+            'description':hike.description,
+            'coordinates':hike.coordinates,
+        })
+
+
         return render(request, "editor.html", context)
 
     def post(self, request, id):
@@ -266,11 +275,12 @@ class SetHike(View):
     def get(self, request, id):
 
         hike = Hike.objects.get(id=id)
-        context = base_context(request, title=hike.name)
+        context = base_context(request, title=hike.name, header = hike.name)
         text = {}
         text['name'] = hike.name
         text['start_date'] = hike.start_date
         text['end_date'] = hike.end_date
+        text['short_description'] = hike.short_description
         text['description'] = hike.description
         landmarks = []
         for landmark in hike.landmarks.all():
