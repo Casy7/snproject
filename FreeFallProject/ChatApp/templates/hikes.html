@@ -12,8 +12,9 @@
         {% for hike in hike_row %}
 
         <div class="card"><a href={{hike.link}}>
-            <h2 class="card-title">{{hike.name}}</h2>
+            
             <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
+            <h2 class="card-title">{{hike.name}}</h2>
             <div class="card-body">
                 
                 <p class="card-text">{{hike.short_description}}</p>

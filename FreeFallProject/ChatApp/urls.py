@@ -3,7 +3,8 @@ from django.urls import path
 from ChatApp import views
 
 urlpatterns = [
-    path("", HomePage.as_view(), name="home"),
+    path("home/", HomePage.as_view(), name="home"),
+    path("", AllHikes.as_view(), name="all_hikes"),
     path("login/", UserLogin.as_view(), name="login"),
     path("registration/", Registration.as_view(), name="registration"),
     path("new_hike/", NewHike.as_view(), name="new_hike"),
