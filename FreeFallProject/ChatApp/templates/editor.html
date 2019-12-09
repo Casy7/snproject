@@ -55,7 +55,7 @@
                             <div class="col">
                                 <label for="exampleFormControlInput2">Сложность</label>
                                 <span>
-                                    <select name="difficulty" class="form-control" id = "difficulty" value = "II">
+                                    <select name="difficulty" class="form-control" id="difficulty" value="II">
                                         <option value="none" id="none">Без категории</option>
                                         <option value="I" id="I">I</option>
                                         <option value="II" id="II">II</option>
@@ -82,7 +82,8 @@
                         </div>
                         <label for="exampleFormControlInput6">Участники</label>
                         <input id="participants" type="text" class="form-control" name="participants"
-                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()" value="{{participants}}">
+                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()"
+                            value="{{participants}}">
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
                     </div>
@@ -124,30 +125,25 @@
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div>
 
-                    <div id="osm_map" style="width:100%;height:500px;"></div>
+                    <div class="container" name = "day">
+                        <br>
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="text" class="form-control" name="day_1" placeholder="День 1" onkeypress=""
+                                    value="">
+                            </div>
+                            <div class="col-sm">
+                                    <input type="text" class="form-control" name="day_1" placeholder="Координаты старта" onkeypress=""
+                                    value="">
+                            </div>
+                            <div class="col-sm">
+                                    <input type="text" class="form-control" name="day_1" placeholder="Координаты лагеря" onkeypress=""
+                                    value="">
+                            </div>                       
+                        </div>
+                    </div>
 
 
-                    <style>
-                        body {}
-
-                        #osm_map {
-                            top: 0;
-                            width: 100%;
-                            height: 600px;
-                            vertical-align: baseline;
-                            /* text-align: center; */
-                            font-weight: 400;
-                            overflow-wrap: break-word !important;
-                            cursor: grab !important;
-                        }
-
-                        ;
-
-                        .mapboxgl-canvas {
-                            width: 1101px !important;
-                            height: 500px !important;
-                        }
-                    </style>
 
                 </div>
             </div>
@@ -160,48 +156,11 @@
     </div>
     <script src="{% static '/js/editor.js' %}" type="text/javascript"></script>
 </form>
-</button>
-</div>
 
-{%csrf_token%}
 
 <!-- 
 <input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
 </form>
  -->
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-    var osm_map = new mapboxgl.Map({
-        container: 'osm_map',
-        style: 'mapbox://styles/mapbox/satellite-v9',
-        center: [13.291408333333237, 42.628386111111126],
-        zoom: 13
-    });
 
-    osm_map.addControl(new mapboxgl.NavigationControl());
-
-
-
-
-</script>
-
-{% for coordinates in map %}
-<script type="text/javascript">
-    coordinates = {{ coordinates | safe }};
-
-    var el = document.createElement('div');
-    el.className = 'marker';
-    el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
-    el.style.width = '50px';
-    el.style.height = '50px';
-    var a = coordinates[0]
-    var b = coordinates[1]
-    var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
-        .setLngLat([a, b])
-        .addTo(osm_map);
-    alert("a")
-</script>
-{% endfor %}
-
-</script>
 {% endblock %}
