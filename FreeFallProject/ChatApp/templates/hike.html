@@ -14,6 +14,9 @@
             <li>{{username}}</li></ul>
             {% endfor %}
             <div><a href={{content.link}}>Перейти к карте похода</div></a>
+            {% if user == content.creator %}
+            <div><a href=/editor/{{content.id}}>Редактор</div></a>
+            {% endif %}
         <body>
 </form>
 

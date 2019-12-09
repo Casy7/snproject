@@ -26,7 +26,7 @@ def base_context(request, **args):
     context['error'] = 0
     if user.is_anonymous != True:
         context['username'] = user.username
-
+        context['user'] = user
         context['hikes'] = []
         hikes = Hike.objects.filter(creator=user)
 
@@ -202,29 +202,31 @@ class NewHike(View):
 
 class HikeEditor(View):
     def get(self, request, id):
-        
+
         hike = Hike.objects.get(id=id)
 
         context = base_context(
             request, title='Track', header='Изменение похода: '+hike.name)
+        if context['username'] != '' and request.user == hike.creator:
+            context.update({
+                'name': hike.name,
+                'short_description': hike.short_description,
+                'start_date':str(hike.start_date),
+                'end_date':str(hike.end_date),
+                'difficulty':hike.difficulty,
+                'type_of_hike':hike.type_of_hike,
+                
+                'participants':parts_revert_format(User.objects.filter(hike__participants = id)),
+                # '':hike.,
+                'description':hike.description,
+                'coordinates':hike.coordinates,
+            })
+            return render(request, "editor.html", context)
+
+        else:
+            return HttpResponseRedirect("/login/")
+
         
-        context.update({
-            'name': hike.name,
-            'short_description': hike.short_description,
-            'start_date':str(hike.start_date),
-            'end_date':str(hike.end_date),
-            'difficulty':hike.difficulty,
-            'type_of_hike':hike.type_of_hike,
-            
-            'participants':parts_revert_format(User.objects.filter(hike__participants = id)),
-            # '':hike.,
-            'description':hike.description,
-            'coordinates':hike.coordinates,
-        })
-
-
-        return render(request, "editor.html", context)
-
     def post(self, request, id):
         context = base_context(request)
         form = request.POST
@@ -328,8 +330,9 @@ class SetHike(View):
         hike = Hike.objects.get(id=id)
         context = base_context(request, title=hike.name, header = hike.name)
         text = {}
-
+        text['creator'] = hike.creator
         text['name'] = hike.name
+        text['id'] = hike.id
         text['start_date'] = hike.start_date
         text['end_date'] = hike.end_date
         text['short_description'] = hike.short_description

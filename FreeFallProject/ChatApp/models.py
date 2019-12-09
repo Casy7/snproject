@@ -17,6 +17,7 @@ class Landmark(models.Model):
         return f'{self.name}'
 
 class Hike(models.Model):
+    creator = models.ForeignKey(User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default='A new hike')
     description = models.CharField(max_length=200000, default='desc')
     short_description = models.CharField(max_length=1000, default='short desc')
@@ -32,6 +33,6 @@ class Hike(models.Model):
     type_of_hike = models.CharField(max_length=200, default='Пеший')
    
     coordinates = models.CharField(max_length=200000, default='')
-    creator = models.ForeignKey(User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
+    
 
     image = models.ImageField(null=True, blank=True)
