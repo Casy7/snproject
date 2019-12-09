@@ -172,11 +172,14 @@ class NewHike(View):
 
         user = authenticate(username=username, password=password)
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                context['name'] = username
-                return HttpResponseRedirect("/")
+        if user is not None or request.user.is_anonymous == False:
+            # if user.is_active:
+            #     login(request, user)
+            #     context['name'] = username
+            #     return HttpResponseRedirect("/")
+            # else:
+            context['name'] = request.user.username
+            user = request.user
         else:
             user = User.objects.get(username='admin')
 
