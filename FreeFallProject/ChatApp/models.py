@@ -20,14 +20,18 @@ class Hike(models.Model):
     name = models.CharField(max_length=200, default='A new hike')
     description = models.CharField(max_length=200000, default='desc')
     short_description = models.CharField(max_length=1000, default='short desc')
+
     participants = models.ManyToManyField(User, blank=True)
-    landmarks = models.ManyToManyField(Landmark)
+
+    landmarks = models.ManyToManyField(Landmark, blank=True)
+
     start_date = models.DateField(default="2020-01-02")
     end_date = models.DateField(default="2020-01-02")
+
     difficulty = models.CharField(max_length=200, default='none')
     type_of_hike = models.CharField(max_length=200, default='Пеший')
-    image = models.ImageField(null=True)
+   
     coordinates = models.CharField(max_length=200000, default='')
     creator = models.ForeignKey(User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
 
-
+    image = models.ImageField(null=True, blank=True)
