@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <label for="exampleFormControlInput1">Название похода</label>
                         <div class="card-title"><span><input type="text" class="form-control" name="name"
-                                    placeholder=" " value={{name}}></span>
+                                    placeholder=" " value="{{name}}"></span>
                         </div>
                         <label for="exampleFormControlInput1">Краткое описание</label>
                         <span>
@@ -43,10 +43,10 @@
                         <label for="exampleFormControlInput2">Временные рамки</label>
                         <div class="form-row">
                             <div class="col">
-                                <input type="date" name="start" class="form-control">
+                                <input type="date" name="start" class="form-control" value={{start_date}}>
                             </div>
                             <div class="col">
-                                <input type="date" name="end" class="form-control">
+                                <input type="date" name="end" class="form-control" value={{end_date}}>
                             </div>
                         </div>
                         <div class="form-row">

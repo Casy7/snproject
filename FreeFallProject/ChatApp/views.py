@@ -204,8 +204,8 @@ class HikeEditor(View):
         context.update({
             'name': hike.name,
             'short_description': hike.short_description ,
-            'start_date':hike.start_date,
-            'end_date':hike.end_date,
+            'start_date':str(hike.start_date),
+            'end_date':str(hike.end_date),
             'difficulty':hike.difficulty,
             'type_of_hike':hike.type_of_hike,
             # '':hike.,
@@ -242,6 +242,7 @@ class AllHikes(View):
         stack_index = 0
         index = 0
         while index < len(hikes):
+
             stack_index = 0
             hike_row = []
             while stack_index < 4 and index<len(hikes):
@@ -253,8 +254,10 @@ class AllHikes(View):
                 text['start_date'] = hike.start_date
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
+
                 if len(text['short_description'])>200:
                     text['short_description'] = text['short_description'][0:198]+'...'
+
                 hike_row.append(text)
                 stack_index += 1
                 index += 1
@@ -265,7 +268,9 @@ class AllHikes(View):
 
 
 class MapOfHike(View):
+
     def get(self, request, id):
+
         context = base_context(request, title='Map')
         text = {}
         hike = Hike.objects.get(id=id)
@@ -280,20 +285,26 @@ class SetHike(View):
         hike = Hike.objects.get(id=id)
         context = base_context(request, title=hike.name, header = hike.name)
         text = {}
+
         text['name'] = hike.name
         text['start_date'] = hike.start_date
         text['end_date'] = hike.end_date
         text['short_description'] = hike.short_description
         text['description'] = hike.description
         text['link'] = '/map/' + str(hike.id)
+
         landmarks = []
         for landmark in hike.landmarks.all():
             landmarks.append(landmark.name)
+
         text['landmarks'] = hike.landmarks
         participants = []
+
         for participant in User.objects.filter(hike__participants = id):
             participants.append(participant.username)
+
         text['participants'] = participants
         text['coordinates'] = hike.coordinates
         context['content'] = text
+
         return render(request, "hike.html", context)
