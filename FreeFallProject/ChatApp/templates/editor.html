@@ -123,23 +123,27 @@
             </div>
 
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div>
+                <div id = "track">
 
                     <div class="container" name = "day">
                         <br>
                         <div class="row">
                             <div class="col-sm">
-                                <input type="text" class="form-control" name="day_1" placeholder="День 1" onkeypress=""
+                                <input type="text" class="form-control" name="day_desc" placeholder="День 1"
                                     value="">
                             </div>
                             <div class="col-sm">
-                                    <input type="text" class="form-control" name="day_1" placeholder="Координаты старта" onkeypress=""
+                                    <input type="text" class="form-control" name="start_day" placeholder="Координаты старта"
                                     value="">
                             </div>
                             <div class="col-sm">
-                                    <input type="text" class="form-control" name="day_1" placeholder="Координаты лагеря" onkeypress=""
+                                    <input type="text" class="form-control" name="end_day" placeholder="Координаты лагеря"
                                     value="">
-                            </div>                       
+                            </div>  
+                            <div class="col-sm-1">
+                                    <input type="button" class="form-control" value="+" onclick="add_day()"
+                                    value="">
+                            </div>                                                 
                         </div>
                     </div>
 
