@@ -256,10 +256,10 @@ class HikeEditor(View):
         i = 0
         while True:
             if form.get("start_day"+str(i)) != None:
-                tpl = tuple(form["start_day"+str(i)].replace("(","").replace(")","").split(";"))
+                tpl = form["start_day"+str(i)].replace("(","").replace(")","").split(";")
 
                 coordinates.append(tpl)
-                tpl = tuple(form["end_day"+str(i)].replace("(","").replace(")","").split(";"))
+                tpl = form["end_day"+str(i)].replace("(","").replace(")","").split(";")
 
                 coordinates.append(tpl)
                 i+=1

@@ -5,9 +5,10 @@
 
 .card {
     height: auto;
-    box-sizing: content-box;
+    
     width: 25%;
-    height: 20%;
+    height: 40%;
+    box-sizing: border-box;
     box-shadow: 1px solid gray;
 }
 

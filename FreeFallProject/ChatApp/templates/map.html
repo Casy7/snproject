@@ -13,14 +13,26 @@
            <div id="osm_map" style="width:1200px;height:500px"></div>
 
     <script>
+
       coordinates = {{content.coordinates|safe}};
       mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-      var osm_map = new mapboxgl.Map({
+      
+          if (coordinates){
+          var osm_map = new mapboxgl.Map({
           container: 'osm_map',
           style: 'mapbox://styles/mapbox/bright-v9',
           center: coordinates[Math.floor(coordinates.length/2)],
           zoom: 14 
-      });
+          })
+          }
+          else{
+          var osm_map = new mapboxgl.Map({
+          container: 'osm_map',
+          style: 'mapbox://styles/mapbox/bright-v9',
+          center: [0,0],
+          zoom: 14 
+          })   
+          }
      
       osm_map.addControl(new mapboxgl.NavigationControl());
 
@@ -34,14 +46,57 @@
  
       for (i = 0; i < coordinates.length; i++) {
       var el = document.createElement('div');
+      el.content='1';
+      el.textContent = '1';
       el.className = 'marker';
-      el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
-      el.style.width = '50px';
-      el.style.height = '50px';
+       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+      // el.style.width = '50px';
+      // el.style.height = '50px';
       var x = coordinates[i][0];
       var y = coordinates[i][1];
       var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}}).setLngLat([x, y]).addTo(osm_map);
       }
+
+      // var geojson = [
+      //   {
+      //     type: 'Feature',
+      //     geometry: {
+      //       type: 'Point',
+      //       coordinates: [-77.031952, 38.913184]
+      //     },
+      //     properties: {
+      //       'marker-color': '#3bb2d0',
+      //       'marker-size': 'large',
+      //       'marker-symbol': 'rocket'
+      //     }
+      //   },
+      //   {
+      //     type: 'Feature',
+      //     geometry: {
+      //       type: 'Point',
+      //       coordinates: [-122.413682, 37.775408]
+      //     },
+      //     properties: {
+      //       'marker-color': '#3bb2d0',
+      //       'marker-size': 'large',
+      //       'marker-symbol': 'rocket'
+      //     }
+      //   }
+      // ];
+
+      // geojson.features.forEach(function(marker) {
+
+      //   // create a HTML element for each feature
+      //   var el = document.createElement('div');
+      //   el.className = 'marker';
+
+      //   // make a marker for each feature and add to the map
+      //   new mapboxgl.Marker(el)
+      //     .setLngLat(marker.geometry.coordinates)
+      //     .addTo(osm_map);
+      //   });
+
+      //var myLayer = L.mapbox.featureLayer().setGeoJSON(geojson).addTo(osm_map);
 
       osm_map.on('load', function () {
  
@@ -91,4 +146,3 @@
   </body>
 </html>
 {% endblock %}
-

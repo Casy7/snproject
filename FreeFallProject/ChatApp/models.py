@@ -19,8 +19,8 @@ class Landmark(models.Model):
 class Hike(models.Model):
     creator = models.ForeignKey(User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default='A new hike')
-    description = models.CharField(max_length=200000, default='desc')
-    short_description = models.CharField(max_length=1000, default='short desc')
+    description = models.CharField(max_length=200000, default='')
+    short_description = models.CharField(max_length=1000, default='')
 
     participants = models.ManyToManyField(User, blank=True)
 
