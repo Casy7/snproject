@@ -251,6 +251,23 @@ class HikeEditor(View):
 
         hike = Hike.objects.get(id = id)
         hike.name = form['name']
+
+        coordinates = []
+        i = 0
+        while True:
+            if form.get("start_day"+str(i)) != None:
+                tpl = tuple(form["start_day"+str(i)].replace("(","").replace(")","").split(";"))
+
+                coordinates.append(tpl)
+                tpl = tuple(form["end_day"+str(i)].replace("(","").replace(")","").split(";"))
+
+                coordinates.append(tpl)
+                i+=1
+
+            else:
+                break
+
+
         hike.creator=user
         hike.short_description=form['short_description']
         hike.description=form['description']
@@ -258,6 +275,7 @@ class HikeEditor(View):
         hike.end_date=form['end']
         hike.difficulty=form['difficulty']
         hike.type_of_hike=form['type']
+        hike.coordinates = str(coordinates)
             
         
         hike.save()
