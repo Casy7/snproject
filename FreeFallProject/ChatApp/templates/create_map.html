@@ -21,34 +21,25 @@
 
     <script>
 
-      coordinates = {{content.coordinates|safe}};
       mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
       
-          if (coordinates){
+
           var osm_map = new mapboxgl.Map({
           container: 'osm_map',
           style: 'mapbox://styles/mapbox/bright-v9',
-          center: coordinates[Math.floor(coordinates.length/2)],
+          center: [3.420253241560829,46.124064037019906],
           zoom: 14 
-          })
-          }
-          else{
-          var osm_map = new mapboxgl.Map({
-          container: 'osm_map',
-          style: 'mapbox://styles/mapbox/bright-v9',
-          center: [0,0],
-          zoom: 14 
-          })   
-          }
+        });
      
       osm_map.addControl(new mapboxgl.NavigationControl());
 
-      
+          
 
 
 
     </script>
 Выберите день: <input type="number", min="0", max="99", id = "day", value = "0" />
+<button name="button">Создать маршрут</button>
     <script>
         var coordinates = []
         osm_map.on('click', function (e) {
@@ -64,14 +55,12 @@
         var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
             .setLngLat(e.lngLat.wrap())
             .addTo(osm_map);
-            alert([e.lngLat.toArray(), day]);
-
-
+            alert([day, [e.lngLat.toArray()]]);
 
     });
     
 
-        </script>
+    </script>
     </body>
     </html>
 {% endblock %}
