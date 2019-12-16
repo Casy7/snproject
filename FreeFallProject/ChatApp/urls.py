@@ -15,6 +15,7 @@ urlpatterns = [
     path("all_hikes/", AllHikes.as_view(), name="all_hikes"),
     path('hike/<int:id>/', SetHike.as_view(), name="hike"),
     path('map/<int:id>/', MapOfHike.as_view(), name="map"),
+    path('create_map/<int:id>/', CreateMap.as_view(), name="create_map"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     # staticfiles_urlpatterns(),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

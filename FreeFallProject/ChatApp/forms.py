@@ -11,3 +11,5 @@ class HikeForm(forms.Form):
     end_date = forms.DateField(required=True)
    
     coordinates = forms.CharField(max_length=200000)
+from django.contrib.auth.forms import UserCreationForm
+
