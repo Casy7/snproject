@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<!-- NICHT ANFASSEN -->
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+
+  </head>
+  <body>
+           <div id="osm_map" style="width:1200px;height:500px"></div>
+
+    <script>
+
+      coordinates = {{content.coordinates|safe}};
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+      
+          if (coordinates){
+          var osm_map = new mapboxgl.Map({
+          container: 'osm_map',
+          style: 'mapbox://styles/mapbox/bright-v9',
+          center: coordinates[Math.floor(coordinates.length/2)],
+          zoom: 14 
+          })
+          }
+          else{
+          var osm_map = new mapboxgl.Map({
+          container: 'osm_map',
+          style: 'mapbox://styles/mapbox/bright-v9',
+          center: [0,0],
+          zoom: 14 
+          })   
+          }
+     
+      osm_map.addControl(new mapboxgl.NavigationControl());
+
+      
+
+
+
+    </script>
+Выберите день: <input type="number", min="0", max="99", id = "day", value = "0" />
+    <script>
+        var coordinates = []
+        osm_map.on('click', function (e) {
+            
+            var day = (document.getElementById("day").value)
+            var el = document.createElement('div');
+        el.content=day;
+        el.textContent = day;
+        el.className = 'marker';
+        el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+        
+        
+        var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
+            .setLngLat(e.lngLat.wrap())
+            .addTo(osm_map);
+            alert([e.lngLat.toArray(), day]);
+
+
+
+    });
+    
+
+        </script>
+    </body>
+    </html>
+{% endblock %}

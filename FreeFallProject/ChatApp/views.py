@@ -345,6 +345,18 @@ class MapOfHike(View):
         return render(request, "map.html", context)
 
 
+class CreateMap(View):
+
+    def get(self, request, id):
+
+        context = base_context(request, title='Map')
+        text = {}
+        hike = Hike.objects.get(id=id)
+        text['coordinates'] = hike.coordinates
+        context['content'] = text
+        return render(request, "create_map.html", context)
+
+
 class SetHike(View):
     def get(self, request, id):
 
@@ -358,6 +370,7 @@ class SetHike(View):
         text['end_date'] = hike.end_date
         text['short_description'] = hike.short_description
         text['description'] = hike.description
+        text['coordinates'] = hike.coordinates
         text['link'] = '/map/' + str(hike.id)
 
         landmarks = []
