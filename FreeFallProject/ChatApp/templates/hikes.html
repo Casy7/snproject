@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
-<head>
-    <title>Hikes</title>
-</head>
-
+<link rel="stylesheet" href="{% static 'css/hikes.css' %}">
 <body>
     {% for hike_row in hike %}
-    <div class="card-deck text-center" style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
+    <div class="card-deck text-center"
+        style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
         {% for hike in hike_row %}
 
         <div class="card"><a href={{hike.link}}>
-            
-            <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
-            <h2 class="card-title">{{hike.name}}</h2>
-            <div class="card-body">
-                
-                <p class="card-text">{{hike.short_description}}</p>
-                <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
-            </div></a>
+                {% if hike.image != '' %}
+                <img class="card-img-top" src={{hike.image.url}} alt="Card image cap">
+                {% else %}
+                <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
+                {% endif %}
+                <h2 class="card-title">{{hike.name}}</h2>
+                <div class="card-body">
+
+                    <p class="card-text">{{hike.short_description}}</p>
+                    <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
+                </div>
+            </a>
         </div>
 
         {% endfor %}

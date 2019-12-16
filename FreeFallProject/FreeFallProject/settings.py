@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '3141592653589793238',
         'HOST': '',
-        'PORT': 5050, # 5432 by default, or 5050 for my PC
+        'PORT': 5432, # 5432 by default, or 5050 for my PC
     }
 }
 
@@ -125,3 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'C:/FreeFallImages/'
+MEDIA_URL = '/media/'
+
+# MEDIA_URL = 'C:/FreeFallImages/'
+# MEDIA_ROOT = 'C:/FreeFallImages/'

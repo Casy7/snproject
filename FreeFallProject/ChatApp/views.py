@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import *
+from django.core.files import File
 
+from .models import *
+from .forms import *
 
 def new_format(coordinates):
     coordinates = list(coordinates.split(";"))
@@ -116,9 +118,11 @@ class UserLogin(View):
     # form_class = LoginUser
 
     def get(self, request):
+
         context = base_context(
             request, title='Login', header='Login', error=0)
         context['error'] = 0
+        
         # context['form'] = self.form_class()
         return render(request, "login.html", context)
 
@@ -153,10 +157,12 @@ class NewHike(View):
     def get(self, request):
         context = base_context(
             request, title='New Hike', header='Новый поход', error=0)
+        context['form'] = HikeForm()
         if context['username'] != '':
             return render(request, "new_hike.html", context)
         else:
             context['error'] = 2
+            
         # context['form'] = self.form_class()
             return render(request, "login.html", context)
 
@@ -186,6 +192,7 @@ class NewHike(View):
         hike = Hike(
             name=form['name'],
             creator=user,
+            
             short_description=form['short_description'],
             # description=form['description'],
             start_date=form['start'],
@@ -195,6 +202,8 @@ class NewHike(View):
             # coordinates=new_format(form['coordinates'])
         )
         hike.save()
+        if request.FILES != []:
+            hike.image = request.FILES['image']
         participants = participants_format(form['participants'])
         for pt in participants:
             hike.participants.add(pt)
@@ -318,6 +327,11 @@ class AllHikes(View):
                 text['link'] = '/hike/' + str(hike.id)
                 text['name'] = hike.name
                 text['start_date'] = hike.start_date
+
+                if hike.image.name is not None:
+                    text['image']= hike.image
+                else:
+                    text['image']=''
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
 
