@@ -12,7 +12,7 @@
         <body>
             <p>{{content.start_date}} - {{content.end_date}}</p>
             <p>{{content.short_description}}</p>
-            <p>Создатель: {{content.creator}}</p>
+            <p>Создатель: {{content.creator.first_name}} {{content.creator.last_name}}</p>
             <pre>{{content.description|safe}}</pre>
             <h2 class="h2">Достопримечательности:</h2>
             {% for name in content.landmarks.all %}
