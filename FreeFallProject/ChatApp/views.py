@@ -380,7 +380,7 @@ class SetHike(View):
         text['landmarks'] = hike.landmarks
         participants = []
 
-        for participant in User.objects.filter(hike__participants = id):
+        for participant in hike.participants.all():
             participants.append(participant.username)
 
         text['participants'] = participants
