@@ -219,6 +219,12 @@ class HikeEditor(View):
 
         context = base_context(
             request, title='Track', header='Изменение похода: '+hike.name)
+        
+        if hike.image.name is not None:
+            context['image']= hike.image
+        else:
+            context['image']=''
+
         if context['username'] != '' and request.user == hike.creator:
             context.update({
                 'name': hike.name,
@@ -386,7 +392,10 @@ class SetHike(View):
         text['description'] = hike.description
         text['coordinates'] = hike.coordinates
         text['link'] = '/map/' + str(hike.id)
-
+        if hike.image.name is not None:
+            text['image']= hike.image
+        else:
+            text['image']=''
         landmarks = []
         for landmark in hike.landmarks.all():
             landmarks.append(landmark.name)

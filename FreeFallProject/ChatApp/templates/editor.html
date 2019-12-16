@@ -7,6 +7,7 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <script src="{% static 'js/editor.js' %}"></script>
+
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 
@@ -30,6 +31,17 @@
 
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
+                    <label for="exampleFormControlInput1">Аватар похода</label>
+                    {% if image == '' %}
+                    <img src="{% static 'icons/default.jpg' %}" id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    {% else %}
+                    <img src="{{ image.url }}" id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    {% endif %}
+                    <div class="custom-file" >
+                        <input type="file" name="image" id="myfile" accept=".jpg, .jpeg, .png">
+                    </div>
+                    <br><br>
+                    <script src="{% static 'js/image.js' %}"></script>
                     <div class="card-body">
                         <label for="exampleFormControlInput1">Название похода</label>
                         <div class="card-title"><span><input type="text" class="form-control" name="name"
