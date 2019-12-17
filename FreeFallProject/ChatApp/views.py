@@ -281,16 +281,16 @@ class HikeEditor(View):
 
             else:
                 break
-
-
         hike.creator=user
+
+        
         hike.short_description=form['short_description']
         hike.description=form['description']
         hike.start_date=form['start']
         hike.end_date=form['end']
         hike.difficulty=form['difficulty']
         hike.type_of_hike=form['type']
-        hike.coordinates = str(coordinates)
+        # hike.coordinates = str(coordinates)
             
         if request.FILES['image'].name is not None:
             hike.image = request.FILES['image']
