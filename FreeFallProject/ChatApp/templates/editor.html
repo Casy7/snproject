@@ -33,9 +33,9 @@
                 <div class="card-body">
                     <label for="exampleFormControlInput1">Аватар похода</label><br>
                     {% if image == '' %}
-                    <img src="{% static 'icons/default.jpg' %}" id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    <img src="{% static 'icons/default.jpg' %}" name = 'image' id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
                     {% else %}
-                    <img src="{{ image.url }}" id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    <img src="{{ image.url }}" id = "myimg" name = 'image' class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
                     {% endif %}
                     <div class="custom-file" >
                         <input type="file" name="image" id="myfile" accept=".jpg, .jpeg, .png">

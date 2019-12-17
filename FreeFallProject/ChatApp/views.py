@@ -292,7 +292,9 @@ class HikeEditor(View):
         hike.type_of_hike=form['type']
         hike.coordinates = str(coordinates)
             
-        
+        if request.FILES['image'].name is not None:
+            hike.image = request.FILES['image']
+
         hike.save()
         participants = participants_format(form['participants'])
         already_in_hike = User.objects.filter(hike__participants = id)
