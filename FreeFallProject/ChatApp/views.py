@@ -378,6 +378,21 @@ class CreateMap(View):
         context['content'] = text
         return render(request, "create_map.html", context)
 
+    def post(self, request, id):
+        context = base_context(request)
+        form = request.POST
+
+        data=form['coordinates'].split(',')
+        coordinates = []
+        for i in range (len(data)//3):
+            coordinates.append([int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+
+        hike = Hike.objects.get(id=id)
+        hike.coordinates = coordinates
+        print(coordinates)
+        hike.save()
+        return render(request, "hikes.html", context)
+
 
 class SetHike(View):
     def get(self, request, id):

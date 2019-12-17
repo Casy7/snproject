@@ -39,7 +39,8 @@
 
     </script>
 Выберите день: <input type="number", min="0", max="99", id = "day", value = "0" />
-<button name="button">Создать маршрут</button>
+<form method="POST" enctype="multipart/form-data">
+  {%csrf_token%}
     <script>
         var coordinates = []
         osm_map.on('click', function (e) {
@@ -55,12 +56,18 @@
         var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
             .setLngLat(e.lngLat.wrap())
             .addTo(osm_map);
-            alert([day, [e.lngLat.toArray()]]);
+            coordinates.push(Array(Number(day), e.lngLat.toArray()))
+            document.getElementById("coords").value = coordinates;
 
     });
+
+
     
 
     </script>
+    <input name = "coordinates" id = "coords" type = "hidden">
+    <input type="submit" value="Создать">
+  </form>
     </body>
     </html>
 {% endblock %}
