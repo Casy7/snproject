@@ -1,0 +1,18 @@
+.mapboxgl-canvas{
+    height: 500px !important;
+    width: 1200px !important;
+}
+.mapboxgl-map{
+    height: 999px;
+
+}
+.mapboxgl-ctrl-bottom-right{
+    display: none !important;
+}
+.mapboxgl-ctrl-bottom-left{
+    display: none !important;
+}
+canvas .mapboxgl-canvas{
+    height: 500px !important;
+    width: 1200px !important; 
+}

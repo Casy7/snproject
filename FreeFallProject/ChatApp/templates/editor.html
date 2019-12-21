@@ -20,24 +20,25 @@
 <!-- <link rel="stylesheet" href="{% static 'styles/hike.css' %}"> -->
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
-    <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="headingOne">
-                <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse1">
                     Базовые параметры
                 </button>
             </div>
 
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapse1" class="panel-collapse collapse">
                 <div class="card-body">
                     <label for="exampleFormControlInput1">Аватар похода</label><br>
                     {% if image == '' %}
-                    <img src="{% static 'icons/default.jpg' %}" name = 'image' id = "myimg" class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    <img src="{% static 'icons/default.jpg' %}" name='image' id="myimg" class="card-img-top"
+                        default="Фото не выбрано" style="height: 100px;width: auto;"></img>
                     {% else %}
-                    <img src="{{ image.url }}" id = "myimg" name = 'image' class="card-img-top" default="Фото не выбрано" style="height: 100px;width: auto;"></img>
+                    <img src="{{ image.url }}" id="myimg" name='image' class="card-img-top" default="Фото не выбрано"
+                        style="height: 100px;width: auto;"></img>
                     {% endif %}
-                    <div class="custom-file" >
+                    <div class="custom-file">
                         <input type="file" name="image" id="myfile" accept=".jpg, .jpeg, .png">
                     </div>
                     <br><br>
@@ -98,24 +99,29 @@
                             value="{{participants}}">
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
+                        <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
                     </div>
+
                 </div>
+
             </div>
+
         </div>
         <script>
             document.getElementById("sh_desc").value = "{{short_description}}";
             document.getElementById("difficulty").value = "{{difficulty}}";
             document.getElementById("type_of_hike").value = "{{type_of_hike}}";
         </script>
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    Подробное описание
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse2">
+
+                    Редактор описания
                 </button>
             </div>
 
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div id="collapse2" class="panel-collapse">
                 <div class="card-body">
                     <div id="toolbar-container" class="edtor">
 
@@ -126,43 +132,107 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="headingThree">
-                <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseThree"
-                    aria-expanded="true" aria-controls="collapseThree">
-                    Трек по дням
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse3">
+
+                    Достопримечательности
                 </button>
             </div>
 
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div>
-
-                    <div class="container" id = "track">
-                        <br>
-                        <div class="row" name = "day">
-                            <div class="col-sm">
-                                <input type="text" class="form-control" name="day_desc" placeholder="День 0"
-                                    value="">
-                            </div>
-                            <div class="col-sm">
-                                    <input type="text" class="form-control" name="start_day0" placeholder="Координаты старта"
-                                    value="">
-                            </div>
-                            <div class="col-sm">
-                                    <input type="text" class="form-control" name="end_day0" placeholder="Координаты лагеря"
-                                    value="">
-                            </div>  
-                            <div class="col-sm-1">
-                                    <input type="button" class="form-control" value="+" onclick="add_day()"
-                                    value="">
-                            </div>                               
+            <div id="collapse3" class="panel-collapse collapse">
+                <div class="container" id="track">
+                    <br>
+                    <div class="row" name="day">
+                        <div class="col-sm">
+                            <input type="text" class="form-control" name="day_desc" placeholder="День 0" value="">
                         </div>
-                        <br>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" name="start_day0" placeholder="Координаты старта"
+                                value="">
+                        </div>
+                        <div class="col-sm">
+                            <input type="text" class="form-control" name="end_day0" placeholder="Координаты лагеря"
+                                value="">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="button" class="form-control" value="+" onclick="add_day()" value="">
+                        </div>
                     </div>
-
-
+                    <br>
 
                 </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse4">
+                    Карта похода
+                </button>
+            </div>
+
+            <div id="collapse4" class="panel-collapse collapse">
+                <!--CODE OF EDITOR-->
+
+
+                <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+                <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet'/>
+                <link href="{% static 'css/editor.css' %}" rel='stylesheet'/>
+                <div id="osm_map" style="width:1200px;height:500px"></div>
+
+                <script>
+
+                    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+
+
+                    var osm_map = new mapboxgl.Map({
+                        container: 'osm_map',
+                        style: 'mapbox://styles/mapbox/bright-v9',
+                        center: [3.420253241560829, 46.124064037019906],
+                        zoom: 14
+                    });
+
+                    osm_map.addControl(new mapboxgl.NavigationControl());
+
+
+
+                </script>
+                Выберите день: <input type="number" , min="0" , max="99" , id="day" , value="0" />
+                <form method="POST" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <script>
+                        var coordinates = []
+                        osm_map.on('click', function (e) {
+
+                            var day = (document.getElementById("day").value)
+                            var el = document.createElement('div');
+                            el.content = day;
+                            el.textContent = day;
+                            el.className = 'marker';
+                            el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+
+
+                            var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
+                                .setLngLat(e.lngLat.wrap())
+                                .addTo(osm_map);
+                            coordinates.push(Array(Number(day), e.lngLat.toArray()))
+                            document.getElementById("coords").value = coordinates;
+
+                        });
+
+
+
+
+                    </script>
+                    <input name="coordinates" id="coords" type="hidden">
+                    <input type="submit" value="Создать">
+                </form>
+
+
+                <!--END OF CODE -->
             </div>
         </div>
     </div>

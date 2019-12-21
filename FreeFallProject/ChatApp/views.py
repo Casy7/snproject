@@ -294,7 +294,7 @@ class HikeEditor(View):
         hike.type_of_hike=form['type']
         hike.coordinates = str(coordinates)
             
-        if request.FILES['image'].name is not None:
+        if request.FILES['image'].name is not None and request.FILES['image'].name !='':
             hike.image = request.FILES['image']
 
         hike.save()
