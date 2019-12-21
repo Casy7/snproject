@@ -1,13 +1,15 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View, TemplateView
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View, TemplateView
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from django.core.files import File
-
+from django.db.models import Q
 from .models import *
 from .forms import *
+import datetime
+
 
 def new_format(coordinates):
     coordinates = list(coordinates.split(";"))
@@ -320,7 +322,12 @@ class AllHikes(View):
 
 
         context['hike'] = []
-        hikes = Hike.objects.all()
+        
+        hikes = Hike.objects.filter(start_date__gte=datetime.date.today()).order_by('creattion_datetime')
+        
+        # Возвращает список походов, начинающихся не ранее чем сегодня, 
+        # отсортированный по давности их создания.
+
         hike_stack = []
         stack_index = 0
         index = 0

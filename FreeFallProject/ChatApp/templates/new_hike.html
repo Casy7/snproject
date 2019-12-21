@@ -8,7 +8,7 @@
 <link href="{% static 'css/new_hike.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
@@ -24,14 +24,29 @@
         {%csrf_token%}
 
         <!-- <input type="file" class="form-control-file" id="exampleFormControlFile1"> -->
-        <div class="img-container">
+        <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
+            <div class="img-container">
+            <div class="container" id = "image_crop" style="display: none;">
+                <script src="{% static 'js/cropper.js' %}"></script>
+                <canvas id="testCanvas" name="img" width="600" height="300" style="cursor: move;"></canvas>
+                <br>
+                <div class="row">
+                    <div class="col-sm">
+                <input type="button" class="form-control" onclick="cropper.startCropping()" value="Select">
+            </div>
+            <div class="col-sm">
+                <input type="button" class="form-control" onclick="cropper.getCroppedImageSrc()" value="Crop">
+                </div><div class="col-sm">
+                <input type="button" class="form-control" onclick="cropper.restore()" value="Restore"></div>
+            </div>
+            <input type="file" name="image" id = "send_img" style="display: none;">
+            </div>
 
-            <img src="{% static 'icons/default.jpg' %}" id = "myimg" class="card-img-top" default="Фото не выбрано"></img>
 
             <!-- <i class="fas fa-camera upload"></i> -->
             <div class="card-body">
-                <div class="custom-file" >
-                    <input type="file" name="image" id="myfile" accept=".jpg, .jpeg, .png">
+                <div class="custom-file">
+                    <input type="file" name="images" id="myfile" accept=".jpg, .jpeg, .png">
                 </div>
                 <br><br>
                 <script src="{% static 'js/new_hike.js' %}"></script>
@@ -42,7 +57,8 @@
                 </div>
                 <label for="exampleFormControlInput1">Краткое описание</label>
                 <span>
-                    <textarea class="form-control" name="short_description" placeholder="Пару строк о походе"></textarea>
+                    <textarea class="form-control" name="short_description"
+                        placeholder="Пару строк о походе"></textarea>
                 </span>
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
