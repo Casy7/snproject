@@ -373,6 +373,18 @@ a.article, a.article:hover {
     margin: 5px auto;
 }
 
+.list-inline {
+    white-space:nowrap;
+  }
+  
+.DocumentList
+{
+    overflow-x:scroll;
+    overflow-y:hidden;
+    height:100%;
+    width:100%;
+    padding: 0 15px;
+}
 
 /* ---------------------------------------------------
     MEDIAQUERIES

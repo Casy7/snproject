@@ -359,6 +359,7 @@
 			}
 
 			cropping = false;
+			get_image(url);
 			return url;
 		} else {
 			return false;

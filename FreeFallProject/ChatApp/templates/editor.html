@@ -29,6 +29,9 @@
             </div>
 
             <div id="collapse1" class="panel-collapse collapse">
+
+
+
                 <div class="card-body">
                     <label for="exampleFormControlInput1">Аватар похода</label><br>
                     {% if image == '' %}
@@ -94,19 +97,78 @@
 
                         </div>
                         <label for="exampleFormControlInput6">Участники</label>
-                        <input id="participants" type="text" class="form-control" name="participants"
-                            placeholder="Введите никнеймы через запятую" onkeypress="format_names()"
-                            value="{{participants}}">
+                        <div class="DocumentList">
+                            <ul class="list-inline" id="inline-userlist">
+
+                                {% for participant in participants %}
+                                <li class="DocumentItem" name={{participant}} id="{{participant}}">
+                                    <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
+                                        <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top"
+                                            style="width: 100%;height: 100%;"></img>
+                                        <span style="text-align:center">{{participant}}</span>
+                                        <button type="button" class="form-control" style="height:20px; border: none;"
+                                            onclick="del_user('{{participant}}')">-</button>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                <li class="DocumentItem" name="add-user" id="add-user">
+
+                                    <div class="card"
+                                        style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
+                                        <img src="{% static 'icons/add-new.png' %}" class="card-img-top"
+                                            style="width: 100%;"></img>
+                                        <input type="text" class="forn-control" id="new-user"
+                                            style="width: 100%;height: 22.5px;border: none;" placeholder="Новый"
+                                            value="">
+                                        <button type="button" class="form-control" style="height:20px; border: none;"
+                                            onclick="add_user()">+</button>
+                                    </div>
+                                    <input type="hidden" id="list-usrs" name="participants" value="">
+                                    <script>
+                                        function add_user() {
+                                            users = document.getElementById('list-usrs');
+                                            // alert(users.value);
+                                            if (users.value == "") {
+
+                                                var users = "{{participants}}";
+                                                users = users.replace(/&#39;/g, '');
+                                                users = users.replace('[', '');
+                                                users = users.replace(']', '');
+                                                users = users.split(", ");
+                                                // alert('okay');
+
+                                                document.getElementById('list-usrs').value = users.toString();
+                                                // alert($('#list-usrs').value);
+                                                // alert(typeof document.getElementById('new-user').value);
+                                                if (document.getElementById('new-user').value != "") {
+                                                    // alert("!!!!")
+                                                    add_ptc();
+                                                }
+
+                                            }
+                                            else {
+                                                if (document.getElementById('new-user').value != "") {
+                                                    add_ptc();
+                                                }
+                                            }
+                                        }
+                                    </script>
+                                </li>
+                            </ul>
+                        </div>
+                        
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
                         <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
                     </div>
-
                 </div>
+
 
             </div>
 
         </div>
+
+
         <script>
             document.getElementById("sh_desc").value = "{{short_description}}";
             document.getElementById("difficulty").value = "{{difficulty}}";
@@ -143,9 +205,18 @@
             </div>
 
             <div id="collapse3" class="panel-collapse collapse">
-                <div class="container" id="track">
+                <div class="panel-group" id="track" style="display: inline-block;">
                     <br>
-                    <div class="row" name="day">
+                    <div class="card" style="width:100px;">
+                        <div class="card-body">
+                            Что-то крутое
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- <div class="row" name="day">
                         <div class="col-sm">
                             <input type="text" class="form-control" name="day_desc" placeholder="День 0" value="">
                         </div>
@@ -160,7 +231,7 @@
                         <div class="col-sm-1">
                             <input type="button" class="form-control" value="+" onclick="add_day()" value="">
                         </div>
-                    </div>
+                    </div> -->
                     <br>
 
                 </div>
@@ -179,8 +250,8 @@
 
 
                 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-                <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet'/>
-                <link href="{% static 'css/editor.css' %}" rel='stylesheet'/>
+                <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+                <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
                 <div id="osm_map" style="width:1200px;height:500px"></div>
 
                 <script>
@@ -201,46 +272,46 @@
 
                 </script>
                 Выберите день: <input type="number" , min="0" , max="99" , id="day" , value="0" />
-                <form method="POST" enctype="multipart/form-data">
-                    {%csrf_token%}
-                    <script>
-                        var coordinates = []
-                        osm_map.on('click', function (e) {
 
-                            var day = (document.getElementById("day").value)
-                            var el = document.createElement('div');
-                            el.content = day;
-                            el.textContent = day;
-                            el.className = 'marker';
-                            el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+                {%csrf_token%}
+                <script>
+                    var coordinates = []
+                    osm_map.on('click', function (e) {
 
-
-                            var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
-                                .setLngLat(e.lngLat.wrap())
-                                .addTo(osm_map);
-                            coordinates.push(Array(Number(day), e.lngLat.toArray()))
-                            document.getElementById("coords").value = coordinates;
-
-                        });
+                        var day = (document.getElementById("day").value)
+                        var el = document.createElement('div');
+                        el.content = day;
+                        el.textContent = day;
+                        el.className = 'marker';
+                        el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
 
 
+                        var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
+                            .setLngLat(e.lngLat.wrap())
+                            .addTo(osm_map);
+                        coordinates.push(Array(Number(day), e.lngLat.toArray()))
+                        document.getElementById("coords").value = coordinates;
+
+                    });
 
 
-                    </script>
-                    <input name="coordinates" id="coords" type="hidden">
-                    <input type="submit" value="Создать">
-                </form>
+
+
+                </script>
+                <input name="coordinates" id="coords" type="hidden">
+                <input type="submit" value="Создать">
+
 
 
                 <!--END OF CODE -->
             </div>
-        </div>
+        </div><input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
     </div>
 
 
     <br>
-    <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
-    </div>
+
+
     <script src="{% static '/js/editor.js' %}" type="text/javascript"></script>
 </form>
 

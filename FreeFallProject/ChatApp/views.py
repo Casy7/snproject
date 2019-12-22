@@ -59,6 +59,20 @@ def participants_format(participants):
     return pt_list
 
 
+def participants_new_format(participants):
+    participants = str(participants)
+    participants = participants.split(sep=',')
+
+    pt_list = []
+    for pt in participants:
+        if pt != '':
+
+            user = User.objects.filter(username=pt)
+            if list(user) != []:
+                pt_list.append(user[0])
+    return pt_list
+
+
 def parts_revert_format(participants):
     text_format = ""
     for pt in participants:
@@ -157,9 +171,12 @@ class UserLogin(View):
 
 class NewHike(View):
     def get(self, request):
+        photo_form = PhotoForm()
         context = base_context(
             request, title='New Hike', header='Новый поход', error=0)
+
         context['form'] = HikeForm()
+        context['photo_form'] = photo_form
         if context['username'] != '':
             return render(request, "new_hike.html", context)
         else:
@@ -204,9 +221,9 @@ class NewHike(View):
             # coordinates=new_format(form['coordinates'])
         )
         hike.save()
-        if request.FILES != []:
+        if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
-        participants = participants_format(form['participants'])
+        participants = participants_new_format(form['participants'])
         for pt in participants:
             hike.participants.add(pt)
         hike.save()
@@ -228,6 +245,9 @@ class HikeEditor(View):
             context['image']=''
 
         if context['username'] != '' and request.user == hike.creator:
+            participants = []
+            for user in hike.participants.all():
+                participants.append(user.username)
             context.update({
                 'name': hike.name,
                 'short_description': hike.short_description,
@@ -236,11 +256,12 @@ class HikeEditor(View):
                 'difficulty':hike.difficulty,
                 'type_of_hike':hike.type_of_hike,
                 
-                'participants':parts_revert_format(User.objects.filter(hike__participants = id)),
+                'participants':participants,
                 # '':hike.,
                 'description':hike.description,
                 'coordinates':hike.coordinates,
             })
+
             return render(request, "editor.html", context)
 
         else:
@@ -294,12 +315,13 @@ class HikeEditor(View):
         hike.type_of_hike=form['type']
         hike.coordinates = str(coordinates)
             
-        if request.FILES['image'].name is not None and request.FILES['image'].name !='':
+        if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
 
         hike.save()
-        participants = participants_format(form['participants'])
-        already_in_hike = User.objects.filter(hike__participants = id)
+        # participants = participants_format(form['participants'])
+        participants = participants_new_format(form['participants'])
+        already_in_hike = hike.participants.all()
         for pt in participants:
             if pt not in already_in_hike:
                 hike.participants.add(pt)
