@@ -32,8 +32,9 @@ def base_context(request, **args):
         context['username'] = user.username
         context['user'] = user
         context['hikes'] = []
-        hikes = Hike.objects.filter(creator=user)
-
+        hikes = Hike.objects.filter(creator=user).order_by('creation_datetime')
+        if len(hikes)>10:
+            hikes = hikes[:10]
         for hike in hikes:
             context['hikes'].append([hike.name, hike.id])
     else:
@@ -348,7 +349,7 @@ class AllHikes(View):
 
         context['hike'] = []
         
-        hikes = Hike.objects.filter(start_date__gte=datetime.date.today()).order_by('creattion_datetime')
+        hikes = Hike.objects.filter(start_date__gte=datetime.date.today()).order_by('creation_datetime')
         
         # Возвращает список походов, начинающихся не ранее чем сегодня, 
         # отсортированный по давности их создания.
