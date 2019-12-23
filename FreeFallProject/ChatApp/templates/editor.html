@@ -6,11 +6,11 @@
 <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-<script src="{% static 'js/editor.js' %}"></script>
+
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
-
+<script src="{% static 'js/editor.js' %}"></script>
 <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> -->
 <!-- 
@@ -194,7 +194,7 @@
         </div>
 
 
-        <div class="panel panel-default">
+        <!-- <div class="panel panel-default">
             <div class="panel-heading">
                 <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse3">
 
@@ -212,7 +212,11 @@
 
 
                     </div>
+                    <br>
 
+                </div>
+            </div>
+        </div> -->
 
                     <!-- <div class="row" name="day">
                         <div class="col-sm">
@@ -230,11 +234,7 @@
                             <input type="button" class="form-control" value="+" onclick="add_day()" value="">
                         </div>
                     </div> -->
-                    <br>
 
-                </div>
-            </div>
-        </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -265,7 +265,7 @@
                     });
 
                     osm_map.addControl(new mapboxgl.NavigationControl());
-
+                    // osm_map.update();
 
 
                 </script>
@@ -281,7 +281,7 @@
                         el.content = day;
                         el.textContent = day;
                         el.className = 'marker';
-                        el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+                        el.style.backgroundImage = "url(https://i.stack.imgur.com/ZR00X.png)";
 
 
                         var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
