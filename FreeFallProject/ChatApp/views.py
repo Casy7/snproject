@@ -168,6 +168,9 @@ class UserLogin(View):
         else:
             return HttpResponse("Data isn't valid")
 
+class AddLandmark(View):
+    def post(self, request):
+        context = request.POST
 
 class NewHike(View):
     def get(self, request):

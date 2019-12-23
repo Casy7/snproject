@@ -16,3 +16,12 @@ canvas .mapboxgl-canvas{
     height: 500px !important;
     width: 1200px !important; 
 }
+.panel-heading{
+    background-color:rgb(243, 243, 243) ;
+    border: 1px solid white;
+}
+.btn :hover, :focus{
+    /* background-color:rgb(221, 221, 221) ; */
+    /* border: 2px solid white; */
+    box-shadow: none !important;
+}
