@@ -97,66 +97,64 @@
 
                         </div>
                         <label for="exampleFormControlInput6">Участники</label>
-                        <div class="DocumentList">
-                            <ul class="list-inline" id="inline-userlist">
+                        <ul class="list-inline" id="inline-userlist">
 
-                                {% for participant in participants %}
-                                <li class="DocumentItem" name={{participant}} id="{{participant}}">
-                                    <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
-                                        <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top"
-                                            style="width: 100%;height: 100%;"></img>
-                                        <span style="text-align:center">{{participant}}</span>
-                                        <button type="button" class="form-control" style="height:20px; border: none;"
-                                            onclick="del_user('{{participant}}')">-</button>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                                <li class="DocumentItem" name="add-user" id="add-user">
+                            {% for participant in participants %}
+                            <li class="list-inline-item" name={{participant}} id="{{participant}}">
+                                <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
+                                    <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top"
+                                        style="width: 100%;height: 100%;"></img>
+                                    <span style="text-align:center">{{participant}}</span>
+                                    <button type="button" class="form-control" style="height:20px; border: none;"
+                                        onclick="del_user('{{participant}}')">-</button>
+                                </div>
+                            </li>
+                            {% endfor %}
+                            <li class="list-inline-item" name="add-user" id="add-user">
 
-                                    <div class="card"
-                                        style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
-                                        <img src="{% static 'icons/add-new.png' %}" class="card-img-top"
-                                            style="width: 100%;"></img>
-                                        <input type="text" class="forn-control" id="new-user"
-                                            style="width: 100%;height: 22.5px;border: none;" placeholder="Новый"
-                                            value="">
-                                        <button type="button" class="form-control" style="height:20px; border: none;"
-                                            onclick="add_user()">+</button>
-                                    </div>
-                                    <input type="hidden" id="list-usrs" name="participants" value="">
-                                    <script>
-                                        function add_user() {
-                                            users = document.getElementById('list-usrs');
-                                            // alert(users.value);
-                                            if (users.value == "") {
+                                <div class="card"
+                                    style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
+                                    <img src="{% static 'icons/add-new.png' %}" class="card-img-top"
+                                        style="width: 100%;"></img>
+                                    <input type="text" class="forn-control" id="new-user"
+                                        style="width: 100%;height: 22.5px;border: none;" placeholder="Новый" value="">
+                                    <button type="button" class="form-control" style="height:20px; border: none;"
+                                        onclick="add_user()">+</button>
+                                </div>
+                                <input type="hidden" id="list-usrs" name="participants" value="">
+                                <script>
+                                    function add_user() {
+                                        users = document.getElementById('list-usrs');
+                                        // alert(users.value);
+                                        if (users.value == "") {
 
-                                                var users = "{{participants}}";
-                                                users = users.replace(/&#39;/g, '');
-                                                users = users.replace('[', '');
-                                                users = users.replace(']', '');
-                                                users = users.split(", ");
-                                                // alert('okay');
+                                            var users = "{{participants}}";
+                                            users = users.replace(/&#39;/g, '');
+                                            users = users.replace('[', '');
+                                            users = users.replace(']', '');
+                                            users = users.split(", ");
+                                            // alert('okay');
 
-                                                document.getElementById('list-usrs').value = users.toString();
-                                                // alert($('#list-usrs').value);
-                                                // alert(typeof document.getElementById('new-user').value);
-                                                if (document.getElementById('new-user').value != "") {
-                                                    // alert("!!!!")
-                                                    add_ptc();
-                                                }
-
+                                            document.getElementById('list-usrs').value = users.toString();
+                                            // alert($('#list-usrs').value);
+                                            // alert(typeof document.getElementById('new-user').value);
+                                            if (document.getElementById('new-user').value != "") {
+                                                // alert("!!!!")
+                                                add_ptc();
                                             }
-                                            else {
-                                                if (document.getElementById('new-user').value != "") {
-                                                    add_ptc();
-                                                }
+
+                                        }
+                                        else {
+                                            if (document.getElementById('new-user').value != "") {
+                                                add_ptc();
                                             }
                                         }
-                                    </script>
-                                </li>
-                            </ul>
-                        </div>
-                        
+                                    }
+                                </script>
+                            </li>
+                        </ul>
+
+
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
                         <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">

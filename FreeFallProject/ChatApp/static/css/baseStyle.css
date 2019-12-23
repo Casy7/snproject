@@ -374,16 +374,18 @@ a.article, a.article:hover {
 }
 
 .list-inline {
-    white-space: nowrap;
+    overflow-x:scroll !important;
+    white-space:nowrap;
+    overflow-y:hidden;
   }
   
-.DocumentList
+.ul-inline
 {
     overflow-x:scroll;
     overflow-y:hidden;
     height:100%;
-    width:100%;
-    padding: 0 15px;
+    height: 280px;
+    /* overflow: scroll;   */
 }
 
 /* ---------------------------------------------------

@@ -24,11 +24,10 @@
   </ul>
   {% endfor %}
   <h2 class="h2" style="border-top:1px solid rgb(228, 228, 228);">Участники:</h2>
-  <div class="DocumentList" style="height: 120px;">
     <ul class="list-inline" id="inline-userlist">
 
       {% for participant in content.participants %}
-      <li class="DocumentItem" name={{participant}} id="{{participant}}">
+      <li class="list-inline-item" name={{participant}} id="{{participant}}">
         <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
           <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
           <span style="text-align:center">{{participant}}</span>
@@ -37,7 +36,6 @@
       </li>
       {% endfor %}
     </ul>
-  </div>
  <h2 style="border-top:1px solid rgb(228, 228, 228);">Создатель:</h2><br>
  <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
   <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>

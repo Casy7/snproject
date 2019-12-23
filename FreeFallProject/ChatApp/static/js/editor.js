@@ -85,7 +85,7 @@ function add_ptc() {
     document.getElementById('list-usrs').value = list;
     // alert(document.getElementById('list-usrs').value);
 
-    user_card = document.createElement("div");
+    user_card = document.createElement("li");
     user_card.className = "card";
     user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);";
 
@@ -111,7 +111,7 @@ function add_ptc() {
     user_card.appendChild(button);
 
     li = document.createElement("li");
-    li.className = "DocumentItem";
+    li.className = "list-inline-item";
     li.name = user;
     li.id = user;
 
