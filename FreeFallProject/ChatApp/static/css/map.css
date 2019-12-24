@@ -28,15 +28,9 @@ td .other_props{
     border-radius: 50%;
     cursor: pointer;
     display: flex;
-
-
     align-items: center;
-
     justify-content: center;
-
-
     margin-top: -11px;
-
     margin-left: 7px;
 
   }

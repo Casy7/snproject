@@ -1,17 +1,14 @@
-function readURL() {
-    var myimg = document.getElementById("myimg");
-    var input = document.getElementById("myfile");
-    if (input.files && input.files[0]) {
+$(function () {
+
+    /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+    $("#id_file").change(function () {
+      if (this.files && this.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            console.log("changed");
-            myimg.src = e.target.result;
-            //paste code here
+          $("#target").attr("src", e.target.result);
+          //$("#modalCrop").modal("show");
         }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-document.querySelector('#myfile').addEventListener('change', function () {
-    readURL()
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
 });

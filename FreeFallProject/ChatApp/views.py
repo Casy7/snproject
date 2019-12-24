@@ -1,13 +1,15 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View, TemplateView
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View, TemplateView
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from django.core.files import File
-
+from django.db.models import Q
 from .models import *
 from .forms import *
+import datetime
+
 
 def new_format(coordinates):
     coordinates = list(coordinates.split(";"))
@@ -30,8 +32,9 @@ def base_context(request, **args):
         context['username'] = user.username
         context['user'] = user
         context['hikes'] = []
-        hikes = Hike.objects.filter(creator=user)
-
+        hikes = Hike.objects.filter(creator=user).order_by('creation_datetime')
+        if len(hikes)>10:
+            hikes = hikes[:10]
         for hike in hikes:
             context['hikes'].append([hike.name, hike.id])
     else:
@@ -46,6 +49,20 @@ def participants_format(participants):
     participants = str(participants)
     participants = participants.replace('\t', '').replace(' ', '')
     participants = participants.split(sep='@')
+
+    pt_list = []
+    for pt in participants:
+        if pt != '':
+
+            user = User.objects.filter(username=pt)
+            if list(user) != []:
+                pt_list.append(user[0])
+    return pt_list
+
+
+def participants_new_format(participants):
+    participants = str(participants)
+    participants = participants.split(sep=',')
 
     pt_list = []
     for pt in participants:
@@ -152,12 +169,18 @@ class UserLogin(View):
         else:
             return HttpResponse("Data isn't valid")
 
+class AddLandmark(View):
+    def post(self, request):
+        context = request.POST
 
 class NewHike(View):
     def get(self, request):
+        photo_form = PhotoForm()
         context = base_context(
             request, title='New Hike', header='Новый поход', error=0)
+
         context['form'] = HikeForm()
+        context['photo_form'] = photo_form
         if context['username'] != '':
             return render(request, "new_hike.html", context)
         else:
@@ -202,9 +225,9 @@ class NewHike(View):
             # coordinates=new_format(form['coordinates'])
         )
         hike.save()
-        if request.FILES != []:
+        if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
-        participants = participants_format(form['participants'])
+        participants = participants_new_format(form['participants'])
         for pt in participants:
             hike.participants.add(pt)
         hike.save()
@@ -226,6 +249,9 @@ class HikeEditor(View):
             context['image']=''
 
         if context['username'] != '' and request.user == hike.creator:
+            participants = []
+            for user in hike.participants.all():
+                participants.append(user.username)
             context.update({
                 'name': hike.name,
                 'short_description': hike.short_description,
@@ -234,11 +260,12 @@ class HikeEditor(View):
                 'difficulty':hike.difficulty,
                 'type_of_hike':hike.type_of_hike,
                 
-                'participants':parts_revert_format(User.objects.filter(hike__participants = id)),
+                'participants':participants,
                 # '':hike.,
                 'description':hike.description,
                 'coordinates':hike.coordinates,
             })
+
             return render(request, "editor.html", context)
 
         else:
@@ -292,12 +319,13 @@ class HikeEditor(View):
         hike.type_of_hike=form['type']
         # hike.coordinates = str(coordinates)
             
-        if request.FILES['image'].name is not None:
+        if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
 
         hike.save()
-        participants = participants_format(form['participants'])
-        already_in_hike = User.objects.filter(hike__participants = id)
+        # participants = participants_format(form['participants'])
+        participants = participants_new_format(form['participants'])
+        already_in_hike = hike.participants.all()
         for pt in participants:
             if pt not in already_in_hike:
                 hike.participants.add(pt)
@@ -320,7 +348,12 @@ class AllHikes(View):
 
 
         context['hike'] = []
-        hikes = Hike.objects.all()
+        
+        hikes = Hike.objects.filter(start_date__gte=datetime.date.today()).order_by('creation_datetime')
+        
+        # Возвращает список походов, начинающихся не ранее чем сегодня, 
+        # отсортированный по давности их создания.
+
         hike_stack = []
         stack_index = 0
         index = 0
@@ -377,6 +410,21 @@ class CreateMap(View):
         text['coordinates'] = hike.coordinates
         context['content'] = text
         return render(request, "create_map.html", context)
+
+    def post(self, request, id):
+        context = base_context(request)
+        form = request.POST
+
+        data=form['coordinates'].split(',')
+        coordinates = []
+        for i in range (len(data)//3):
+            coordinates.append([int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+
+        hike = Hike.objects.get(id=id)
+        hike.coordinates = coordinates
+        print(coordinates)
+        hike.save()
+        return render(request, "hikes.html", context)
 
 
 class SetHike(View):

@@ -1,7 +1,8 @@
-.input-group{
-    height: 30px;
-    
+#preview {
+	background: red;
+	border: 1px solid green;
 }
-.custom-file-input{
-    height: 50px;
+
+img{
+    width: 100%;
 }
