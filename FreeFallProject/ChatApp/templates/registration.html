@@ -13,10 +13,10 @@
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 
-		<div class="card">
+		<div class="card" style="width: 35%;"><form method="POST">
 			<div class="card-body">
 				
-				<form method="POST">{%csrf_token%}
+				{%csrf_token%}
 					<div class="input-group form-group">
 						<!--NAME-->
 						<div class="input-group-prepend">
@@ -32,11 +32,11 @@
 						<input type="text" name = "last_name" class="form-control" placeholder="Surname">
 					</div>
 					<div class="input-group form-group">
-						<!--NICKNAME-->
+						<!--USERNAME-->
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="far fa-copyright"> *</i></span>
 						</div>
-						<input type="text" name = "username" class="form-control" placeholder="Nickname">
+						<input type="text" name = "username" required = "" class="form-control" placeholder="Nickname">
 					</div>
 					<div class="input-group form-group">
 						<!--EMAIL-->
@@ -50,36 +50,30 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i> *</span>
 						</div>
-						<input id = "password_field" type="password" name="password" class="form-control" placeholder="Password">
+						<input id = "password_field" type="password" required = "" name="password" class="form-control" placeholder="Password">
 						<div class="input-group-prepend">
 							<span type = "button" class="input-group-text" onclick = "show_password()"><i class="fa fa-eye"></i></span></span>
 						</div>
 					</div>
 					<div class="gender_radiobutton">
 						<p>Gender:</p>
-						<input type="radio" name="gender" id="gender" value="male" checked>Male
-						<input type="radio" name="gender" id="gender" value="female">Female
-
-
+						<pre><input type="radio" name="gender" id="gender" value="male" checked> Male	<input type="radio" name="gender" id="gender" value="female">Female</pre>
 					</div>
-					<div class="form-group">
-						<input type="submit" value="Register" class="btn reg_btn">
-					</div>
-				</form>
+				
 			</div>
+			
 			<div class="card-footer">
 				{% if error == 1 %}
 					<div class="d-flex justify-content-center links error-message">
 						User with the same username already exists 
 					</div>     
 				  {% endif %}   
-				<div class="d-flex justify-content-center links">
-					<a href="/login">Sign Up</a>
-				</div>
+					<input type="submit" value="Register" class="btn btn-outline-secondary btn-block" style="width: 100%;">
+				
 				<!-- <div class="d-flex justify-content-center">
 					<a href="#">Forgot your password?</a>
 				</div> -->
-			</div>
+			</div></form>
 		</div>
 	</div>
 </div>

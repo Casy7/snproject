@@ -128,3 +128,29 @@ function str_to_list(str_el) {
     list = str_el.split(", ");
     return list
 }
+// function send_landmark() {
+//   var name = document.getElementById('landmark_name').value.toString();
+//   var desc = document.getElementById('landmark_desc').value.toString();
+//   alert("work: "+name+desc);
+//   $.ajax({
+//     url: "add_landmark/",
+//     type: 'POST',
+//     data: { 
+//       'name': name,
+//       'desc': desc
+    
+//     },
+//     success: function (json) {
+//       // if (json.result) {
+//       //   // $('#notify_icon').addClass("notification");
+//       //   // var doc = $.parseHTML(json.notifications_list);
+//       //   // $('#notifications-list').html(doc);
+//       // }
+//       console.log("succes");
+//     },
+//     error: function(){
+//       alert("ERROR!ERROR!")
+//     }
+//   });
+// };
+// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

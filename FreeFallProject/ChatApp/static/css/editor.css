@@ -25,3 +25,20 @@ canvas .mapboxgl-canvas{
     /* border: 2px solid white; */
     box-shadow: none !important;
 }
+/* .rotate {
+    transform:rotate(180deg);
+    transition:all 0.5s;
+}
+.rotate.in {
+    transform:rotate(360deg);
+    transition:all 1.5s;
+}
+.modal-stack{
+    display:none !important;
+}
+.close{
+    float: inline-start !important;
+}
+.modal-header{
+    display: block;
+} */

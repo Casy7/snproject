@@ -33,7 +33,7 @@ def base_context(request, **args):
         context['user'] = user
         context['hikes'] = []
         hikes = Hike.objects.filter(creator=user).order_by('creation_datetime')
-        if len(hikes)>10:
+        if len(hikes) > 10:
             hikes = hikes[:10]
         for hike in hikes:
             context['hikes'].append([hike.name, hike.id])
@@ -77,7 +77,7 @@ def participants_new_format(participants):
 def parts_revert_format(participants):
     text_format = ""
     for pt in participants:
-        text_format+='@'+pt.username+'\t'
+        text_format += '@'+pt.username+'\t'
     return text_format
 
 
@@ -85,7 +85,6 @@ class HomePage(View):
     def get(self, request):
         context = base_context(request, title='Home', header='Lorem Ipsum')
         return render(request, "main.html", context)
-
 
 
 class Registration(View):
@@ -139,7 +138,7 @@ class UserLogin(View):
         context = base_context(
             request, title='Login', header='Login', error=0)
         context['error'] = 0
-        
+
         # context['form'] = self.form_class()
         return render(request, "login.html", context)
 
@@ -169,9 +168,11 @@ class UserLogin(View):
         else:
             return HttpResponse("Data isn't valid")
 
+
 class AddLandmark(View):
     def post(self, request):
         context = request.POST
+
 
 class NewHike(View):
     def get(self, request):
@@ -185,7 +186,7 @@ class NewHike(View):
             return render(request, "new_hike.html", context)
         else:
             context['error'] = 2
-            
+
         # context['form'] = self.form_class()
             return render(request, "login.html", context)
 
@@ -215,7 +216,7 @@ class NewHike(View):
         hike = Hike(
             name=form['name'],
             creator=user,
-            
+
             short_description=form['short_description'],
             # description=form['description'],
             start_date=form['start'],
@@ -242,11 +243,11 @@ class HikeEditor(View):
 
         context = base_context(
             request, title='Track', header='Изменение похода: '+hike.name)
-        
+
         if hike.image.name is not None:
-            context['image']= hike.image
+            context['image'] = hike.image
         else:
-            context['image']=''
+            context['image'] = ''
 
         if context['username'] != '' and request.user == hike.creator:
             participants = []
@@ -255,15 +256,15 @@ class HikeEditor(View):
             context.update({
                 'name': hike.name,
                 'short_description': hike.short_description,
-                'start_date':str(hike.start_date),
-                'end_date':str(hike.end_date),
-                'difficulty':hike.difficulty,
-                'type_of_hike':hike.type_of_hike,
-                
-                'participants':participants,
+                'start_date': str(hike.start_date),
+                'end_date': str(hike.end_date),
+                'difficulty': hike.difficulty,
+                'type_of_hike': hike.type_of_hike,
+
+                'participants': participants,
                 # '':hike.,
-                'description':hike.description,
-                'coordinates':hike.coordinates,
+                'description': hike.description,
+                'coordinates': hike.coordinates,
             })
 
             return render(request, "editor.html", context)
@@ -271,7 +272,6 @@ class HikeEditor(View):
         else:
             return HttpResponseRedirect("/login/")
 
-        
     def post(self, request, id):
         context = base_context(request)
         form = request.POST
@@ -291,34 +291,35 @@ class HikeEditor(View):
         else:
             user = User.objects.get(username='admin')
 
-        hike = Hike.objects.get(id = id)
+        hike = Hike.objects.get(id=id)
         hike.name = form['name']
 
         coordinates = []
         i = 0
         while True:
             if form.get("start_day"+str(i)) != None:
-                tpl = form["start_day"+str(i)].replace("(","").replace(")","").split(";")
+                tpl = form["start_day" +
+                           str(i)].replace("(", "").replace(")", "").split(";")
 
                 coordinates.append(tpl)
-                tpl = form["end_day"+str(i)].replace("(","").replace(")","").split(";")
+                tpl = form["end_day" +
+                           str(i)].replace("(", "").replace(")", "").split(";")
 
                 coordinates.append(tpl)
-                i+=1
+                i += 1
 
             else:
                 break
-        hike.creator=user
+        hike.creator = user
 
-        
-        hike.short_description=form['short_description']
-        hike.description=form['description']
-        hike.start_date=form['start']
-        hike.end_date=form['end']
-        hike.difficulty=form['difficulty']
-        hike.type_of_hike=form['type']
+        hike.short_description = form['short_description']
+        hike.description = form['description']
+        hike.start_date = form['start']
+        hike.end_date = form['end']
+        hike.difficulty = form['difficulty']
+        hike.type_of_hike = form['type']
         # hike.coordinates = str(coordinates)
-            
+
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
 
@@ -334,7 +335,6 @@ class HikeEditor(View):
         return HttpResponseRedirect("/hike/"+str(hike.id))
 
 
-
 class Logout (View):
     def get(self, request):
         logout(request)
@@ -346,12 +346,12 @@ class AllHikes(View):
     def get(self, request):
         context = base_context(request, title='Hikes')
 
-
         context['hike'] = []
-        
-        hikes = Hike.objects.filter(start_date__gte=datetime.date.today()).order_by('creation_datetime')
-        
-        # Возвращает список походов, начинающихся не ранее чем сегодня, 
+
+        hikes = Hike.objects.filter(
+            start_date__gte=datetime.date.today()).order_by('creation_datetime')
+
+        # Возвращает список походов, начинающихся не ранее чем сегодня,
         # отсортированный по давности их создания.
 
         hike_stack = []
@@ -361,7 +361,7 @@ class AllHikes(View):
 
             stack_index = 0
             hike_row = []
-            while stack_index < 4 and index<len(hikes):
+            while stack_index < 4 and index < len(hikes):
                 hike = hikes[index]
 
                 text = {}
@@ -370,13 +370,13 @@ class AllHikes(View):
                 text['start_date'] = hike.start_date
 
                 if hike.image.name is not None:
-                    text['image']= hike.image
+                    text['image'] = hike.image
                 else:
-                    text['image']=''
+                    text['image'] = ''
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
 
-                if len(text['short_description'])>200:
+                if len(text['short_description']) > 200:
                     text['short_description'] = text['short_description'][0:198]+'...'
 
                 hike_row.append(text)
@@ -415,10 +415,11 @@ class CreateMap(View):
         context = base_context(request)
         form = request.POST
 
-        data=form['coordinates'].split(',')
+        data = form['coordinates'].split(',')
         coordinates = []
-        for i in range (len(data)//3):
-            coordinates.append([int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+        for i in range(len(data)//3):
+            coordinates.append(
+                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
 
         hike = Hike.objects.get(id=id)
         hike.coordinates = coordinates
@@ -431,7 +432,7 @@ class SetHike(View):
     def get(self, request, id):
 
         hike = Hike.objects.get(id=id)
-        context = base_context(request, title=hike.name, header = hike.name)
+        context = base_context(request, title=hike.name, header=hike.name)
         text = {}
         text['creator'] = hike.creator
         text['name'] = hike.name
@@ -443,9 +444,9 @@ class SetHike(View):
         text['coordinates'] = hike.coordinates
         text['link'] = '/map/' + str(hike.id)
         if hike.image.name is not None:
-            text['image']= hike.image
+            text['image'] = hike.image
         else:
-            text['image']=''
+            text['image'] = ''
         landmarks = []
         for landmark in hike.landmarks.all():
             landmarks.append(landmark.name)
