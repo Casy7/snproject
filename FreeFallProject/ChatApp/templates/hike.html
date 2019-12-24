@@ -12,11 +12,19 @@
 </head>
 
 <body>
+  {% if content.image != "" %}
+<style>
+body{
+  background-image: "image({{content.image}})";
+}
+
+</style>
+  {%endif%}
   <p>{{content.start_date}} - {{content.end_date}}</p>
   <p>{{content.short_description}}</p>
- {%if content.description != ""%}
-  <p style="border: .5px solid rgb(219, 219, 219)">{{content.description|safe}}</p>
-{%endif%}
+  {%if content.description != ""%}
+  <p style="border: none; border-top:1px solid rgb(228, 228, 228);">{{content.description|safe}}</p>
+  {%endif%}
   <h2 class="h2">Достопримечательности:</h2>
   {% for name in content.landmarks.all %}
   <ul>
@@ -24,42 +32,52 @@
   </ul>
   {% endfor %}
   <h2 class="h2" style="border-top:1px solid rgb(228, 228, 228);">Участники:</h2>
-    <ul class="list-inline" id="inline-userlist">
+  <ul class="list-inline" id="inline-userlist">
 
-      {% for participant in content.participants %}
-      <li class="list-inline-item" name={{participant}} id="{{participant}}" >
-        <div class="card" style="width:90px; border: .6px solid rgb(221, 221, 221);">
-          <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
-          <span style="text-align:center;overflow-x:hidden">{{participant}}</span>
-          
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
- <h2 style="border-top:1px solid rgb(228, 228, 228);">Создатель:</h2><br>
- <div class="card" style="width:80px; border: .6px solid rgb(221, 221, 221);">
-  <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
-  <span style="text-align:center">{{content.creator.username}}</span>
-  
-</div>
+    {% for participant in content.participants %}
+    <li class="list-inline-item" name={{participant}} id="{{participant}}">
+      <div class="card" style="width:90px; border: .6px solid rgb(221, 221, 221);">
+        <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
+        <span style="text-align:center;overflow-x:hidden">{{participant}}</span>
+
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  <h2 style="border-top:1px solid rgb(228, 228, 228);">Создатель:</h2><br>
+  <div class="card" style="width:80px; border: .6px solid rgb(221, 221, 221);">
+    <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
+    <span style="text-align:center">{{content.creator.username}}</span>
+
+  </div>
 
   <h2 class="h2">Трек похода:</h2>
 
   <div id="osm_map" style="width:1200px;height:500px"></div>
 
   <script>
-
-    coordinates = {{ content.coordinates | safe }};
+    // alert("tfgthfy");
+    // alert("{{ content.coordinates }}");
+    
+    // coordinates = "{{ content.coordinates }}";
+    // if (coordinates != "[]"){
+    // // alert("wha?")
+    // coordinates = users.replace('[', '');
+    // coordinates = users.replace(']', '');
+    // coordinates = users.split(", ");}
+    // else{
+    //   coordinates=[]
+    // }
+    //alert(coordinates);
     mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-
     var osm_map = new mapboxgl.Map({
       container: 'osm_map',
-      style: 'mapbox://styles/mapbox/bright-v9',
-      center: coordinates[Math.floor(coordinates.length / 2)][1],
+      style: 'mapbox://styles/mapbox/satellite-v9', 
+      center: [3.420253241560829, 46.124064037019906],
       zoom: 14
     })
     osm_map.addControl(new mapboxgl.NavigationControl());
-
+      
   </script>
 
   <script type="text/javascript">

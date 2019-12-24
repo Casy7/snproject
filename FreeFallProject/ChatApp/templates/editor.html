@@ -231,14 +231,13 @@
                     </div> -->
 
 
-        <div class="panel panel-default">
+
             <div class="panel-heading">
                 <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse4">
                     Карта похода
                 </button>
             </div>
 
-            <div id="collapse4" class="panel-collapse collapse">
                 <!--CODE OF EDITOR-->
 
 
@@ -246,11 +245,10 @@
                 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
                 <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
                 <div id="osm_map" style="width:1200px;height:500px"></div>
-
+                
                 <script>
 
                     mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-
 
                     var osm_map = new mapboxgl.Map({
                         container: 'osm_map',
@@ -261,6 +259,22 @@
 
                     osm_map.addControl(new mapboxgl.NavigationControl());
                     // osm_map.update();
+
+                    
+                    coordinates = {{ coordinates | safe }};
+                    var line = []
+
+                    for (i = 0; i < coordinates.length; i++) {
+                    var el = document.createElement('div');
+                    el.content = coordinates[i][0];
+                    el.textContent = coordinates[i][0];
+                    el.className = 'marker';
+                    el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
+                    var x = coordinates[i][1][0];
+                    var y = coordinates[i][1][1];
+                    line.push([x, y]);
+                    var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } }).setLngLat([x, y]).addTo(osm_map);
+                    }
 
 
                 </script>
@@ -291,14 +305,15 @@
 
 
                 </script>
+
                 <input name="coordinates" id="coords" type="hidden">
                 <input type="submit" value="Создать">
 
 
 
                 <!--END OF CODE -->
-            </div>
-        </div>
+           
+        
         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block"> -->
     </div>
 
