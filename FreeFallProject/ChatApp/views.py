@@ -290,15 +290,14 @@ class HikeEditor(View):
         hike.end_date=form['end']
         hike.difficulty=form['difficulty']
         hike.type_of_hike=form['type']
-        hike.coordinates = str(coordinates)
-        data=form['coordinates'].split(',')
+        coordinates = str(form['coordinates'])
+        data = coordinates.split(',')
         coordinates = []
-        for i in range (len(data)//3):
-            coordinates.append([int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
-
+        for i in range(len(data)//3):
+            coordinates.append(
+                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+                
         hike.coordinates = coordinates
-        print(coordinates)
-
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
 
