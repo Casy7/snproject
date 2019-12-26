@@ -8,7 +8,7 @@
         style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
         {% for hike in hike_row %}
 
-        <div class="card"><a href={{hike.link}}>
+        <div class="card" style="max-width: 23%;"><a href={{hike.link}}>
                 {% if hike.image != '' %}
                 <img class="card-img-top" src={{hike.image.url}} alt="Card image cap">
                 {% else %}

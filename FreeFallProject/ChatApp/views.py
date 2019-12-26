@@ -291,8 +291,15 @@ class HikeEditor(View):
         hike.difficulty=form['difficulty']
         hike.type_of_hike=form['type']
         hike.coordinates = str(coordinates)
-            
-        if request.FILES['image'].name is not None:
+        data=form['coordinates'].split(',')
+        coordinates = []
+        for i in range (len(data)//3):
+            coordinates.append([int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+
+        hike.coordinates = coordinates
+        print(coordinates)
+
+        if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
 
         hike.save()
