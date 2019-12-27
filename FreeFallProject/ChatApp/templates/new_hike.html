@@ -10,6 +10,7 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/new_hike.js' %}"></script>
+<script src="{% static 'js/editor.js' %}"></script>
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <!-- <script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script> -->
@@ -93,12 +94,96 @@
 
                 </div>
                 <label for="exampleFormControlInput6">Участники</label>
-                <input id="participants" type="text" class="form-control" name="participants"
-                    placeholder="Введите никнеймы через запятую" onkeypress="format_names()">
-                <br>
+                <!--Скрытый список участников-->
+                <input type="hidden" id="list-usrs" name="participants" value="">
+                <ul class="list-inline" id="inline-userlist">
+
+                    <li class="list-inline-item" name="add-user" id="add-user">
+    
+                        <div class="card" style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
+                            <img src="{% static 'icons/add.png' %}" class="card-img-top" style="width: 100%;"></img>
+                            <input type="text" class="forn-control" id="new-user"
+                                style="width: 100%;height: 22.5px;border: none;" placeholder="Новый" value="">
+                            <button type="button" class="for-control" style="height:20px; border: none;"
+                                onclick="add_user()">+</button>
+                        </div>
+                    </li>
+                </ul>
                 <input type="submit" class="btn btn-secondary btn-block" value="Создать">
             </div>
     </form>
+<script>
+    function add_user() {
+        users = document.getElementById('list-usrs');
+        // alert(users.value);
+        if (users.value == "") {
+            document.getElementById('list-usrs').value = [].toString();
+            // alert($('#list-usrs').value);
+            // alert(typeof document.getElementById('new-user').value);
+            if (document.getElementById('new-user').value != "") {
+                // alert("!!!!")
+                add_ptc();
+            }
+        }
+        else {
+            if (document.getElementById('new-user').value != "") {
+                add_ptc();
+            }
+        }
+    }
+    function add_ptc() {
+    list = str_to_list(document.getElementById('list-usrs').value);
+    //alert(typeof(list));
+    //alert(list);
+    user = document.getElementById('new-user').value;
+    //alert(user);
+    list.push(user);
+    //alert(list);
+    document.getElementById('list-usrs').value = list;
+    // alert(document.getElementById('list-usrs').value);
+
+    user_card = document.createElement("li");
+    user_card.className = "card";
+    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);";
+
+    img = document.createElement("img");
+    img.className = "card-img-top";
+    img.style = "width: 100%;";
+    img.src = "{%static 'icons/logo_grey.png'%}"
+
+    span = document.createElement("span");
+    span.style = "text-align:center";
+    span.value = user;
+    span.text = user;
+    span.appendChild(document.createTextNode(user));
+    button = document.createElement("button");
+    button.className = "form-control";
+    button.type = "button";
+    button.onclick = function add_this_user() { del_user(user) };
+    button.style = "height:20px; border: none;";
+    button.innerHTML = "-";
+
+    user_card.appendChild(img);
+    user_card.appendChild(span);
+    user_card.appendChild(button);
+
+    li = document.createElement("li");
+    li.className = "list-inline-item";
+    li.name = user;
+    li.id = user;
+
+    li.appendChild(user_card);
+    document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+    
+
+}
+
+</script>
 </div>
+
+
+
 
 {% endblock %}

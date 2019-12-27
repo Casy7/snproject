@@ -72,3 +72,14 @@ function add_day (){
     // alert(document.getElementsByName("day"));
     ;
 }
+
+function del_user(user) {
+    $('#' + user).remove();
+}
+
+function str_to_list(str_el) {
+    str_el = str_el.replace('[', '');
+    str_el = str_el.replace(']', '');
+    list = str_el.split(", ");
+    return list
+}
