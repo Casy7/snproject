@@ -32,64 +32,52 @@
       coordinates = {{content.coordinates|safe}};
       mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
       
-          var osm_map = new mapboxgl.Map({
-          container: 'osm_map',
-          style: 'mapbox://styles/mapbox/bright-v9',
-          center: coordinates[Math.floor(coordinates.length/2)][1],
-          zoom: 14 
-          })
-      osm_map.addControl(new mapboxgl.NavigationControl());
+  </script>
 
-    </script>
-
-    <script type="text/javascript">
-    coordinates = {{content.coordinates|safe}};
+  <script type="text/javascript">
+    coordinates = {{ content.coordinates | safe }};
     var line = []
- 
-      for (i = 0; i < coordinates.length; i++) {
+
+    for (i = 0; i < coordinates.length; i++) {
       var el = document.createElement('div');
-      el.content=coordinates[i][0];
+      el.content = coordinates[i][0];
       el.textContent = coordinates[i][0];
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       var x = coordinates[i][1][0];
       var y = coordinates[i][1][1];
       line.push([x, y]);
-      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}}).setLngLat([x, y]).addTo(osm_map);
-      }
+      var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } }).setLngLat([x, y]).addTo(osm_map);
+    }
 
-      osm_map.on('load', function () {
- 
-        osm_map.addLayer({
-      "id": "route",
-      "type": "line",
-      "source": {
-      "type": "geojson",
-      "data": {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-      "type": "LineString",
-      "coordinates": line
-      }
-      }
-      },
-      "layout": {
-      "line-join": "round",
-      "line-cap": "round"
-      },
-      "paint": {
-      "line-color": "#888",
-      "line-width": 5
-      }
+    osm_map.on('load', function () {
+
+      osm_map.addLayer({
+        "id": "route",
+        "type": "line",
+        "source": {
+          "type": "geojson",
+          "data": {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "type": "LineString",
+              "coordinates": line
+            }
+          }
+        },
+        "layout": {
+          "line-join": "round",
+          "line-cap": "round"
+        },
+        "paint": {
+          "line-color": "#888",
+          "line-width": 5
+        }
       });
-      });
+    });
 
-    </script>
+  </script>
 
-{% if user == content.creator %}
-<div><a href=/editor/{{content.id}}>Редактор</div></a>
-{% endif %}
-</body>
-</html>
-{% endblock %}
+  {% if user == content.creator %}
+  <div><a href=/editor/{{content.id}}>Редактор </div> </a> {% endif %} </body> </html> {% endblock %}

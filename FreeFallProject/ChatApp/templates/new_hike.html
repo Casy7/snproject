@@ -5,7 +5,7 @@
 <script src="{% static 'libs/cropperjs-master/dist/cropper.min.js'%}"></script> -->
 
 <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
-<link href="{% static 'css/new_hike.css'%}" rel="stylesheet">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -25,8 +25,10 @@
     <form method="POST" enctype="multipart/form-data">
         {%csrf_token%}
 
-        <!-- <input type="file" class="form-control-file" id="exampleFormControlFile1"> -->
-        <div class="img-container">
+        <img src="{% static 'icons/default.jpg' %}" id="target" class="card-img-top"></img>
+        <input type="file" id="id_file" name="image" class="form-control">
+        <div class="card-body">
+            <br>
 
             <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
 
@@ -64,34 +66,17 @@
                         <input type="date" name="end" class="form-control">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col">
-                        <label for="exampleFormControlInput2">Сложность</label>
-                        <span>
-                            <select name="difficulty" class="form-control">
-                                <option value="none">Без категории</option>
-                                <option value="I">I</option>
-                                <option value="II">II</option>
-                                <option value="III">III</option>
-                                <option value="IV">IV</option>
-                                <option value="V">V</option>
-                                <option value="VI">VI</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div class="col">
-                        <label for="exampleFormControlInput2">Тип</label>
-                        <span>
-                            <select name="type" class="form-control">
-                                <option value="Пеший">Пеший</option>
-                                <option value="Горный">Горный</option>
-                                <option value="Водный">Водный</option>
-                                <option value="Вело">Вело</option>
-                                <option value="Спелео">Спелео</option>
-                            </select>
-                        </span>
-                    </div>
-
+                <div class="col">
+                    <label for="exampleFormControlInput2">Тип</label>
+                    <span>
+                        <select name="type" class="form-control">
+                            <option value="Пеший">Пеший</option>
+                            <option value="Горный">Горный</option>
+                            <option value="Водный">Водный</option>
+                            <option value="Вело">Вело</option>
+                            <option value="Спелео">Спелео</option>
+                        </select>
+                    </span>
                 </div>
                 <label for="exampleFormControlInput6">Участники</label>
                 <!--Скрытый список участников-->

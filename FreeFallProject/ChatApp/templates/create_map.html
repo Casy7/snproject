@@ -2,72 +2,197 @@
 {% block content %}
 {% load static %}
 
-
+<link href="{% static 'css/create_map.css' %}" rel='stylesheet' />
 
 <!-- NICHT ANFASSEN -->
 
-
-
-<!DOCTYPE html>
 <html>
-  <head>
 
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-  </head>
-  <body>
-           <div id="osm_map" style="width:1200px;height:500px"></div>
+</head>
 
+<body>
+  <h2>Stacked Bootstrap Modal Example.</h2>
+  <div id="osm_map" style="width:1200px;height:500px"></div>
+
+
+  <!-- MODULE AJAX LANDMARKS -->
+
+    <!-- <script>
+
+
+    $(document).ready(function () {
+
+      $('#openBtn').click(function () {
+        $('#myModal').modal({
+          show: true
+        })
+      });
+
+      $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+          $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+      });
+
+
+    });
+  </script> -->
+<!-- 
+  <a data-toggle="modal" href="#myModal" class="btn btn-primary">Launch modal</a> -->
+<!-- 
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="height:100%">×</button>
+          <h2 class="modal-title">Создать достопримечательность</h2>
+        </div>
+        <div class="modal-body">
+
+          <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+
+            <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top"></img>
+            <input type="file" id="myfile" name="image" class="form-control">
+            <script src="{% static 'js/image.js'%}"></script>
+            <div class="card-body">
+              <label for="exampleFormControlInput1">Название</label>
+              <div class="card-title"><span><input type="text" class="form-control" name="name" placeholder=" " id = "landmark_name"></span>
+              </div>
+              <label for="exampleFormControlInput1">Описание</label>
+              <span>
+                <textarea class="form-control" name="short_description" placeholder="" id = "landmark_desc"></textarea>
+              </span>
+            </div>
+          </form>
+          <br> <a data-toggle="modal" href="#myModal2" class="btn btn-primary">Launch modal</a> 
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Отменить</a>
+          <button type = "button" class="btn btn-secondary" onclick="send_landmark()">Создать</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade rotate" id="myModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Modal 2</h4>
+
+        </div>
+        <div class="container"></div>
+        <div class="modal-body">Content for the dialog / modal goes here.
+          <br>
+          <br>
+          <p>come content</p>
+          <br>
+          <br>
+          <br> <a data-toggle="modal" href="#myModal3" class="btn btn-primary">Launch modal</a>
+
+        </div>
+        <div class="modal-footer"> <a href="#" data-dismiss="modal" class="btn">Close</a>
+          <a href="#" class="btn btn-primary">Save changes</a>
+
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!--ENDMODULE-->
+
+
+  <script>
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+
+
+    var osm_map = new mapboxgl.Map({
+      container: 'osm_map',
+      style: 'mapbox://styles/mapbox/bright-v9',
+      center: [3.420253241560829, 46.124064037019906],
+      zoom: 14
+    });
+
+    osm_map.addControl(new mapboxgl.NavigationControl());
+
+
+
+
+
+  </script>
+  Выберите день: <input type="number" , min="0" , max="99" , id="day" , value="0" />
+  <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+  <form method="POST" enctype="multipart/form-data">
+    {%csrf_token%}
     <script>
+      var coordinates = []
+      osm_map.on('click', function (e) {
 
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-      
-
-          var osm_map = new mapboxgl.Map({
-          container: 'osm_map',
-          style: 'mapbox://styles/mapbox/bright-v9',
-          center: [3.420253241560829,46.124064037019906],
-          zoom: 14 
-        });
-     
-      osm_map.addControl(new mapboxgl.NavigationControl());
-
-          
-
-
-
-    </script>
-Выберите день: <input type="number", min="0", max="99", id = "day", value = "0" />
-<form method="POST" enctype="multipart/form-data">
-  {%csrf_token%}
-    <script>
-        var coordinates = []
-        osm_map.on('click', function (e) {
-            
-            var day = (document.getElementById("day").value)
-            var el = document.createElement('div');
-        el.content=day;
+        var day = (document.getElementById("day").value)
+        var el = document.createElement('div');
+        el.content = day;
         el.textContent = day;
         el.className = 'marker';
         el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
-        
-        
-        var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}})
-            .setLngLat(e.lngLat.wrap())
-            .addTo(osm_map);
-            coordinates.push(Array(Number(day), e.lngLat.toArray()))
-            document.getElementById("coords").value = coordinates;
-
-    });
 
 
-    
+        var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
+          .setLngLat(e.lngLat.wrap())
+          .addTo(osm_map);
+        coordinates.push(Array(Number(day), e.lngLat.toArray()))
+        document.getElementById("coords").value = coordinates;
+
+      });
+
+
+
 
     </script>
-    <input name = "coordinates" id = "coords" type = "hidden">
+
+    <input name="coordinates" id="coords" type="hidden">
     <input type="submit" value="Создать">
   </form>
-    </body>
-    </html>
+  <script>
+    function send_landmark() {
+      var name = document.getElementById('landmark_name').value.toString();
+      var desc = document.getElementById('landmark_desc').value.toString();
+      alert("work: "+name+desc);
+      $.ajax({
+        url: "add_landmark/",
+        type: 'POST',
+        data: { 
+          'name': name,
+          'desc': desc
+        
+        },
+        success: function (json) {
+          // if (json.result) {
+          //   // $('#notify_icon').addClass("notification");
+          //   // var doc = $.parseHTML(json.notifications_list);
+          //   // $('#notifications-list').html(doc);
+          // }
+          console.log("succes");
+        },
+        error: function(){
+          alert("ERROR!ERROR!")
+        }
+      });
+    };
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
+
+</html>
 {% endblock %}
