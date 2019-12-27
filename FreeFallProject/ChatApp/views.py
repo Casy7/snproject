@@ -32,7 +32,7 @@ def base_context(request, **args):
         context['username'] = user.username
         context['user'] = user
         context['hikes'] = []
-        hikes = Hike.objects.filter(creator=user).order_by('creation_datetime')
+        hikes = Hike.objects.filter(creator=user).order_by('-creation_datetime')
         if len(hikes) > 10:
             hikes = hikes[:10]
         for hike in hikes:
@@ -176,12 +176,12 @@ class AddLandmark(View):
 
 class NewHike(View):
     def get(self, request):
-        photo_form = PhotoForm()
+        
         context = base_context(
             request, title='New Hike', header='Новый поход', error=0)
 
         context['form'] = HikeForm()
-        context['photo_form'] = photo_form
+        # context['photo_form'] = photo_form
         if context['username'] != '':
             return render(request, "new_hike.html", context)
         else:
@@ -356,7 +356,7 @@ class AllHikes(View):
         context['hike'] = []
 
         hikes = Hike.objects.filter(
-            start_date__gte=datetime.date.today()).order_by('creation_datetime')
+            start_date__gte=datetime.date.today()).order_by('-creation_datetime')
 
         # Возвращает список походов, начинающихся не ранее чем сегодня,
         # отсортированный по давности их создания.

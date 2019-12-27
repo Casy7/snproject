@@ -8,17 +8,18 @@
 <link href="{% static 'css/new_hike.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
-
+<script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/new_hike.js' %}"></script>
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <!-- <script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script> -->
-<!-- 
-<div id="banner-message">
-            <img src="" id="myimg" width=300><br>
-            <input type="file"  id="myfile">
-        </div>-->
-
+<script>
+    function delete_avatar() {
+        document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+        clearInputFile(document.getElementById("myfile"));
+        del_avatar_button();
+        // 
+    }</script>
 <div class="card" style="width:50%; border: 1px solid rgb(221, 221, 221); margin: auto;border-radius: 0px;">
     <form method="POST" enctype="multipart/form-data">
         {%csrf_token%}
@@ -26,23 +27,32 @@
         <!-- <input type="file" class="form-control-file" id="exampleFormControlFile1"> -->
         <div class="img-container">
 
-            <img src="{% static 'icons/default.jpg' %}" id = "myimg" class="card-img-top" default="Фото не выбрано"></img>
+            <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
 
             <!-- <i class="fas fa-camera upload"></i> -->
             <div class="card-body">
-                <div class="custom-file" >
-                    <input type="file" name="image" id="myfile" accept=".jpg, .jpeg, .png">
+                <div class="row">
+
+                    <div class="col-md" id="custom-file-input">
+                        <input type="file" class="file-upload" name="image" style = "display: none;"id="myfile" accept=".jpg, .jpeg, .png">
+                        <label type="button" for="myfile" class="form-control" style="display: block;text-align: center;">Upload</label>
+                    </div>
+                    <div class="col-md"id="del_button">
+
+                    </div>
                 </div>
-                <br><br>
+                <!-- <br> -->
                 <script src="{% static 'js/new_hike.js' %}"></script>
                 <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
                 <label for="exampleFormControlInput1">Название похода</label>
+
                 <div class="card-title"><span><input type="text" class="form-control" name="name"
                             placeholder=" "></span>
                 </div>
                 <label for="exampleFormControlInput1">Краткое описание</label>
                 <span>
-                    <textarea class="form-control" name="short_description" placeholder="Пару строк о походе"></textarea>
+                    <textarea class="form-control" name="short_description"
+                        placeholder="Пару строк о походе"></textarea>
                 </span>
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
