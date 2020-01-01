@@ -3,127 +3,93 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+  <head>
 
-<head>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+  </head>
+        <body>
+            <p>{{content.start_date}} - {{content.end_date}}</p>
+            <p>{{content.short_description}}</p>
+            <p>Создатель: {{content.creator.first_name}} {{content.creator.last_name}}</p>
+            <div>{{content.description|safe}}</div>
+            <h2 class="h2">Достопримечательности:</h2>
+            {% for name in content.landmarks.all %}
+            <ul><li>{{name}}</li></ul>
+            {% endfor %}
+            <h2 class="h2">Участники:</h2>
+            {% for username in content.participants %}
+            <ul><li>{{username}}</li></ul>
+            {% endfor %}
 
-</head>
+            <h2 class="h2">Трек похода:</h2>
 
-<body>
-  {% if content.image != "" %}
-<style>
-body{
-  background-image: "image({{content.image}})";
-}
+            <div id="osm_map" style="width:1200px;height:500px"></div>
 
-</style>
-  {%endif%}
-  <p>{{content.start_date}} - {{content.end_date}}</p>
-  <p>{{content.short_description}}</p>
-  {%if content.description != ""%}
-  <p style="border: none; border-top:1px solid rgb(228, 228, 228);">{{content.description|safe}}</p>
-  {%endif%}
-  <h2 class="h2">Достопримечательности:</h2>
-  {% for name in content.landmarks.all %}
-  <ul>
-    <li>{{name}}</li>
-  </ul>
-  {% endfor %}
-  <h2 class="h2" style="border-top:1px solid rgb(228, 228, 228);">Участники:</h2>
-  <ul class="list-inline" id="inline-userlist">
+    <script>
 
-    {% for participant in content.participants %}
-    <li class="list-inline-item" name={{participant}} id="{{participant}}">
-      <div class="card" style="width:90px; border: .6px solid rgb(221, 221, 221);">
-        <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
-        <span style="text-align:center;overflow-x:hidden">{{participant}}</span>
-
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  <h2 style="border-top:1px solid rgb(228, 228, 228);">Создатель:</h2><br>
-  <div class="card" style="width:80px; border: .6px solid rgb(221, 221, 221);">
-    <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top" style="width: 100%;height: 100%;"></img>
-    <span style="text-align:center">{{content.creator.username}}</span>
-
-  </div>
-
-  <h2 class="h2">Трек похода:</h2>
-
-  <div id="osm_map" style="width:1200px;height:500px"></div>
-
-  <script>
-    // alert("tfgthfy");
-    // alert("{{ content.coordinates }}");
-    
-    // coordinates = "{{ content.coordinates }}";
-    // if (coordinates != "[]"){
-    // // alert("wha?")
-    // coordinates = users.replace('[', '');
-    // coordinates = users.replace(']', '');
-    // coordinates = users.split(", ");}
-    // else{
-    //   coordinates=[]
-    // }
-    //alert(coordinates);
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-    var osm_map = new mapboxgl.Map({
-      container: 'osm_map',
-      style: 'mapbox://styles/mapbox/bright-v9', 
-      center: [3.420253241560829, 46.124064037019906],
-      zoom: 14
-    })
-    osm_map.addControl(new mapboxgl.NavigationControl());
+      coordinates = {{content.coordinates|safe}};
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
       
-  </script>
+          var osm_map = new mapboxgl.Map({
+          container: 'osm_map',
+          style: 'mapbox://styles/mapbox/bright-v9',
+          center: coordinates[Math.floor(coordinates.length/2)][1],
+          zoom: 14 
+          })
+      osm_map.addControl(new mapboxgl.NavigationControl());
 
-  <script type="text/javascript">
-    coordinates = {{ content.coordinates | safe }};
+    </script>
+
+    <script type="text/javascript">
+    coordinates = {{content.coordinates|safe}};
     var line = []
-
-    for (i = 0; i < coordinates.length; i++) {
+ 
+      for (i = 0; i < coordinates.length; i++) {
       var el = document.createElement('div');
-      el.content = coordinates[i][0];
+      el.content=coordinates[i][0];
       el.textContent = coordinates[i][0];
       el.className = 'marker';
       el.style.backgroundImage = 'url(https://i.stack.imgur.com/ZR00X.png)';
       var x = coordinates[i][1][0];
       var y = coordinates[i][1][1];
       line.push([x, y]);
-      var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } }).setLngLat([x, y]).addTo(osm_map);
-    }
+      var marker = new mapboxgl.Marker(el, {offset: {x : -30, y : -35}}).setLngLat([x, y]).addTo(osm_map);
+      }
 
-    osm_map.on('load', function () {
-
-      osm_map.addLayer({
-        "id": "route",
-        "type": "line",
-        "source": {
-          "type": "geojson",
-          "data": {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-              "type": "LineString",
-              "coordinates": line
-            }
-          }
-        },
-        "layout": {
-          "line-join": "round",
-          "line-cap": "round"
-        },
-        "paint": {
-          "line-color": "#888",
-          "line-width": 5
-        }
+      osm_map.on('load', function () {
+ 
+        osm_map.addLayer({
+      "id": "route",
+      "type": "line",
+      "source": {
+      "type": "geojson",
+      "data": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+      "type": "LineString",
+      "coordinates": line
+      }
+      }
+      },
+      "layout": {
+      "line-join": "round",
+      "line-cap": "round"
+      },
+      "paint": {
+      "line-color": "#888",
+      "line-width": 5
+      }
       });
-    });
+      });
 
-  </script>
+    </script>
 
-  {% if user == content.creator %}
-  <div><a href=/editor/{{content.id}}>Редактор </div> </a> {% endif %} </body> </html> {% endblock %}
+{% if user == content.creator %}
+<div><a href=/editor/{{content.id}}>Редактор</div></a>
+{% endif %}
+</body>
+</html>
+{% endblock %}

@@ -1,8 +1,12 @@
-#preview {
-	background: red;
-	border: 1px solid green;
+.input-group{
+    height: 30px;
+    
+}
+.custom-file-input{
+    height: 50px;
+}
+.del_photo{
+    display: none;
 }
 
-img{
-    width: 100%;
-}
+    

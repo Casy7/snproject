@@ -1,15 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-
-class Photo(models.Model):
-    file = models.ImageField()
-    description = models.CharField(max_length=255, blank=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'photo'
-        verbose_name_plural = 'photos'
+from datetime import datetime
 
 
 class Description(models.Model):
@@ -41,6 +33,6 @@ class Hike(models.Model):
     type_of_hike = models.CharField(max_length=200, default='Пеший')
    
     coordinates = models.CharField(max_length=200000, default='[]')
-    creation_datetime = models.DateTimeField(auto_now=True)
+    creation_datetime = models.DateTimeField(default=datetime.now())
 
     image = models.ImageField(null=True, blank=True,upload_to='hikes/')# +self.name, name=self.name)

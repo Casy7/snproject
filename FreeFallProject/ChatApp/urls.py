@@ -1,13 +1,9 @@
 from .views import *
 from django.urls import path
-from django.conf.urls import url
 from ChatApp import views
 from FreeFallProject import settings
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# from dajaxice.core import dajaxice_autodiscover, dajaxice_config
-
-
 
 urlpatterns = [
     path("home/", HomePage.as_view(), name="home"),
@@ -21,7 +17,6 @@ urlpatterns = [
     path('map/<int:id>/', MapOfHike.as_view(), name="map"),
     path('create_map/<int:id>/', CreateMap.as_view(), name="create_map"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
-    url(r'^create_landmark/$', AddLandmark.as_view(), name="add_landmark")
     # staticfiles_urlpatterns(),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]

@@ -4,11 +4,10 @@
 }
 
 .card {
-
-    padding-top: 5px;
+    height: auto;
+    /* box-sizing: content-box; */
     width: 45%;
-    height: 60%;
-    box-sizing: content-box;
+    height: 20%;
     box-shadow: 1px solid gray;
 }
 
@@ -28,12 +27,9 @@
     right: 20px;
     top: -45px;
 }
-.input-group-prepend{
-    width: 45px;
-}
 
 .input-group-prepend span {
-    width: 45px;
+    width: 30px;
     /* background-color: rgb(46, 119, 179); */
     color: black;
     /* border: 0 !important; */

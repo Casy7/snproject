@@ -28,7 +28,7 @@
                 </button>
             </div>
 
-            <div id="collapse1" class="panel-collapse">
+            <div id="collapse1" class="panel-collapse collapse">
                 <div class="card-body">
                     <label for="exampleFormControlInput1">Аватар похода</label><br>
                     {% if image == '' %}
@@ -99,7 +99,7 @@
                             {% for participant in participants %}
                             <li class="list-inline-item" name={{participant}} id="{{participant}}">
                                 <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
-                                    <img src="{% static 'icons/no_avatar.png' %}" class="card-img-top"
+                                    <img src="{%static 'icons/logo_grey.png'%}" class="card-img-top"
                                         style="width: 100%;height: 100%;"></img>
                                     <span style="text-align:center">{{participant}}</span>
                                     <button type="button" class="form-control" style="height:20px; border: none;"
@@ -111,7 +111,7 @@
 
                                 <div class="card"
                                     style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
-                                    <img src="{% static 'icons/add-new.png' %}" class="card-img-top"
+                                    <img src="{% static 'icons/add.png' %}" class="card-img-top"
                                         style="width: 100%;"></img>
                                     <input type="text" class="forn-control" id="new-user"
                                         style="width: 100%;height: 22.5px;border: none;" placeholder="Новый" value="">
@@ -154,7 +154,7 @@
 
                         <br>
                         <!-- <input type="submit" class="btn btn-secondary btn-block" value="Создать"> -->
-                        <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
+                        
                     </div>
                 </div>
             </div>
@@ -175,7 +175,7 @@
                 </button>
             </div>
 
-            <div id="collapse2" class="panel-collapse">
+            <div id="collapse2" class="panel-collapse collapse">
                 <div class="card-body">
                     <div id="toolbar-container" class="edtor">
 
@@ -184,7 +184,7 @@
                             {{description|safe}}
                     </textarea>
                 </div>
-                <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
+                
             </div>
         </div>
 
@@ -232,11 +232,7 @@
 
 
 
-            <div class="panel-heading">
-                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse4">
-                    Карта похода
-                </button>
-            </div>
+
 
                 <!--CODE OF EDITOR-->
 
@@ -307,7 +303,7 @@
                 </script>
 
                 <input name="coordinates" id="coords" type="hidden">
-                <input type="submit" class = "btn btn-secondary" value="Создать">
+                <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
 
 
 
@@ -325,9 +321,75 @@
 </form>
 
 
-<!-- 
-<input type="text" hidden=True id="coordinates" name="coordinates" value="[]">
-</form>
- -->
+<script>
+    function add_user() {
+        users = document.getElementById('list-usrs');
+        // alert(users.value);
+        if (users.value == "") {
+            document.getElementById('list-usrs').value = [].toString();
+            // alert($('#list-usrs').value);
+            // alert(typeof document.getElementById('new-user').value);
+            if (document.getElementById('new-user').value != "") {
+                // alert("!!!!")
+                add_ptc();
+            }
+        }
+        else {
+            if (document.getElementById('new-user').value != "") {
+                add_ptc();
+            }
+        }
+    }
+function add_ptc() {
+    list = str_to_list(document.getElementById('list-usrs').value);
+    //alert(typeof(list));
+    //alert(list);
+    user = document.getElementById('new-user').value;
+    //alert(user);
+    list.push(user);
+    //alert(list);
+    document.getElementById('list-usrs').value = list;
+    // alert(document.getElementById('list-usrs').value);
+
+    user_card = document.createElement("li");
+    user_card.className = "card";
+    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);";
+
+    img = document.createElement("img");
+    img.className = "card-img-top";
+    img.style = "width: 100%;";
+    img.src = "{%static 'icons/logo_grey.png'%}"
+
+    span = document.createElement("span");
+    span.style = "text-align:center";
+    span.value = user;
+    span.text = user;
+    span.appendChild(document.createTextNode(user));
+    button = document.createElement("button");
+    button.className = "form-control";
+    button.type = "button";
+    button.onclick = function add_this_user() { del_user(user) };
+    button.style = "height:20px; border: none;";
+    button.innerHTML = "-";
+
+    user_card.appendChild(img);
+    user_card.appendChild(span);
+    user_card.appendChild(button);
+
+    li = document.createElement("li");
+    li.className = "list-inline-item";
+    li.name = user;
+    li.id = user;
+
+    li.appendChild(user_card);
+    document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+    
+
+}
+
+</script>
+
 
 {% endblock %}
