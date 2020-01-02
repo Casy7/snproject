@@ -152,22 +152,22 @@
                         <ul class="nav navbar-nav ml-auto">
                             {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/new_hike">New Hike</a>
+                                <a class="nav-link" href="/new_hike">Создать поход</a>
                             </li>
                             {% endif %}
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" href="/all_hikes">Главная</a>
+                            </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="/all_hikes">Hikes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Main Page</a>
+                                <a class="nav-link" href="/">Главная</a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/login">Login</a>
+                                <a class="nav-link" href="/login">Войти</a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout">Logout</a>
+                                <a class="nav-link" href="/logout">Выход</a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="/login">{{username}}</a>

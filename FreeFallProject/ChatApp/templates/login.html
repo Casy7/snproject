@@ -19,37 +19,37 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="far fa-copyright"></i></span>
             </div>
-            <input type="text" name="username" required="" class="form-control" placeholder="Nickname">
+            <input type="text" name="username" required="" class="form-control" placeholder="Никнейм">
           </div>
           <div class="input-group form-group">
             <!--PASSWORD-->
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input id="password_field" type="password"  required="" name="password" class="form-control" placeholder="Password">
+            <input id="password_field" type="password"  required="" name="password" class="form-control" placeholder="Пароль">
 						<div class="input-group-prepend">
 							<span type = "button" class="input-group-text" onclick = "show_password()"><i class="fa fa-eye"></i></span>
 						</div>
           </div>
           <div class="row align-items-center remember">
-            <input type="checkbox" name=remember class="remember" checked>Remember Me</input>
+            <input type="checkbox" name=remember class="remember" checked><p style="padding-left: 6px;padding-top: 7px;font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;">Запомнить меня</p></input>
           </div>
         </div>
         <div class="card-footer" style="background-color: transparent;">
           {% if error == 1 %}
           <div class="d-flex justify-content-center links error-message">
-            Invalid username or password
+            Имя пользователя или пароль неверны.
           </div>
           {% elif error == 2 %}
           <div class="d-flex justify-content-center links error-message">
-            You are not logged in.
+            Пожалуйста, для начала войдите в систему.
           </div>
           {% endif %}
           <div class="d-flex justify-content-center links">
             
           </div>
-          <input type="submit" value="Log in" class="btn btn-outline-secondary btn-block" style="width: 100%;"><br>
-          <pre style="text-align: center;"><a href="/registration">Don't have an account? Sign Up</a></pre>
+          <input type="submit" value="Войти" class="btn btn-outline-secondary btn-block" style="width: 100%;"><br>
+          <pre style="text-align: center;"><a href="/registration">Ещё нет аккаунта? Создайте его сейчас.</a></pre>
           <!-- <div class="d-flex justify-content-center">
           <a href="#">Forgot your password?</a>
         </div> -->
