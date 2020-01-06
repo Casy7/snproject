@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link href="{% static 'css/my_account.css'%}" rel="stylesheet">
+
+<script>
+    function delete_avatar() {
+        document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+        clearInputFile(document.getElementById("myfile"));
+        del_avatar_button();
+        // 
+    }
+</script>
+
+<div class="col-md" id="custom-file-input">
+    <input type="file" class="file-upload" name="image" style="display: none;" id="myfile" accept=".jpg, .jpeg, .png">
+</div>
+
+<div class="form-row">
+    <div class="col" style="width: 250px;">
+        <!-- style="width: 250px;"> -->
+        <div class="img-container" style="padding: 0px;width: 250px;">
+
+            <div class="row">
+                <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar" default="Фото не выбрано"></img>
+            </div>
+            <div class="row" style="padding: 0px;width: 250px;">
+                <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 250px;">
+                    <label type="button" for="myfile" class="upload-btn"
+                        style="display: block;text-align: center;width: 100%;">Загрузить
+                    </label>
+                </div>
+                <div class="col-sm" id="del_button" style="padding: 0px;">
+                    <!-- Сюда добавляется кнопка удаления -->
+                </div>
+            </div>
+            <script src="{% static 'js/upload_photo.js' %}"></script>
+        </div>
+    </div>
+
+    <div>
+        <div class="col-bg">
+            <div class="row">
+
+                <input type="text" class="form-control">
+            </div>
+
+        </div>
+
+        <!-- Полное имя и описание -->
+    </div>
+</div>
+
+
+
+<div class="col-sm-2">
+
+
+</div>
+
+
+{% if user == content.creator %}
+<div><a href=/editor/{{content.id}}>Редактор </div> </a> {% endif %} </body> </html> {% endblock %}

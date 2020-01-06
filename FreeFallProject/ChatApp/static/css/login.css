@@ -6,6 +6,7 @@
 .card {
     height: auto;
     /* box-sizing: content-box; */
+    min-width: 350px;
     width: 45%;
     height: 20%;
     box-shadow: 1px solid gray;
@@ -20,6 +21,14 @@
 .social_icon span:hover {
     /* color: white; */
     cursor: pointer;
+}
+
+.registraion_link{
+    text-align: center;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 2px;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
 }
 
 .social_icon {

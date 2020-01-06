@@ -1,19 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<!-- <link href="{% static 'libs/cropperjs-master/dist/cropper.min.css'%}" rel="stylesheet">
-<script src="{% static 'libs/cropperjs-master/dist/cropper.min.js'%}"></script> -->
 
-<!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
+
 <link href="{% static 'css/new_hike.css'%}" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/new_hike.js' %}"></script>
-<script src="{% static 'js/editor.js' %}"></script>
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
-<!-- <script href="{% static 'libs/ckeditor/ckeditor.js' %}"></script> -->
+
 <script>
     function delete_avatar() {
         document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";

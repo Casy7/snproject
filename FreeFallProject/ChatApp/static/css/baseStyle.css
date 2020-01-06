@@ -6,7 +6,8 @@ h1 {
     font-family: 'UniversLTCYR-67BoldCond', 'Arial', sans-serif;
     text-transform: uppercase;
     font-size: 3.4rem;
-
+    /* padding-left: 6%; */
+    text-align: center;
     letter-spacing: 4.35px;
 }
 h2{
@@ -59,8 +60,21 @@ blockquote{
     /* box-sizing: content-box; */
     
 }
+
 .card{
     border: none;
+}
+
+.upload-btn{
+    height: 40px;
+    padding: 0px;
+    padding-top: 15px;
+    align-self: center;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 2px;
+    font-family:"Poppins", sans-serif;
 }
 /*
 .sidebar {
@@ -190,13 +204,8 @@ input :active {
 }
 
 .input-group-text {} */
-/*
-    DEMO STYLE
-*/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-
-
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"; */
 
 a, a:hover, a:focus {
     color: black;
@@ -341,7 +350,7 @@ a.article, a.article:hover {
     transition: all 0.3s;
 }
 .content{
-    padding: 20px;
+    padding: 4%;
 }
 
 #sidebarCollapse {
@@ -382,7 +391,7 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
         transform: rotateY(90deg);
@@ -411,4 +420,4 @@ a.article, a.article:hover {
         transform: rotate(-45deg) translate(1px, -1px);
     }
 
-}
+} */

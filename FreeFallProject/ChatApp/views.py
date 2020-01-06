@@ -470,3 +470,21 @@ class SetHike(View):
         context['content'] = text
 
         return render(request, "hike.html", context)
+
+
+class MyAccount(View):
+    def get(self,request):
+        context = base_context(request, title=full_name, header=username)
+        user = request.user
+        first_name = user.first_name
+        last_name = user.last_name
+        username = user.username
+        if first_name != '' and last_name != '':
+            full_name = last_name+" "+first_name
+        elif first_name!='':
+            full_name = first_name
+        else:
+            full_name = username
+        context['user'] = user
+        context['full_name'] = full_name
+        return render(request, "my_account.html", context)
