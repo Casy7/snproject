@@ -474,7 +474,7 @@ class SetHike(View):
 
 class MyAccount(View):
     def get(self,request):
-        context = base_context(request, title=full_name, header=username)
+        
         user = request.user
         first_name = user.first_name
         last_name = user.last_name
@@ -485,6 +485,7 @@ class MyAccount(View):
             full_name = first_name
         else:
             full_name = username
+        context = base_context(request, title=full_name, header=username)
         context['user'] = user
         context['full_name'] = full_name
         return render(request, "my_account.html", context)

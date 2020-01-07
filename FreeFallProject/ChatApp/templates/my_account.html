@@ -11,15 +11,15 @@
         // 
     }
 </script>
-
+<script src="{% static 'js/my_account.js'%}"></script>
 <div class="col-md" id="custom-file-input">
     <input type="file" class="file-upload" name="image" style="display: none;" id="myfile" accept=".jpg, .jpeg, .png">
 </div>
 
-<div class="form-row">
-    <div class="col" style="width: 250px;">
+<table class="form-row">
+    <tr class="col">
         <!-- style="width: 250px;"> -->
-        <div class="img-container" style="padding: 0px;width: 250px;">
+        <td class="img-container" style="padding: 0px;width: 250px;">
 
             <div class="row">
                 <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar" default="Фото не выбрано"></img>
@@ -35,24 +35,94 @@
                 </div>
             </div>
             <script src="{% static 'js/upload_photo.js' %}"></script>
+        </td>
+
+
+        <td style="float: left;min-width: 70%;width: 600px;">
+            <table class="col-bg">
+                <tr class="row" style="width: 20%;">
+                    <label for="exampleFormControlInput1">Фамилия</label>
+                    <input type="text" class="form-control" name="last_name" placeholder=" "
+                        style="width: 45%;font-size: 18px;">
+                </tr>
+                <tr class="row" style="width: 20%;">
+                    <label for="exampleFormControlInput1">Имя</label>
+                    <input type="text" class="form-control" name="first_name" placeholder=" "
+                        style="width: 45%;font-size: 18px;">
+                </tr>
+                <tr class="row" style="width: 70%;">
+                    <label for="exampleFormControlInput1">О себе</label>
+                    <span>
+                        <textarea class="form-control" name="short_description" placeholder=""
+                            style="font-size: 14px; height: 140px;"></textarea>
+                    </span>
+                </tr class="row" style="width: 20%;">
+                <div class="row">
+
+                    <!-- <input type="text" class="form-control"> -->
+                </div>
+            </table>
+
+
+            <!-- Полное имя и описание -->
+        </td>
+    </tr>
+</table>
+
+
+<label for="contacts">Контакты</label>
+<div id="contacts" style="width: 65%;">
+    <div class="row" name="day" id="contact_1">
+        <div class="col-sm" id="contact_name_1">
+            <select class="form-control" name="contact_name_1" style="height: 40px;font-size: 14px;">
+                <option value="email">Email</option>
+                <option value="phone">Телефон</option>
+                <option value="telegram">Telegram</option>
+                <option value="other" onclick="other_contact_type(this.parentNode.parentNode.parentNode.id)">Другое</option>
+            </select>
         </div>
-    </div>
 
-    <div>
-        <div class="col-bg">
-            <div class="row">
-
-                <input type="text" class="form-control">
-            </div>
-
+        <div class="col-sm">
+            <input type="text" id="contact_value_1" class="form-control" name="contact_value_1"
+                style="height: 40px;font-size: 14px;">
         </div>
-
-        <!-- Полное имя и описание -->
+        <div class="col-sm">
+            <select name="difficulty" class="form-control" style="height: 40px;font-size: 14px;">
+                <option value="noone">Виден только мне</option>
+                <option value="all">Виден всем</option>
+                <option value="friends">Виден друзьям</option>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="form-control" style="height: 40px;font-size: 14px;"
+                onclick="del_contact_field(this.parentNode.parentNode.id)">-</button></div>
     </div>
 </div>
-
-
-
+<br>
+<input type="button" class="form-control" value="+" onclick="add_contact_field()" value=""
+    style="height: 40px;font-size: 14px; width: 65%;">
+<br>
+<h2 style="border-top: 1px solid rgb(199, 199, 199);">Приватность</h2>
+<label for="exampleFormControlInput1">Кто может отправлять Вам запросы на участие</label>
+<select class="form-control select" name="request" style="height: 40px;font-size: 14px;">
+    <option value="email">Никто</option>
+    <option value="phone">Друзья</option>
+    <option value="telegram">Все</option>
+</select>
+<label for="exampleFormControlInput1">Кто может добавлять Вас в походы</label>
+<select class="form-control select" name="request" style="height: 40px;font-size: 14px;">
+    <option value="email">Никто</option>
+    <option value="phone">Друзья</option>
+    <option value="telegram">Все</option>
+</select>
+<label for="exampleFormControlInput1">Кто видит Ваши походы</label>
+<select class="form-control select" name="request" style="height: 40px;font-size: 14px;">
+    <option value="email">Никто</option>
+    <option value="phone">Друзья</option>
+    <option value="telegram">Все</option>
+</select>
+<!-- <input type="text" class="form-control" name="first_name" placeholder=" "
+    style="width: 45%;font-size: 18px;"> -->
 <div class="col-sm-2">
 
 
