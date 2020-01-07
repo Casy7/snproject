@@ -69,11 +69,11 @@ function add_contact_field (){
     // Создание блока выбора видимости
     visible_for_div = document.createElement("div");
     visible_for_div.className="col-sm";
-    visible_for_div.id = "contact_name_"+id;
+    visible_for_div.id = "contact_visibility_"+id;
     
     select_visibility = document.createElement("select");
     select_visibility.className="form-control";
-    select_visibility.name="contact_name_"+id;
+    select_visibility.name="contact_visibility_"+id;
     select_visibility.style="height: 40px;font-size: 14px;";
 
     
@@ -137,6 +137,7 @@ function other_contact_type(contact_id)
     log(number);
     contact_name_field = document.createElement("input");
     contact_name_field.type = "text";
+    contact_name_field.name = "contact_name_"+number;
     contact_name_field.className = "form-control";
     contact_name_field.placeholder = "Тип контакта";
     contact_name_field.style = "height: 40px;font-size: 14px;";

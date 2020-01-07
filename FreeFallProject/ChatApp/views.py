@@ -489,3 +489,10 @@ class MyAccount(View):
         context['user'] = user
         context['full_name'] = full_name
         return render(request, "my_account.html", context)
+    def post(self, request):
+        form = request.POST
+
+
+
+        context = base_context(request)
+        return render(request, "my_account.html", context)
