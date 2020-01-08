@@ -2,22 +2,45 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 from datetime import datetime
+VISIBLE_FOR = [
+    ("noone", "noone"),
+    ("friends", "friends"),
+    ("all", "all")]
+
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    value = models.CharField(max_length=250)
+    visible_for = models.CharField(max_length=10,
+                                   choices=VISIBLE_FOR, default="all")
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    avatar = models.ImageField(
+        null=True, blank=True, upload_to='users/avatars/')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    about = models.CharField(max_length=2000, blank=True)
     gender = models.CharField(max_length=20, default='male')
+    see_hikes = models.CharField(
+        max_length=10, choices=VISIBLE_FOR, default="all")
+    add_to_participation = models.CharField(max_length=10,
+                                            choices=VISIBLE_FOR, default="noone")
+    request_for_participation = models.CharField(max_length=10,
+                                                 choices=VISIBLE_FOR, default="all")
 
 
 class Landmark(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200000, default='desc')
-    
+
     def __str__(self):
         return f'{self.name}'
 
+
 class Hike(models.Model):
-    creator = models.ForeignKey(User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        User, null=True, default=None, related_name="creator", on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default='A new hike')
     description = models.CharField(max_length=200000, default='')
     short_description = models.CharField(max_length=1000, default='')
@@ -31,8 +54,9 @@ class Hike(models.Model):
 
     difficulty = models.CharField(max_length=200, default='none')
     type_of_hike = models.CharField(max_length=200, default='Пеший')
-   
+
     coordinates = models.CharField(max_length=200000, default='[]')
     creation_datetime = models.DateTimeField(default=datetime.now())
 
-    image = models.ImageField(null=True, blank=True,upload_to='hikes/')# +self.name, name=self.name)
+    # +self.name, name=self.name)
+    image = models.ImageField(null=True, blank=True, upload_to='hikes/')

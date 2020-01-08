@@ -124,6 +124,9 @@ function add_contact_field (){
 }
 
 
+
+
+
 function del_contact_field(id)
 {
     byId(id).parentNode.removeChild(byId(id));

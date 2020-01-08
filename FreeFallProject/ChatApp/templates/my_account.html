@@ -26,8 +26,12 @@
             <td class="img-container" style="padding: 0px;width: 250px;">
 
                 <div class="row">
+                    {% if profile.avatar.name == '' %}
                     <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
+                    {% else %}
+                    <img src="{{profile.avatar.url}}" id="myimg" class="avatar" default="Фото не выбрано"></img>
+                    {% endif %}
                 </div>
                 <div class="row" style="padding: 0px;width: 250px;">
                     <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 250px;">
@@ -37,9 +41,38 @@
                     </div>
                     <div class="col-sm" id="del_button" style="padding: 0px;">
                         <!-- Сюда добавляется кнопка удаления -->
+                        <script>
+                            function del_without_replacing() {
+                                button = document.createElement("button");
+                                button.type = "button";
+                                button.className = "upload-btn";
+                                button.value = "Удалить";
+                                button.innerText = "Удалить";
+                                //button.style.height = "30px";
+                                //button.style.width = "50px";
+                                button.onclick = function a() {
+                                    hidden_field = document.createElement("input");
+                                    hidden_field.type = "hidden";
+                                    hidden_field.name = "delete_photo";
+                                    hidden_field.value = "0";
+                                    document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+                                    byId('hidden_fields').appendChild(hidden_field);
+                                    del_avatar_button();
+                                }
+                                document.getElementById("del_button").appendChild(button);
+                            }
+                        </script>
+                        {% if profile.avatar.name != '' %}
+
+                        <script>
+                            del_without_replacing();
+                        </script>
+                        {% endif %}
+
                     </div>
                 </div>
                 <script src="{% static 'js/upload_photo.js' %}"></script>
+                </script>
             </td>
 
 
@@ -48,21 +81,21 @@
                     <tr class="row" style="width: 20%;">
                         <label for="exampleFormControlInput1">Фамилия</label>
                         <input type="text" class="form-control" name="last_name" placeholder=" "
-                            style="width: 45%;font-size: 18px;">
+                            style="width: 45%;font-size: 18px;" value="{{user.last_name}}">
                     </tr>
                     <tr class="row" style="width: 20%;">
                         <label for="exampleFormControlInput1">Имя</label>
-                        <input type="text" class="form-control" name="first_name" placeholder=" "
-                            style="width: 45%;font-size: 18px;">
+                        <input type="text" required="" class="form-control" name="first_name" placeholder=" "
+                            style="width: 45%;font-size: 18px;" value="{{user.first_name}}">
                     </tr>
                     <tr class="row" style="width: 70%;">
                         <label for="exampleFormControlInput1">О себе</label>
                         <span>
-                            <textarea class="form-control" name="short_description" placeholder=""
-                                style="font-size: 14px; height: 140px;"></textarea>
+                            <textarea class="form-control" name="about" placeholder=""
+                                style="font-size: 14px; height: 140px;">{{profile.about}}</textarea>
                         </span>
                     </tr class="row" style="width: 20%;">
-                    <div class="row">
+                    <div class="row" id="hidden_fields">
 
                         <!-- <input type="text" class="form-control"> -->
                     </div>
@@ -101,7 +134,8 @@
             </div>
             <div class="col-sm-1">
                 <button type="button" class="form-control" style="height: 40px;font-size: 14px;"
-                    onclick="del_contact_field(this.parentNode.parentNode.id)">-</button></div>
+                    onclick="del_contact_field(this.parentNode.parentNode.id)">-</button>
+            </div>
         </div>
     </div>
     <br>
@@ -110,23 +144,28 @@
     <br>
     <h2 style="border-top: 1px solid rgb(199, 199, 199);">Приватность</h2>
     <label for="exampleFormControlInput1">Кто может отправлять Вам запросы на участие</label>
-    <select class="form-control select" name="request" style="height: 40px;font-size: 14px;">
+    <select class="form-control select" name="request" style="height: 40px;font-size: 14px;" id="request">
         <option value="noone">Никто</option>
         <option value="friends">Друзья</option>
         <option value="all">Все</option>
     </select>
     <label for="exampleFormControlInput1">Кто может добавлять Вас в походы</label>
-    <select class="form-control select" name="add_to_ptc" style="height: 40px;font-size: 14px;">
+    <select class="form-control select" name="add_to_ptc" style="height: 40px;font-size: 14px;" id="add_to_ptc">
         <option value="noone">Никто</option>
         <option value="friends">Друзья</option>
         <option value="all">Все</option>
     </select>
     <label for="exampleFormControlInput1">Кто видит Ваши походы</label>
-    <select class="form-control select" name="can_see_hikes" style="height: 40px;font-size: 14px;">
+    <select class="form-control select" name="can_see_hikes" style="height: 40px;font-size: 14px;" id="can_see_hikes">
         <option value="noone">Никто</option>
         <option value="friends">Друзья</option>
         <option value="all">Все</option>
     </select>
+    <script>
+        byId('request').value = "{{profile.request_for_participation}}";
+        byId('add_to_ptc').value = "{{profile.add_to_participation}}";
+        byId('can_see_hikes').value = "{{profile.see_hikes}}";
+    </script>
     <!-- <input type="text" class="form-control" name="first_name" placeholder=" "
     style="width: 45%;font-size: 18px;"> -->
     <div class="col-sm-2">
@@ -134,7 +173,7 @@
 
     </div>
     <br>
-    <input type="submit" class="form-control btn btn-secondary" value = "Сохранить">
+    <input type="submit" class="form-control btn btn-secondary" value="Сохранить">
 </form>
 
 {% endblock %}
