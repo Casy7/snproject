@@ -499,7 +499,8 @@ class MyAccount(View):
         context['profile'] = profile
         context['full_name'] = full_name
         context['contacts'] = Contact.objects.filter(user=user)
-
+        context['list_of_alowed_positions'] = ["phone","telegram","email"]
+        # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
         return render(request, "my_account.html", context)
     def post(self, request):
         # TODO валидация этой формы
@@ -534,7 +535,7 @@ class MyAccount(View):
         profile.save()
         # Добавление контактов
         for old_contact in Contact.objects.filter(user=user):
-            old_contact.remove()
+            old_contact.delete()
 
         contact_number = 0
         for contact in form.keys():

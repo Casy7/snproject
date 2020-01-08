@@ -109,33 +109,60 @@
 
     <label for="contacts">Контакты</label>
     <div id="contacts" style="width: 65%;">
-        <div class="row" name="day" id="contact_1">
-            <div class="col-sm" id="contact_name_1">
-                <select class="form-control" name="contact_name_1" style="height: 40px;font-size: 14px;">
+
+
+        <!--Тут должно быть начало блока цикла темплейта-->
+
+
+        {% for contact in contacts %}
+
+        <div class="row" name="day" id="contact_{{contact.id}}" style="padding-top:20px;">
+            <div class="col-sm" id="contact_name_{{contact.id}}">
+                {% if contact.name in list_of_alowed_positions %}
+                <select class="form-control" name="contact_name_{{contact.id}}" id="contact_select_name_{{contact.id}}" style="height: 40px;font-size: 14px;">
                     <option value="email">Email</option>
                     <option value="phone">Телефон</option>
                     <option value="telegram">Telegram</option>
                     <option value="other" onclick="other_contact_type(this.parentNode.parentNode.parentNode.id)">Другое
                     </option>
                 </select>
+                <script>
+                    byId('contact_select_name_{{contact.id}}').value = "{{contact.name}}";
+                </script>
+                {% else %}
+                <input type="text" id="contact_name_{{contact.id}}" class="form-control" name="contact_name_{{contact.id}}"
+                style="height: 40px;font-size: 14px;" value="{{contact.name}}">
+                {% endif %}
+
             </div>
 
             <div class="col-sm">
-                <input type="text" id="contact_value_1" class="form-control" name="contact_value_1"
-                    style="height: 40px;font-size: 14px;">
+                <input type="text" id="contact_value_1" class="form-control" name="contact_value_{{contact.id}}"
+                    style="height: 40px;font-size: 14px;" value="{{contact.value}}">
             </div>
             <div class="col-sm">
-                <select name="contact_visibility_1" class="form-control" style="height: 40px;font-size: 14px;">
+                <select name="contact_visibility_{{contact.id}}" class="form-control" style="height: 40px;font-size: 14px;" id="visible_cond_{{contact.id}}">
                     <option value="noone">Виден только мне</option>
                     <option value="all">Виден всем</option>
                     <option value="friends">Виден друзьям</option>
                 </select>
             </div>
+            <script>
+            byId('visible_cond_{{contact.id}}').value = "{{contact.visible_for}}";
+            </script>
             <div class="col-sm-1">
                 <button type="button" class="form-control" style="height: 40px;font-size: 14px;"
                     onclick="del_contact_field(this.parentNode.parentNode.id)">-</button>
             </div>
         </div>
+
+        {% endfor %}
+
+
+
+
+        <!-- Тут должен быть конец этого блока -->
+
     </div>
     <br>
     <input type="button" class="form-control" value="+" onclick="add_contact_field()" value=""
