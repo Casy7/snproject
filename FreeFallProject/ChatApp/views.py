@@ -91,7 +91,7 @@ class Registration(View):
     def get(self, request):
 
         context = base_context(
-            request, title='Registration', header='Registration', error=0)
+            request, title='Регистрация', header='Регистрация', error=0)
 
         return render(request, "registration.html", context)
 
@@ -136,7 +136,7 @@ class UserLogin(View):
     def get(self, request):
 
         context = base_context(
-            request, title='Login', header='Login', error=0)
+            request, title='Вход', header='Вход в систему', error=0)
         context['error'] = 0
 
         # context['form'] = self.form_class()
@@ -178,7 +178,7 @@ class NewHike(View):
     def get(self, request):
         
         context = base_context(
-            request, title='New Hike', header='Новый поход', error=0)
+            request, title='Новый поход', header='Новый поход', error=0)
 
         context['form'] = HikeForm()
         # context['photo_form'] = photo_form
@@ -490,6 +490,7 @@ class MyAccount(View):
         context['full_name'] = full_name
         return render(request, "my_account.html", context)
     def post(self, request):
+        # TODO валидация этой формы
         form = request.POST
 
 

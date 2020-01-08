@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 
-class Description(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     gender = models.CharField(max_length=20, default='male')
 
