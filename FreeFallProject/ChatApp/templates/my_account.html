@@ -3,8 +3,27 @@
 {% load static %}
 
 <link href="{% static 'css/my_account.css'%}" rel="stylesheet">
-
 <script>
+    function del_without_replacing() {
+        button = document.createElement("button");
+        button.type = "button";
+        button.className = "upload-btn";
+        button.value = "Удалить";
+        button.innerText = "Удалить";
+        //button.style.height = "30px";
+        //button.style.width = "50px";
+        button.onclick = function a() {
+            hidden_field = document.createElement("input");
+            hidden_field.type = "hidden";
+            hidden_field.name = "delete_photo";
+            hidden_field.value = "0";
+            document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+            byId('hidden_fields').appendChild(hidden_field);
+            del_avatar_button();
+        }
+        document.getElementById("del_button").appendChild(button);
+    }
+
     function delete_avatar() {
         document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
         clearInputFile(document.getElementById("myfile"));
@@ -41,27 +60,7 @@
                     </div>
                     <div class="col-sm" id="del_button" style="padding: 0px;">
                         <!-- Сюда добавляется кнопка удаления -->
-                        <script>
-                            function del_without_replacing() {
-                                button = document.createElement("button");
-                                button.type = "button";
-                                button.className = "upload-btn";
-                                button.value = "Удалить";
-                                button.innerText = "Удалить";
-                                //button.style.height = "30px";
-                                //button.style.width = "50px";
-                                button.onclick = function a() {
-                                    hidden_field = document.createElement("input");
-                                    hidden_field.type = "hidden";
-                                    hidden_field.name = "delete_photo";
-                                    hidden_field.value = "0";
-                                    document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
-                                    byId('hidden_fields').appendChild(hidden_field);
-                                    del_avatar_button();
-                                }
-                                document.getElementById("del_button").appendChild(button);
-                            }
-                        </script>
+
                         {% if profile.avatar.name != '' %}
 
                         <script>
