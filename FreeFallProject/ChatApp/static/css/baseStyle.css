@@ -214,8 +214,8 @@ a, a:hover, a:focus {
 }
 
 .navbar{
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-left: 0px;
+    padding-right: 0px;
     width: 100% !important;
     background-color: rgb(223, 222, 222);
     color: rgb(190, 190, 190);
