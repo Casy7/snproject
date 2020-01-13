@@ -286,15 +286,8 @@ class HikeEditor(View, LoginRequiredMixin):
         username = request.user.username
         password = request.user.password
 
-        user = authenticate(username=username, password=password)
+        user = request.user
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                context['name'] = username
-                return HttpResponseRedirect("/")
-        else:
-            user = User.objects.get(username='admin')
 
         hike = Hike.objects.get(id=id)
         hike.name = form['name']
