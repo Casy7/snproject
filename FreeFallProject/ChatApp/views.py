@@ -315,7 +315,7 @@ class HikeEditor(View, LoginRequiredMixin):
 
             else:
                 break
-        hike.creator = user
+        # hike.creator = user
 
         hike.short_description = form['short_description']
         hike.description = form['description']

@@ -1,3 +1,6 @@
 .ck-editor__editable_inline{
     min-height: 400px;
 }
+.mapboxgl-map{
+    padding: 15px;
+}
