@@ -7,15 +7,12 @@
 }
 
 td {
-    /* display: flex; */
     overflow: hidden;
-    /* padding-left: 5%; */
 }
 
 #myimg {
     width: 350px;
     height: auto;
-    /* max-width: 90%; */
     border: 1px solid grey;
     border-radius: 2px;
     background-color: rgb(241, 241, 241);
