@@ -26,13 +26,17 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input id="password_field" type="password"  required="" name="password" class="form-control" placeholder="Пароль">
-						<div class="input-group-prepend">
-							<span type = "button" class="input-group-text" onclick = "show_password()"><i class="fa fa-eye"></i></span>
-						</div>
+            <input id="password_field" type="password" required="" name="password" class="form-control"
+              placeholder="Пароль">
+            <div class="input-group-prepend">
+              <span type="button" class="input-group-text" onclick="show_password()"><i class="fa fa-eye"></i></span>
+            </div>
           </div>
           <div class="row align-items-center remember">
-            <input type="checkbox" name=remember class="remember" checked><p style="padding-left: 6px;padding-top: 7px;font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;">Запомнить меня</p></input>
+            <input type="checkbox" name=remember class="remember" checked>
+            <p
+              style="padding-left: 6px;padding-top: 7px;font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;">
+              Запомнить меня</p></input>
           </div>
         </div>
         <div class="card-footer" style="background-color: transparent;">
@@ -46,16 +50,16 @@
           </div>
           {% endif %}
           <div class="d-flex justify-content-center links">
-            
+
           </div>
           <input type="submit" value="Войти" class="btn btn-outline-secondary btn-block" style="width: 100%;"><br>
           <div class="registraion_link"><a href="/registration">Ещё нет аккаунта? Создайте его сейчас.</a></pre>
-          <!-- <div class="d-flex justify-content-center">
+            <!-- <div class="d-flex justify-content-center">
           <a href="#">Forgot your password?</a>
         </div> -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </form>
 {% endblock %}

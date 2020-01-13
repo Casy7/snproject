@@ -5,11 +5,14 @@
 
 .card {
     height: auto;
-    
-    width: 25%;
-    height: 40%;
-    box-sizing: border-box;
+    min-width: 350px;
+    width: 45%;
+    height: 20%;
     box-shadow: 1px solid gray;
+}
+
+.input-group input{
+    font-size: 12px;
 }
 
 .social_icon span {
@@ -30,7 +33,7 @@
 }
 
 .input-group-prepend span {
-    width: 30px;
+    width: 40px;
     /* background-color: rgb(46, 119, 179); */
     color: black;
     /* border: 0 !important; */

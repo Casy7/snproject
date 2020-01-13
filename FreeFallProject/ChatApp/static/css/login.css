@@ -5,11 +5,14 @@
 
 .card {
     height: auto;
-    /* box-sizing: content-box; */
     min-width: 350px;
     width: 45%;
     height: 20%;
     box-shadow: 1px solid gray;
+}
+
+.input-group input{
+    font-size: 12px;
 }
 
 .social_icon span {
