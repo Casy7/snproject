@@ -265,8 +265,35 @@ a, a:hover, a:focus {
     transform: rotateY(100deg);
 }
 
+
 #sidebar .sidebar-header {
-    padding: 20px;
+
+    padding-left: 3%;
+    width: 100%;
+    display: inline-block;
+    height: 70px;
+    /* text-align: center; */
+    /* vertical-align: middle; */
+    background: #d3d3d3;
+    
+}
+
+
+#sidebar-username {
+    /* display: inline; */
+    vertical-align: middle;
+    margin-top: 20px;
+
+}
+
+
+
+.sidebar-avatar{
+    height: 70px;
+    width: 70px;
+    float: inline-end;
+    /* display: inline-block; */
+    /* vertical-align: middle; */
     background: #d3d3d3;
 }
 
