@@ -14,7 +14,9 @@
 .del_photo{
     display: none;
 }
-
+input.form-control {
+    font-size: 12px;
+}
 
 
     
