@@ -324,6 +324,8 @@ class HikeEditor(View, LoginRequiredMixin):
         hike.difficulty = form['difficulty']
         hike.type_of_hike = form['type']
 
+
+
         coordinates = str(form['coordinates'])
         data = coordinates.split(',')
         coordinates = []
@@ -334,6 +336,8 @@ class HikeEditor(View, LoginRequiredMixin):
         hike.coordinates = coordinates
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
+        elif 'delete_photo' in form.keys():
+            hike.image = None
 
         hike.save()
         # participants = participants_format(form['participants'])
@@ -454,7 +458,7 @@ class SetHike(View):
         text['short_description'] = hike.short_description
         text['description'] = hike.description
         text['coordinates'] = hike.coordinates
-        text['image'] = hike.image
+        # text['image'] = hike.image
         text['link'] = '/map/' + str(hike.id)
         if hike.image.name is not None and hike.image.name!="":
             text['image'] = hike.image

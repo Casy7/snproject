@@ -10,13 +10,22 @@
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 </head>
-
+{% if content.image != '' %}
+<style>
+  .content::before {
+    
+    background-image: url({{content.image.url}});
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /* opacity: 0.5; */
+  }
+</style>
+{% endif %}
 <body>
   {% if user == content.creator %}
-  <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор</a> </div> 
-  {% endif %} 
-
-  <p>{{content.start_date}} - {{content.end_date}}
+  <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %}
+      <p>{{content.start_date}} - {{content.end_date}}
       </p>
       <p>{{content.short_description}}</p>
       <p>Создатель: {{content.creator.first_name}} {{content.creator.last_name}}</p>
