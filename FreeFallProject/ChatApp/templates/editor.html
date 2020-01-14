@@ -317,12 +317,12 @@
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-        <div id="osm_map" style="width:1200px;height:500px"></div>
+        <div id="osm_map" style="width:auto;height:500px"></div>
 
         <script>
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-
+            debugger;
             var osm_map = new mapboxgl.Map({
                 container: 'osm_map',
                 style: 'mapbox://styles/mapbox/bright-v9',

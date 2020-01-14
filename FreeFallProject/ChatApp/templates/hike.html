@@ -45,13 +45,12 @@
 
       <h2 class="h2">Трек похода:</h2>
 
-      <div id="osm_map" style="width:1200px;height:500px"></div>
+      <div id="osm_map" style="width:auto;height:500px"></div>
 
       <script>
-
         coordinates = {{ content.coordinates | safe }};
         mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-
+        if (coordinates.length != 0) {
         var osm_map = new mapboxgl.Map({
           container: 'osm_map',
           style: 'mapbox://styles/mapbox/bright-v9',
@@ -59,6 +58,16 @@
           zoom: 14
         })
         osm_map.addControl(new mapboxgl.NavigationControl());
+        }
+        else {
+          var osm_map = new mapboxgl.Map({
+                container: 'osm_map',
+                style: 'mapbox://styles/mapbox/bright-v9',
+                center: [3.420253241560829, 46.124064037019906],
+                zoom: 14
+            });
+        osm_map.addControl(new mapboxgl.NavigationControl());
+        }
 
       </script>
 
@@ -75,7 +84,8 @@
           var x = coordinates[i][1][0];
           var y = coordinates[i][1][1];
           line.push([x, y]);
-          var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } }).setLngLat([x, y]).addTo(osm_map);
+          var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 },}).setLngLat([x, y]).addTo(osm_map);
+          
         }
 
         osm_map.on('load', function () {
