@@ -45,7 +45,7 @@
             <td class="img-container" style="padding: 0px;width: 250px;">
 
                 <div class="row">
-                    {% if profile.avatar.name == '' %}
+                    {% if profile.avatar == None %}
                     <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
                     {% else %}
@@ -84,7 +84,7 @@
                     </tr>
                     <tr class="row" style="width: 20%;">
                         <label for="exampleFormControlInput1">Имя</label>
-                        <input type="text" required="" class="form-control" name="first_name" placeholder=" "
+                        <input type="text" class="form-control" name="first_name" placeholder=" "
                             style="width: 45%;font-size: 18px;" value="{{user.first_name}}">
                     </tr>
                     <tr class="row" style="width: 70%;">

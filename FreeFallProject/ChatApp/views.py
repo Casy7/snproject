@@ -29,11 +29,17 @@ def base_context(request, **args):
     context['header'] = 'none'
     context['error'] = 0
     if user.is_anonymous != True:
-        context['username'] = user.username
-        if bool(user.profile.avatar):
-            context['avatar'] = user.profile.avatar
+        if len(Profile.objects.filter(user = user))!=0:
+
+            context['username'] = user.username
+            if bool(user.profile.avatar):
+                context['avatar'] = user.profile.avatar
+            else:
+                context['avatar'] = ''
         else:
+            user_desc = Profile(user=user, gender='male')
             context['avatar'] = ''
+            context['username']='Adminius'
         context['user'] = user
         context['hikes'] = []
         hikes = Hike.objects.filter(creator=user).order_by('-creation_datetime')
