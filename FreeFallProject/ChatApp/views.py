@@ -457,8 +457,9 @@ class SetHike(View):
         text['short_description'] = hike.short_description
         text['description'] = hike.description
         text['coordinates'] = hike.coordinates
+        with open ("ChatApp\static\icons\marker.png",'rb') as imagefile:
+            text['marker'] = imagefile
         # text['image'] = hike.image
-        text['link'] = '/map/' + str(hike.id)
         if hike.image.name is not None and hike.image.name!="":
             text['image'] = hike.image
         else:
