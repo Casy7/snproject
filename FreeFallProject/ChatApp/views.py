@@ -448,35 +448,35 @@ class SetHike(View):
 
         hike = Hike.objects.get(id=id)
         context = base_context(request, title=hike.name, header=hike.name)
-        text = {}
-        text['creator'] = hike.creator
-        text['name'] = hike.name
-        text['id'] = hike.id
-        text['start_date'] = hike.start_date
-        text['end_date'] = hike.end_date
-        text['short_description'] = hike.short_description
-        text['description'] = hike.description
-        text['coordinates'] = hike.coordinates
-        with open ("ChatApp\static\icons\marker.png",'rb') as imagefile:
-            text['marker'] = imagefile
+        this_hike = {}
+        this_hike['creator'] = hike.creator
+        this_hike['name'] = hike.name
+        this_hike['id'] = hike.id
+        this_hike['start_date'] = hike.start_date
+        this_hike['end_date'] = hike.end_date
+        this_hike['short_description'] = hike.short_description
+        this_hike['description'] = hike.description
+        this_hike['coordinates'] = hike.coordinates
+        # Сюда вставить все достопримечательности
+        this_hike['landmarks'] = list(Landmark.objects.all())
         # text['image'] = hike.image
         if hike.image.name is not None and hike.image.name!="":
-            text['image'] = hike.image
+            this_hike['image'] = hike.image
         else:
-            text['image'] = ''
-        landmarks = []
-        for landmark in hike.landmarks.all():
-            landmarks.append(landmark.name)
+            this_hike['image'] = ''
+        # landmarks = []
+        # for landmark in hike.landmarks.all():
+        #     landmarks.append(landmark.name)
 
-        text['landmarks'] = hike.landmarks
+        # this_hike['landmarks'] = hike.landmarks
         participants = []
 
         for participant in hike.participants.all():
             participants.append(participant.username)
 
-        text['participants'] = participants
-        text['coordinates'] = hike.coordinates
-        context['content'] = text
+        this_hike['participants'] = participants
+        this_hike['coordinates'] = hike.coordinates
+        context['content'] = this_hike
 
         return render(request, "hike.html", context)
 

@@ -31,11 +31,16 @@ class Profile(models.Model):
 
 
 class Landmark(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200000, default='desc')
-
     def __str__(self):
         return f'{self.name}'
+    name = models.CharField(max_length=200)
+    image = models.ImageField(
+        null=True, blank=True, upload_to='landmarks/')
+    description = models.CharField(max_length=200000, default='desc')
+    longitude = models.FloatField(default=0.0)
+
+    latitude = models.FloatField(default=0.0)
+
 
 
 class Hike(models.Model):
