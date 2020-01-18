@@ -38,7 +38,7 @@ class Landmark(models.Model):
         null=True, blank=True, upload_to='landmarks/')
     description = models.CharField(max_length=200000, default='desc')
     longitude = models.FloatField(default=0.0)
-
+    is_public = models.BooleanField(default=True)
     latitude = models.FloatField(default=0.0)
 
 
@@ -63,5 +63,4 @@ class Hike(models.Model):
     coordinates = models.CharField(max_length=200000, default='[]')
     creation_datetime = models.DateTimeField(default=datetime.now())
 
-    # +self.name, name=self.name)
     image = models.ImageField(null=True, blank=True, upload_to='hikes/')

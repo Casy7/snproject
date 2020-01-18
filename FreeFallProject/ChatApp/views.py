@@ -273,7 +273,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'type_of_hike': hike.type_of_hike,
 
                 'participants': participants,
-                # '':hike.,
+                'landmarks': list(Landmark.objects.filter(is_public=True)),
                 'description': hike.description,
                 'coordinates': hike.coordinates,
             })
@@ -284,17 +284,10 @@ class HikeEditor(View, LoginRequiredMixin):
             return HttpResponseRedirect("/login/")
 
     def post(self, request, id):
-        context = base_context(request)
+
         form = request.POST
 
-        print(form)
-
-        username = request.user.username
-        password = request.user.password
-
-        user = request.user
-
-
+        #  print(form)
         hike = Hike.objects.get(id=id)
         hike.name = form['name']
 
@@ -458,7 +451,7 @@ class SetHike(View):
         this_hike['description'] = hike.description
         this_hike['coordinates'] = hike.coordinates
         # Сюда вставить все достопримечательности
-        this_hike['landmarks'] = list(Landmark.objects.all())
+        this_hike['landmarks'] = list(Landmark.objects.filter(is_public=True))
         # text['image'] = hike.image
         if hike.image.name is not None and hike.image.name!="":
             this_hike['image'] = hike.image
