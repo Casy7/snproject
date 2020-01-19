@@ -53,6 +53,7 @@ def base_context(request, **args):
     if args != None:
         for arg in args:
             context[arg] = args[arg]
+    print(context)
     return context
 
 
