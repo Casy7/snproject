@@ -351,7 +351,7 @@
 
 
         </script>
-        Выберите день: <input type="number" , min="0" , max="99" , id="day" , value="0" />
+        Выберите день: <input type="number" , min="1" , max="99" , id="day" , value="1" />
 
         {%csrf_token%}
         <script>
@@ -363,7 +363,7 @@
                 el.content = day;
                 el.textContent = day;
                 el.className = 'marker';
-                el.style.backgroundImage = "url(https://i.stack.imgur.com/ZR00X.png)";
+                el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
 
 
                 var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
