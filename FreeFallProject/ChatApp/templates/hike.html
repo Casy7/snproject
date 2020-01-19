@@ -115,37 +115,43 @@
             }
           });
 
-          osm_map.addLayer({
-            id: "places",
-            type: "symbol",
-            source: {
-              type: "geojson",
-              data: {
-                type: "FeatureCollection",
-                features: [
-                  {% for lk in content.landmarks %}
-                  {
-                    type: "Feature",
-                    properties: {
-                      description:
-                        '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
-                      icon: "mountain"
-                    },
-                    geometry: {
-                      type: "Point",
-                      coordinates: [{{lk.longitude}}, {{lk.latitude}}]
-                    }
-                  },
-                  {% endfor %}
-                  
-                ]
+          osm_map.addLayer(
+            {
+              id: "places",
+              type: "symbol",
+              source:
+              {
+                type: "geojson",
+                data:
+                {
+                  type: "FeatureCollection",
+                  features:
+                    [
+                      //                {% for lk in content.landmarks %}
+                      {
+                        type: "Feature",
+                        properties:
+                        {
+                          description:
+                            '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
+                          icon: "mountain"
+                        },
+                        geometry:
+                        {
+                          type: "Point",
+                          coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                        }
+                      },
+                      //         {% endfor %}
+                    ]
+                }
+              },
+              layout:
+              {
+                "icon-image": "{icon}-15",
+                "icon-allow-overlap": true
               }
-            },
-            layout: {
-              "icon-image": "{icon}-15",
-              "icon-allow-overlap": true
-            }
-          });
+            });
 
           osm_map.on("click", "places", function (e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
@@ -173,7 +179,7 @@
           osm_map.on("mouseleave", "places", function () {
             osm_map.getCanvas().style.cursor = "";
           });
-        });
+        });  
       </script>
 
 
