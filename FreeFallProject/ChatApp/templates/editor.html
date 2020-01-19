@@ -374,8 +374,15 @@
                     document.getElementById("coords").value = coordinates;
 
                 });
+                osm_map.on('dblclick', function (e) {
+                    
+                    alert("!!")
+                });
 
-
+                // osm_map.addEventListener('contextmenu', function (ev) {
+                //     alert('success!');
+                //     return false;
+                // }, false);
 
                 osm_map.addLayer({
                     id: "places",
