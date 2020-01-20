@@ -45,7 +45,7 @@
             <td class="img-container" style="padding: 0px;width: 250px;">
 
                 <div class="row">
-                    {% if profile.avatar == None %}
+                    {% if avatar == '' %}
                     <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
                     {% else %}
@@ -61,7 +61,7 @@
                     <div class="col-sm" id="del_button" style="padding: 0px;">
                         <!-- Сюда добавляется кнопка удаления -->
 
-                        {% if profile.avatar.name != '' %}
+                        {% if avatar != '' %}
 
                         <script>
                             del_without_replacing();

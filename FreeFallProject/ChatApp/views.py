@@ -53,6 +53,7 @@ def base_context(request, **args):
     if args != None:
         for arg in args:
             context[arg] = args[arg]
+    print(context)
     return context
 
 
@@ -289,18 +290,18 @@ class HikeEditor(View, LoginRequiredMixin):
 
         #  print(form)
         hike = Hike.objects.get(id=id)
-
-        landmark_list = eval(form['landmarks'])
-        for lk in landmark_list:
-            new_landmark = Landmark(name=lk[1])
-            new_landmark.longitude = lk[0][0]
-            new_landmark.latitude = lk[0][1]
-            new_landmark.description = lk[2]
-            if lk[3]=="on":
-                new_landmark.is_public==True
-            else:
-                new_landmark.is_public==False
-            new_landmark.save()
+        if form['landmarks']!='':
+            landmark_list = eval(form['landmarks'])
+            for lk in landmark_list:
+                new_landmark = Landmark(name=lk[1])
+                new_landmark.longitude = lk[0][0]
+                new_landmark.latitude = lk[0][1]
+                new_landmark.description = lk[2]
+                if lk[3]=="on":
+                    new_landmark.is_public==True
+                else:
+                    new_landmark.is_public==False
+                new_landmark.save()
 
         hike.name = form['name']
 
@@ -389,6 +390,7 @@ class AllHikes(View):
                 text['link'] = '/hike/' + str(hike.id)
                 text['name'] = hike.name
                 text['start_date'] = hike.start_date
+                text['creator'] = hike.creator
 
                 if hike.image.name is not None:
                     text['image'] = hike.image
