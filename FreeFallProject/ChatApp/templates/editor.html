@@ -266,59 +266,39 @@
             </div>
         </div>
 
-
-        <!-- <div class="panel panel-default">
-            <div class="panel-heading">
-                <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#collapse3">
-
-                    Достопримечательности
-                </button>
-            </div>
-
-            <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-group" id="track" style="display: inline-block;">
-                    <br>
-                    <div class="card" style="width:100px;">
-                        <div class="card-body">
-                            Что-то крутое
-                        </div>
-
-
-                    </div>
-                    <br>
-
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="row" name="day">
-                        <div class="col-sm">
-                            <input type="text" class="form-control" name="day_desc" placeholder="День 0" value="">
-                        </div>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" name="start_day0" placeholder="Координаты старта"
-                                value="">
-                        </div>
-                        <div class="col-sm">
-                            <input type="text" class="form-control" name="end_day0" placeholder="Координаты лагеря"
-                                value="">
-                        </div>
-                        <div class="col-sm-1">
-                            <input type="button" class="form-control" value="+" onclick="add_day()" value="">
-                        </div>
-                    </div> -->
-
-
-
-
-        <!--CODE OF EDITOR-->
-
-
         <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
-        <div id="osm_map" style="width:auto;height:500px"></div>
+        <div id="osm_map" style="width:auto;height:500px">
+            <div class="map-overlay-container" id="new_landmark" style="display: none;">
+                <div class="map-overlay">
 
+                    <h2>Создать достопримечательность</h2>
+
+
+                    <label for="exampleFormControlInput1">Название</label>
+                    <input type="text" class="form-control" name="name" placeholder=" " style="font-size: 18px;"
+                        value="">
+
+
+                    <label for="public_switcher">Описание</label>
+
+                    <textarea id="sh_desc" class="form-control" name="short_description" placeholder=""
+                        style="font-size: 14px; height: 140px;"></textarea>
+
+
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name = "is_public" class="custom-control-input" id="customSwitch1" checked>
+                        <label class="custom-control-label" for="customSwitch1">Видна для всех</label>
+                    </div>
+
+
+                    <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
+
+                </div>
+            </div>
+        </div>
         <script>
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
@@ -375,8 +355,15 @@
 
                 });
                 osm_map.on('dblclick', function (e) {
-                    
-                    alert("!!")
+
+
+                    byId("new_landmark").style.display = "block";
+
+
+
+
+
+
                 });
 
                 // osm_map.addEventListener('contextmenu', function (ev) {

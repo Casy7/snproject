@@ -2,9 +2,9 @@
     min-height: 400px;
 }
 
-.mapboxgl-map {
+/* .mapboxgl-map {
     padding: 15px;
-}
+} */
 
 td {
     overflow: hidden;
@@ -16,4 +16,20 @@ td {
     border: 1px solid grey;
     border-radius: 2px;
     background-color: rgb(241, 241, 241);
+}
+
+.map-overlay-container {
+    position: absolute;
+    width: 35%;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    z-index: 1;
+}
+
+.map-overlay {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+    background-color: rgb(216, 216, 216);
 }
