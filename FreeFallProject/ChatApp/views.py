@@ -288,8 +288,6 @@ class HikeEditor(View, LoginRequiredMixin):
         context = base_context(request)
         form = request.POST
 
-        print(form)
-
         username = request.user.username
         password = request.user.password
 
