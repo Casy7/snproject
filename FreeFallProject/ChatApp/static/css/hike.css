@@ -14,11 +14,22 @@
 }
 
 .mapboxgl-popup {
-    max-width: 400px;
+    max-width: 40%;
     font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 #map {
 
     width: 100%;
+/* }
+.mapboxgl-popup-content{
+
+    max-width: 40% !important;
 }
+.mapboxgl-popup-anchor-top-right{
+
+    max-width: 40% !important;
+}
+.mapboxgl-popup-anchor-right{
+    max-width: 40% !important;
+} */

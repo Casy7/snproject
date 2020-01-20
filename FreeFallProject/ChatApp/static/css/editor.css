@@ -6,6 +6,10 @@
     padding: 15px;
 } */
 
+.mapboxgl-popup-content{
+    max-width: 50% !important;
+}
+
 td {
     overflow: hidden;
 }
