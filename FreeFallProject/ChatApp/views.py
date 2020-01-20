@@ -53,7 +53,7 @@ def base_context(request, **args):
     if args != None:
         for arg in args:
             context[arg] = args[arg]
-    print(context)
+    # print(context)
     return context
 
 
@@ -207,14 +207,13 @@ class NewHike(View, LoginRequiredMixin):
         form = request.POST
 
         user_props = {}
-        print(form)
+        # print(form)
 
-        username = request.user.username
-        password = request.user.password
 
-        user = authenticate(username=username, password=password)
 
-        if user is not None or request.user.is_anonymous == False:
+        user = request.user
+
+        if request.user.is_anonymous == False:
             # if user.is_active:
             #     login(request, user)
             #     context['name'] = username
@@ -446,7 +445,7 @@ class CreateMap(View):
 
         hike = Hike.objects.get(id=id)
         hike.coordinates = coordinates
-        print(coordinates)
+        # print(coordinates)
         hike.save()
         return render(request, "hikes.html", context)
 
