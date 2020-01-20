@@ -120,7 +120,7 @@
                                     </span>
                                 </tr class="row">
                                 <div class="row" id="hidden_fields">
-
+                                    <input type="hidden" name="landmarks" id="lm_list">
                                     <!-- <input type="text" class="form-control"> -->
                                 </div>
                             </table>
@@ -273,28 +273,31 @@
             <div class="map-overlay-container" id="new_landmark" style="display: none;">
                 <div class="map-overlay">
 
+                    <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                        onclick="change_mode()">x</button>
                     <h2>Создать достопримечательность</h2>
 
 
                     <label for="exampleFormControlInput1">Название</label>
-                    <input type="text" class="form-control" name="name" placeholder=" " style="font-size: 18px;"
-                        value="">
+                    <input type="text" class="form-control" name="lm_name" placeholder=" " style="font-size: 18px;"
+                        value="" id="lm_name">
 
 
                     <label for="public_switcher">Описание</label>
 
-                    <textarea id="sh_desc" class="form-control" name="short_description" placeholder=""
+                    <textarea id="lm_desc" class="form-control" name="lm_desc" placeholder=""
                         style="font-size: 14px; height: 140px;"></textarea>
 
 
 
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" name = "is_public" class="custom-control-input" id="customSwitch1" checked>
-                        <label class="custom-control-label" for="customSwitch1">Видна для всех</label>
+                        <input type="checkbox" name="is_public" class="custom-control-input" id="lm_is_public" checked>
+                        <label class="custom-control-label" for="lm_is_public" >Видна для всех</label>
                     </div>
 
 
-                    <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
+                    <!-- <input type="button" class="btn btn-secondary btn-block" value="Сохранить"
+                        style="display: inline-block"> -->
 
                 </div>
             </div>
@@ -302,7 +305,6 @@
         <script>
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-            debugger;
             var osm_map = new mapboxgl.Map({
                 container: 'osm_map',
                 style: 'mapbox://styles/mapbox/bright-v9',
@@ -332,45 +334,79 @@
 
         </script>
         Выберите день: <input type="number" , min="1" , max="99" , id="day" , value="1" />
-
-        {%csrf_token%}
+        <button type="button" class="btn btn-outline-secondary" style="float: right;"
+            onclick="change_mode()">Создать
+            достопримечательность</button>
+        
         <script>
-            var coordinates = []
+            var coordinates = [];
+            var landmarks = [];
+            var landmarks_mode = false;
+            var icon = "url({% static 'icons/marker.png' %})";
+            var icon_m = "url({% static 'icons/marker.png' %})";
+
+            var icon_l = "url({% static 'icons/mountain.png' %})";
+            function change_mode() {
+                if (landmarks_mode) {
+                    landmarks_mode = false;
+                    icon = icon_m;
+                    byId("new_landmark").style.display = "none";
+                }
+                else {
+                    icon = icon_l;
+                    byId("new_landmark").style.display = "block";
+                    landmarks_mode = true;
+                }
+            }
             osm_map.on('load', function () {
+
+                // byId("new_landmark").style.display = "block";
+
+
                 osm_map.on('click', function (e) {
 
                     var day = (document.getElementById("day").value)
                     var el = document.createElement('div');
                     el.content = day;
-                    el.textContent = day;
+                    
                     el.className = 'marker';
-                    el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
 
+                    if (landmarks_mode) {
+                        el.textContent = "";
+                        if (byId("lm_name").value!=""){
+                        el.style.backgroundImage = icon;
+                        arr_of_data= [e.lngLat.toArray(), byId("lm_name").value,byId("lm_desc").value, byId("lm_is_public").value];
+                        landmarks.push(arr_of_data);
+                        byId('lm_list').value = JSON.stringify(landmarks);
+                        byId('lm_name').value = "";
+                        byId('lm_desc').value = "";
+                        change_mode();
+                    }
+                    else{
+                        alert("Пожалуйста, сначала введите название достопримечательности")
+                    }
+                    }
+                    else {
+                        el.textContent = day;
+                        el.style.backgroundImage = icon;
+                        coordinates.push(Array(Number(day), e.lngLat.toArray()));
+                        document.getElementById("coords").value = coordinates;
+                    }
 
                     var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
                         .setLngLat(e.lngLat.wrap())
                         .addTo(osm_map);
-                    coordinates.push(Array(Number(day), e.lngLat.toArray()))
-                    document.getElementById("coords").value = coordinates;
-
-                });
-                osm_map.on('dblclick', function (e) {
-
-
-                    byId("new_landmark").style.display = "block";
-
-
-
-
-
+                    // coordinates.push(Array(Number(day), e.lngLat.toArray()))
+                    
 
                 });
 
-                // osm_map.addEventListener('contextmenu', function (ev) {
-                //     alert('success!');
-                //     return false;
-                // }, false);
 
+
+
+
+
+                // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
                 osm_map.addLayer({
                     id: "places",
                     type: "symbol",
@@ -403,7 +439,38 @@
                     }
                 });
 
+
+
+                osm_map.on("click", "places", function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(osm_map);
+                });
+
+
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                osm_map.on("mouseenter", "places", function () {
+                    osm_map.getCanvas().style.cursor = "pointer";
+                });
+
+                // Change it back to a pointer when it leaves.
+                osm_map.on("mouseleave", "places", function () {
+                    osm_map.getCanvas().style.cursor = "";
+                });
             });
+
         </script>
 
         <input name="coordinates" id="coords" type="hidden">

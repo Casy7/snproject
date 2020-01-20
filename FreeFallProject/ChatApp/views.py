@@ -289,6 +289,19 @@ class HikeEditor(View, LoginRequiredMixin):
 
         #  print(form)
         hike = Hike.objects.get(id=id)
+
+        landmark_list = eval(form['landmarks'])
+        for lk in landmark_list:
+            new_landmark = Landmark(name=lk[1])
+            new_landmark.longitude = lk[0][0]
+            new_landmark.latitude = lk[0][1]
+            new_landmark.description = lk[2]
+            if lk[3]=="on":
+                new_landmark.is_public==True
+            else:
+                new_landmark.is_public==False
+            new_landmark.save()
+
         hike.name = form['name']
 
         coordinates = []
