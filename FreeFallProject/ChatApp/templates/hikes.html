@@ -16,8 +16,9 @@
                 {% else %}
                 <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
                 {% endif %}
-                <h2 class="card-title">{{hike.name}}</h2>
                 <div class="card-body">
+                    <h2 class="card-title">{{hike.name}}</h2>
+                    <p class="card-text"></p>Создатель: {{hike.creator}}</p>
                     <p class="card-text">{{hike.short_description}}</p>
                     <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
                 </div>

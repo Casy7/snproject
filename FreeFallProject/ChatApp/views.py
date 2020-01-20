@@ -384,6 +384,7 @@ class AllHikes(View):
                 text['link'] = '/hike/' + str(hike.id)
                 text['name'] = hike.name
                 text['start_date'] = hike.start_date
+                text['creator'] = hike.creator
 
                 if hike.image.name is not None:
                     text['image'] = hike.image
