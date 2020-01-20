@@ -1,5 +1,6 @@
 from .views import *
 from django.urls import path
+from django.conf.urls import url
 from ChatApp import views
 from FreeFallProject import settings
 from django.contrib.staticfiles.urls import static
@@ -18,6 +19,7 @@ urlpatterns = [
     path('create_map/<int:id>/', CreateMap.as_view(), name="create_map"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     path('my_account/', MyAccount.as_view(), name="my_account"),
+        url('does_user_exist/',DoesUserExist.as_view(), name='does_user_exist'),
     # staticfiles_urlpatterns(),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]

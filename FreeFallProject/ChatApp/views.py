@@ -9,6 +9,7 @@ from django.db.models import Q
 from .models import *
 from .forms import *
 import datetime
+import json
 import re
 
 def new_format(coordinates):
@@ -489,6 +490,7 @@ class SetHike(View):
 
 
 class MyAccount(View):
+
     def get(self,request):
         
         user = request.user
@@ -518,6 +520,7 @@ class MyAccount(View):
         context['list_of_alowed_positions'] = ["phone","telegram","email"]
         # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
         return render(request, "my_account.html", context)
+
     def post(self, request):
         # TODO валидация этой формы
         form = request.POST
@@ -563,3 +566,20 @@ class MyAccount(View):
 
         context = base_context(request)
         return HttpResponseRedirect('')
+
+
+class DoesUserExist(View):
+    def post(self, request):
+        req = request
+        form = request.POST
+
+        
+        result = {}
+        if len(User.objects.filter(username = form['username']))>0:
+            result['exist'] = 'True'
+        else:
+            result['exist'] = 'False'
+        return HttpResponse(
+                json.dumps(result),
+                content_type="application/json"
+            )

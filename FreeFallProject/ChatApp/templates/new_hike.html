@@ -30,10 +30,12 @@
                 <div class="row">
 
                     <div class="col-md" id="custom-file-input">
-                        <input type="file" class="file-upload" name="image" style = "display: none;"id="myfile" accept=".jpg, .jpeg, .png">
-                        <label type="button" for="myfile" class="form-control" style="display: block;text-align: center;">Upload</label>
+                        <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+                            accept=".jpg, .jpeg, .png">
+                        <label type="button" for="myfile" class="form-control"
+                            style="display: block;text-align: center;">Upload</label>
                     </div>
-                    <div class="col-md"id="del_button">
+                    <div class="col-md" id="del_button">
 
                     </div>
                 </div>
@@ -42,13 +44,13 @@
                 <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
                 <label for="exampleFormControlInput1">Название похода</label>
 
-                <div class="card-title"><span><input type="text" class="form-control" name="name"
-                            placeholder="" style="font-size: 15px;"></span>
+                <div class="card-title"><span><input type="text" class="form-control" name="name" placeholder=""
+                            style="font-size: 15px;"></span>
                 </div>
                 <label for="exampleFormControlInput1">Краткое описание</label>
                 <span>
-                    <textarea class="form-control" name="short_description"
-                        placeholder="Пару строк о походе" style="font-size: 13px;"></textarea>
+                    <textarea class="form-control" name="short_description" placeholder="Пару строк о походе"
+                        style="font-size: 13px;"></textarea>
                 </span>
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
@@ -94,7 +96,7 @@
                 <ul class="list-inline" id="inline-userlist">
 
                     <li class="list-inline-item" name="add-user" id="add-user">
-    
+
                         <div class="card" style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
                             <img src="{% static 'icons/add.png' %}" class="card-img-top" style="width: 100%;"></img>
                             <input type="text" class="forn-control" id="new-user"
@@ -106,76 +108,121 @@
                 </ul>
                 <input type="submit" class="btn btn-secondary btn-block" value="Создать">
             </div>
-    </form>
-<script>
-    function add_user() {
-        users = document.getElementById('list-usrs');
-        // alert(users.value);
-        if (users.value == "") {
-            document.getElementById('list-usrs').value = [].toString();
-            // alert($('#list-usrs').value);
-            // alert(typeof document.getElementById('new-user').value);
-            if (document.getElementById('new-user').value != "") {
-                // alert("!!!!")
-                add_ptc();
+    </form>{%csrf_token%}
+    <script>
+        function add_user() {
+            users = document.getElementById('list-usrs');
+            // alert(users.value);
+            if (users.value == "") {
+                document.getElementById('list-usrs').value = [].toString();
+                // alert($('#list-usrs').value);
+                // alert(typeof document.getElementById('new-user').value);
+                if (document.getElementById('new-user').value != "") {
+                    // alert("!!!!")
+                    add_ptc();
+                }
+            }
+            else {
+                if (document.getElementById('new-user').value != "") {
+
+
+                    add_ptc();
+                }
             }
         }
-        else {
-            if (document.getElementById('new-user').value != "") {
-                add_ptc();
-            }
+        function add_ptc() {
+            list = str_to_list(document.getElementById('list-usrs').value);
+            user = document.getElementById('new-user').value;
+            //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
+            $.ajax({
+                url: "/does_user_exist/",
+                type: 'POST',
+                data: { 'username': user },
+                beforeSend: function (xhr, settings) {
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                },
+                success: function a(json) {
+                    // alert(json);
+                    // alert(json.exist);
+                    if (json.exist === "True") {
+                        var user_exists = true;
+                        list.push(user);
+                        //alert(list);
+                        document.getElementById('list-usrs').value = list;
+                        // alert(document.getElementById('list-usrs').value);
+
+                        user_card = document.createElement("li");
+                        user_card.className = "card";
+                        if (user_exists) {
+                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
+                        }
+                        else {
+                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
+                        }
+                        img = document.createElement("img");
+                        img.className = "card-img-top";
+                        img.style = "width: 100%;";
+                        img.src = "{%static 'icons/logo_grey.png'%}"
+
+                        span = document.createElement("span");
+                        span.style = "text-align:center";
+                        span.value = user;
+                        span.text = user;
+                        span.appendChild(document.createTextNode(user));
+                        button = document.createElement("button");
+                        button.className = "form-control";
+                        button.type = "button";
+                        button.onclick = function add_this_user() { del_user(user) };
+                        button.style = "height:20px; border: none;";
+                        button.innerHTML = "-";
+
+                        user_card.appendChild(img);
+                        user_card.appendChild(span);
+                        user_card.appendChild(button);
+
+                        li = document.createElement("li");
+                        li.className = "list-inline-item";
+                        li.name = user;
+                        li.id = user;
+
+                        li.appendChild(user_card);
+                        document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+                    }
+                    else {
+                        var user_exists = false;
+                    }
+                }
+
+            });
+
+
+
+
+
+
         }
-    }
-    function add_ptc() {
-    list = str_to_list(document.getElementById('list-usrs').value);
-    //alert(typeof(list));
-    //alert(list);
-    user = document.getElementById('new-user').value;
-    //alert(user);
-    list.push(user);
-    //alert(list);
-    document.getElementById('list-usrs').value = list;
-    // alert(document.getElementById('list-usrs').value);
 
-    user_card = document.createElement("li");
-    user_card.className = "card";
-    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);";
-
-    img = document.createElement("img");
-    img.className = "card-img-top";
-    img.style = "width: 100%;";
-    img.src = "{%static 'icons/logo_grey.png'%}"
-
-    span = document.createElement("span");
-    span.style = "text-align:center";
-    span.value = user;
-    span.text = user;
-    span.appendChild(document.createTextNode(user));
-    button = document.createElement("button");
-    button.className = "form-control";
-    button.type = "button";
-    button.onclick = function add_this_user() { del_user(user) };
-    button.style = "height:20px; border: none;";
-    button.innerHTML = "-";
-
-    user_card.appendChild(img);
-    user_card.appendChild(span);
-    user_card.appendChild(button);
-
-    li = document.createElement("li");
-    li.className = "list-inline-item";
-    li.name = user;
-    li.id = user;
-
-    li.appendChild(user_card);
-    document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
-
-
-    
-
-}
-
-</script>
+    </script>
 </div>
 
 
