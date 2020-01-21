@@ -365,9 +365,16 @@ type="text/css"
                 el.textContent = coordinates[i][0];
                 el.className = 'marker';
                 el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
-                var x = coordinates[i][1][0];
-                var y = coordinates[i][1][1];
-                var marker = new mapboxgl.Marker(el).setLngLat([x, y]).addTo(osm_map);
+                el.x = coordinates[i][1][0];
+                el.y = coordinates[i][1][1];
+                var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
+
+                el.addEventListener('contextmenu', function() {
+                        debugger;
+                        cord_del.push(Array(el.textContent, [el.x, el.y]));
+                        document.getElementById("del_coords").value = cord_del;
+                        marker.remove(); 
+                    });
             }
 
 
