@@ -302,6 +302,12 @@
                 </div>
             </div>
         </div>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
+type="text/css"
+/>
         <script>
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
@@ -309,10 +315,45 @@
                 container: 'osm_map',
                 style: 'mapbox://styles/mapbox/bright-v9',
                 center: [3.420253241560829, 46.124064037019906],
-                zoom: 14
+                zoom: 13
             });
+            var customData = {
+                features: [
 
-            osm_map.addControl(new mapboxgl.NavigationControl());
+                ],
+                type: "FeatureCollection"
+            };
+
+            function forwardGeocoder(query) {
+                var matchingFeatures = [];
+                for (var i = 0; i < customData.features.length; i++) {
+                    var feature = customData.features[i];
+                    // handle queries with different capitalization than the source data by calling toLowerCase()
+                    if (
+                        feature.properties.title.toLowerCase().search(query.toLowerCase()) !== -1
+                    ) {
+                        // add a tree emoji as a prefix for custom data results
+                        // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
+                        feature["place_name"] = "🌲 " + feature.properties.title;
+                        feature["center"] = feature.geometry.coordinates;
+                        feature["place_type"] = ["park"];
+                        matchingFeatures.push(feature);
+                    }
+                }
+                return matchingFeatures;
+            }
+            osm_map.addControl(
+                new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    localGeocoder: forwardGeocoder,
+                    zoom: 14,
+                    placeholder: "Enter search e.g. Lincoln Park",
+                    mapboxgl: mapboxgl
+                })
+            );
+
+
+            // osm_map.addControl(new mapboxgl.NavigationControl());
             // osm_map.update();
 
 
