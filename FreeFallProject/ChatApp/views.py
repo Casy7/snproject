@@ -287,6 +287,7 @@ class HikeEditor(View, LoginRequiredMixin):
     def post(self, request, id):
 
         form = request.POST
+        
 
         #  print(form)
         hike = Hike.objects.get(id=id)
@@ -339,7 +340,19 @@ class HikeEditor(View, LoginRequiredMixin):
             coordinates.append(
                 [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
                 
+        delete = str(form['cord_del'])
+        data = delete.split(',')
+        delete = []
+        for i in range(len(data)//3):
+            delete.append(
+                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+
+
+        for el in delete:
+            coordinates.remove(el)
+
         hike.coordinates = coordinates
+        print(coordinates, delete)
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
         elif 'delete_photo' in form.keys():

@@ -398,6 +398,8 @@ type="text/css"
             }
             osm_map.on('load', function () {
 
+                cord_del = []
+
                 // byId("new_landmark").style.display = "block";
 
 
@@ -406,7 +408,6 @@ type="text/css"
                     var day = (document.getElementById("day").value)
                     var el = document.createElement('div');
                     el.content = day;
-
                     el.className = 'marker';
 
                     if (landmarks_mode) {
@@ -435,8 +436,15 @@ type="text/css"
                         .setLngLat(e.lngLat.wrap())
                         .addTo(osm_map);
                     // coordinates.push(Array(Number(day), e.lngLat.toArray()))
+                    el.addEventListener('contextmenu', function() {
+                        cord_del.push(Array(el.textContent, e.lngLat.toArray()));
+                        document.getElementById("del_coords").value = cord_del;
+                        marker.remove(); 
 
+                    });
+                    
                 });
+            
 
 
                 // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
@@ -473,7 +481,6 @@ type="text/css"
                 });
 
 
-
                 osm_map.on("click", "places", function (e) {
                     var coordinates = e.features[0].geometry.coordinates.slice();
                     var description = e.features[0].properties.description;
@@ -507,12 +514,14 @@ type="text/css"
                     var coordinates = {{ coordinates | safe }}
 
             document.getElementById("coords").value = coordinates;
+            document.getElementById("del_coords").value = cord_del
                 }
             }
 
         </script>
 
         <input name="coordinates" id="coords" type="hidden">
+        <input name="cord_del" id="del_coords" type="hidden">
         <input type="submit" class="btn btn-secondary btn-block" onclick="save_markers()" value="Сохранить"
             style="display: inline-block">
 
