@@ -377,7 +377,13 @@ type="text/css"
             достопримечательность</button>
 
         <script>
-            var coordinates = [];
+            if ({{ coordinates | safe }} != []){
+                var coordinates = {{ coordinates | safe }}
+            }
+            else{
+                var coordinates = []
+            }
+            var was_click = false
             var landmarks = [];
             var landmarks_mode = false;
             var icon = "url({% static 'icons/marker.png' %})";
@@ -402,7 +408,7 @@ type="text/css"
 
                 // byId("new_landmark").style.display = "block";
 
-
+                was_click = false
                 osm_map.on('click', function (e) {
 
                     var day = (document.getElementById("day").value)
@@ -426,6 +432,7 @@ type="text/css"
                         }
                     }
                     else {
+                        was_click = true
                         el.textContent = day;
                         el.style.backgroundImage = icon;
                         coordinates.push(Array(Number(day), e.lngLat.toArray()));
@@ -514,7 +521,7 @@ type="text/css"
                     var coordinates = {{ coordinates | safe }}
 
             document.getElementById("coords").value = coordinates;
-            document.getElementById("del_coords").value = cord_del
+            document.getElementById("del_coords").value = cord_del;
                 }
             }
 
