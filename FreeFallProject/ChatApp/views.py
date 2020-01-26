@@ -192,7 +192,15 @@ class NewHike(View, LoginRequiredMixin):
         
         context = base_context(
             request, title='Новый поход', header='Новый поход', error=0)
-
+        user_list = []
+        for user in User.objects.all():
+            if user.last_name!='' and user.first_name!='':
+                user_list.append(user.username+", "+user.first_name+' '+user.last_name)
+            if user.first_name!='':
+                user_list.append(user.username+", "+user.first_name)
+            if user.last_name!='':
+                user_list.append((user.username, user.username+", "+user.last_name))
+        context['user_list'] = user_list
         context['form'] = HikeForm()
         # context['photo_form'] = photo_form
         if context['username'] != '':
@@ -200,7 +208,8 @@ class NewHike(View, LoginRequiredMixin):
         else:
             context['error'] = 2
 
-        # context['form'] = self.form_class()
+            # context['form'] = self.form_class()
+
             return render(request, "login.html", context)
 
     def post(self, request):
