@@ -607,3 +607,19 @@ class DoesUserExist(View):
                 json.dumps(result),
                 content_type="application/json"
             )
+
+class IsNewHikeValid(View):
+    def post(self, request):
+        req = request
+        form = HikeForm(request.POST)
+        if form.is_valid():
+            pass
+        result = {}
+        if len(User.objects.filter(username = form['username']))>0:
+            result['exist'] = 'True'
+        else:
+            result['exist'] = 'False'
+        return HttpResponse(
+                json.dumps(result),
+                content_type="application/json"
+            )
