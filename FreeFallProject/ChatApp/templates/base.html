@@ -29,25 +29,11 @@
 
 
     <!-- SCRIPTS -->
-    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-        crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-        crossorigin="anonymous"></script> -->
-
 
     <script src="{% static '/libs/modules/bootstrap/jquery.js' %}" type="text/javascript"></script>
     <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
 
     <!-- UNUSED AT THIS MOMENT BUT IMPORTANT IMPORTS -->
-
-    <!-- 
-
-    <link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/bootstrap-cyborg-v3.3.6.css" media="screen">
-    <link rel="stylesheet" href="http://bootstraptema.ru/snippets/style/2015/bootswatch/custom.min.css">
-
-    -->
 
     <!-- STYLES OVERRIDE (BECAUSE OF UNABLE TO PASTE DJANGO STATIC INTO CSS) -->
     <style>
@@ -64,65 +50,69 @@
 
     <div class="wrapper">
         <!-- Sidebar -->
+
         <nav id="sidebar" class="active">
-            <!--class="collapse">-->
-            <div class="sidebar-header">
+            <div class="sidebar-header sticky-top">
                 {% if username == ''%}
                 <h3>FreeFall</h3>
 
                 {% else %}
-                
+
                 {% if avatar != ''%}
                 <img src="{{ avatar.url }}" class="sidebar-avatar">
                 {% endif %}
 
 
-                <h3 id="sidebar-username" >{{username}}</h3>
+                <h3 id="sidebar-username">{{username}}</h3>
 
-                
+
                 {% endif %}
-            </div>
 
-            <ul class="list-unstyled components sticky-top">
-                <!-- <p>Dummy Heading</p> -->
-                {% if  username != '' %}
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle">Походы</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                <ul class="list-unstyled components">
+                    <!-- <p>Dummy Heading</p> -->
+                    {% if  username != '' %}
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                            class="dropdown-toggle">Походы</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
 
-                        {% for hike in hikes %}
-                        <li>
-                            <a href="/hike/{{hike.1}}">{{hike.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </li>
+                            {% for hike in hikes %}
+                            <li>
+                                <a href="/hike/{{hike.1}}">{{hike.0}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
 
-                <li>
+                    <li>
 
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle">Группы</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Group 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Group 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Group 3</a>
-                        </li>
-                    </ul>
-                </li>
-                {% endif %}
-                <!-- <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
+                            class="dropdown-toggle">Группы</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">Group 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Group 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Group 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <!-- <li>
                     <a href="#">Something</a>
                 </li> -->
-                <li>
-                    <a href="/home/">О сайте</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="/home/">О сайте</a>
+                    </li>
+                </ul>
+
+
+            </div>
+
+
         </nav>
 
         <!-- Page Content Holder -->

@@ -1,3 +1,7 @@
+h1{
+    padding-top: 50px;
+}
+
 .container {
     height: 100%;
     align-content: center;
@@ -9,10 +13,6 @@
     width: 45%;
     height: 20%;
     box-shadow: 1px solid gray;
-}
-
-.input-group input{
-    font-size: 12px;
 }
 
 .social_icon span {
@@ -54,6 +54,7 @@ input:focus {
 
 .login_btn {
     color: black;
+    height: 33px;
     /* background-color: rgb(46, 119, 179); */
     align-items: center;
     width: 30%;
