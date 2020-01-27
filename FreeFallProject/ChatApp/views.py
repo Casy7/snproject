@@ -195,11 +195,13 @@ class NewHike(View, LoginRequiredMixin):
         user_list = []
         for user in User.objects.all():
             if user.last_name!='' and user.first_name!='':
-                user_list.append(user.username+", "+user.first_name+' '+user.last_name)
-            if user.first_name!='':
-                user_list.append(user.username+", "+user.first_name)
-            if user.last_name!='':
+                user_list.append((user.username,user.username+", "+user.first_name+' '+user.last_name))
+            elif user.first_name!='':
+                user_list.append((user.username, user.username+", "+user.first_name))
+            elif user.last_name!='':
                 user_list.append((user.username, user.username+", "+user.last_name))
+            else:
+                user_list.append((user.username,user.username))
         context['user_list'] = user_list
         context['form'] = HikeForm()
         # context['photo_form'] = photo_form
