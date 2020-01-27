@@ -18,5 +18,11 @@ input.form-control {
     font-size: 12px;
 }
 
-
+.ptcs{
+    height: 140px;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: visible;
+    overflow-wrap: normal;
+}
     
