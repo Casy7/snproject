@@ -32,7 +32,7 @@
     }
 </script>
 <script src="{% static 'js/my_account.js'%}"></script>
-<form method="POST" enctype="multipart/form-data" action="/my_account/">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="col-md" id="custom-file-input">
         <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
