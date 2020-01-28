@@ -31,20 +31,21 @@
       <p>{{content.short_description}}</p>
       <p>Создатель: {{content.creator.first_name}} {{content.creator.last_name}}</p>
       <div>{{content.description|safe}}</div>
+      <!--
       <h2 class="h2">Достопримечательности:</h2>
       {% for name in content.landmarks.all %}
       <ul>
         <li>{{name}}</li>
       </ul>
       {% endfor %}
+      -->
       <h2 class="h2">Участники:</h2>
       {% for username in content.participants %}
       <ul>
         <li>{{username}}</li>
       </ul>
       {% endfor %}
-
-      {% if content.current_user not in content.participants %}
+      {% if user.username not in content.participants %}
         <form method="POST">
           {%csrf_token%}
           <input id="participate" name="participate" type="hidden" value="Nope">
