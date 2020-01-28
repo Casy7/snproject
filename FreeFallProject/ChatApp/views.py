@@ -272,6 +272,18 @@ class HikeEditor(View, LoginRequiredMixin):
         else:
             context['image'] = ''
 
+            
+        user_list = []
+        for user in User.objects.all():
+            if user.last_name!='' and user.first_name!='':
+                user_list.append((user.username,user.username+", "+user.first_name+' '+user.last_name))
+            elif user.first_name!='':
+                user_list.append((user.username, user.username+", "+user.first_name))
+            elif user.last_name!='':
+                user_list.append((user.username, user.username+", "+user.last_name))
+            else:
+                user_list.append((user.username,user.username))
+        context['user_list'] = user_list
         if context['username'] != '' and request.user == hike.creator:
             participants = []
             for user in hike.participants.all():

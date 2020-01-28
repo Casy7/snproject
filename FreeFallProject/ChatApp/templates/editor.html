@@ -8,6 +8,19 @@
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
 
+<link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
+<script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <script src="{% static 'js/editor.js' %}"></script>
@@ -54,7 +67,8 @@
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button type="button" class="btn btn-outline-secondary btn-block" data-toggle="collapse" data-target="#collapse1" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn-outline-secondary btn-block" data-toggle="collapse"
+                    data-target="#collapse1" style="margin-bottom: 10px;">
                     Базовые параметры
                 </button>
             </div>
@@ -187,45 +201,134 @@
                                 </div>
                             </li>
                             {% endfor %}
+
+
+
+
+
+                            <select class="selectpicker" data-live-search="true" id="select_ptc">
+                                {% for user in user_list %}
+                                <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="btn btn-outline-secondary" type="button"
+                                onclick="add_user()">Добавить</button>
+
+
+
+
                             <li class="list-inline-item" name="add-user" id="add-user">
 
-                                <div class="card"
-                                    style="width:70px; height: 110px; border: .6px solid rgb(221, 221, 221);">
-                                    <img src="{% static 'icons/add.png' %}" class="card-img-top"
-                                        style="width: 100%;"></img>
-                                    <input type="text" class="forn-control" id="new-user"
-                                        style="width: 100%;height: 22.5px;border: none;" placeholder="Новый" value="">
-                                    <button type="button" class="porm-control" style="height:20px; border: none;"
-                                        onclick="add_user()">+</button>
-                                </div>
                                 <input type="hidden" id="list-usrs" name="participants" value="">
                                 <script>
                                     function add_user() {
                                         users = document.getElementById('list-usrs');
                                         // alert(users.value);
                                         if (users.value == "") {
-
-                                            var users = "{{participants}}";
-                                            users = users.replace(/&#39;/g, '');
-                                            users = users.replace('[', '');
-                                            users = users.replace(']', '');
-                                            users = users.split(", ");
-                                            // alert('okay');
-
-                                            document.getElementById('list-usrs').value = users.toString();
+                                            document.getElementById('list-usrs').value = [].toString();
                                             // alert($('#list-usrs').value);
                                             // alert(typeof document.getElementById('new-user').value);
-                                            if (document.getElementById('new-user').value != "") {
+                                            if (document.getElementById('select_ptc').value != "") {
                                                 // alert("!!!!")
                                                 add_ptc();
                                             }
-
                                         }
                                         else {
-                                            if (document.getElementById('new-user').value != "") {
+                                            if (document.getElementById('select_ptc').value != "") {
                                                 add_ptc();
                                             }
                                         }
+                                    }
+                                    function add_ptc() {
+                                        list = str_to_list(document.getElementById('list-usrs').value);
+                                        user = document.getElementById('select_ptc').value;
+                                        //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
+                                        $.ajax({
+                                            url: "/does_user_exist/",
+                                            type: 'POST',
+                                            data: { 'username': user },
+                                            beforeSend: function (xhr, settings) {
+                                                function getCookie(name) {
+                                                    var cookieValue = null;
+                                                    if (document.cookie && document.cookie != '') {
+                                                        var cookies = document.cookie.split(';');
+                                                        for (var i = 0; i < cookies.length; i++) {
+                                                            var cookie = jQuery.trim(cookies[i]);
+                                                            // Does this cookie string begin with the name we want?
+                                                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    return cookieValue;
+                                                }
+                                                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                                    // Only send the token to relative URLs i.e. locally.
+                                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                                }
+                                            },
+                                            success: function a(json) {
+                                                // alert(json);
+                                                // alert(json.exist);
+                                                if (json.exist === "True") {
+                                                    var user_exists = true;
+                                                    list.push(user);
+                                                    //alert(list);
+                                                    document.getElementById('list-usrs').value = list;
+                                                    // alert(document.getElementById('list-usrs').value);
+
+                                                    user_card = document.createElement("li");
+                                                    user_card.className = "card";
+                                                    if (user_exists) {
+                                                        user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
+                                                    }
+                                                    else {
+                                                        user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
+                                                    }
+                                                    img = document.createElement("img");
+                                                    img.className = "card-img-top";
+                                                    img.style = "width: 100%;";
+                                                    img.src = "{%static 'icons/logo_grey.png'%}"
+
+                                                    span = document.createElement("span");
+                                                    span.style = "text-align:center";
+                                                    span.value = user;
+                                                    span.text = user;
+                                                    span.appendChild(document.createTextNode(user));
+                                                    button = document.createElement("button");
+                                                    button.className = "form-control";
+                                                    button.type = "button";
+                                                    button.onclick = function add_this_user() { del_user(user) };
+                                                    button.style = "height:20px; border: none;";
+                                                    button.innerHTML = "-";
+
+                                                    user_card.appendChild(img);
+                                                    user_card.appendChild(span);
+                                                    user_card.appendChild(button);
+
+                                                    li = document.createElement("li");
+                                                    li.className = "list-inline-item";
+                                                    li.name = user;
+                                                    li.id = user;
+
+                                                    li.appendChild(user_card);
+                                                    document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+                                                }
+                                                else {
+                                                    var user_exists = false;
+                                                }
+                                            }
+
+                                        });
+
+
+
+
+
+
                                     }
                                 </script>
                             </li>
@@ -249,7 +352,8 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <button type="button" class="btn btn btn-outline-secondary btn-block" data-toggle="collapse" data-target="#collapse2" style="margin-bottom: 10px;">
+                <button type="button" class="btn btn btn-outline-secondary btn-block" data-toggle="collapse"
+                    data-target="#collapse2" style="margin-bottom: 10px;">
                     Редактор описания
                 </button>
             </div>
@@ -302,12 +406,11 @@
                 </div>
             </div>
         </div>
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-<link
-rel="stylesheet"
-href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
-type="text/css"
-/>
+        <script
+            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
+            type="text/css" />
         <script>
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
@@ -369,12 +472,12 @@ type="text/css"
                 el.y = coordinates[i][1][1];
                 var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
 
-                el.addEventListener('contextmenu', function() {
-                        debugger;
-                        cord_del.push(Array(el.textContent, [el.x, el.y]));
-                        document.getElementById("del_coords").value = cord_del;
-                        marker.remove(); 
-                    });
+                el.addEventListener('contextmenu', function () {
+                    debugger;
+                    cord_del.push(Array(el.textContent, [el.x, el.y]));
+                    document.getElementById("del_coords").value = cord_del;
+                    marker.remove();
+                });
             }
 
 
@@ -384,10 +487,10 @@ type="text/css"
             достопримечательность</button>
 
         <script>
-            if ({{ coordinates | safe }} != []){
+            if ({{ coordinates | safe }} != []) {
                 var coordinates = {{ coordinates | safe }}
             }
-            else{
+            else {
                 var coordinates = []
             }
             var was_click = false
@@ -450,15 +553,15 @@ type="text/css"
                         .setLngLat(e.lngLat.wrap())
                         .addTo(osm_map);
                     // coordinates.push(Array(Number(day), e.lngLat.toArray()))
-                    el.addEventListener('contextmenu', function() {
+                    el.addEventListener('contextmenu', function () {
                         cord_del.push(Array(el.textContent, e.lngLat.toArray()));
                         document.getElementById("del_coords").value = cord_del;
-                        marker.remove(); 
+                        marker.remove();
 
                     });
-                    
+
                 });
-            
+
 
 
                 // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
