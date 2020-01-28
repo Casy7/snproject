@@ -481,6 +481,7 @@ class SetHike(View):
         hike = Hike.objects.get(id=id)
         context = base_context(request, title=hike.name, header=hike.name)
         this_hike = {}
+        this_hike['current_user'] = request.user
         this_hike['creator'] = hike.creator
         this_hike['name'] = hike.name
         this_hike['id'] = hike.id
@@ -511,6 +512,18 @@ class SetHike(View):
         context['content'] = this_hike
 
         return render(request, "hike.html", context)
+
+
+    def post(self, request, id):
+        context = base_context(request)
+        form = request.POST
+        data = form['participate']
+        if data == "Yup":
+            hike = Hike.objects.get(id=id)
+            hike.participants.add(request.user)
+        hike.save()
+        return HttpResponseRedirect("/hike/"+str(hike.id))
+        
 
 
 class MyAccount(View):

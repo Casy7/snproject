@@ -44,6 +44,20 @@
       </ul>
       {% endfor %}
 
+      {% if content.current_user not in content.participants %}
+        <form method="POST">
+          {%csrf_token%}
+          <input id="participate" name="participate" type="hidden" value="Nope">
+          <input type="submit" class="btn btn-secondary btn-block" onclick="take_part()" value="Принять участие"
+            style="display: inline-block">
+          <script>
+            function take_part() {
+              document.getElementById("participate").value = "Yup";
+            }
+          </script>
+        </form>
+      {% endif %}
+
       <h2 class="h2">Трек похода:</h2>
 
       <div id="osm_map" style="width:auto;height:500px"></div>
@@ -70,7 +84,7 @@
           osm_map.addControl(new mapboxgl.NavigationControl());
         }
 
-      </script>
+      </script><>
 
       <script type="text/javascript">
         coordinates = {{ content.coordinates | safe }};
