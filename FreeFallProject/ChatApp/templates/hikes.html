@@ -18,7 +18,7 @@
                 {% endif %}
                 <div class="card-body">
                     <h2 class="card-title">{{hike.name}}</h2>
-                    <p class="card-text"></p>Создатель: {{hike.creator}}</p>
+                    <p class="card-text"></p>Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
                     <p class="card-text">{{hike.short_description}}</p>
                     <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
                 </div>

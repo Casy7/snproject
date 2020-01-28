@@ -591,6 +591,84 @@ class MyAccount(View):
         context = base_context(request)
         return HttpResponseRedirect('')
 
+class AccountEditor(View):
+
+    def get(self,request):
+        
+        user = request.user
+
+        first_name = user.first_name
+        last_name = user.last_name
+        username = user.username
+
+        if len(Profile.objects.filter(user = user))==0:
+            profile = Profile(user=user)
+        else:
+            profile = Profile.objects.get(user = user)
+
+
+        if first_name != '' and last_name != '':
+            full_name = last_name+" "+first_name
+        elif first_name!='':
+            full_name = first_name
+        else:
+            full_name = username
+
+        context = base_context(request, title=full_name, header=username)
+        context['user'] = user
+        context['profile'] = profile
+        context['full_name'] = full_name
+        context['contacts'] = Contact.objects.filter(user=user)
+        context['list_of_alowed_positions'] = ["phone","telegram","email"]
+        # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
+        return render(request, "account_editor.html", context)
+
+    def post(self, request):
+        # TODO валидация этой формы
+        form = request.POST
+        user = request.user
+
+
+        if form['first_name']!='':
+            user.first_name = form['first_name']
+        user.last_name = form['last_name']
+        user.save()
+
+
+        if len(Profile.objects.filter(user = user))==0:
+            profile = Profile(user=user)
+        else:
+            profile = Profile.objects.get(user = user)
+
+        profile.save()
+
+        profile.about=form['about']
+
+        if 'image' in request.FILES.keys():
+            profile.avatar = request.FILES['image']
+        elif 'delete_photo' in form.keys():
+            profile.avatar = None
+
+        profile.request_for_participation = form["request"]
+        profile.add_to_participation = form["add_to_ptc"]
+        profile.see_hikes = form["can_see_hikes"]
+
+        profile.save()
+        # Добавление контактов
+        for old_contact in Contact.objects.filter(user=user):
+            old_contact.delete()
+
+        contact_number = 0
+        for contact in form.keys():
+            if 'contact_name_' in contact:
+                id = re.findall('\d+', contact)[0]
+                if form[contact]!='' and form['contact_value_'+id]!='':
+                    new_contact = Contact(user=user, name=form[contact], value=form['contact_value_'+id], visible_for=form['contact_visibility_'+id])
+                    new_contact.save()
+
+        context = base_context(request)
+        return HttpResponseRedirect('')
+
 
 class DoesUserExist(View):
     def post(self, request):

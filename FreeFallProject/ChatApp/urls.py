@@ -20,6 +20,7 @@ urlpatterns = [
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     path('my_account/', MyAccount.as_view(), name="my_account"),
         url('does_user_exist/',DoesUserExist.as_view(), name='does_user_exist'),
+    path('account_editor/', AccountEditor.as_view(), name="account_editor"),
     # staticfiles_urlpatterns(),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
