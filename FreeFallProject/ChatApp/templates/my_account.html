@@ -76,13 +76,14 @@
 
 
     <input style = "margin-top: 20px" type="button" value="Изменить" onClick='location.href="/account_editor/"'>
+    {% if contacts %}
     <h4 style = "margin-top: 20px">Контакты:</h4>
     {% for contact in contacts %}
         
         <p style = "margin-bottom: -5px">{{contact.name}}: {{contact.value}}</p>
     
     {% endfor %}
-
+    {% endif %}
 
 
 
