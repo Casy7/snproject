@@ -10,55 +10,27 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
 <script src="{% static 'js/editor.js' %}"></script>
 <script src="{% static 'js/my_account.js' %}"></script>
-<script>
-    function del_without_replacing() {
-        button = document.createElement("button");
-        button.type = "button";
-        button.className = "upload-btn";
-        button.value = "Удалить";
-        button.innerText = "Удалить";
-        //button.style.height = "30px";
-        //button.style.width = "50px";
-        button.onclick = function a() {
-            hidden_field = document.createElement("input");
-            hidden_field.type = "hidden";
-            hidden_field.name = "delete_photo";
-            hidden_field.value = "0";
-            document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
-            byId('hidden_fields').appendChild(hidden_field);
-            del_avatar_button();
-        }
-        document.getElementById("del_button").appendChild(button);
-    }
-
-    function delete_avatar() {
-        document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
-        clearInputFile(document.getElementById("myfile"));
-        del_avatar_button();
-        // 
-    }
-</script>
 
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+            <a class="nav-link active" id="basic_parameters_nav" data-toggle="tab" href="#basic_parameters_content" role="tab" aria-controls="basic_parameters_content"
                 aria-selected="true">Базовые параметры</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#participants_content" role="tab" aria-controls="participants_content"
                 aria-selected="false">Участники</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#map_content" role="tab" aria-controls="map_content"
                 aria-selected="false">Карта</a>
         </li>
     </ul>
 
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="basic_parameters_content" role="tabpanel" aria-labelledby="home-tab">
             <!--БЛОК БАЗОВЫХ ПАРАМЕТРОВ-->
             <br>
             <div class="col-md" id="custom-file-input">
@@ -185,9 +157,7 @@
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
 
-
-
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="participants_content" role="tabpanel" aria-labelledby="participants_content-tab">
             <label for="exampleFormControlInput6">Участники</label>
             <ul class="list-inline" id="inline-userlist">
 
@@ -245,12 +215,16 @@
             </ul>
             <input type="button" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
         </div>
-
-
-        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
+    
+        <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
             <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-            <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+            <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script> 
+            <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
+            <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' /> 
+            <script>
+
+              </script>
+            
 
             <div id="osm_map" style="width:auto;height:500px">
                 <div class="map-overlay-container" id="new_landmark" style="display: none;">
@@ -281,11 +255,7 @@
                     </div>
                 </div>
             </div>
-            <script
-                src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-            <link rel="stylesheet"
-                href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
-                type="text/css" />
+
             <script>
 
                 mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
@@ -370,8 +340,8 @@
                 достопримечательность</button>
 
             <script>
-                if ({{ coordinates | safe }} != []) {
-                    var coordinates = '{{ coordinates | safe }}'
+            if ({{ coordinates | safe }} != []) {
+                    var coordinates = {{ coordinates | safe }}
                 }
             else {
                     var coordinates = []
@@ -511,7 +481,7 @@
                 });
                 function save_markers() {
                     if (was_click != true) {
-                        var coordinates = '{{ coordinates | safe  }}'
+                        var coordinates = {{ coordinates | safe  }}
 
                         document.getElementById("coords").value = coordinates;
                         document.getElementById("del_coords").value = cord_del;
@@ -530,26 +500,10 @@
             <!--END OF CODE -->
         </div>
     </div>
-    </div>
-    </div>
-    <script>
-        $(function () {
-            $('#myTab li:last-child a').tab('show')
-        })
-    </script>
-    <div class="panel-group">
-
-
+    
 </form>
 
-<br>
-
-
 <script src="{% static '/js/editor.js' %}" type="text/javascript"></script>
-
-
-
-
 <script>
     function add_user() {
         users = document.getElementById('list-usrs');
@@ -613,8 +567,32 @@
         li.appendChild(user_card);
         document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
     }
+    function del_without_replacing() {
+        button = document.createElement("button");
+        button.type = "button";
+        button.className = "upload-btn";
+        button.value = "Удалить";
+        button.innerText = "Удалить";
+        //button.style.height = "30px";
+        //button.style.width = "50px";
+        button.onclick = function a() {
+            hidden_field = document.createElement("input");
+            hidden_field.type = "hidden";
+            hidden_field.name = "delete_photo";
+            hidden_field.value = "0";
+            document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+            byId('hidden_fields').appendChild(hidden_field);
+            del_avatar_button();
+        }
+        document.getElementById("del_button").appendChild(button);
+    }
 
+    function delete_avatar() {
+        document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+        clearInputFile(document.getElementById("myfile"));
+        del_avatar_button();
+        // 
+    }
 </script>
-
 
 {% endblock %}
