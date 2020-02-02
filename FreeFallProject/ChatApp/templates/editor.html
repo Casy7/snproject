@@ -138,11 +138,15 @@
                         <label for="exampleFormControlInput2">Временные рамки</label>
                         <div class="form-row">
                             <div class="col">
-                                <input type="date" name="start" class="form-control" value={{start_date}}>
+                                <input type="date" value="{{start_date}}" name="start" class="form-control" required="" id="start_day" onchange="setMinEndDate()">
                             </div>
                             <div class="col">
-                                <input type="date" name="end" class="form-control" value={{end_date}}>
+                                <input type="date" value="{{end_date}}" name="end" class="form-control" required="" id="end_day" onchange="setMinEndDate()">
                             </div>
+                            <script>
+                                document.getElementById('start_day').min = addDays(Date(),-1).toDateInputValue();
+                            </script>
+        
                         </div>
                         <div class="form-row">
                             <div class="col">
