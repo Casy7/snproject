@@ -16,12 +16,17 @@
 
 
 
-
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 
 
 <script>
@@ -70,11 +75,27 @@
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
                     <div class="col">
-                        <input type="date" name="start" class="form-control" required="">
+                        <input type="date" name="start" class="form-control" required="" id="start_day">
                     </div>
                     <div class="col">
-                        <input type="date" name="end" class="form-control" required="">
+                        <input type="date" name="end" class="form-control" required="" id="end_day">
                     </div>
+                    <script>
+                        Date.prototype.toDateInputValue = (function () {
+                            var local = new Date(this);
+                            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                            return local.toJSON().slice(0, 10);
+                        });
+                        function addDays(date, days) {
+                            var result = new Date(date);
+                            result.setDate(result.getDate() + days);
+                            return result;
+                        }
+                        
+                        document.getElementById('start_day').value = new Date().toDateInputValue();
+                        document.getElementById('end_day').value = addDays(Date(),10).toDateInputValue();
+                    </script>
+
                 </div>
                 <div class="form-row">
                     <div class="col">
@@ -113,8 +134,8 @@
                     <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
                     {% endfor %}
 
-                  </select>
-                  <button class= "btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
+                </select>
+                <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
                 <input type="hidden" id="list-usrs" name="participants" value="">
                 <br>
                 <ul class="list-inline ptcs" id="inline-userlist">
@@ -124,7 +145,7 @@
                 <input type="submit" class="btn btn-secondary btn-block" value="Создать">
             </div>
     </form>{%csrf_token%}
-    
+
     <script>
         function add_user() {
             users = document.getElementById('list-usrs');
@@ -237,7 +258,7 @@
         }
 
     </script>
-    
+
 </div>
 
 
