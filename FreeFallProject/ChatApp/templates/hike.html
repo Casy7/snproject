@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+  <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
+</head>
+{% if content.image != '' %}
+<style>
+  .content::before {
+
+    background-image: url({{content.image.url}});
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /* opacity: 0.5; */
+  }
+</style>
+{% endif %}
+
+<body>
+  {% if user == content.creator %}
+  <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %}
+      <p>{{content.start_date}} - {{content.end_date}}
+      </p>
+      <p>{{content.short_description}}</p>
+      <p>Создатель: {{content.creator.first_name}} {{content.creator.last_name}}</p>
+      <div>{{content.description|safe}}</div>
+      <!--
+      <h2 class="h2">Достопримечательности:</h2>
+      {% for name in content.landmarks.all %}
+      <ul>
+        <li>{{name}}</li>
+      </ul>
+      {% endfor %}
+      -->
+      <h2 class="h2">Участники:</h2>
+      {% for username in content.participants %}
+      <ul>
+        <li>{{username}}</li>
+      </ul>
+      {% endfor %}
+      {% if user.username not in content.participants %}
+        <form method="POST">
+          {%csrf_token%}
+          <input id="participate" name="participate" type="hidden" value="Nope">
+          <input type="submit" class="btn btn-secondary btn-block" onclick="take_part()" value="Принять участие"
+            style="display: inline-block">
+          <script>
+            function take_part() {
+              document.getElementById("participate").value = "Yup";
+            }
+          </script>
+        </form>
+      {% endif %}
+
+      <h2 class="h2">Трек похода:</h2>
+
+      <div id="osm_map" style="width:auto;height:500px"></div>
+
+      <script>
+        coordinates = {{ content.coordinates | safe }};
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+        if (coordinates.length != 0) {
+          var osm_map = new mapboxgl.Map({
+            container: 'osm_map',
+            style: 'mapbox://styles/mapbox/bright-v9',
+            center: coordinates[Math.floor(coordinates.length / 2)][1],
+            zoom: 14
+          })
+          osm_map.addControl(new mapboxgl.NavigationControl());
+        }
+        else {
+          var osm_map = new mapboxgl.Map({
+            container: 'osm_map',
+            style: 'mapbox://styles/mapbox/bright-v9',
+            center: [3.420253241560829, 46.124064037019906],
+            zoom: 14
+          });
+          osm_map.addControl(new mapboxgl.NavigationControl());
+        }
+
+      </script><>
+
+      <script type="text/javascript">
+        coordinates = {{ content.coordinates | safe }};
+        var line = []
+
+        for (i = 0; i < coordinates.length; i++) {
+          var el = document.createElement('div');
+          el.content = coordinates[i][0];
+          el.textContent = coordinates[i][0];
+          el.className = 'marker';
+          el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
+          var x = coordinates[i][1][0];
+          var y = coordinates[i][1][1];
+          line.push([x, y]);
+          var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 }, }).setLngLat([x, y]).addTo(osm_map);
+
+        }
+
+        osm_map.on('load', function () {
+
+          osm_map.addLayer({
+            "id": "route",
+            "type": "line",
+            "source": {
+              "type": "geojson",
+              "data": {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                  "type": "LineString",
+                  "coordinates": line
+                }
+              }
+            },
+            "layout": {
+              "line-join": "round",
+              "line-cap": "round"
+            },
+            "paint": {
+              "line-color": "#888",
+              "line-width": 5
+            }
+          });
+
+          osm_map.addLayer(
+            {
+              id: "places",
+              type: "symbol",
+              source:
+              {
+                type: "geojson",
+                data:
+                {
+                  type: "FeatureCollection",
+                  features:
+                    [
+                      //                {% for lk in content.landmarks %}
+                      {
+                        type: "Feature",
+                        properties:
+                        {
+                          description:
+                            '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
+                          icon: "mountain"
+                        },
+                        geometry:
+                        {
+                          type: "Point",
+                          coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                        }
+                      },
+                      //         {% endfor %}
+                    ]
+                }
+              },
+              layout:
+              {
+                "icon-image": "{icon}-15",
+                "icon-allow-overlap": true
+              }
+            });
+
+          osm_map.on("click", "places", function (e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML(description)
+              .addTo(osm_map);
+          });
+
+          // Change the cursor to a pointer when the mouse is over the places layer.
+          osm_map.on("mouseenter", "places", function () {
+            osm_map.getCanvas().style.cursor = "pointer";
+          });
+
+          // Change it back to a pointer when it leaves.
+          osm_map.on("mouseleave", "places", function () {
+            osm_map.getCanvas().style.cursor = "";
+          });
+        });  
+      </script>
+
+
+</body>
+
+</html>
+{% endblock %}

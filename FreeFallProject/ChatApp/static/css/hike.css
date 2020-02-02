@@ -1,0 +1,35 @@
+.upload {
+    background: rgba(255, 255, 255, 0);
+    width: 50pt;
+    padding: 10pt;
+    font-size: 15pt;
+    border: .5px solid rgb(202, 202, 202);
+    text-align: center;
+    transform-origin: 0 0;
+    /* transform: scaleY(1.2); */
+}
+
+.form-control {
+    width: 200%;
+}
+
+.mapboxgl-popup {
+    max-width: 40%;
+    font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+#map {
+
+    width: 100%;
+/* }
+.mapboxgl-popup-content{
+
+    max-width: 40% !important;
+}
+.mapboxgl-popup-anchor-top-right{
+
+    max-width: 40% !important;
+}
+.mapboxgl-popup-anchor-right{
+    max-width: 40% !important;
+} */

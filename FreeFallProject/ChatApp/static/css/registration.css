@@ -1,0 +1,109 @@
+h1{
+    padding-top: 50px;
+}
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: auto;
+    min-width: 350px;
+    width: 45%;
+    height: 20%;
+    box-shadow: 1px solid gray;
+}
+
+
+
+.social_icon span {
+    font-size: 60px;
+    margin-left: 10px;
+    color: rgb(72, 255, 0);
+}
+
+.social_icon span:hover {
+    /* color: white; */
+    cursor: pointer;
+}
+
+.social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input-group-prepend span{
+    width: 48px;
+    /* background-color: rgb(46, 119, 179); */
+    color: black;
+    /* border: 0 !important; */
+}
+
+.form-group{
+    height: 30px;
+}
+
+input .form-control{
+    height: 300px !important;
+}
+
+.input_text{
+    width: 100%;
+    
+    height: 33px;
+    /* border: 1px solid gray; */
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.input-group-text{
+    height: 33px;
+
+}
+.login_btn {
+    color: black;
+    /* background-color: rgb(46, 119, 179); */
+    align-items: center;
+    width: 30%;
+}
+
+.remember {
+    padding-left: 5%; 
+    
+    /* margin-right: 20px;
+   
+    color: rgb(219, 219, 219); */
+}
+
+
+.login_btn:hover {
+    color: black;
+    background-color: white;
+}
+
+button{
+
+}
+
+.links {
+    /* color: white; */
+}
+
+.links a {
+    /* margin-left: 4px; */
+}
+
+.card-body{
+    box-sizing: content-box;
+}
+
+.error-message{
+    color: rgb(235, 155, 64);
+}
+
+

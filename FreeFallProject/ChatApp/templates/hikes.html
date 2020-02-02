@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/hikes.css' %}">
+
+<body>
+    {% for hike_row in hike %}
+    <div class="card-deck text-center"
+        style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
+        {% for hike in hike_row %}
+
+        <div class="card" style="max-width: 23%;">
+            <a href={{hike.link}}>
+                {% if hike.image != '' %}
+                <img class="card-img-top" src={{hike.image.url}} alt="Card image cap">
+                {% else %}
+                <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{hike.name}}</h2>
+                    <p class="card-text"></p>Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
+                    <p class="card-text">{{hike.short_description}}</p>
+                    <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</body>
+{% endblock %}

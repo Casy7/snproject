@@ -1,0 +1,81 @@
+h1{
+    padding-top: 50px;
+}
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: auto;
+    min-width: 350px;
+    width: 45%;
+    height: 20%;
+    box-shadow: 1px solid gray;
+}
+
+.social_icon span {
+    font-size: 60px;
+    margin-left: 10px;
+    color: rgb(72, 255, 0);
+}
+
+.social_icon span:hover {
+    /* color: white; */
+    cursor: pointer;
+}
+
+.registraion_link{
+    text-align: center;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 2px;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
+}
+
+.social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+}
+
+.input-group-prepend span {
+    width: 40px;
+    /* background-color: rgb(46, 119, 179); */
+    color: black;
+    /* border: 0 !important; */
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.login_btn {
+    color: black;
+    height: 33px;
+    /* background-color: rgb(46, 119, 179); */
+    align-items: center;
+    width: 30%;
+}
+
+.remember {
+    padding-left: 5%; 
+    
+    /* margin-right: 20px;
+   
+    color: rgb(219, 219, 219); */
+}
+
+
+.login_btn:hover {
+    color: black;
+    background-color: white;
+}
+
+
+
+.error-message{
+    color: rgb(235, 155, 64);
+}

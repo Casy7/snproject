@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<link href="{% static 'css/new_hike.css'%}" rel="stylesheet">
+<link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
+<script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+<!-- <link href="https://developer.snapappointments.com/bootstrap-select/A.ajax,,_libs,,_highlight.js,,_9.15.6,,_css,,_github.min.css+css,,_base.css+css,,_custom.css+dist,,_css,,_bootstrap-select.min.css,Mcc.MsOMCVf2_h.css.pagespeed.cf.zpjYFY_U7q.css" rel="stylesheet"> -->
+
+
+
+
+<!-- <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script> -->
+
+
+
+
+
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<script>
+    function delete_avatar() {
+        document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+        clearInputFile(document.getElementById("myfile"));
+        del_avatar_button();
+        // 
+    }</script>
+<div class="card" style="width:50%; border: 1px solid rgb(221, 221, 221); margin: auto;border-radius: 0px;">
+    <form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+
+        <!-- <input type="file" class="form-control-file" id="exampleFormControlFile1"> -->
+        <div class="img-container">
+
+            <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
+
+            <!-- <i class="fas fa-camera upload"></i> -->
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md" id="custom-file-input">
+                        <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+                            accept=".jpg, .jpeg, .png">
+                        <label type="button" for="myfile" class="form-control"
+                            style="display: block;text-align: center;">Upload</label>
+                    </div>
+                    <div class="col-md" id="del_button">
+
+                    </div>
+                </div>
+                <!-- <br> -->
+                <script src="{% static 'js/new_hike.js' %}"></script>
+                <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
+                <label for="exampleFormControlInput1">Название похода</label>
+
+                <div class="card-title"><span><input type="text" class="form-control" name="name" placeholder=""
+                            style="font-size: 15px;" required=""></span>
+                </div>
+                <label for="exampleFormControlInput1">Краткое описание</label>
+                <span>
+                    <textarea class="form-control" name="short_description" placeholder="Пару строк о походе"
+                        style="font-size: 13px;"></textarea>
+                </span>
+                <label for="exampleFormControlInput2">Временные рамки</label>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="date" name="start" class="form-control" required="">
+                    </div>
+                    <div class="col">
+                        <input type="date" name="end" class="form-control" required="">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="exampleFormControlInput2">Сложность</label>
+                        <span>
+                            <select name="difficulty" class="form-control">
+                                <option value="none">Без категории</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="V">V</option>
+                                <option value="VI">VI</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput2">Тип</label>
+                        <span>
+                            <select name="type" class="form-control">
+                                <option value="Пеший">Пеший</option>
+                                <option value="Горный">Горный</option>
+                                <option value="Водный">Водный</option>
+                                <option value="Вело">Вело</option>
+                                <option value="Спелео">Спелео</option>
+                            </select>
+                        </span>
+                    </div>
+
+                </div>
+                <label for="exampleFormControlInput6">Участники</label>
+                <!--Скрытый список участников-->
+                <br>
+                <select class="selectpicker" data-live-search="true" id="select_ptc">
+                    {% for user in user_list %}
+                    <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
+                    {% endfor %}
+
+                  </select>
+                  <button class= "btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
+                <input type="hidden" id="list-usrs" name="participants" value="">
+                <br>
+                <ul class="list-inline ptcs" id="inline-userlist">
+
+
+                </ul>
+                <input type="submit" class="btn btn-secondary btn-block" value="Создать">
+            </div>
+    </form>{%csrf_token%}
+    
+    <script>
+        function add_user() {
+            users = document.getElementById('list-usrs');
+            // alert(users.value);
+            if (users.value == "") {
+                document.getElementById('list-usrs').value = [].toString();
+                // alert($('#list-usrs').value);
+                // alert(typeof document.getElementById('new-user').value);
+                if (document.getElementById('select_ptc').value != "") {
+                    // alert("!!!!")
+                    add_ptc();
+                }
+            }
+            else {
+                if (document.getElementById('select_ptc').value != "") {
+                    add_ptc();
+                }
+            }
+        }
+        function add_ptc() {
+            list = str_to_list(document.getElementById('list-usrs').value);
+            user = document.getElementById('select_ptc').value;
+            //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
+            $.ajax({
+                url: "/does_user_exist/",
+                type: 'POST',
+                data: { 'username': user },
+                beforeSend: function (xhr, settings) {
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                },
+                success: function a(json) {
+                    // alert(json);
+                    // alert(json.exist);
+                    if (json.exist === "True") {
+                        var user_exists = true;
+                        list.push(user);
+                        //alert(list);
+                        document.getElementById('list-usrs').value = list;
+                        // alert(document.getElementById('list-usrs').value);
+
+                        user_card = document.createElement("li");
+                        user_card.className = "card";
+                        if (user_exists) {
+                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
+                        }
+                        else {
+                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
+                        }
+                        img = document.createElement("img");
+                        img.className = "card-img-top";
+                        img.style = "width: 100%;";
+                        img.src = "{%static 'icons/logo_grey.png'%}"
+
+                        span = document.createElement("span");
+                        span.style = "text-align:center";
+                        span.value = user;
+                        span.text = user;
+                        span.appendChild(document.createTextNode(user));
+                        button = document.createElement("button");
+                        button.className = "form-control";
+                        button.type = "button";
+                        button.onclick = function add_this_user() { del_user(user) };
+                        button.style = "height:20px; border: none;";
+                        button.innerHTML = "-";
+
+                        user_card.appendChild(img);
+                        user_card.appendChild(span);
+                        user_card.appendChild(button);
+
+                        li = document.createElement("li");
+                        li.className = "list-inline-item";
+                        li.name = user;
+                        li.id = user;
+
+                        li.appendChild(user_card);
+                        document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+                    }
+                    else {
+                        var user_exists = false;
+                    }
+                }
+
+            });
+
+
+
+
+
+
+        }
+
+    </script>
+    
+</div>
+
+
+
+
+{% endblock %}

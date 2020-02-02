@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link href="{% static 'css/my_account.css'%}" rel="stylesheet">
+<script>
+    function del_without_replacing() {
+        button = document.createElement("button");
+        button.type = "button";
+        button.className = "upload-btn";
+        button.value = "Удалить";
+        button.innerText = "Удалить";
+        //button.style.height = "30px";
+        //button.style.width = "50px";
+        button.onclick = function a() {
+            hidden_field = document.createElement("input");
+            hidden_field.type = "hidden";
+            hidden_field.name = "delete_photo";
+            hidden_field.value = "0";
+            document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+            byId('hidden_fields').appendChild(hidden_field);
+            del_avatar_button();
+        }
+        document.getElementById("del_button").appendChild(button);
+    }
+
+    function delete_avatar() {
+        document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+        clearInputFile(document.getElementById("myfile"));
+        del_avatar_button();
+        // 
+    }
+</script>
+<script src="{% static 'js/my_account.js'%}"></script>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md" id="custom-file-input">
+        <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+            accept=".jpg, .jpeg, .png">
+    </div>
+    <!-- <h2 style="border-top: 1px solid rgb(199, 199, 199);">Профиль</h2> -->
+    <table class="form-row">
+        <tr class="col">
+            <!-- style="width: 250px;"> -->
+            <td class="img-container" style="padding: 0px;width: 250px;">
+
+                <div class="row">
+                    {% if avatar == '' %}
+                    <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
+                        default="Фото не выбрано"></img>
+                    {% else %}
+                    <img src="{{profile.avatar.url}}" id="myimg" class="avatar" default="Фото не выбрано"></img>
+                    {% endif %}
+                </div>
+
+                <script src="{% static 'js/upload_photo.js' %}"></script>
+                </script>
+            </td>
+
+
+            <td style="float: left;min-width: 70%;width: 600px;">
+                <table class="col-bg">
+                    <div>
+                        <h2 class="h2">{{user.first_name}} {{user.last_name}}</h2>
+                    </div>
+                    <div>
+                    {{profile.about}}
+                    </div>
+                </table>
+
+
+                <!-- Полное имя и описание -->
+            </td>
+        </tr>
+    </table>
+
+
+    <input style = "margin-top: 20px" type="button" value="Изменить" onClick='location.href="/account_editor/"'>
+    {% if contacts %}
+    <h4 style = "margin-top: 20px">Контакты:</h4>
+    {% for contact in contacts %}
+        
+        <p style = "margin-bottom: -5px">{{contact.name}}: {{contact.value}}</p>
+    
+    {% endfor %}
+    {% endif %}
+
+
+
+
+</form>
+
+{% endblock %}

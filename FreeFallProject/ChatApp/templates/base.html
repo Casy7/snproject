@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    {% load static %}
+    {%csrf_token%}
+
+    <!-- TITLE AND PROPERTIES -->
+    {% if title != 'none' %}
+    <title>FF: {{ title }}</title>
+    {% else %}
+    <title>FreeFall</title>
+    {% endif %}
+
+
+
+    <script src="{% static 'js/my_functions.js' %}"></script>
+    <!-- META CLASSES -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="{% static '/styles/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/libs/modules/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map.css' %}">
+
+
+    <!-- SCRIPTS -->
+
+    <script src="{% static '/libs/modules/bootstrap/jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
+
+    <!-- UNUSED AT THIS MOMENT BUT IMPORTANT IMPORTS -->
+
+    <!-- STYLES OVERRIDE (BECAUSE OF UNABLE TO PASTE DJANGO STATIC INTO CSS) -->
+    <style>
+        /* body {
+            background-image: url("{% static 'icons/background.jpg' %}");
+        } */
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header sticky-top">
+                {% if username == ''%}
+                <h3>FreeFall</h3>
+
+                {% else %}
+
+                {% if avatar != ''%}
+                <img src="{{ avatar.url }}" class="sidebar-avatar">
+                {% endif %}
+
+
+                <h3 id="sidebar-username">{{username}}</h3>
+
+
+                {% endif %}
+
+                <ul class="list-unstyled components">
+                    <!-- <p>Dummy Heading</p> -->
+                    {% if  username != '' %}
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                            class="dropdown-toggle">Походы</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+
+                            {% for hike in hikes %}
+                            <li>
+                                <a href="/hike/{{hike.1}}">{{hike.0}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li>
+
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
+                            class="dropdown-toggle">Группы</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">Group 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Group 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Group 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <!-- <li>
+                    <a href="#">Something</a>
+                </li> -->
+                    <li>
+                        <a href="/home/">О сайте</a>
+                    </li>
+                </ul>
+
+
+            </div>
+
+
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-grey sticky-top">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn active">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                    <!--HEADER BUTTONS-->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            {% if username != ''%}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/new_hike">Создать поход</a>
+                            </li>
+                            {% endif %}
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" href="/all_hikes">Главная</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Главная</a>
+                            </li>
+                            {% if username == ''%}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/login">Войти</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Выход</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/my_account">{{username}}</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            {% if header != 'none' %}
+            <div class="page-header">
+                <h1>{{ header }}</h1>
+            </div>
+
+            {% endif %}
+            <div class="content">
+                {%block content%}
+                {%endblock%}
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery  -->
+
+    <script src="{% static 'libs/modules/bootstrap/jquery.js' %}"></script>
+    <!-- Popper.JS -->
+
+    <!-- Bootstrap JS -->
+
+    <script src="{% static '/js/baseScripts.js' %}" type="text/javascript"></script>
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+.input-group{
+    height: 30px;
+    
+}
+.custom-file-input{
+    height: 50px;
+}
+.del_photo{
+    display: none;
+}
+.custom-file-input{
+    height: 50px;
+}
+.del_photo{
+    display: none;
+}
+input.form-control {
+    font-size: 12px;
+}
+
+.ptcs{
+    height: 140px;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: visible;
+    overflow-wrap: normal;
+}
+    
