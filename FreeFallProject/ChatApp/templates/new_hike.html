@@ -75,10 +75,10 @@
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
                     <div class="col">
-                        <input type="date" name="start" class="form-control" required="" id="start_day">
+                        <input type="date" name="start" class="form-control" required="" id="start_day" onchange="setMinEndDate()">
                     </div>
                     <div class="col">
-                        <input type="date" name="end" class="form-control" required="" id="end_day">
+                        <input type="date" name="end" class="form-control" required="" id="end_day" onchange="setMinEndDate()">
                     </div>
                     <script>
                         Date.prototype.toDateInputValue = (function () {
@@ -92,9 +92,18 @@
                             return result;
                         }
                         
+                        function setMinEndDate(){
+                            byId('end_day').min = byId('start_day').value;
+                        }
+
+
                         document.getElementById('start_day').value = new Date().toDateInputValue();
                         document.getElementById('start_day').min = addDays(Date(),-1).toDateInputValue();
                         document.getElementById('end_day').value = addDays(Date(),10).toDateInputValue();
+
+
+
+
                     </script>
 
                 </div>
