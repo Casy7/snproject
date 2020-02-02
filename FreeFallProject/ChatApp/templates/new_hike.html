@@ -93,6 +93,7 @@
                         }
                         
                         document.getElementById('start_day').value = new Date().toDateInputValue();
+                        document.getElementById('start_day').min = addDays(Date(),-1).toDateInputValue();
                         document.getElementById('end_day').value = addDays(Date(),10).toDateInputValue();
                     </script>
 
