@@ -360,28 +360,35 @@ type="text/css"
             // osm_map.addControl(new mapboxgl.NavigationControl());
             // osm_map.update();
 
-
             coordinates = {{ coordinates | safe }};
-
+            var elements = [];
             for (i = 0; i < coordinates.length; i++) {
                 var el = document.createElement('div');
+                el.id = 'marker'+i.toString();
                 el.content = coordinates[i][0];
                 el.textContent = coordinates[i][0];
                 el.className = 'marker';
                 el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
                 el.x = coordinates[i][1][0];
                 el.y = coordinates[i][1][1];
-                var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
+                var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);   
 
-                el.addEventListener('contextmenu', function() {
-                        debugger;
-                        cord_del.push(Array(el.textContent, [el.x, el.y]));
-                        document.getElementById("del_coords").value = cord_del;
-                        marker.remove(); 
-                    });
+                elements.push({
+                    element: el,
+                    marker: marker
+                })
             }
 
-
+            elements.forEach(function(item, index) {
+                var el = item.element;
+                var marker = item.marker;
+                item.element.addEventListener('contextmenu', function() {
+                    cord_del.push(Array(el.textContent, [el.x, el.y]));
+                    document.getElementById("del_coords").value = cord_del;
+                    marker.remove(); 
+                });
+            });
+            
         </script>
         Выберите день: <input type="number" , min="1" , max="99" , id="day" , value="1" />
         <button type="button" class="btn btn-outline-secondary" style="float: right;" onclick="change_mode()">Создать
