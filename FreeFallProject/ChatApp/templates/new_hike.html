@@ -75,15 +75,17 @@
                 <label for="exampleFormControlInput2">Временные рамки</label>
                 <div class="form-row">
                     <div class="col">
-                        <input type="date" name="start" class="form-control" required="" id="start_day" onchange="setMinEndDate()">
+                        <input type="date" name="start" class="form-control" required="" id="start_day"
+                            onchange="setMinEndDate()">
                     </div>
                     <div class="col">
-                        <input type="date" name="end" class="form-control" required="" id="end_day" onchange="setMinEndDate()">
+                        <input type="date" name="end" class="form-control" required="" id="end_day"
+                            onchange="setMinEndDate()">
                     </div>
                     <script>
                         document.getElementById('start_day').value = new Date().toDateInputValue();
-                        document.getElementById('start_day').min = addDays(Date(),-1).toDateInputValue();
-                        document.getElementById('end_day').value = addDays(Date(),10).toDateInputValue();
+                        document.getElementById('start_day').min = addDays(Date(), -1).toDateInputValue();
+                        document.getElementById('end_day').value = addDays(Date(), 10).toDateInputValue();
                     </script>
 
                 </div>
@@ -204,9 +206,14 @@
                         }
                         img = document.createElement("img");
                         img.className = "card-img-top";
-                        img.style = "width: 100%;";
-                        img.src = "{%static 'icons/logo_grey.png'%}"
-
+                        img.style = "width: 100%;height:70px";
+                        if (json.exist_image) {
+                            data = json.image
+                            img.src = 'data:image/gif;base64,' + data;
+                        }
+                        else {
+                            img.src = "{%static 'icons/logo_grey.png'%}"
+                        }
                         span = document.createElement("span");
                         span.style = "text-align:center";
                         span.value = user;

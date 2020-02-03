@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.core.files import File
 from django.db.models import Q
+from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 from .models import *
 from .forms import *
 import datetime
+import base64
 import json
 import re
 
@@ -651,6 +653,14 @@ class DoesUserExist(View):
         result = {}
         if len(User.objects.filter(username=form['username'])) > 0:
             result['exist'] = 'True'
+            result['exist_image'] = False
+            user = User.objects.get(username=form['username'])
+            if len(Profile.objects.filter(user=user)) and user.profile.avatar != None:
+                result['exist_image'] = True
+                image = user.profile.avatar
+                with open(MEDIA_ROOT+image.name, "rb") as img_file:
+                    my_string = base64.b64encode(img_file.read()).decode("ASCII") 
+                result['image'] = my_string
         else:
             result['exist'] = 'False'
         return HttpResponse(
