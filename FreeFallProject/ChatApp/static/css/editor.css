@@ -40,3 +40,10 @@ td {
     padding-bottom: 3px;
     background-color: rgba(216, 216, 216, 0.445);
 }
+
+
+/* Тут начинаются пробемы */
+/* .mapboxgl-canvas{
+    width: 100% !important;
+    height: 500px !important;
+} */

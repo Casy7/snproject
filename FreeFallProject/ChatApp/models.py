@@ -42,6 +42,18 @@ class Landmark(models.Model):
     latitude = models.FloatField(default=0.0)
 
 
+class Day(models.Model):
+    def __str__(self):
+        return f'{self.name}'
+    name = models.CharField(max_length=20)
+    image = models.ImageField(
+        null=True, blank=True, upload_to='days/')
+    caption = models.CharField(max_length=200, default='')
+    description = models.CharField(max_length=200000, default='Создатель слишком ленив, чтобы даже заполнить это поле.')
+    date = models.DateField(default="2020-01-02")
+    coordinates = models.CharField(max_length=200000, default='[]')
+
+
 
 class Hike(models.Model):
     creator = models.ForeignKey(
@@ -51,6 +63,7 @@ class Hike(models.Model):
     short_description = models.CharField(max_length=1000, default='')
 
     participants = models.ManyToManyField(User, blank=True)
+    days = models.ManyToManyField(Day, blank=True)
 
     landmarks = models.ManyToManyField(Landmark, blank=True)
 
