@@ -522,6 +522,26 @@ class SetHike(View):
         #     landmarks.append(landmark.name)
 
         # this_hike['landmarks'] = hike.landmarks
+        days = []
+
+        ide = 1
+        for day in hike.days.all():
+            data = {}
+            data['image'] = day.image
+            data['description'] = day.description
+            data['caption'] = day.caption
+            data['date'] = day.date
+            data['coordinates'] = day.coordinates
+            data['fake_name'] = str('Day' + day.name.split()[1])
+            data['name'] = day.name
+            data['id'] = str(ide)
+            data['ide'] = '#' + str(ide)
+            ide += 1
+            days.append(data)
+
+        this_hike['days'] = days
+
+
         participants = []
 
         for participant in hike.participants.all():
