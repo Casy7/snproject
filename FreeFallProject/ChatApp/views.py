@@ -255,6 +255,26 @@ class NewHike(View, LoginRequiredMixin):
         for pt in participants:
             hike.participants.add(pt)
         hike.save()
+        
+
+        # Криповый код, считающий количество дней между датами начала и конца похода.
+        a = hike.start_date.split('-')
+        b = hike.end_date.split('-')
+        aa = datetime.date(int(a[0]),int(a[1]),int(a[2]))
+        bb = datetime.date(int(b[0]),int(b[1]),int(b[2]))
+        days_count = int(str(bb-aa).split()[0])
+        # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
+        
+        for i in range (1, days_count+1):
+            day = Day(
+                name = "День " + str(i),
+                date = aa + datetime.timedelta(i),
+            )
+            day.save()
+            hike.days.add(day)
+        hike.save()
+
+
 
         return HttpResponseRedirect("/editor/"+str(hike.id))
 
