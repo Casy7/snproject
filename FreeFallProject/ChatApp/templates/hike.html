@@ -9,12 +9,6 @@
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
   <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
-  <style type="text/css">    
-    * { margin: 0; padding: 0; }
-    p { padding: 10px; }
-    #left { position: absolute; left: 0; top: 100; width: 50%; }
-    #right { position: absolute; right: 0; top: 100; width: 50%; } 
- </style>
 </head>
 {% if content.image != '' %}
 <style>
@@ -37,18 +31,23 @@
 
 
 <body>
-      <h1> {{content.name}} </h1>
-      <div>Создатель:</div>
-      <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%" alt="Responsive image">
-      {{content.creator.first_name}} {{content.creator.last_name}}</div>
-      <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
-      <div>{{content.short_description}}</div>
-      <div>{{content.description|safe}}</div>
-      <div>Сложность похода: {{content.difficulty}}</div>
-      <div>Тип похода: {{content.type_of_hike}}</div>
-      {% if user == content.creator %}
-      <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %}
-      <h2 class="h2">Участники:</h2>
+  <h1> {{content.name}} </h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div>Создатель:</div>
+        <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%" alt="Responsive image">
+        {{content.creator.first_name}} {{content.creator.last_name}}</div>
+        <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
+        <div>{{content.short_description}}</div>
+        <div>{{content.description|safe}}</div>
+        <div>Сложность похода: {{content.difficulty}}</div>
+        <div>Тип похода: {{content.type_of_hike}}</div>
+        {% if user == content.creator %}
+        <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %}
+      </div>
+      <div class="col">
+        <h2 class="h2">Участники:</h2>
       {% for username in content.participants %}
       <ul>
         <li>{{username}}</li>
@@ -67,41 +66,50 @@
           </script>
         </form>
       {% endif %}
-
-
-      <div id = 'left'>
-        <div class="accordion" id="accordionExample">
-          {% for day in content.days %}
-          <div class="card">
-            <div class="card-header" id = {{day.fake_name}}>
-              <h2 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target=#{{day.id}} aria-expanded="true" aria-controls={{day.id}}>
-                  {{day.name}}
-                </button>
-              </h2>
-            </div>
-            <div id={{day.id}} class="collapse show" aria-labelledby={{day.fake_name}} data-parent="#accordionExample">
-              <div class="card-body">
-                <h1 align="center">{{day.caption}}</h1>
-                {% if day.image != '' %}
-                <img src={{day.image.url}} class="img-fluid" alt="Responsive image">
-                {% endif %}
-                {{day.description}}
-              </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col">
+      <div class="accordion" id="accordionExample">
+        {% for day in content.days %}
+        <div class="card">
+          <div class="card-header" id = {{day.fake_name}}>
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target=#{{day.id}} aria-expanded="true" aria-controls={{day.id}}>
+                {{day.name}}
+              </button>
+            </h2>
+          </div>
+          <div id={{day.id}} class="collapse show" aria-labelledby={{day.fake_name}} data-parent="#accordionExample">
+            <div class="card-body">
+              <h1 align="center">{{day.caption}}</h1>
+              {% if day.image != '' %}
+              <img src={{day.image.url}} class="img-fluid" alt="Responsive image">
+              {% endif %}
+              {{day.description}}
             </div>
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
+    </div>
+    <div class="col">
+      <div id="osm_map" style="width:auto;height:500px"></div>
+    </div>
+  </div>
+</div>
+</div>
+    
+      
 
 
 
 
-      <div id= 'right'>
 
-        <div id="osm_map" style="width:auto;height:500px"></div>
 
-      </div>
+
 
 
 
