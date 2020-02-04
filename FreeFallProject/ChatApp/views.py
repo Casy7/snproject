@@ -526,8 +526,10 @@ class SetHike(View):
     def get(self, request, id):
 
         hike = Hike.objects.get(id=id)
-        context = base_context(request, title=hike.name, header=hike.name)
+        context = base_context(request, title=hike.name)
         this_hike = {}
+        this_hike['difficulty'] = hike.difficulty
+        this_hike['type_of_hike'] = hike.type_of_hike
         this_hike['current_user'] = request.user
         this_hike['creator'] = hike.creator
         this_hike['name'] = hike.name
@@ -549,6 +551,29 @@ class SetHike(View):
         #     landmarks.append(landmark.name)
 
         # this_hike['landmarks'] = hike.landmarks
+        days = []
+
+        ide = 1
+        for day in hike.days.all():
+            data = {}
+            if day.image.name is not None and day.image.name!="":
+                data['image'] = day.image
+            else:
+                data['image'] = ''
+            data['description'] = day.description
+            data['caption'] = day.caption
+            data['date'] = day.date
+            data['coordinates'] = day.coordinates
+            data['fake_name'] = str('Day' + day.name.split()[1])
+            data['name'] = day.name
+            data['id'] = str(ide)
+            data['ide'] = '#' + str(ide)
+            ide += 1
+            days.append(data)
+
+        this_hike['days'] = days
+
+
         participants = []
 
         for participant in hike.participants.all():
