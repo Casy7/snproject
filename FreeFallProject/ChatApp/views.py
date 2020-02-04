@@ -279,11 +279,12 @@ class NewHike(View, LoginRequiredMixin):
         
         for i in range (1, days_count+1):
             day = Day(
+                hike = hike,
                 name = "День " + str(i),
                 date = aa + datetime.timedelta(i),
             )
             day.save()
-            hike.days.add(day)
+            
         hike.save()
 
 
@@ -417,6 +418,25 @@ class HikeEditor(View, LoginRequiredMixin):
             hike.image = None
 
         hike.save()
+
+        hike_id = 1
+        while 'day_'+str(hike_id)+'_name' in form.keys():
+            name = 'day_'+str(hike_id)+'_name'
+            if form[name]!='':
+                new_day = Day(hike = hike, name = form[name], description = form)
+                new_day.save()
+
+
+            hike_id+=1
+
+
+
+
+
+
+
+
+
         # participants = participants_format(form['participants'])
         participants = participants_new_format(form['participants'])
         already_in_hike = hike.participants.all()
@@ -554,7 +574,7 @@ class SetHike(View):
         days = []
 
         ide = 1
-        for day in hike.days.all():
+        for day in Day.objects.filter(hike = hike):
             data = {}
             if day.image.name is not None and day.image.name!="":
                 data['image'] = day.image
