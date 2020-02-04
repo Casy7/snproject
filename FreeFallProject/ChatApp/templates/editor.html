@@ -30,6 +30,7 @@
     </ul>
 
     <div class="tab-content" id="myTabContent">
+        <!-- БАЗОВЫЕ ПАРАМЕТЫ -->
         <div class="tab-pane fade show active" id="basic_parameters_content" role="tabpanel" aria-labelledby="home-tab">
             <!--БЛОК БАЗОВЫХ ПАРАМЕТРОВ-->
             <br>
@@ -156,17 +157,17 @@
             <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
-
+        <!-- УЧАСТНИКИ -->
         <div class="tab-pane fade" id="participants_content" role="tabpanel" aria-labelledby="participants_content-tab">
-            <link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
-            <script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
-            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        <link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
+        <script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
             crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
                 integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
                 crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                 crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -322,18 +323,15 @@ function add_user() {
             </ul>
             <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block">
         </div>
-    
+        <!-- КАРТА -->
         <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
             <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
             <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script> 
             <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css" />
             <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' /> 
-            <script>
-
-              </script>
-            
-
+   
             <div id="osm_map" style="width:auto;height:500px">
+                <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
                 <div class="map-overlay-container" id="new_landmark" style="display: none;">
                     <div class="map-overlay">
 
@@ -361,6 +359,7 @@ function add_user() {
                         </div>
                     </div>
                 </div>
+                <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
             </div>
 
             <script>
@@ -441,11 +440,53 @@ function add_user() {
                 });
 
             </script>
-            Выберите день: <input type="number" , min="1" , max="99" , id="day" , value="1" />
+
+            Выберите день: 
+            <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
+                <option value="1" id="day_1">1</option>
+            </select>
+
+            <button type="button" class="btn btn-outline-secondary"
+                onclick="add_new_day()">Добавить день</button>
             <button type="button" class="btn btn-outline-secondary" style="float: right;"
                 onclick="change_mode()">Создать
                 достопримечательность</button>
+            <div class="card" id= "days_list">
 
+                <div class="day_card" id="day_1_card">
+                    <h3>День 1</h3>
+                    <label>Заголовок дня</label>
+                    <input type="text" class="form-control" name="day_1_name" placeholder="Заголовок дня">
+                    <label>Описание дня</label>
+                    <textarea class="form-control" name="day_1_description" placeholder="Описание дня"
+                        style="font-size: 13px;"></textarea>
+                </div>
+
+
+
+
+            </div>
+            <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </script>
             <script>
             if ({{ coordinates | safe }} != []) {
                     var coordinates = {{ coordinates | safe }}

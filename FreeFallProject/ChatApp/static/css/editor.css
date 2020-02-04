@@ -42,6 +42,13 @@ td {
 }
 
 
+.day_card{
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 2px;
+    padding: 5px;
+    margin: 5px;
+}
+
 /* Тут начинаются пробемы */
 /* .mapboxgl-canvas{
     width: 100% !important;
