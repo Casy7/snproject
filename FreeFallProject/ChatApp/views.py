@@ -655,7 +655,7 @@ class DoesUserExist(View):
             result['exist'] = 'True'
             result['exist_image'] = False
             user = User.objects.get(username=form['username'])
-            if len(Profile.objects.filter(user=user)) and user.profile.avatar != None:
+            if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
                 result['exist_image'] = True
                 image = user.profile.avatar
                 with open(MEDIA_ROOT+image.name, "rb") as img_file:
