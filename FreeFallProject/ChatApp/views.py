@@ -311,7 +311,12 @@ class HikeEditor(View, LoginRequiredMixin):
         if context['username'] != '' and request.user == hike.creator:
             participants = []
             for user in hike.participants.all():
-                participants.append(user.username)
+                if len(Profile.objects.filter(user = user)) and user.profile.avatar.name != '':
+                    participants.append((user.username,user.profile.avatar))
+                else:
+                    participants.append((user.username,''))
+
+
             context.update({
                 'name': hike.name,
                 'short_description': hike.short_description,
