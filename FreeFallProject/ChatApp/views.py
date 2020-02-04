@@ -153,13 +153,9 @@ class Registration(View):
 
 
 class UserLogin(View):
-    # permission_required = ('posts.can_view', 'login.can_view')
-    # template_name = 'create_post.html'
-    # permission_denied_message = "Sorry. Access denied"
-    # raise_exception = True
+
     def __init__(self):
         self.error = 0
-    # form_class = LoginUser
 
     def get(self, request):
 
@@ -316,6 +312,20 @@ class HikeEditor(View, LoginRequiredMixin):
                 else:
                     participants.append((user.username,''))
 
+            user_list = []
+            for user in User.objects.all():
+                if user.last_name != '' and user.first_name != '':
+                    user_list.append(
+                        (user.username, user.username+", "+user.first_name+' '+user.last_name))
+                elif user.first_name != '':
+                    user_list.append(
+                        (user.username, user.username+", "+user.first_name))
+                elif user.last_name != '':
+                    user_list.append(
+                        (user.username, user.username+", "+user.last_name))
+                else:
+                    user_list.append((user.username, user.username))
+            context['user_list'] = user_list
 
             context.update({
                 'name': hike.name,
