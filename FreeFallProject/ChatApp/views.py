@@ -9,93 +9,15 @@ from django.db.models import Q
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 from .models import *
 from .forms import *
-import datetime
+from datetime import date, timedelta
 import base64
 import json
 import re
 
 
-def new_format(coordinates):
-    coordinates = list(coordinates.split(";"))
-    new_coords = []
-    for coord in coordinates:
-        if coord != "":
-            new_coords.append(
-                (coord[3:coord.find("lat=")], coord[coord.find("lat=")+4:]))
-    return new_coords
-
-
-def base_context(request, **args):
-    context = {}
-    user = request.user
-
-    context['title'] = 'none'
-    context['header'] = 'none'
-    context['error'] = 0
-    if user.is_anonymous != True:
-        if len(Profile.objects.filter(user=user)) != 0:
-
-            context['username'] = user.username
-            if bool(user.profile.avatar):
-                context['avatar'] = user.profile.avatar
-            else:
-                context['avatar'] = ''
-        else:
-            user_desc = Profile(user=user, gender='male')
-            context['avatar'] = ''
-            context['username'] = 'Adminius'
-        context['user'] = user
-        context['hikes'] = []
-        hikes = Hike.objects.filter(
-            creator=user).order_by('-creation_datetime')
-        if len(hikes) > 10:
-            hikes = hikes[:10]
-        for hike in hikes:
-            context['hikes'].append([hike.name, hike.id])
-    else:
-        context['username'] = ''
-        context['avatar'] = ''
-    if args != None:
-        for arg in args:
-            context[arg] = args[arg]
-    # print(context)
-    return context
-
-
-def participants_format(participants):
-    participants = str(participants)
-    participants = participants.replace('\t', '').replace(' ', '')
-    participants = participants.split(sep='@')
-
-    pt_list = []
-    for pt in participants:
-        if pt != '':
-
-            user = User.objects.filter(username=pt)
-            if list(user) != []:
-                pt_list.append(user[0])
-    return pt_list
-
-
-def participants_new_format(participants):
-    participants = str(participants)
-    participants = participants.split(sep=',')
-
-    pt_list = []
-    for pt in participants:
-        if pt != '':
-
-            user = User.objects.filter(username=pt)
-            if list(user) != []:
-                pt_list.append(user[0])
-    return pt_list
-
-
-def parts_revert_format(participants):
-    text_format = ""
-    for pt in participants:
-        text_format += '@'+pt.username+'\t'
-    return text_format
+from ChatApp.views_functions import *
+from ChatApp.views_ajax import *
+from ChatApp.views_editor import *
 
 
 class HomePage(View):
@@ -127,7 +49,6 @@ class Registration(View):
                 if prop not in ('csrfmiddlewaretoken', 'username', 'gender') and form[prop] != '':
                     user_props[prop] = form[prop]
 
-                    
             # print(user_props)
             User.objects.create_user(
                 username=form['username'], **user_props)
@@ -138,15 +59,12 @@ class Registration(View):
             # print(form)
             return HttpResponseRedirect("/login")
 
-
         else:
             context = base_context(request, title='Регистрация',
-                               header='Регистрация')
-
+                                   header='Регистрация')
 
             for field_name in form.keys():
                 context[field_name] = form[field_name]
-
 
             context['error'] = 1
             return render(request, "registration.html", context)
@@ -267,185 +185,26 @@ class NewHike(View, LoginRequiredMixin):
         for pt in participants:
             hike.participants.add(pt)
         hike.save()
-        
 
         # Криповый код, считающий количество дней между датами начала и конца похода.
         a = hike.start_date.split('-')
         b = hike.end_date.split('-')
-        aa = datetime.date(int(a[0]),int(a[1]),int(a[2]))
-        bb = datetime.date(int(b[0]),int(b[1]),int(b[2]))
+        aa = date(int(a[0]), int(a[1]), int(a[2]))
+        bb = date(int(b[0]), int(b[1]), int(b[2]))
         days_count = int(str(bb-aa).split()[0])
         # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
-        
-        for i in range (1, days_count+1):
+
+        for i in range(1, days_count+1):
             day = Day(
-                hike = hike,
-                name = "День " + str(i),
-                date = aa + datetime.timedelta(i),
+                hike=hike,
+                name="День " + str(i),
+                date=aa + timedelta(i),
             )
             day.save()
-            
+
         hike.save()
-
-
 
         return HttpResponseRedirect("/editor/"+str(hike.id))
-
-
-class HikeEditor(View, LoginRequiredMixin):
-    def get(self, request, id):
-
-        hike = Hike.objects.get(id=id)
-
-        context = base_context(
-            request, title='Track', header='Изменение похода: '+hike.name)
-
-        if hike.image.name is not None:
-            context['image'] = hike.image
-        else:
-            context['image'] = ''
-
-        if context['username'] != '' and request.user == hike.creator:
-            participants = []
-            for user in hike.participants.all():
-                if len(Profile.objects.filter(user = user)) and user.profile.avatar.name != '':
-                    participants.append((user.username,user.profile.avatar))
-                else:
-                    participants.append((user.username,''))
-
-            user_list = []
-            for user in User.objects.all():
-                if user.last_name != '' and user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name+' '+user.last_name))
-                elif user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name))
-                elif user.last_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.last_name))
-                else:
-                    user_list.append((user.username, user.username))
-            context['user_list'] = user_list
-
-            context.update({
-                'name': hike.name,
-                'short_description': hike.short_description,
-                'start_date': str(hike.start_date),
-                'end_date': str(hike.end_date),
-                'difficulty': hike.difficulty,
-                'type_of_hike': hike.type_of_hike,
-
-                'participants': participants,
-                'landmarks': list(Landmark.objects.filter(is_public=True)),
-                'description': hike.description,
-                'coordinates': hike.coordinates,
-            })
-
-            return render(request, "editor.html", context)
-
-        else:
-            return HttpResponseRedirect("/login/")
-
-    def post(self, request, id):
-
-        form = request.POST
-
-        #  print(form)
-        hike = Hike.objects.get(id=id)
-        if form['landmarks'] != '':
-            landmark_list = eval(form['landmarks'])
-            for lk in landmark_list:
-                new_landmark = Landmark(name=lk[1])
-                new_landmark.longitude = lk[0][0]
-                new_landmark.latitude = lk[0][1]
-                new_landmark.description = lk[2]
-                if lk[3] == "on":
-                    new_landmark.is_public == True
-                else:
-                    new_landmark.is_public == False
-                new_landmark.save()
-
-        hike.name = form['name']
-
-        coordinates = []
-        i = 0
-        while True:
-            if form.get("start_day"+str(i)) != None:
-                tpl = form["start_day" +
-                           str(i)].replace("(", "").replace(")", "").split(";")
-
-                coordinates.append(tpl)
-                tpl = form["end_day" +
-                           str(i)].replace("(", "").replace(")", "").split(";")
-
-                coordinates.append(tpl)
-                i += 1
-
-            else:
-                break
-        # hike.creator = user
-
-        hike.short_description = form['short_description']
-        hike.description = form['description']
-        hike.start_date = form['start']
-        hike.end_date = form['end']
-        hike.difficulty = form['difficulty']
-        hike.type_of_hike = form['type']
-
-        coordinates = str(form['coordinates'])
-        data = coordinates.split(',')
-        coordinates = []
-        for i in range(len(data)//3):
-            coordinates.append(
-                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
-
-        delete = str(form['cord_del'])
-        data = delete.split(',')
-        delete = []
-        for i in range(len(data)//3):
-            delete.append(
-                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
-
-        for el in delete:
-            coordinates.remove(el)
-
-        hike.coordinates = coordinates
-        print(coordinates, delete)
-        if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
-        elif 'delete_photo' in form.keys():
-            hike.image = None
-
-        hike.save()
-
-        hike_id = 1
-        while 'day_'+str(hike_id)+'_name' in form.keys():
-            name = 'day_'+str(hike_id)+'_name'
-            if form[name]!='':
-                new_day = Day(hike = hike, name = form[name], description = form)
-                new_day.save()
-
-
-            hike_id+=1
-
-
-
-
-
-
-
-
-
-        # participants = participants_format(form['participants'])
-        participants = participants_new_format(form['participants'])
-        already_in_hike = hike.participants.all()
-        for pt in participants:
-            if pt not in already_in_hike:
-                hike.participants.add(pt)
-        hike.save()
-
-        return HttpResponseRedirect("/hike/"+str(hike.id))
 
 
 class Logout (View):
@@ -462,7 +221,7 @@ class AllHikes(View):
         context['hike'] = []
 
         hikes = Hike.objects.filter(
-            start_date__gte=datetime.date.today()).order_by('-creation_datetime')
+            start_date__gte=date.today()).order_by('-creation_datetime')
 
         # Возвращает список походов, начинающихся не ранее чем сегодня,
         # отсортированный по давности их создания.
@@ -574,9 +333,9 @@ class SetHike(View):
         days = []
 
         ide = 1
-        for day in Day.objects.filter(hike = hike):
+        for day in Day.objects.filter(hike=hike):
             data = {}
-            if day.image.name is not None and day.image.name!="":
+            if day.image.name is not None and day.image.name != "":
                 data['image'] = day.image
             else:
                 data['image'] = ''
@@ -592,7 +351,6 @@ class SetHike(View):
             days.append(data)
 
         this_hike['days'] = days
-
 
         participants = []
 
@@ -725,42 +483,3 @@ class AccountEditor(View):
         return HttpResponseRedirect('/my_account/')
 
 
-class DoesUserExist(View):
-    def post(self, request):
-        req = request
-        form = request.POST
-
-        result = {}
-        if len(User.objects.filter(username=form['username'])) > 0:
-            result['exist'] = 'True'
-            result['exist_image'] = False
-            user = User.objects.get(username=form['username'])
-            if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
-                result['exist_image'] = True
-                image = user.profile.avatar
-                with open(MEDIA_ROOT+image.name, "rb") as img_file:
-                    my_string = base64.b64encode(img_file.read()).decode("ASCII") 
-                result['image'] = my_string
-        else:
-            result['exist'] = 'False'
-        return HttpResponse(
-            json.dumps(result),
-            content_type="application/json"
-        )
-
-
-class IsNewHikeValid(View):
-    def post(self, request):
-        req = request
-        form = HikeForm(request.POST)
-        if form.is_valid():
-            pass
-        result = {}
-        if len(User.objects.filter(username=form['username'])) > 0:
-            result['exist'] = 'True'
-        else:
-            result['exist'] = 'False'
-        return HttpResponse(
-            json.dumps(result),
-            content_type="application/json"
-        )

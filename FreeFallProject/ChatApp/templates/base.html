@@ -114,7 +114,8 @@
 
 
         </nav>
-
+        <script src="{% static 'libs/modules/font-awesome/font-awesome.js' %}" crossorigin="anonymous"></script>
+        <!-- <link rel="stylesheet" href="{% static '/libs/modules/font-awesome/font-awesome.min.css' %}"> -->
         <!-- Page Content Holder -->
         <div id="content">
 
@@ -134,24 +135,136 @@
                     <!--HEADER BUTTONS-->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
+
+                            <a class="nav-link" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1"
+                                data-target="#"><i class="fas fa-bell"></i><span class="badge badge-danger">6</span></a>
+
+                            <!-- DROPDOWN NOTIFICATIONS MENU -->
+                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu"
+                                aria-labelledby="dropdownMenu1">
+                                <div class="navbar navbar-expand-lg navbar-light sticky-top" style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
+                                <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
+                                </div>
+                                
+                                <ul id = "notifications" class="timeline timeline-icons timeline-sm" style="margin:10px;width:210px">
+                                    <li>
+                                        <p>
+                                            Your “Volume Trendline” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><img class="notification-logo" src="{{ avatar.url }}"></span>
+                                            <span class="timeline-date">Dec 10, 22:00</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icons"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
+                                                    style="color:red"></i></span>
+                                            <span class="timeline-date">Dec 6, 10:17</span>
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p>
+                                            Your “Top Words” spreadsheet is ready <a href="">here</a>
+                                            <span class="timeline-icon"><i class="fa fa-file-excel-o"
+                                                    style="color:green"></i></span>
+                                            <span class="timeline-date">Dec 5, 04:36</span>
+                                        </p>
+                                    </li>
+                                </ul>
+                                <!-- <li role="presentation">
+                                    <a href="#" class="dropdown-menu-header"></a>
+                                </li> -->
+                            </ul>
+                            <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/new_hike">Создать поход</a>
+                                <a class="nav-link" href="/new_hike"><i class="fas fa-plus"></i></a>
                             </li>
                             {% endif %}
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="/all_hikes">Главная</a>
-                            </li> -->
+
+
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Главная</a>
+                                <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/login">Войти</a>
+                                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout">Выход</a>
+                                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="/my_account">{{username}}</a>
