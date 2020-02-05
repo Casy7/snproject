@@ -23,7 +23,7 @@ def notifications_to_js_format(nt_list):
             new_format_nt.append(notification.hike.name)
             new_format_nt.append(notification.hike.id)
             if len(Profile.objects.filter(user = user))>0 and user.profile.avatar.name!='':
-                new_format_nt.append(notification.hike.id)
+                new_format_nt.append(user.profile.avatar)
             else:
                 new_format_nt.append('')
             new_format_nt.append(notification.datetime)

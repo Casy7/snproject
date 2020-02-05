@@ -146,14 +146,20 @@
                                 <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
                                 </div>
                                 
-                                <ul id = "notifications" class="timeline timeline-icons timeline-sm" style="margin:10px;width:210px">
+                                <ul id = "notifications" class="timeline timeline-icons timeline-sm" style="margin:10px">
                                    {% if username != '' %}
                                    {% for nt in notifications %}
                                    {% if nt.0 == 'invite_to_hike' %}
                                     <li>
                                         <p>
-                                            {{nt.1}} приглашает вас в поход <a href="hike/{{nt.4}}">{{ nt.3 }}</a>
-                                            <span class="timeline-icon"><img class="notification-logo" src="{{ avatar.url }}"></span>
+                                            {{nt.1}} приглашает вас в поход <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
+                                            {% if nt.5 != '' %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
+                                            {% else %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
+                                            
+                                            {% endif %}
+                                            <button class="btn btn btn-outline-primary">Присоединиться</button><button class="btn btn btn-outline-danger">Отказаться</button>
                                             <span class="timeline-date">{{nt.6}}</span>
                                         </p>
                                     </li>
