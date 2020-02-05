@@ -2,6 +2,7 @@ from .models import *
 from .forms import *
 from ChatApp.views import *
 
+
 class DoesUserExist(View):
     def post(self, request):
         req = request
@@ -44,3 +45,15 @@ class IsNewHikeValid(View):
         )
 
 
+class SendNotifications(View):
+    def post(self, request):
+        form = request.POST
+        user = request.user
+        result = {}
+        if user.is_anonymous == False:
+
+            result['notifications'] = check_notifications(user)
+
+        else:
+            result['notifications'] = check_notifications(user)
+        return HttpResponse(json.dumps(result), content_type="application/json")

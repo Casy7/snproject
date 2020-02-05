@@ -183,6 +183,13 @@ class NewHike(View, LoginRequiredMixin):
             hike.image = request.FILES['image']
         participants = participants_new_format(form['participants'])
         for pt in participants:
+
+            nt = Notification(user=pt, type_of_notification='invite_to_hike')
+            nt.from_user = user
+            nt.hike=hike
+            nt.save()
+
+
             hike.participants.add(pt)
         hike.save()
 
