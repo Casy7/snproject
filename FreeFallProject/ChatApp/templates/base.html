@@ -150,7 +150,7 @@
                                    {% if username != '' %}
                                    {% for nt in notifications %}
                                    {% if nt.0 == 'invite_to_hike' %}
-                                    <li>
+                                    <li name="{{nt.0}}">
                                         <p>
                                             {{nt.1}} приглашает вас в поход <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
                                             {% if nt.5 != '' %}
@@ -163,6 +163,34 @@
                                             <span class="timeline-date">{{nt.6}}</span>
                                         </p>
                                     </li>
+                                    {% elif nt.0 == 'request_for_ptc' %}
+                                    <li name="{{nt.0}}">
+                                        <p>
+                                            {{nt.1}} подал запрос на вступление в группу похода <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
+                                            {% if nt.5 != '' %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
+                                            {% else %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
+                                            
+                                            {% endif %}
+                                            <button class="btn btn btn-outline-primary">Добавить</button><button class="btn btn btn-outline-danger">Скрыть</button>
+                                            <span class="timeline-date">{{nt.6}}</span>
+                                        </p>
+                                    </li>
+                                    {% elif nt.0 == 'user_added_to_hike' %}
+                                    <li name="{{nt.0}}">
+                                        <p>
+                                            {{nt.1}} вступил в Ваш поход <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
+                                            {% if nt.5 != '' %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
+                                            {% else %}
+                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
+                                            
+                                            {% endif %}
+                                            <button class="btn btn btn-outline-primary">Добавить</button><button class="btn btn btn-outline-danger">Скрыть</button>
+                                            <span class="timeline-date">{{nt.6}}</span>
+                                        </p>
+                                    </li>                                   
                                     {% endif %}
                                     {% endfor %}
                                     <li>

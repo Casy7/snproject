@@ -583,6 +583,8 @@ a, a:hover, a:focus {
 
 a[data-toggle="collapse"] {
     position: relative;
+    text-decoration: none;
+
 }
 
 .dropdown-toggle::after {
@@ -601,10 +603,16 @@ ul ul a {
 
 
 a{
-    font-weight: 600;
+    /* font-weight: 600; */
     text-decoration: underline;
     /* font-style: oblique; */
 }
+
+
+li ul li a{
+    text-decoration: none;
+}
+
 
 
 ul.CTAs {
