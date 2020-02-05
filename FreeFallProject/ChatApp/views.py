@@ -587,7 +587,7 @@ class SetHike(View):
             data['fake_name'] = str('Day' + day.name.split()[1])
             data['name'] = day.name
             data['id'] = str(ide)
-            data['ide'] = '#' + str(ide)
+            data['label'] = 'day' + str(ide)
             ide += 1
             days.append(data)
 
