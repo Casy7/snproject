@@ -14,6 +14,12 @@ TYPE_OF_NOTIFICATION = [
     ("simple_text", "simple_text")
 ]
 
+MEMBER_JOIN = [
+    ("open","open"),
+    ("request","request"),
+    ("close","close"),
+]
+
 
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -57,12 +63,14 @@ class Hike(models.Model):
     short_description = models.CharField(max_length=1000, default='')
 
     participants = models.ManyToManyField(User, blank=True)
+    limit_of_members = models.IntegerField(max_length=2000, default=15, blank=True)
 
     landmarks = models.ManyToManyField(Landmark, blank=True)
 
     start_date = models.DateField(default="2020-01-02")
     end_date = models.DateField(default="2020-01-02")
 
+    join_to_group = models.CharField(max_length=10, default='request', choices=MEMBER_JOIN)
     difficulty = models.CharField(max_length=200, default='none')
     type_of_hike = models.CharField(max_length=200, default='Пеший')
 
