@@ -36,7 +36,12 @@
     <div class="row">
       <div class="col">
         <div>Создатель:</div>
+        {% if content.creator.profile.avatar.name != '' %}
         <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%" alt="Responsive image">
+          {% else %}
+        <div><img src= "{% static 'icons/logo_grey.png' %}" class="leftimg" width="10%" height="10%" alt="Responsive image">
+
+          {% endif %}
         {{content.creator.first_name}} {{content.creator.last_name}}</div>
         <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
         <div>{{content.short_description}}</div>

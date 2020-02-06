@@ -21,6 +21,9 @@ class NotificationResult(View):
                     hike.participants.add(user)
                     notification.delete()
                     result['result'] = 'success'
+                else:
+                    notification.delete()
+                    result['result'] = 'success'
         return HttpResponse(
             json.dumps(result),
             content_type="application/json"
