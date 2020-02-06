@@ -3,7 +3,6 @@
 <html>
 
 <head>
-
     {% load static %}
     {%csrf_token%}
 
@@ -13,7 +12,6 @@
     {% else %}
     <title>FreeFall</title>
     {% endif %}
-
 
 
     <script src="{% static 'js/my_functions.js' %}"></script>
@@ -29,9 +27,9 @@
 
 
     <!-- SCRIPTS -->
+    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
 
-    <script src="{% static '/libs/modules/bootstrap/jquery.js' %}" type="text/javascript"></script>
-    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
+
 
     <!-- UNUSED AT THIS MOMENT BUT IMPORTANT IMPORTS -->
 
@@ -135,86 +133,186 @@
                     <!--HEADER BUTTONS-->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
+                            {% if username != ''%}
 
-                            <a class="nav-link" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1"
-                                data-target="#"><i class="fas fa-bell"></i><span class="badge badge-danger">6</span></a>
+                            <!-- onclick="byId('notification_menu').style.display='none' -->
+                            <a class="nav-link" onclick="show_notifications()" type="button" href="#" role="button"
+                                data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
+                                    class="fas fa-bell"></i><span id="nt_counter"
+                                    class="badge badge-danger">6</span></a>
 
                             <!-- DROPDOWN NOTIFICATIONS MENU -->
-                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu"
+                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu"
                                 aria-labelledby="dropdownMenu1">
-                                <div class="navbar navbar-expand-lg navbar-light sticky-top" style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
-                                <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
+                                <div class="navbar navbar-expand-lg navbar-light sticky-top"
+                                    style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
+                                    <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
                                 </div>
-                                
-                                <ul id = "notifications" class="timeline timeline-icons timeline-sm" style="margin:10px">
-                                   {% if username != '' %}
-                                   {% for nt in notifications %}
-                                   {% if nt.0 == 'invite_to_hike' %}
-                                    <li name="{{nt.0}}">
-                                        <p>
-                                            {{nt.1}} приглашает вас в поход <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
-                                            {% if nt.5 != '' %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
-                                            {% else %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
-                                            
-                                            {% endif %}
-                                            <button class="btn btn btn-outline-primary">Присоединиться</button><button class="btn btn btn-outline-danger">Отказаться</button>
-                                            <span class="timeline-date">{{nt.6}}</span>
-                                        </p>
-                                    </li>
-                                    {% elif nt.0 == 'request_for_ptc' %}
-                                    <li name="{{nt.0}}">
-                                        <p>
-                                            {{nt.1}} подал запрос на вступление в группу похода <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
-                                            {% if nt.5 != '' %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
-                                            {% else %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
-                                            
-                                            {% endif %}
-                                            <button class="btn btn btn-outline-primary">Добавить</button><button class="btn btn btn-outline-danger">Скрыть</button>
-                                            <span class="timeline-date">{{nt.6}}</span>
-                                        </p>
-                                    </li>
-                                    {% elif nt.0 == 'user_added_to_hike' %}
-                                    <li name="{{nt.0}}">
-                                        <p>
-                                            {{nt.1}} вступил в Ваш поход <a href="/hike/{{nt.4}}">{{ nt.3 }}</a>
-                                            {% if nt.5 != '' %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{{ nt.5.url }}"></span><br>
-                                            {% else %}
-                                            <span class="timeline-icon"><img class="notification-logo" src="{%static 'icons/logo_grey.png'%}"></span><br>
-                                            
-                                            {% endif %}
-                                            <button class="btn btn btn-outline-primary">Добавить</button><button class="btn btn btn-outline-danger">Скрыть</button>
-                                            <span class="timeline-date">{{nt.6}}</span>
-                                        </p>
-                                    </li>                                   
-                                    {% endif %}
-                                    {% endfor %}
-                                    <li>
-                                        <p>
-                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
-                                            <span class="timeline-icons"><i class="fa fa-file-pdf-o"
-                                                    style="color:red"></i></span>
-                                            <span class="timeline-date">Dec 6, 10:17</span>
-                                        </p>
-                                    </li>
-                                    <li>
-                                        <p>
-                                            Your “Marketplace Report” PDF is ready <a href="">here</a>
-                                            <span class="timeline-icon"><i class="fa fa-file-pdf-o"
-                                                    style="color:red"></i></span>
-                                            <span class="timeline-date">Dec 6, 10:17</span>
-                                        </p>
-                                    </li>
-                                    {% endif %}
+
+                                <ul id="notifications" class="timeline timeline-icons timeline-sm" style="margin:10px">
+
+
                                 </ul>
-                                <!-- <li role="presentation">
-                                    <a href="#" class="dropdown-menu-header"></a>
-                                </li> -->
+
                             </ul>
+                            {% endif %}
+
+
+
+
+
+                            {% if username != ''%}
+                            <script>
+                                count_notifications()
+                                notification_list = eval("{{notifications|safe}}"); //
+                                update_notifications(notification_list)
+                                count_notifications()
+                                function update_notifications(notification_list) {
+                                    notification_list.forEach(notification => {
+                                        id_code = notification[2] + '-' + notification[4] + '-' + notification[0]
+
+                                        li = document.createElement('li');
+                                        li.id = id_code;
+                                        li.name = notification[0];
+
+                                        if (notification[0] === 'invite_to_hike') {
+                                            text = document.createTextNode(notification[1] + " приглашает вас в поход ");
+                                        }
+                                        else if (notification[0] === 'request_for_ptc') {
+                                            text = document.createTextNode(notification[1] + " подал запрос на вступление в группу похода ");
+                                        }
+                                        else if (notification[0] === 'user_added_to_hike') {
+                                            text = document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                        }
+                                        li.appendChild(text);
+
+                                        a = document.createElement('a');
+                                        a.innerText = notification[3];
+                                        a.href = "/hike/" + notification[4];
+                                        li.appendChild(a);
+
+                                        span = document.createElement('span');
+                                        span.className = "timeline-icon";
+
+                                        img = document.createElement('img');
+                                        img.className = "notification-logo"
+                                        if (notification[5] != '') {
+                                            img.src = 'data:image/gif;base64,' + notification[5];
+                                        }
+                                        else {
+                                            img.src = "{%static 'icons/logo_grey.png'%}";
+                                        }
+                                        span.appendChild(img);
+                                        li.appendChild(span);
+
+                                        li.appendChild(document.createElement('br'))
+
+                                        button_agree = document.createElement('button');
+                                        button_agree.className = "btn btn btn-outline-primary"
+
+                                        button_disagree = document.createElement('button');
+                                        button_disagree.className = "btn btn btn-outline-danger"
+
+                                        if (notification[0] === 'invite_to_hike') {
+                                            button_agree.innerText = "Вступить";
+                                            button_disagree.innerText = "Отказаться";
+                                            li.appendChild(button_agree);
+                                            li.appendChild(button_disagree);
+                                        }
+                                        else if (notification[0] === 'request_for_ptc') {
+                                            button_agree.innerText = "Добавить";
+                                            button_disagree.innerText = "Скрыть";
+                                            li.appendChild(button_agree);
+                                            li.appendChild(button_disagree);
+                                        }
+                                        else if (notification[0] === 'user_added_to_hike') {
+                                            text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                        }
+                                        button_agree.onclick = function () {
+                                            notification_choice_send(this.parentNode.id, 'agree')
+                                        }
+                                        button_disagree.onclick = function () {
+                                            notification_choice_send(this.parentNode.id, 'disagree')
+                                        }
+
+                                        time = document.createElement('span');
+                                        time.className = 'timeline-date';
+                                        time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '.' + notification[6].substring(5, 7)
+                                        li.appendChild(time);
+                                        byId('notifications').appendChild(li);
+                                        count_notifications()
+                                    });
+                                }
+                                function notification_choice_send(id_code, result) {
+                                    $.ajax({
+                                        url: "/send_notification_choice/",
+                                        type: 'POST',
+                                        data: { 'code': id_code, 'result': result },
+                                        //DO NOT EDIT!
+                                        beforeSend: function (xhr, settings) {
+                                            function getCookie(name) {
+                                                var cookieValue = null;
+                                                if (document.cookie && document.cookie != '') {
+                                                    var cookies = document.cookie.split(';');
+                                                    for (var i = 0; i < cookies.length; i++) {
+                                                        var cookie = jQuery.trim(cookies[i]);
+                                                        // Does this cookie string begin with the name we want?
+                                                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                return cookieValue;
+                                            }
+                                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                                // Only send the token to relative URLs i.e. locally.
+                                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                            }
+                                        },
+                                        //EDITABLE CODE
+                                        success: function a(json) {
+                                            // alert(json);
+                                            // alert(json.exist);
+                                            if (json.result === "success") {
+                                                byId(id_code).parentNode.removeChild(byId(id_code));
+                                                count_notifications();
+                                            }
+                                            else{
+                                                byId(id_code).parentNode.removeChild(byId(id_code));
+                                                count_notifications();
+                                            }
+                                        }
+                                    });
+                                }
+                                function count_notifications() {
+                                    notifications_counter = byId('notifications').childNodes.length - 1;
+                                    byId('nt_counter').innerText = notifications_counter;
+                                    if (notifications_counter > 0) {
+                                        byId('nt_counter').className = "badge badge-danger";
+                                        return notifications_counter;
+
+                                    }
+                                    else {
+                                        byId('nt_counter').className = "badge badge-light";
+                                        return 0;
+                                    }
+                                }
+                            </script>
+
+                            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
                             <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
                             <li class="nav-item active">
@@ -256,15 +354,16 @@
     </div>
 
     <!-- jQuery  -->
+    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
 
-    <script src="{% static 'libs/modules/bootstrap/jquery.js' %}"></script>
+    <!-- <script src="{% static 'libs/modules/bootstrap/jquery.js' %}"></script> -->
     <!-- Popper.JS -->
 
     <!-- Bootstrap JS -->
-
+    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
     <script src="{% static '/js/baseScripts.js' %}" type="text/javascript"></script>
 
-    </script>
+
 </body>
 
 </html>

@@ -1,6 +1,30 @@
 from .models import *
 from .forms import *
 from ChatApp.views import *
+import base64
+from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
+
+
+class NotificationResult(View):
+    def post(self, request):
+        req = request
+        form = request.POST
+        code = form['code']
+        decode_code = code.split('-')
+        user = request.user
+        hike = Hike.objects.get(id = decode_code[1])
+        nt = list(Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1]))
+        result = {}
+        for notification in nt:
+            if decode_code[2]=='invite_to_hike':
+                if form['result']=='agree':
+                    hike.participants.add(user)
+                    notification.delete()
+                    result['result'] = 'success'
+        return HttpResponse(
+            json.dumps(result),
+            content_type="application/json"
+        )
 
 
 class DoesUserExist(View):

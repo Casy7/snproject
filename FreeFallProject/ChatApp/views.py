@@ -190,7 +190,7 @@ class NewHike(View, LoginRequiredMixin):
             nt.save()
 
 
-            hike.participants.add(pt)
+            # hike.participants.add(pt)
         hike.save()
 
         # Криповый код, считающий количество дней между датами начала и конца похода.

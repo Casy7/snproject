@@ -124,6 +124,11 @@ a.dropdown-menu-header {
     padding: 0 0 0 0;
     max-height: 500px;
     overflow-y: scroll;
+    /* display: block; */
+}
+
+#notification_menu{
+    /* display: none; */
 }
 
 a.dropdown-menu-header {

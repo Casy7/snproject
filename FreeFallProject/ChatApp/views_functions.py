@@ -1,6 +1,7 @@
 from .models import *
 from .forms import *
-
+import base64
+from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 
 # def set_notification(user, type_of_notification, from_user = None , hike = None, *args):
 #     new_notification = Notification(user, type_of_notification,)
@@ -23,10 +24,14 @@ def notifications_to_js_format(nt_list):
             new_format_nt.append(notification.hike.name)
             new_format_nt.append(notification.hike.id)
             if len(Profile.objects.filter(user = user))>0 and user.profile.avatar.name!='':
-                new_format_nt.append(user.profile.avatar)
+                image = user.profile.avatar
+                with open(MEDIA_ROOT+image.name, "rb") as img_file:
+                    my_string = base64.b64encode(img_file.read()).decode("ASCII")
+                new_format_nt.append(my_string)
+                # str(new_format_nt.append(user.profile.avatar))
             else:
                 new_format_nt.append('')
-            new_format_nt.append(notification.datetime)
+            new_format_nt.append(str(notification.datetime))
             result_list.append(new_format_nt)
         elif notification.type_of_notification == "simple_text":
 

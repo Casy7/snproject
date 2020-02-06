@@ -19,7 +19,8 @@ urlpatterns = [
     path('create_map/<int:id>/', CreateMap.as_view(), name="create_map"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     path('my_account/', MyAccount.as_view(), name="my_account"),
-        url('does_user_exist/',DoesUserExist.as_view(), name='does_user_exist'),
+    url('does_user_exist/',DoesUserExist.as_view(), name='does_user_exist'),
+    url('send_notification_choice/',NotificationResult.as_view(), name='send_notification_choice'),
     path('account_editor/', AccountEditor.as_view(), name="account_editor"),
     # staticfiles_urlpatterns(),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
