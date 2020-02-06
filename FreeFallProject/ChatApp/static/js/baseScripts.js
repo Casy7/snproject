@@ -25,7 +25,7 @@ byId('notification_menu').addEventListener("click", function(){
 function show_notifications(){
 
     string = byId('notification_menu').className;
-    if (string.indexOf('show')!==-1){
+    if (string.indexOf('show')===-1){
         string = string.replace(' show','');
         byId('notification_menu').className = string;
     }
