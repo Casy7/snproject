@@ -150,14 +150,13 @@
                 <div class="card">
                   <div class="card-header" id={{day.fake_name}}>
                     <h2 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                        data-target=#{{day.id}} aria-expanded="true" aria-controls={{day.id}}>
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" 
+                      data-target=#{{day.label}} aria-expanded="true" aria-controls="{{day.label}}">
                         {{day.name}}
                       </button>
                     </h2>
                   </div>
-                  <div id={{day.id}} class="collapse show" aria-labelledby={{day.fake_name}}
-                    data-parent="#accordionExample">
+                  <div id={{day.label}} class="collapse show" aria-labelledby={{day.fake_name}} data-parent="#accordionExample">
                     <div class="card-body">
                       <h1 style="text-align:center">{{day.caption}}</h1>
                       {% if day.image != '' %}
