@@ -7,7 +7,7 @@
 <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+
 <script src="{% static 'js/editor.js' %}"></script>
 <script src="{% static 'js/my_account.js' %}"></script>
 
@@ -148,10 +148,12 @@
                 document.getElementById("type_of_hike").value = "{{type_of_hike}}";
             </script>
 
+            <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
             <div class="card-body">
                 <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
                 <textarea name="description" id="editor" class="description">
                     {{description|safe}}
+
                 </textarea>
             </div>
             <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
