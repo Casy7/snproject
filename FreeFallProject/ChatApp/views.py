@@ -176,6 +176,7 @@ class NewHike(View, LoginRequiredMixin):
             end_date=form['end'],
             difficulty=form['difficulty'],
             type_of_hike=form['type'],
+            join_to_group=form['can_users_join']
             # coordinates=new_format(form['coordinates'])
         )
         hike.save()

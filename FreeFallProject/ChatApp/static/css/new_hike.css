@@ -18,6 +18,10 @@ input.form-control {
     font-size: 12px;
 }
 
+.card-title {
+    margin-bottom: none;
+}
+
 .ptcs{
     height: 140px;
     display: flex;
@@ -25,4 +29,12 @@ input.form-control {
     overflow-y: visible;
     overflow-wrap: normal;
 }
-    
+
+label{
+    margin-top: 8px;
+    margin-bottom: 0px;
+    font-weight: 600;
+}
+label.custom-control-label{
+    font-weight: 300;
+}

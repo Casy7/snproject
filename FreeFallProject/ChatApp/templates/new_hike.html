@@ -123,6 +123,25 @@
 
 
                 </ul>
+                <label for="">Как пользователи могут присоединиться к группе</label><br>
+                <!-- Default inline 1-->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="defaultInline1" name="can_users_join" value="open">
+                    <label class="custom-control-label" for="defaultInline1">Свободное добавление</label>
+                </div>
+                
+                <!-- Default inline 2-->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="defaultInline2" name="can_users_join" value="request" checked>
+                    <label class="custom-control-label" for="defaultInline2">По запросу</label>
+                </div>
+                
+                <!-- Default inline 3-->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="defaultInline3" value="close" name="can_users_join">
+                    <label class="custom-control-label" for="defaultInline3">Только по приглашению</label>
+                </div>
+                <br><br>
                 <input type="submit" class="btn btn-secondary btn-block" value="Создать">
             </div>
     </form>{%csrf_token%}
