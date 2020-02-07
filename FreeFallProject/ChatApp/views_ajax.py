@@ -13,17 +13,48 @@ class NotificationResult(View):
         decode_code = code.split('-')
         user = request.user
         hike = Hike.objects.get(id = decode_code[1])
-        nt = list(Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1]))
+        
         result = {}
-        for notification in nt:
-            if decode_code[2]=='invite_to_hike':
-                if form['result']=='agree':
+        # for notification in nt:
+        if decode_code[2]=='invite_to_hike':
+            if form['result']=='agree':
+                notification = Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1])[0]
+                hike.participants.add(user)
+                notification.delete()
+                result['result'] = 'success'
+            else:
+                notification = Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1])[0]
+                notification.delete()
+                result['result'] = 'success'
+        if decode_code[2]=='request_for_ptc':
+            if form['result'] == 'create' and len(Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1]))==0:
+                if hike.join_to_group == 'open':
                     hike.participants.add(user)
-                    notification.delete()
+                    hike.save()
                     result['result'] = 'success'
-                else:
-                    notification.delete()
+                    ptc_list = []
+                    for user in hike.participants.all():
+                        ptc_list.append(full_name(user))
+                    result['users'] = ptc_list
+
+                elif hike.join_to_group == 'request':
+                    nt = Notification(user=hike.creator, type_of_notification='request_for_ptc', from_user = user, hike=hike)
+                    nt.save()
                     result['result'] = 'success'
+                    ptc_list = []
+                    for user in hike.participants.all():
+                        ptc_list.append(full_name(user))
+                    result['users'] = ptc_list
+                elif hike.join_to_group == 'close':
+                    result['result'] = 'error'
+            elif form['result'] == 'agree':
+                from_user = decode_code[0]
+                hike.participants.add(from_user)
+                nt = Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1])
+                for notification in nt:
+                    nt.delete()
+
+                
         return HttpResponse(
             json.dumps(result),
             content_type="application/json"

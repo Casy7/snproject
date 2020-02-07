@@ -315,17 +315,7 @@ class SetHike(View):
         hike = Hike.objects.get(id=id)
         context = base_context(request, title=hike.name)
         this_hike = {}
-        this_hike['difficulty'] = hike.difficulty
-        this_hike['type_of_hike'] = hike.type_of_hike
-        this_hike['current_user'] = request.user
-        this_hike['creator'] = hike.creator
-        this_hike['name'] = hike.name
-        this_hike['id'] = hike.id
-        this_hike['start_date'] = hike.start_date
-        this_hike['end_date'] = hike.end_date
-        this_hike['short_description'] = hike.short_description
-        this_hike['description'] = hike.description
-        this_hike['coordinates'] = hike.coordinates
+
         # Сюда вставить все достопримечательности
         this_hike['landmarks'] = list(Landmark.objects.filter(is_public=True))
         # text['image'] = hike.image
@@ -366,9 +356,9 @@ class SetHike(View):
             participants.append(participant.username)
 
         this_hike['participants'] = participants
-        this_hike['coordinates'] = hike.coordinates
-        context['content'] = this_hike
-
+        context['content'] = hike.__dict__
+        context['content'].update(this_hike)
+        context['content']['creator'] = hike.creator
         return render(request, "hike.html", context)
 
     def post(self, request, id):
