@@ -126,19 +126,22 @@
                 <label for="">Как пользователи могут присоединиться к группе</label><br>
                 <!-- Default inline 1-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="defaultInline1" name="can_users_join" value="open">
+                    <input type="radio" class="custom-control-input" id="defaultInline1" name="can_users_join"
+                        value="open">
                     <label class="custom-control-label" for="defaultInline1">Свободное добавление</label>
                 </div>
-                
+
                 <!-- Default inline 2-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="defaultInline2" name="can_users_join" value="request" checked>
+                    <input type="radio" class="custom-control-input" id="defaultInline2" name="can_users_join"
+                        value="request" checked>
                     <label class="custom-control-label" for="defaultInline2">По запросу</label>
                 </div>
-                
+
                 <!-- Default inline 3-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="defaultInline3" value="close" name="can_users_join">
+                    <input type="radio" class="custom-control-input" id="defaultInline3" value="close"
+                        name="can_users_join">
                     <label class="custom-control-label" for="defaultInline3">Только по приглашению</label>
                 </div>
                 <br><br>
@@ -148,26 +151,16 @@
 
     <script>
         function add_user() {
-            users = document.getElementById('list-usrs');
-            // alert(users.value);
-            if (users.value == "") {
-                document.getElementById('list-usrs').value = [].toString();
-                // alert($('#list-usrs').value);
-                // alert(typeof document.getElementById('new-user').value);
-                if (document.getElementById('select_ptc').value != "") {
-                    // alert("!!!!")
-                    add_ptc();
-                }
-            }
-            else {
-                if (document.getElementById('select_ptc').value != "") {
-                    add_ptc();
-                }
+            users = byId('list-usrs').value;
+            if (users.indexOf(byId('select_ptc').value) === -1) {
+                add_ptc();
             }
         }
+
         function add_ptc() {
-            list = str_to_list(document.getElementById('list-usrs').value);
-            user = document.getElementById('select_ptc').value;
+            str_of_users = byId('list-usrs').value.split(',');
+            user = byId('select_ptc').value;
+
             //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
             $.ajax({
                 url: "/does_user_exist/",
@@ -199,9 +192,9 @@
                     // alert(json.exist);
                     if (json.exist === "True") {
                         var user_exists = true;
-                        list.push(user);
+                        str_of_users = str_of_users+','+user;
                         //alert(list);
-                        document.getElementById('list-usrs').value = list;
+                        document.getElementById('list-usrs').value = str_of_users;
                         // alert(document.getElementById('list-usrs').value);
 
                         user_card = document.createElement("li");
@@ -254,8 +247,9 @@
                 }
 
             });
-
         }
+
+
 
     </script>
 
