@@ -170,17 +170,6 @@
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
             aria-labelledby="participants_content">
-
-            <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                crossorigin="anonymous"></script>
-
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-                crossorigin="anonymous"></script>
-            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-                crossorigin="anonymous"></script> -->
             <br>
             <select class="selectpicker" data-live-search="true" id="select_ptc">
                 {% for user in user_list %}
@@ -192,7 +181,28 @@
 
             <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
             <br><br>
+            <label for="">Как пользователи могут присоединиться к группе</label><br>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="open" name="can_users_join"
+                        value="open">
+                    <label class="custom-control-label" for="defaultInline1">Свободное добавление</label>
+                </div>
 
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="request" name="can_users_join"
+                        value="request" checked>
+                    <label class="custom-control-label" for="defaultInline2">По запросу</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="close" value="close"
+                        name="can_users_join">
+                    <label class="custom-control-label" for="defaultInline3">Только по приглашению</label>
+                </div>
+                <br><br>
+                <script>
+                    byId('{{join_to_group}}').checked = 'checked';
+                </script>
             <div class="row">
 
 
@@ -264,9 +274,10 @@
                         {% endfor %}
                     </div>
                 </div>
-
+                
 
             </div>
+
         </div>
 
 <!-- DO NOT EDIT BLOCK -->

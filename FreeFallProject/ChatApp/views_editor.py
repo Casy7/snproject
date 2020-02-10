@@ -63,6 +63,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'landmarks': list(Landmark.objects.filter(is_public=True)),
                 'description': hike.description,
                 'coordinates': hike.coordinates,
+                'join_to_group':hike.join_to_group
             })
 
             return render(request, "editor.html", context)
