@@ -54,6 +54,9 @@ class Landmark(models.Model):
     is_public = models.BooleanField(default=True)
     latitude = models.FloatField(default=0.0)
 
+    
+
+
 
 class Hike(models.Model):
     creator = models.ForeignKey(
@@ -78,6 +81,17 @@ class Hike(models.Model):
     creation_datetime = models.DateTimeField(auto_now=True)
 
     image = models.ImageField(null=True, blank=True, upload_to='hikes/')
+
+
+class Message(models.Model):
+    def __str__(self):
+        return f'{self.name}'
+    name = models.CharField(max_length=200, default='')
+    author = models.ForeignKey(User, null=True, default=None, related_name="author", on_delete=models.CASCADE)
+    creation_datetime = models.DateTimeField(auto_now=True)
+    text = models.CharField(max_length=200000, default='')
+    hike = models.ForeignKey(
+        Hike, default='', null=True, on_delete=models.CASCADE)
 
 
 class Day(models.Model):

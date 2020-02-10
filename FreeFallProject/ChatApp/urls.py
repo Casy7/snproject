@@ -17,6 +17,7 @@ urlpatterns = [
     path('hike/<int:id>/', SetHike.as_view(), name="hike"),
     path('map/<int:id>/', MapOfHike.as_view(), name="map"),
     path('create_map/<int:id>/', CreateMap.as_view(), name="create_map"),
+    path('discussion/<int:id>/', Discussion.as_view(), name="discussion"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     path('my_account/', MyAccount.as_view(), name="my_account"),
     url('does_user_exist/', DoesUserExist.as_view(), name='does_user_exist'),

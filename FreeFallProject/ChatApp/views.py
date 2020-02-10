@@ -284,6 +284,50 @@ class MapOfHike(View):
         return render(request, "map.html", context)
 
 
+
+class Discussion(View):
+
+    def get(self, request, id):
+
+        hike = Hike.objects.get(id=id)
+        context = base_context(
+            request, title='Track', header='Обсуждение похода: '+hike.name)
+
+        all_messages = []
+
+        for message in Message.objects.filter(hike=hike):
+
+            current_message = {}
+
+            current_message['author'] = message.author.first_name + ' ' + message.author.last_name
+            current_message['text'] = message.text
+            current_message['creation_datetime'] = message.creation_datetime
+
+            all_messages.append(current_message)
+        
+        context['content'] = all_messages
+
+        return render(request, "discussion.html", context)
+    
+    def post(self, request, id):
+
+        form = request.POST
+        user = request.user
+        hike = Hike.objects.get(id=id)
+
+        message = Message(
+            author = user,
+            text = form['text'],
+            hike = hike,
+        )
+
+        message.save()
+
+        return HttpResponseRedirect("/discussion/"+str(hike.id))
+
+
+
+
 class CreateMap(View):
 
     def get(self, request, id):
