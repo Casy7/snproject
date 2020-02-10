@@ -29,10 +29,13 @@ class NotificationResult(View):
                 notification.delete()
                 result['result'] = 'success'
             elif form['result'] == 'delete':
-                while len(Notification.objects.filter(from_user=user).filter(user__id=decode_code[0]).filter(hike__id=decode_code[1])):
-                    notification = Notification.objects.filter(from_user=user).filter(
-                        user__id=int(decode_code[0])).filter(hike__id=decode_code[1])[0]
-                    notification.delete()
+                if User.objects.get(id = decode_code[0]) in hike.participants.all():
+                    hike.participants.remove(User.objects.get(id = decode_code[0]))
+                else:
+                    while len(Notification.objects.filter(from_user=user).filter(user__id=decode_code[0]).filter(hike__id=decode_code[1])):
+                        notification = Notification.objects.filter(from_user=user).filter(
+                            user__id=int(decode_code[0])).filter(hike__id=decode_code[1])[0]
+                        notification.delete()
                 result['result'] = 'success'
         if decode_code[2] == 'request_for_ptc':
             if form['result'] == 'create' and len(Notification.objects.filter(user=user).filter(from_user__id=decode_code[0]).filter(hike__id=decode_code[1])) == 0:

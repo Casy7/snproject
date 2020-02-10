@@ -18,9 +18,9 @@ class HikeEditor(View, LoginRequiredMixin):
             participants = []
             for user in hike.participants.all():
                 if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
-                    participants.append((user.username, user.profile.avatar))
+                    participants.append((full_name(user), user.profile.avatar, user.username, user.id))
                 else:
-                    participants.append((user.username, ''))
+                    participants.append((full_name(user), '', user.username, user.id))
 
             user_list = []
             for user in User.objects.all():

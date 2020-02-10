@@ -236,10 +236,10 @@
                 <div class="col-sm" style="overflow-y: scroll; min-height: 300px;width: 70%;max-height: 300px;">
                     <div class="card" id="potential_ptc">
                         {% for user in participants %}
-                        <div class="card"
+                        <div class="card" id='user_{{user.2}}'
                             style="border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-
+                                <input type='hidden' class="user_hidden_id" value='{{user.3}}'>
                                 <div class="col-sm-2" style="vertical-align: middle;">
                                     {% if user.1 != '' %}
                                     <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
@@ -248,507 +248,508 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p style="vertical-align: bottom;height: 60px;">{{user.0}}</p>
+                                    <p style="padding-top:0.7em; letter-spacing: 0.084em;">{{user.0}}</p>
+                                    <p style="color: gray;line-height: 0em;">@{{user.2}}</p>
                                 </div>
-                                {% if user.0 != username %}
+                                {% if user.2 != username %}
                                 <div class="col-sm-3" style="height: 60px;vertical-align: bottom">
-                                    <button type="button" class="btn btn-light"
-                                        style="height: 60px;width: 100%;">Удалить</button>
+                                    <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
+                                        class="btn btn-light" style="height: 60px;width: 100%;">Удалить</button>
                                 </div>
                                 {% endif %}
-
                             </div>
                         </div>
                         {% endfor %}
-
                     </div>
                 </div>
+                
 
-
-
-
-
-
-
-                <li class="list-inline-item" name="add-user" id="add-user">
-
-                    <!-- <input type="hidden" id="list-usrs" name="participants" value=""> -->
-
-                    <script>
-                        async function add_user() {
-
-                            if (byId("user_" + byId('select_ptc').value) == undefined) {
-                                add_ptc();
-                            }
-                            else {
-                                card = byId("user_" + byId('select_ptc').value);
-                              
-                                async function demo() {
-                                   
-                                    console.log(6);
-                                    byId("user_" + byId('select_ptc').value).className = "red-border";
-                                    await sleep(700);
-                                    console.log(7);
-                                    byId("user_" + byId('select_ptc').value).className = "";
-                                }
-
-                                demo();
-                            }
-
-                        }
-                        function add_ptc() {
-                            // list = str_to_list(document.getElementById('list-usrs').value);
-                            user = document.getElementById('select_ptc').value;
-                            hike_id = byId('hike_id').value;
-                            //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
-                            $.ajax({
-                                url: "/does_user_exist/",
-                                type: 'POST',
-                                data: { 'username': user, 'add_to_hike': true, 'hike_id': hike_id },
-                                beforeSend: function (xhr, settings) {
-                                    function getCookie(name) {
-                                        var cookieValue = null;
-                                        if (document.cookie && document.cookie != '') {
-                                            var cookies = document.cookie.split(';');
-                                            for (var i = 0; i < cookies.length; i++) {
-                                                var cookie = jQuery.trim(cookies[i]);
-                                                // Does this cookie string begin with the name we want?
-                                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        return cookieValue;
-                                    }
-                                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                                        // Only send the token to relative URLs i.e. locally.
-                                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                                    }
-                                },
-                                success: function a(json) {
-                                    // alert(json);
-                                    // alert(json.exist);
-                                    if (json.exist === "True") {
-                                        var user_exists = true;
-                                        // list.push(user);
-                                        // document.getElementById('list-usrs').value = list;
-                                        // alert(document.getElementById('list-usrs').value);
-
-                                        user_card = document.createElement("li");
-
-                                        user_card.className = "card";
-                                        user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
-                                        user_card.id = 'user_' + user;
-
-
-                                        id_field = document.createElement('input')
-                                        id_field.type = 'hidden';
-                                        id_field.value = json.id;
-                                        id_field.className = "user_hidden_id"
-
-
-
-
-                                        byId('potential_ptc').appendChild(user_card);
-
-                                        row = document.createElement('div');
-                                        row.className = 'row';
-                                        row.style = "padding: 5px;";
-                                        user_card.appendChild(row);
-                                        row.appendChild(id_field);
-
-                                        col2 = document.createElement('div');
-                                        col2.className = "col-sm-2";
-                                        col2.style = "vertical-align: middle;";
-                                        row.appendChild(col2)
-
-                                        img = document.createElement("img");
-                                        img.style = "width: 60px;height:60px";
-                                        if (json.exist_image) {
-                                            data = json.image
-                                            img.src = 'data:image/gif;base64,' + data;
-                                        }
-                                        else {
-                                            img.src = "{%static 'icons/logo_grey.png'%}";
-                                        }
-                                        col2.appendChild(img);
-
-                                        col1 = document.createElement('div');
-                                        col1.className = "col-sm";
-                                        col1.style = "vertical-align: bottom;height: 60px;";
-                                        row.appendChild(col1);
-
-                                        p = document.createElement('p');
-                                        p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
-                                        p.innerHTML = json.full_name;
-
-                                        col1.appendChild(p)
-
-                                        p_username = document.createElement('p');
-                                        p_username.style = "color: gray;line-height: 0em;";
-                                        p_username.innerHTML = '@' + user;
-                                        col1.appendChild(p_username);
-
-                                        col3 = document.createElement('div');
-                                        col3.className = "col-sm-3";
-                                        col3.style = "height: 60px;vertical-align: bottom";
-                                        row.appendChild(col3);
-
-                                        button = document.createElement('button');
-                                        button.type = 'button';
-                                        button.className = "btn btn-light";
-                                        button.style = "height: 60px;width: 100%;";
-                                        button.innerHTML = 'Удалить';
-
-                                        button.onclick = function () {
-                                            del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
-                                                this.parentNode.parentNode.childNodes[0].value
-                                            )
-                                        }
-                                        col3.appendChild(button);
-
-                                    }
-
-                                }
-
-                            });
-
-
-
-
-
-
-                        }
-                    </script>
-                </li>
-                </ul>
-                <!-- <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block"> -->
-            </div>
-            <!-- КАРТА -->
-            <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
-                <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-                <script
-                    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-                <link rel="stylesheet"
-                    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
-                    type="text/css" />
-                <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-
-                <div id="osm_map" style="width:auto;height:500px">
-                    <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
-                    <div class="map-overlay-container" id="new_landmark" style="display: none;">
-                        <div class="map-overlay">
-
-                            <button type="button" class="btn btn-outline-secondary" style="float: right;"
-                                onclick="change_mode()">x</button>
-                            <h2>Создать достопримечательность</h2>
-
-
-                            <label for="exampleFormControlInput1">Название</label>
-                            <input type="text" class="form-control" name="lm_name" placeholder=" "
-                                style="font-size: 18px;" value="" id="lm_name">
-
-
-                            <label for="public_switcher">Описание</label>
-
-                            <textarea id="lm_desc" class="form-control" name="lm_desc" placeholder=""
-                                style="font-size: 14px; height: 140px;"></textarea>
-
-
-
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" name="is_public" class="custom-control-input" id="lm_is_public"
-                                    checked>
-                                <label class="custom-control-label" for="lm_is_public">Видна для всех</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
-                </div>
-
-                <script>
-
-                    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-                    var osm_map = new mapboxgl.Map({
-                        container: 'osm_map',
-                        style: 'mapbox://styles/mapbox/bright-v9',
-                        center: [3.420253241560829, 46.124064037019906],
-                        zoom: 13
-                    });
-                    var customData = {
-                        features: [
-
-                        ],
-                        type: "FeatureCollection"
-                    };
-
-                    function forwardGeocoder(query) {
-                        var matchingFeatures = [];
-                        for (var i = 0; i < customData.features.length; i++) {
-                            var feature = customData.features[i];
-                            // handle queries with different capitalization than the source data by calling toLowerCase()
-                            if (
-                                feature.properties.title.toLowerCase().search(query.toLowerCase()) !== -1
-                            ) {
-                                // add a tree emoji as a prefix for custom data results
-                                // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
-                                feature["place_name"] = "🌲 " + feature.properties.title;
-                                feature["center"] = feature.geometry.coordinates;
-                                feature["place_type"] = ["park"];
-                                matchingFeatures.push(feature);
-                            }
-                        }
-                        return matchingFeatures;
-                    }
-                    osm_map.addControl(
-                        new MapboxGeocoder({
-                            accessToken: mapboxgl.accessToken,
-                            localGeocoder: forwardGeocoder,
-                            zoom: 14,
-                            placeholder: "Enter search e.g. Lincoln Park",
-                            mapboxgl: mapboxgl
-                        })
-                    );
-
-
-                    // osm_map.addControl(new mapboxgl.NavigationControl());
-                    // osm_map.update();
-
-                    coordinates = eval('{{ coordinates | safe }}');
-                    var elements = [];
-                    for (i = 0; i < coordinates.length; i++) {
-                        var el = document.createElement('div');
-                        el.id = 'marker' + i.toString();
-                        el.content = coordinates[i][0];
-                        el.textContent = coordinates[i][0];
-                        el.className = 'marker';
-                        el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
-                        el.x = coordinates[i][1][0];
-                        el.y = coordinates[i][1][1];
-                        var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
-
-                        elements.push({
-                            element: el,
-                            marker: marker
-                        })
-                    }
-
-                    elements.forEach(function (item, index) {
-                        var el = item.element;
-                        var marker = item.marker;
-                        item.element.addEventListener('contextmenu', function () {
-                            cord_del.push(Array(el.textContent, [el.x, el.y]));
-                            document.getElementById("del_coords").value = cord_del;
-                            marker.remove();
-                        });
-                    });
-
-                </script>
-
-                Выберите день:
-                <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
-                    <option value="1" id="day_1">1</option>
-                </select>
-
-                <button type="button" class="btn btn-outline-secondary" onclick="add_new_day()">Добавить день</button>
-                <button type="button" class="btn btn-outline-secondary" style="float: right;"
-                    onclick="change_mode()">Создать
-                    достопримечательность</button>
-                <div class="card" id="days_list">
-
-                    <div class="day_card" id="day_1_card">
-                        <h3>День 1</h3>
-                        <label>Заголовок дня</label>
-                        <input type="text" class="form-control" name="day_1_name" placeholder="Заголовок дня">
-                        <label>Описание дня</label>
-                        <textarea class="form-control" name="day_1_description" placeholder="Описание дня"
-                            style="font-size: 13px;"></textarea>
-                    </div>
-
-
-
-
-                </div>
-                <script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </script>
-                <script>
-                    if (eval('{{ coordinates | safe }}') != []) {
-                        var coordinates = eval('{{ coordinates | safe  }}');
-                    }
-                    else {
-                        var coordinates = []
-                    }
-                    var was_click = false
-                    var landmarks = [];
-                    var landmarks_mode = false;
-                    var icon = "url({% static 'icons/marker.png' %})";
-                    var icon_m = "url({% static 'icons/marker.png' %})";
-
-                    var icon_l = "url({% static 'icons/mountain.png' %})";
-                    function change_mode() {
-                        if (landmarks_mode) {
-                            landmarks_mode = false;
-                            icon = icon_m;
-                            byId("new_landmark").style.display = "none";
-                        }
-                        else {
-                            icon = icon_l;
-                            byId("new_landmark").style.display = "block";
-                            landmarks_mode = true;
-                        }
-                    }
-                    osm_map.on('load', function () {
-
-                        cord_del = []
-
-                        // byId("new_landmark").style.display = "block";
-
-                        was_click = false
-                        osm_map.on('click', function (e) {
-
-                            var day = (document.getElementById("day").value)
-                            var el = document.createElement('div');
-                            el.content = day;
-                            el.className = 'marker';
-
-                            if (landmarks_mode) {
-                                el.textContent = "";
-                                if (byId("lm_name").value != "") {
-                                    el.style.backgroundImage = icon;
-                                    arr_of_data = [e.lngLat.toArray(), byId("lm_name").value, byId("lm_desc").value, byId("lm_is_public").value];
-                                    landmarks.push(arr_of_data);
-                                    byId('lm_list').value = JSON.stringify(landmarks);
-                                    byId('lm_name').value = "";
-                                    byId('lm_desc').value = "";
-                                    change_mode();
-                                }
-                                else {
-                                    alert("Пожалуйста, сначала введите название достопримечательности")
-                                }
-                            }
-                            else {
-                                was_click = true
-                                el.textContent = day;
-                                el.style.backgroundImage = icon;
-                                coordinates.push(Array(Number(day), e.lngLat.toArray()));
-                                document.getElementById("coords").value = coordinates;
-                            }
-
-                            var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
-                                .setLngLat(e.lngLat.wrap())
-                                .addTo(osm_map);
-                            // coordinates.push(Array(Number(day), e.lngLat.toArray()))
-                            el.addEventListener('contextmenu', function () {
-                                cord_del.push(Array(el.textContent, e.lngLat.toArray()));
-                                document.getElementById("del_coords").value = cord_del;
-                                marker.remove();
-
-                            });
-
-                        });
-
-
-
-                        // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
-                        osm_map.addLayer({
-                            id: "places",
-                            type: "symbol",
-                            source: {
-                                type: "geojson",
-                                data: {
-                                    type: "FeatureCollection",
-                                    features: [
-                                        // {% for lk in landmarks %}
-                                        {
-                                            type: "Feature",
-                                            properties: {
-                                                description:
-                                                    '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
-                                                icon: "mountain"
-                                            },
-                                            geometry: {
-                                                type: "Point",
-                                                coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
-                                            }
-                                        },
-                                        // {% endfor %}
-
-                                    ]
-                                }
-                            },
-                            layout: {
-                                "icon-image": "{icon}-15",
-                                "icon-allow-overlap": true
-                            }
-                        });
-
-
-                        osm_map.on("click", "places", function (e) {
-                            var coordinates = e.features[0].geometry.coordinates.slice();
-                            var description = e.features[0].properties.description;
-
-                            // Ensure that if the map is zoomed out such that multiple
-                            // copies of the feature are visible, the popup appears
-                            // over the copy being pointed to.
-                            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                            }
-
-                            new mapboxgl.Popup()
-                                .setLngLat(coordinates)
-                                .setHTML(description)
-                                .addTo(osm_map);
-                        });
-
-                        // Change the cursor to a pointer when the mouse is over the places layer.
-                        osm_map.on("mouseenter", "places", function () {
-                            osm_map.getCanvas().style.cursor = "pointer";
-                        });
-
-                        // Change it back to a pointer when it leaves.
-                        osm_map.on("mouseleave", "places", function () {
-                            osm_map.getCanvas().style.cursor = "";
-                        });
-
-                    });
-                    function save_markers() {
-                        if (was_click != true) {
-                            var coordinates = eval('{{ coordinates | safe }}');
-
-                            document.getElementById("coords").value = coordinates;
-                            document.getElementById("del_coords").value = cord_del;
-                        }
-                    }
-
-                </script>
-
-                <input name="coordinates" id="coords" type="hidden">
-                <input name="cord_del" id="del_coords" type="hidden">
-                <input type="submit" class="btn btn-secondary btn-block" onclick="save_markers()" value="Сохранить"
-                    style="display: inline-block">
-
-
-
-                <!--END OF CODE -->
             </div>
         </div>
+
+
+
+
+
+
+
+        <li class="list-inline-item" name="add-user" id="add-user">
+
+            <!-- <input type="hidden" id="list-usrs" name="participants" value=""> -->
+
+            <script>
+                async function add_user() {
+
+                    if (byId("user_" + byId('select_ptc').value) == undefined) {
+                        add_ptc();
+                    }
+                    else {
+                        card = byId("user_" + byId('select_ptc').value);
+
+                        async function demo() {
+
+                            console.log(6);
+                            byId("user_" + byId('select_ptc').value).className = "red-border";
+                            await sleep(700);
+                            console.log(7);
+                            byId("user_" + byId('select_ptc').value).className = "";
+                        }
+
+                        demo();
+                    }
+
+                }
+                function add_ptc() {
+                    // list = str_to_list(document.getElementById('list-usrs').value);
+                    user = document.getElementById('select_ptc').value;
+                    hike_id = byId('hike_id').value;
+                    //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
+                    $.ajax({
+                        url: "/does_user_exist/",
+                        type: 'POST',
+                        data: { 'username': user, 'add_to_hike': true, 'hike_id': hike_id },
+                        beforeSend: function (xhr, settings) {
+                            function getCookie(name) {
+                                var cookieValue = null;
+                                if (document.cookie && document.cookie != '') {
+                                    var cookies = document.cookie.split(';');
+                                    for (var i = 0; i < cookies.length; i++) {
+                                        var cookie = jQuery.trim(cookies[i]);
+                                        // Does this cookie string begin with the name we want?
+                                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                            break;
+                                        }
+                                    }
+                                }
+                                return cookieValue;
+                            }
+                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                // Only send the token to relative URLs i.e. locally.
+                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                            }
+                        },
+                        success: function a(json) {
+                            // alert(json);
+                            // alert(json.exist);
+                            if (json.exist === "True") {
+                                var user_exists = true;
+                                // list.push(user);
+                                // document.getElementById('list-usrs').value = list;
+                                // alert(document.getElementById('list-usrs').value);
+
+                                user_card = document.createElement("li");
+
+                                user_card.className = "card";
+                                user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
+                                user_card.id = 'user_' + user;
+
+
+                                id_field = document.createElement('input')
+                                id_field.type = 'hidden';
+                                id_field.value = json.id;
+                                id_field.className = "user_hidden_id"
+
+
+
+
+                                byId('potential_ptc').appendChild(user_card);
+
+                                row = document.createElement('div');
+                                row.className = 'row';
+                                row.style = "padding: 5px;";
+                                user_card.appendChild(row);
+                                row.appendChild(id_field);
+
+                                col2 = document.createElement('div');
+                                col2.className = "col-sm-2";
+                                col2.style = "vertical-align: middle;";
+                                row.appendChild(col2)
+
+                                img = document.createElement("img");
+                                img.style = "width: 60px;height:60px";
+                                if (json.exist_image) {
+                                    data = json.image
+                                    img.src = 'data:image/gif;base64,' + data;
+                                }
+                                else {
+                                    img.src = "{%static 'icons/logo_grey.png'%}";
+                                }
+                                col2.appendChild(img);
+
+                                col1 = document.createElement('div');
+                                col1.className = "col-sm";
+                                col1.style = "vertical-align: bottom;height: 60px;";
+                                row.appendChild(col1);
+
+                                p = document.createElement('p');
+                                p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
+                                p.innerHTML = json.full_name;
+
+                                col1.appendChild(p)
+
+                                p_username = document.createElement('p');
+                                p_username.style = "color: gray;line-height: 0em;";
+                                p_username.innerHTML = '@' + user;
+                                col1.appendChild(p_username);
+
+                                col3 = document.createElement('div');
+                                col3.className = "col-sm-3";
+                                col3.style = "height: 60px;vertical-align: bottom";
+                                row.appendChild(col3);
+
+                                button = document.createElement('button');
+                                button.type = 'button';
+                                button.className = "btn btn-light";
+                                button.style = "height: 60px;width: 100%;";
+                                button.innerHTML = 'Удалить';
+
+                                button.onclick = function () {
+                                    del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
+                                        this.parentNode.parentNode.childNodes[0].value
+                                    )
+                                }
+                                col3.appendChild(button);
+
+                            }
+
+                        }
+
+                    });
+
+
+
+
+
+
+                }
+            </script>
+        </li>
+        </ul>
+        <!-- <input type="submit" class="btn btn-secondary btn-block" value="Сохранить" style="display: inline-block"> -->
+    </div>
+    <!-- КАРТА -->
+    <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+        <script
+            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
+            type="text/css" />
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+
+        <div id="osm_map" style="width:auto;height:500px">
+            <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
+            <div class="map-overlay-container" id="new_landmark" style="display: none;">
+                <div class="map-overlay">
+
+                    <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                        onclick="change_mode()">x</button>
+                    <h2>Создать достопримечательность</h2>
+
+
+                    <label for="exampleFormControlInput1">Название</label>
+                    <input type="text" class="form-control" name="lm_name" placeholder=" " style="font-size: 18px;"
+                        value="" id="lm_name">
+
+
+                    <label for="public_switcher">Описание</label>
+
+                    <textarea id="lm_desc" class="form-control" name="lm_desc" placeholder=""
+                        style="font-size: 14px; height: 140px;"></textarea>
+
+
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="is_public" class="custom-control-input" id="lm_is_public" checked>
+                        <label class="custom-control-label" for="lm_is_public">Видна для всех</label>
+                    </div>
+                </div>
+            </div>
+            <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
+        </div>
+
+        <script>
+
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+            var osm_map = new mapboxgl.Map({
+                container: 'osm_map',
+                style: 'mapbox://styles/mapbox/bright-v9',
+                center: [3.420253241560829, 46.124064037019906],
+                zoom: 13
+            });
+            var customData = {
+                features: [
+
+                ],
+                type: "FeatureCollection"
+            };
+
+            function forwardGeocoder(query) {
+                var matchingFeatures = [];
+                for (var i = 0; i < customData.features.length; i++) {
+                    var feature = customData.features[i];
+                    // handle queries with different capitalization than the source data by calling toLowerCase()
+                    if (
+                        feature.properties.title.toLowerCase().search(query.toLowerCase()) !== -1
+                    ) {
+                        // add a tree emoji as a prefix for custom data results
+                        // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
+                        feature["place_name"] = "🌲 " + feature.properties.title;
+                        feature["center"] = feature.geometry.coordinates;
+                        feature["place_type"] = ["park"];
+                        matchingFeatures.push(feature);
+                    }
+                }
+                return matchingFeatures;
+            }
+            osm_map.addControl(
+                new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    localGeocoder: forwardGeocoder,
+                    zoom: 14,
+                    placeholder: "Enter search e.g. Lincoln Park",
+                    mapboxgl: mapboxgl
+                })
+            );
+
+
+            // osm_map.addControl(new mapboxgl.NavigationControl());
+            // osm_map.update();
+
+            coordinates = eval('{{ coordinates | safe }}');
+            var elements = [];
+            for (i = 0; i < coordinates.length; i++) {
+                var el = document.createElement('div');
+                el.id = 'marker' + i.toString();
+                el.content = coordinates[i][0];
+                el.textContent = coordinates[i][0];
+                el.className = 'marker';
+                el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
+                el.x = coordinates[i][1][0];
+                el.y = coordinates[i][1][1];
+                var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
+
+                elements.push({
+                    element: el,
+                    marker: marker
+                })
+            }
+
+            elements.forEach(function (item, index) {
+                var el = item.element;
+                var marker = item.marker;
+                item.element.addEventListener('contextmenu', function () {
+                    cord_del.push(Array(el.textContent, [el.x, el.y]));
+                    document.getElementById("del_coords").value = cord_del;
+                    marker.remove();
+                });
+            });
+
+        </script>
+
+        Выберите день:
+        <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
+            <option value="1" id="day_1">1</option>
+        </select>
+
+        <button type="button" class="btn btn-outline-secondary" onclick="add_new_day()">Добавить день</button>
+        <button type="button" class="btn btn-outline-secondary" style="float: right;" onclick="change_mode()">Создать
+            достопримечательность</button>
+        <div class="card" id="days_list">
+
+            <div class="day_card" id="day_1_card">
+                <h3>День 1</h3>
+                <label>Заголовок дня</label>
+                <input type="text" class="form-control" name="day_1_name" placeholder="Заголовок дня">
+                <label>Описание дня</label>
+                <textarea class="form-control" name="day_1_description" placeholder="Описание дня"
+                    style="font-size: 13px;"></textarea>
+            </div>
+
+
+
+
+        </div>
+        <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+        <script>
+            if (eval('{{ coordinates | safe }}') != []) {
+                var coordinates = eval('{{ coordinates | safe  }}');
+            }
+            else {
+                var coordinates = []
+            }
+            var was_click = false
+            var landmarks = [];
+            var landmarks_mode = false;
+            var icon = "url({% static 'icons/marker.png' %})";
+            var icon_m = "url({% static 'icons/marker.png' %})";
+
+            var icon_l = "url({% static 'icons/mountain.png' %})";
+            function change_mode() {
+                if (landmarks_mode) {
+                    landmarks_mode = false;
+                    icon = icon_m;
+                    byId("new_landmark").style.display = "none";
+                }
+                else {
+                    icon = icon_l;
+                    byId("new_landmark").style.display = "block";
+                    landmarks_mode = true;
+                }
+            }
+            osm_map.on('load', function () {
+
+                cord_del = []
+
+                // byId("new_landmark").style.display = "block";
+
+                was_click = false
+                osm_map.on('click', function (e) {
+
+                    var day = (document.getElementById("day").value)
+                    var el = document.createElement('div');
+                    el.content = day;
+                    el.className = 'marker';
+
+                    if (landmarks_mode) {
+                        el.textContent = "";
+                        if (byId("lm_name").value != "") {
+                            el.style.backgroundImage = icon;
+                            arr_of_data = [e.lngLat.toArray(), byId("lm_name").value, byId("lm_desc").value, byId("lm_is_public").value];
+                            landmarks.push(arr_of_data);
+                            byId('lm_list').value = JSON.stringify(landmarks);
+                            byId('lm_name').value = "";
+                            byId('lm_desc').value = "";
+                            change_mode();
+                        }
+                        else {
+                            alert("Пожалуйста, сначала введите название достопримечательности")
+                        }
+                    }
+                    else {
+                        was_click = true
+                        el.textContent = day;
+                        el.style.backgroundImage = icon;
+                        coordinates.push(Array(Number(day), e.lngLat.toArray()));
+                        document.getElementById("coords").value = coordinates;
+                    }
+
+                    var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
+                        .setLngLat(e.lngLat.wrap())
+                        .addTo(osm_map);
+                    // coordinates.push(Array(Number(day), e.lngLat.toArray()))
+                    el.addEventListener('contextmenu', function () {
+                        cord_del.push(Array(el.textContent, e.lngLat.toArray()));
+                        document.getElementById("del_coords").value = cord_del;
+                        marker.remove();
+
+                    });
+
+                });
+
+
+
+                // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
+                osm_map.addLayer({
+                    id: "places",
+                    type: "symbol",
+                    source: {
+                        type: "geojson",
+                        data: {
+                            type: "FeatureCollection",
+                            features: [
+                                // {% for lk in landmarks %}
+                                {
+                                    type: "Feature",
+                                    properties: {
+                                        description:
+                                            '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
+                                        icon: "mountain"
+                                    },
+                                    geometry: {
+                                        type: "Point",
+                                        coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                                    }
+                                },
+                                // {% endfor %}
+
+                            ]
+                        }
+                    },
+                    layout: {
+                        "icon-image": "{icon}-15",
+                        "icon-allow-overlap": true
+                    }
+                });
+
+
+                osm_map.on("click", "places", function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(osm_map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                osm_map.on("mouseenter", "places", function () {
+                    osm_map.getCanvas().style.cursor = "pointer";
+                });
+
+                // Change it back to a pointer when it leaves.
+                osm_map.on("mouseleave", "places", function () {
+                    osm_map.getCanvas().style.cursor = "";
+                });
+
+            });
+            function save_markers() {
+                if (was_click != true) {
+                    var coordinates = eval('{{ coordinates | safe }}');
+
+                    document.getElementById("coords").value = coordinates;
+                    document.getElementById("del_coords").value = cord_del;
+                }
+            }
+
+        </script>
+
+        <input name="coordinates" id="coords" type="hidden">
+        <input name="cord_del" id="del_coords" type="hidden">
+        <input type="submit" class="btn btn-secondary btn-block" onclick="save_markers()" value="Сохранить"
+            style="display: inline-block">
+
+
+
+        <!--END OF CODE -->
+    </div>
+    </div>
 
 </form>
 
