@@ -179,9 +179,12 @@ class NewHike(View, LoginRequiredMixin):
             join_to_group=form['can_users_join']
             # coordinates=new_format(form['coordinates'])
         )
+        
         hike.save()
+        hike.participants.add(user)
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
+        
         participants = participants_new_format(form['participants'])
         for pt in participants:
 

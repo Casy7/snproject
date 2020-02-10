@@ -266,10 +266,13 @@
                                     <div class="col-sm" style="vertical-align: bottom;height: 60px;">
                                         <p style="vertical-align: bottom;height: 60px;">{{user.0}}</p>
                                     </div>
+                                    {% if user.0 != username %}
                                     <div class="col-sm-3" style="height: 60px;vertical-align: bottom">
                                         <button type="button" class="btn btn-light"
                                             style="height: 60px;width: 100%;">Удалить</button>
                                     </div>
+                                    {% endif %}
+
                                 </div>
                             </div>
                             {% endfor %}
