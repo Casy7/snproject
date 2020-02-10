@@ -37,6 +37,19 @@ class HikeEditor(View, LoginRequiredMixin):
                     user_list.append((user.username, user.username))
             context['user_list'] = user_list
 
+            
+            
+            pot_ptc_list = Notification.objects.filter(hike = hike).filter(type_of_notification = 'invite_to_hike')
+            pot_users = []
+            for nt in pot_ptc_list:
+                if len(Profile.objects.filter(user = nt.user)) and nt.user.profile.avatar.name != '':
+                    pot_users.append((full_name(nt.user), nt.user.profile.avatar))
+                else:
+                    pot_users.append((full_name(nt.user), ''))
+            
+            context['potential_ptc'] = pot_users
+
+
             context.update({
                 'name': hike.name,
                 'short_description': hike.short_description,
