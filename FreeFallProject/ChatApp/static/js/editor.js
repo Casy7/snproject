@@ -14,7 +14,101 @@ function str_to_list(str_el) {
     return list
 }
 
+function del_pot_user(username, user_id){
+    hike_id = byId('hike_id').value;
+    byId('user_'+username).remove();
+    send_data = {}
+    send_data['code'] = user_id.toString()+'-'+hike_id.toString()+'-'+'invite_to_hike';
+    send_data['result'] = 'delete';
+    console.log(send_data);
 
+
+    $.ajax({
+        url: "/send_notification_choice/",
+        type: 'POST',
+        data: send_data,
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        },
+        success: function a(json) {
+            if (json.exist === "True") {
+                var user_exists = true;
+                str_of_users = str_of_users+','+user;
+                //alert(list);
+                document.getElementById('list-usrs').value = str_of_users;
+                // alert(document.getElementById('list-usrs').value);
+
+                user_card = document.createElement("li");
+                user_card.className = "card";
+                if (user_exists) {
+                    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
+                }
+                else {
+                    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
+                }
+                img = document.createElement("img");
+                img.className = "card-img-top";
+                img.style = "width: 100%;height:70px";
+                if (json.exist_image) {
+                    data = json.image
+                    img.src = 'data:image/gif;base64,' + data;
+                }
+                else {
+                    img.src = "{%static 'icons/logo_grey.png'%}"
+                }
+                span = document.createElement("span");
+                span.style = "text-align:center";
+                span.value = user;
+                span.text = user;
+                span.appendChild(document.createTextNode(user));
+                button = document.createElement("button");
+                button.className = "form-control";
+                button.type = "button";
+                button.onclick = function add_this_user() { del_user(user) };
+                button.style = "height:20px; border: none;";
+                button.innerHTML = "-";
+
+                user_card.appendChild(img);
+                user_card.appendChild(span);
+                user_card.appendChild(button);
+
+                li = document.createElement("li");
+                li.className = "list-inline-item";
+                li.name = user;
+                li.id = user;
+
+                li.appendChild(user_card);
+                document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+
+
+            }
+            else {
+                var user_exists = false;
+            }
+        }
+
+    });
+
+
+}
 
 
 

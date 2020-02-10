@@ -43,15 +43,16 @@ class HikeEditor(View, LoginRequiredMixin):
             pot_users = []
             for nt in pot_ptc_list:
                 if len(Profile.objects.filter(user = nt.user)) and nt.user.profile.avatar.name != '':
-                    pot_users.append((full_name(nt.user), nt.user.profile.avatar))
+                    pot_users.append((full_name(nt.user), nt.user.profile.avatar, nt.user.username, nt.user.id))
                 else:
-                    pot_users.append((full_name(nt.user), ''))
+                    pot_users.append((full_name(nt.user), '', nt.user.username, nt.user.id))
             
             context['potential_ptc'] = pot_users
 
 
             context.update({
                 'name': hike.name,
+                'hike_id': hike.id,
                 'short_description': hike.short_description,
                 'start_date': str(hike.start_date),
                 'end_date': str(hike.end_date),

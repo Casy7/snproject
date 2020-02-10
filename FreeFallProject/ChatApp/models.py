@@ -63,7 +63,7 @@ class Hike(models.Model):
     short_description = models.CharField(max_length=1000, default='')
 
     participants = models.ManyToManyField(User, blank=True)
-    limit_of_members = models.IntegerField(max_length=2000, default=15, blank=True)
+    limit_of_members = models.IntegerField(default=15, blank=True)
 
     landmarks = models.ManyToManyField(Landmark, blank=True)
 
@@ -97,7 +97,7 @@ class Notification(models.Model):
 
     user = models.ForeignKey(User, default='', on_delete=models.CASCADE)
     type_of_notification = models.CharField(
-        max_length=15, choices=TYPE_OF_NOTIFICATION, default="simple_text")
+        max_length=25, choices=TYPE_OF_NOTIFICATION, default="simple_text")
     from_user = models.ForeignKey(User, related_name='from_user', blank=True, null=True, default='', on_delete=models.CASCADE)
     hike = models.ForeignKey(Hike, on_delete=models.CASCADE, default='', blank=True)
     text = models.CharField(max_length=2000, default='', blank=True, null=True)
