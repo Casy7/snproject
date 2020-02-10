@@ -14,9 +14,13 @@ function str_to_list(str_el) {
     return list
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 function del_pot_user(username, user_id){
     hike_id = byId('hike_id').value;
-    byId('user_'+username).remove();
+    byId('user_'+username).parentNode.removeChild(byId('user_'+username));
     send_data = {}
     send_data['code'] = user_id.toString()+'-'+hike_id.toString()+'-'+'invite_to_hike';
     send_data['result'] = 'delete';
