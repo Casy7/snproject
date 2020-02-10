@@ -86,19 +86,18 @@ class DoesUserExist(View):
                 with open(MEDIA_ROOT+image.name, "rb") as img_file:
                     my_string = base64.b64encode(
                         img_file.read()).decode("ASCII")
+                    result['image'] = my_string
 
 
-                result['image'] = my_string
-                result['full_name'] = full_name(user)
-
-
-                if 'add_to_hike' in form.keys() and form['add_to_hike'] == True:
-                    hike_id = form['hike_id']
-                    if len(Notification.objects.filter(hike=Hike.objects.get(id=hike_id)).filter(type_of_notification='invite_to_hike').filter(from_user=request.user)) == 0:
-                        nt=Notification(user=user,
-                                      hike=Hike.objects.get(id=hike_id),
-                                      type_of_notification='invite_to_hike',
-                                      from_user=request.user)
+            result['full_name'] = full_name(user)
+            result['id'] = user.id
+            if 'add_to_hike' in form.keys() and form['add_to_hike'] == 'true':
+                hike_id = form['hike_id']
+                if len(Notification.objects.filter(hike=Hike.objects.get(id=hike_id)).filter(user=user).filter(type_of_notification='invite_to_hike')) == 0:
+                    nt=Notification(user=user,
+                                    hike=Hike.objects.get(id=hike_id),
+                                    type_of_notification='invite_to_hike',
+                                    from_user=request.user)
                     nt.save()
         else:
             result['exist']='False'

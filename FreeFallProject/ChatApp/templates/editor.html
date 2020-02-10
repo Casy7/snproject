@@ -190,24 +190,6 @@
 
             <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
             <br><br>
-            <ul class="list-inline" id="inline-userlist">
-
-                {% for participant in participants %}
-                <li class="list-inline-item" name={{participant.0}} id="{{participant.0}}">
-                    <div class="card" style="width:70px; border: .6px solid rgb(221, 221, 221);">
-                        {% if participant.1 == '' %}
-                        <img src="{%static 'icons/logo_grey.png'%}" class="card-img-top"
-                            style="width: 100%;height: 100%;"></img>
-                        {% else %}
-                        <img src="{{participant.1.url}}" class="card-img-top" style="width: 100%;height: 100%;"></img>
-                        {% endif %}
-                        <span style="text-align:center">{{participant.0}}</span>
-                        <button type="button" class="form-control" style="height:20px; border: none;"
-                            onclick="del_user('{{participant.0}}')">-</button>
-                    </div>
-                </li>
-                {% endfor %}
-
 
                 <div class="row">
 
@@ -229,6 +211,7 @@
                             <div class="card" id='user_{{user.2}}'
                                 style="border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;">
                                 <div class="row" style="padding: 5px;">
+                                    <input type='hidden' class="user_hidden_id" value = '{{user.3}}'>
                                     <div class="col-sm-2" style="vertical-align: middle;">
                                         {% if user.1 != '' %}
                                         <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
@@ -238,7 +221,7 @@
                                     </div>
                                     <div class="col-sm" style="vertical-align: bottom;height: 60px;">
                                         <p style="padding-top:0.7em; letter-spacing: 0.084em;">{{user.0}}</p>
-                                        <p style="color: gray;line-height: 1.1em;">@{{user.2}}</p>
+                                        <p style="color: gray;line-height: 0em;">@{{user.2}}</p>
                                     </div>
                                     <div class="col-sm-3" style="height: 60px;vertical-align: bottom">
                                         <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
@@ -256,6 +239,7 @@
                             <div class="card"
                                 style="border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;">
                                 <div class="row" style="padding: 5px;">
+                                    
                                     <div class="col-sm-2" style="vertical-align: middle;">
                                         {% if user.1 != '' %}
                                         <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
@@ -288,24 +272,18 @@
 
                     <li class="list-inline-item" name="add-user" id="add-user">
 
-                        <input type="hidden" id="list-usrs" name="participants" value="">
+                        <!-- <input type="hidden" id="list-usrs" name="participants" value=""> -->
+
                         <script>
                             function add_user() {
-                                users = document.getElementById('list-usrs');
-                                if (users.value == "") {
-                                    document.getElementById('list-usrs').value = [].toString();
-                                    if (document.getElementById('select_ptc').value != "") {
+
+                                if (document.getElementById('select_ptc').value != "") {
                                         add_ptc();
                                     }
-                                }
-                                else {
-                                    if (document.getElementById('select_ptc').value != "") {
-                                        add_ptc();
-                                    }
-                                }
+
                             }
                             function add_ptc() {
-                                list = str_to_list(document.getElementById('list-usrs').value);
+                                // list = str_to_list(document.getElementById('list-usrs').value);
                                 user = document.getElementById('select_ptc').value;
                                 hike_id = byId('hike_id').value;
                                 //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
@@ -339,57 +317,85 @@
                                         // alert(json.exist);
                                         if (json.exist === "True") {
                                             var user_exists = true;
-                                            //list.push(user);
-                                            document.getElementById('list-usrs').value = list;
+                                            // list.push(user);
+                                            // document.getElementById('list-usrs').value = list;
                                             // alert(document.getElementById('list-usrs').value);
 
                                             user_card = document.createElement("li");
+
                                             user_card.className = "card";
-                                            if (user_exists) {
-                                                user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
-                                            }
-                                            else {
-                                                user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
-                                            }
+                                            user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
+                                            user_card.id = 'user_'+user;
+
+
+                                            id_field = document.createElement('input')
+                                            id_field.type = 'hidden';
+                                            id_field.value = json.id;
+                                            id_field.className = "user_hidden_id"
+
+                                            
+
+
+                                            byId('potential_ptc').appendChild(user_card);
+
+                                            row = document.createElement('div');
+                                            row.className = 'row';
+                                            row.style = "padding: 5px;";
+                                            user_card.appendChild(row);
+                                            row.appendChild(id_field);
+
+                                            col2 = document.createElement('div');
+                                            col2.className = "col-sm-2";
+                                            col2.style = "vertical-align: middle;";
+                                            row.appendChild(col2)
+
                                             img = document.createElement("img");
-                                            img.className = "card-img-top";
-                                            img.style = "width: 100%;height:80px";
+                                            img.style = "width: 60px;height:60px";
                                             if (json.exist_image) {
                                                 data = json.image
                                                 img.src = 'data:image/gif;base64,' + data;
                                             }
                                             else {
-                                                img.src = "{%static 'icons/logo_grey.png'%}"
+                                                img.src = "{%static 'icons/logo_grey.png'%}";
                                             }
-                                            span = document.createElement("span");
-                                            span.style = "text-align:center";
-                                            span.value = user;
-                                            span.text = user;
-                                            span.appendChild(document.createTextNode(user));
-                                            button = document.createElement("button");
-                                            button.className = "form-control";
-                                            button.type = "button";
-                                            button.onclick = function add_this_user() { del_user(user) };
-                                            button.style = "height:20px; border: none;";
-                                            button.innerHTML = "-";
+                                            col2.appendChild(img);
 
-                                            user_card.appendChild(img);
-                                            user_card.appendChild(span);
-                                            user_card.appendChild(button);
+                                            col1 = document.createElement('div');
+                                            col1.className = "col-sm";
+                                            col1.style = "vertical-align: bottom;height: 60px;";
+                                            row.appendChild(col1);
 
-                                            li = document.createElement("li");
-                                            li.className = "list-inline-item";
-                                            li.name = user;
-                                            li.id = user;
+                                            p = document.createElement('p');
+                                            p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
+                                            p.innerHTML = json.full_name;
 
-                                            li.appendChild(user_card);
-                                            document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
+                                            col1.appendChild(p)
 
+                                            p_username = document.createElement('p');
+                                            p_username.style = "color: gray;line-height: 0em;";
+                                            p_username.innerHTML = '@'+user;
+                                            col1.appendChild(p_username);
+
+                                            col3 = document.createElement('div');
+                                            col3.className = "col-sm-3";
+                                            col3.style = "height: 60px;vertical-align: bottom";
+                                            row.appendChild(col3);
+
+                                            button = document.createElement('button');
+                                            button.type = 'button';
+                                            button.className="btn btn-light";
+                                            button.style="height: 60px;width: 100%;";
+                                            button.innerHTML = 'Удалить';
+                                            
+                                            button.onclick = function(){
+                                                del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@",""), 
+                                                this.parentNode.parentNode.childNodes[0].value
+                                                )
+                                            }
+                                            col3.appendChild(button);
 
                                         }
-                                        else {
-                                            var user_exists = false;
-                                        }
+
                                     }
 
                                 });
