@@ -150,13 +150,6 @@ class HikeEditor(View, LoginRequiredMixin):
                 new_day.save()
 
             hike_id += 1
-
-        # participants = participants_format(form['participants'])
-        participants = participants_new_format(form['participants'])
-        already_in_hike = hike.participants.all()
-        for pt in participants:
-            if pt not in already_in_hike:
-                hike.participants.add(pt)
         hike.save()
 
         return HttpResponseRedirect("/hike/"+str(hike.id))
