@@ -115,8 +115,6 @@ function del_pot_user(username, user_id){
 }
 
 
-
-
 function add_new_day(){
     new_option = document.createElement('option');
     id = byId('day').childNodes.length-1
