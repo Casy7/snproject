@@ -39,3 +39,7 @@ function show_notifications(){
 function show_notification(notification){
 
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }

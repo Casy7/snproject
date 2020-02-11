@@ -164,13 +164,68 @@
                             {% if username != ''%}
                             <script>
                                 count_notifications()
+
                                 notification_list = eval("{{notifications|safe}}"); //
-                                update_notifications(notification_list)
+
+                                var wached = [];
+
+                                autoupdate_notifications()
                                 count_notifications()
+                                function sleep(ms) {
+                                    return new Promise(resolve => setTimeout(resolve, ms));
+                                }
+
+                                async function autoupdate_notifications() {
+                                    while (1) {
+                                        $.ajax({
+                                            url: "/get_user_notifications/",
+                                            type: 'POST',
+                                            data: { 'wached': wached, 'result': 'check' },
+                                            //DO NOT EDIT!
+                                            beforeSend: function (xhr, settings) {
+                                                function getCookie(name) {
+                                                    var cookieValue = null;
+                                                    if (document.cookie && document.cookie != '') {
+                                                        var cookies = document.cookie.split(';');
+                                                        for (var i = 0; i < cookies.length; i++) {
+                                                            var cookie = jQuery.trim(cookies[i]);
+                                                            // Does this cookie string begin with the name we want?
+                                                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    return cookieValue;
+                                                }
+                                                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                                    // Only send the token to relative URLs i.e. locally.
+                                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                                }
+                                            },
+                                            //EDITABLE CODE
+                                            success: function a(json) {
+                                                if (json.result === "success") {
+                                                    update_notifications(json.notifications);
+                                                    console.log(json.notifications);
+
+                                                }
+                                                else {
+                                                    byId(id_code).parentNode.removeChild(byId(id_code));
+                                                    count_notifications();
+                                                }
+                                            }
+                                        });
+                                        await sleep(2000);
+                                    }
+
+                                }
+                                update_notifications(notification_list)
                                 function update_notifications(notification_list) {
                                     notification_list.forEach(notification => {
+                                        
                                         id_code = notification[2] + '-' + notification[4] + '-' + notification[0]
-
+                                        if (byId(id_code)==null){
                                         li = document.createElement('li');
                                         li.id = id_code;
                                         li.name = notification[0];
@@ -240,8 +295,23 @@
                                         time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '.' + notification[6].substring(5, 7)
                                         li.appendChild(time);
                                         byId('notifications').appendChild(li);
+                                    }
                                         count_notifications()
+
                                     });
+                                    list_of_ids = []
+                                    notification_list.forEach(notification => {
+                                        id_code = notification[2] + '-' + notification[4] + '-' + notification[0];
+                                        list_of_ids.push(id_code);
+                                    });
+                                    byId('notifications').childNodes.forEach(li => {
+                                        if (list_of_ids.indexOf(li.id)===-1){
+                                            li.parentNode.removeChild(li);
+                                            count_notifications()
+                                        }
+                                        
+                                    });
+                                    count_notifications()
                                 }
                                 function notification_choice_send(id_code, result) {
                                     $.ajax({
@@ -250,7 +320,7 @@
                                         data: { 'code': id_code, 'result': result },
                                         //DO NOT EDIT!
                                         beforeSend: function (xhr, settings) {
-                                             function getCookie(name) {
+                                            function getCookie(name) {
                                                 var cookieValue = null;
                                                 if (document.cookie && document.cookie != '') {
                                                     var cookies = document.cookie.split(';');
@@ -278,7 +348,7 @@
                                                 byId(id_code).parentNode.removeChild(byId(id_code));
                                                 count_notifications();
                                             }
-                                            else{
+                                            else {
                                                 byId(id_code).parentNode.removeChild(byId(id_code));
                                                 count_notifications();
                                             }
@@ -286,7 +356,7 @@
                                     });
                                 }
                                 function count_notifications() {
-                                    notifications_counter = byId('notifications').childNodes.length - 1;
+                                    notifications_counter = byId('notifications').childNodes.length;
                                     byId('nt_counter').innerText = notifications_counter;
                                     if (notifications_counter > 0) {
                                         byId('nt_counter').className = "badge badge-danger";
@@ -365,7 +435,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script> -->
-        <!-- <script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+    <!-- <script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
     <link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

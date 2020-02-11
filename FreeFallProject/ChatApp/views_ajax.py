@@ -134,9 +134,11 @@ class SendNotifications(View):
         result={}
         if user.is_anonymous == False:
 
+            result['result'] = 'success'
             result['notifications']=notifications_to_js_format(
                 check_notifications(user))
 
         else:
+            result['result'] = 'fail'
             result['notifications']=[]
         return HttpResponse(json.dumps(result), content_type="application/json")
