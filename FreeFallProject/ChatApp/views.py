@@ -298,8 +298,8 @@ class Discussion(View):
         for message in Message.objects.filter(hike=hike):
 
             current_message = {}
-
-            current_message['author'] = message.author.first_name + ' ' + message.author.last_name
+            
+            current_message['author'] = message.author
             current_message['text'] = message.text
             current_message['creation_datetime'] = message.creation_datetime
 
@@ -315,9 +315,11 @@ class Discussion(View):
         user = request.user
         hike = Hike.objects.get(id=id)
 
+        text = form['text'].replace("\r\n", "<br>\n")
+
         message = Message(
             author = user,
-            text = form['text'],
+            text = text,
             hike = hike,
         )
 

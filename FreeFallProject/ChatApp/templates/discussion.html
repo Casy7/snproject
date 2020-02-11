@@ -4,18 +4,42 @@
 
 <body>
 
+	<hr>
+
 	{% for message in content %}
-	<p> {{message.author}} </p>
-	<p> {{message.text}} </p>
-	<p> {{message.creation_datetime}} </p>
+
+	<div class="container-fluid">
+		<div class="row">
+		  <div class="col-1">
+			{% if message.author.profile.avatar.name != '' %}
+			<div><img src={{message.author.profile.avatar.url}} class="leftimg" width="100%" height="100%"
+				alt="Responsive image">
+			</div>
+			{% else %}
+			  <div><img src="{% static 'icons/logo_grey.png' %}" class="leftimg" width="100%" height="100%"
+				  alt="Responsive image">
+			</div>
+			{% endif %}
+		  </div>
+		  <div class="col">
+			<p> {{message.author.first_name}} {{message.author.last_name}}, {{message.creation_datetime}} </p>
+			<p> {{message.text|safe}} </p>
+		  </div>
+		</div>
+	  </div>
+
+
+	<hr>
+
 	{% endfor %}
+
 
 
 	<form method="POST">
 		{%csrf_token%}
-		<div class="card-title"><span><input type="text" class="form-control" name="text" placeholder=""
-			style="font-size: 15px;" required=""></span>
-</div>
+		<div class="card-title"><span><textarea type="text" class="form-control" name="text" placeholder="Напишите сообщение"
+			style="font-size: 15px;" required=""></textarea></span></div>
+
 		<input type="submit" class="form-control btn btn-secondary" value="Отправить" >
 	  </form>
 
