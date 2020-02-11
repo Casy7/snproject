@@ -59,7 +59,9 @@
                 <li class="li_ptc">{{username}}</li>
               </ul>
               {% endfor %}
-              {% if user.username not in content.participants %}
+              <p>Осталось мест: {{content.vacancies}}</p>
+              {% if content.free_plases != "Nope" %}
+              {% if user.username not in content.usernames %}
               {% if content.join_to_group == 'open' %}
               <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
                 value="Принять участие" style="display: inline-block;width:170px;height:35px">
@@ -138,6 +140,7 @@
 
 
               </form>
+              {% endif %}
               {% endif %}
               <div>
                 <p></p>

@@ -58,7 +58,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'end_date': str(hike.end_date),
                 'difficulty': hike.difficulty,
                 'type_of_hike': hike.type_of_hike,
-
+                'limit_of_members': int(hike.limit_of_members),
                 'participants': participants,
                 'landmarks': list(Landmark.objects.filter(is_public=True)),
                 'description': hike.description,
@@ -111,6 +111,7 @@ class HikeEditor(View, LoginRequiredMixin):
         # hike.creator = user
 
         hike.short_description = form['short_description']
+        hike.limit_of_members = form['limit_of_members']
         hike.description = form['description']
         hike.start_date = form['start']
         hike.end_date = form['end']

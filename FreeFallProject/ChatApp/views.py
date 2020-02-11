@@ -176,7 +176,8 @@ class NewHike(View, LoginRequiredMixin):
             end_date=form['end'],
             difficulty=form['difficulty'],
             type_of_hike=form['type'],
-            join_to_group=form['can_users_join']
+            join_to_group=form['can_users_join'],
+            limit_of_members=form['limit_of_members']
             # coordinates=new_format(form['coordinates'])
         )
         
@@ -400,14 +401,28 @@ class SetHike(View):
         this_hike['days'] = days
 
         participants = []
+        usernames = []
 
         for participant in hike.participants.all():
-            participants.append(participant.username)
+            participants.append(full_name(participant))
+            usernames.append(participant.username)
 
         this_hike['participants'] = participants
+        this_hike['usernames'] = usernames
+
+        if hike.limit_of_members - len(participants) > 0:
+            this_hike['vacancies'] = hike.limit_of_members - len(participants)
+            this_hike['free_plases'] = "Yup"
+        else:
+            this_hike['vacancies'] = 0
+            this_hike['free_plases'] = "Nope"
+
+
+
         context['content'] = hike.__dict__
         context['content'].update(this_hike)
         context['content']['creator'] = hike.creator
+
         return render(request, "hike.html", context)
 
     def post(self, request, id):

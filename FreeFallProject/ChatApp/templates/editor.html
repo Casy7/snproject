@@ -181,6 +181,11 @@
 
             <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
             <br><br>
+            <label for="">Количество участников</label>
+            <input type="number" value={{limit_of_members}} id="limit_of_members" name="limit_of_members" min="1" max="1000">
+            <br>
+
+
             <label for="">Как пользователи могут присоединиться к группе</label><br>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" class="custom-control-input" id="open" name="can_users_join"
@@ -297,6 +302,8 @@
 
         <script>
             async function add_user() {
+
+                if 
 
                 if (byId("user_" + byId('select_ptc').value) == undefined) {
                     add_ptc();
