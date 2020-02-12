@@ -454,13 +454,17 @@
         </script>
         <!-- КАРТА -->
         <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
-            <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+
             <script
                 src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
             <link rel="stylesheet"
                 href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
                 type="text/css" />
-            <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+
+
+            <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+            <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+            <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
 
             <div id="osm_map" style="width:auto;height:500px">
                 <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
@@ -544,6 +548,7 @@
 
                 coordinates = eval('{{ coordinates | safe }}');
                 var elements = [];
+                var markers = [];
                 for (i = 0; i < coordinates.length; i++) {
                     var el = document.createElement('div');
                     el.id = 'marker' + i.toString();
@@ -553,12 +558,19 @@
                     el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
                     el.x = coordinates[i][1][0];
                     el.y = coordinates[i][1][1];
-                    var marker = new mapboxgl.Marker(el).setLngLat([el.x, el.y]).addTo(osm_map);
+                    var marker = new mapboxgl.Marker(el, {draggable: true }).setLngLat([el.x, el.y]).addTo(osm_map);
 
                     elements.push({
                         element: el,
                         marker: marker
+                    });
+
+                    markers.push({
+                        day: coordinates[i][0],
+                        marker: marker
                     })
+
+
                 }
 
                 elements.forEach(function (item, index) {
@@ -597,24 +609,7 @@
 
 
             </div>
-            <script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </script>
             <script>
                 if (eval('{{ coordinates | safe }}') != []) {
                     var coordinates = eval('{{ coordinates | safe  }}');
@@ -641,6 +636,8 @@
                         landmarks_mode = true;
                     }
                 }
+
+
                 osm_map.on('load', function () {
 
                     cord_del = []
@@ -678,10 +675,15 @@
                             document.getElementById("coords").value = coordinates;
                         }
 
-                        var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 } })
+                        var marker = new mapboxgl.Marker(el, {draggable: true })
                             .setLngLat(e.lngLat.wrap())
                             .addTo(osm_map);
-                        // coordinates.push(Array(Number(day), e.lngLat.toArray()))
+
+                        markers.push({
+                            day: Number(day),
+                            marker: marker
+                        })
+
                         el.addEventListener('contextmenu', function () {
                             cord_del.push(Array(el.textContent, e.lngLat.toArray()));
                             document.getElementById("del_coords").value = cord_del;
@@ -756,12 +758,23 @@
 
                 });
                 function save_markers() {
-                    if (was_click != true) {
-                        var coordinates = eval('{{ coordinates | safe }}');
+
+                    coordinates = []
+
+                    markers.forEach(function (item, index) {
+                    var day = item.day;
+                    var lngLat = item.marker.getLngLat();
+                    var lng = lngLat.lng;
+                    var lat = lngLat.lat;
+
+                    coordinates.push(day, lng, lat)
+                    
+                });
+
+
 
                         document.getElementById("coords").value = coordinates;
                         document.getElementById("del_coords").value = cord_del;
-                    }
                 }
 
             </script>
