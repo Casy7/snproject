@@ -1,20 +1,56 @@
+// Avoid `console` errors in browsers that lack a console.
+// (function() {
+//     var method;
+//     var noop = function () {};
+//     var methods = [
+//         'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+//         'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+//         'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+//         'timeStamp', 'trace', 'warn'
+//     ];
+//     var length = methods.length;
+//     var console = (window.console = window.console || {});
+
+//     while (length--) {
+//         method = methods[length];
+
+//         // Only stub undefined methods.
+//         if (!console[method]) {
+//             console[method] = noop;
+//         }
+//     }
+// }());
+
+
+
+function rs(res) {
+    cropper.replace(res);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function readURL() {
     var myimg = document.getElementById("myimg");
     var input = document.getElementById("myfile");
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-
-            // console.log("changed");
             myimg.src = e.target.result;
-            //paste code here
+            cropper.replace(byId('myimg').src);
         }
-        create_del_button();
-        // document.getElementById("del_photo").style.display = "visible";
+
+
         reader.readAsDataURL(input.files[0]);
+
+        byId('res_img').value = reader['result'];
+
+        create_del_button();
+
+
     }
 }
-
 
 
 
@@ -42,22 +78,25 @@ function del_avatar_button() {
 
 document.querySelector('#myfile').addEventListener('change', function () {
     readURL();
+
+    // $().cropper("reset");
     del_avatar_button();
     create_del_button();
+
 });
 
 
-function clearInputFile(f){
-    if(f.value){
-        try{
+function clearInputFile(f) {
+    if (f.value) {
+        try {
             f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
-        }catch(err){ }
-        if(f.value){ //for IE5 ~ IE10
+        } catch (err) { }
+        if (f.value) { //for IE5 ~ IE10
             var form = document.createElement('form'),
                 parentNode = f.parentNode, ref = f.nextSibling;
             form.appendChild(f);
             form.reset();
-            parentNode.insertBefore(f,ref);
+            parentNode.insertBefore(f, ref);
         }
     }
 }
@@ -116,7 +155,7 @@ function clearInputFile(f){
 
 //     document.getElementById("track").appendChild(a_new_day);
 //     document.getElementById("track").appendChild(document.createElement("br"));
-    
+
 //     // a_new_day.childNodes[0].setAttribute("name", "start_day"+i);
 //     i+=1;
 //     // alert(document.getElementsByName("day"));

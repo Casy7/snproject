@@ -38,3 +38,7 @@ label{
 label.custom-control-label{
     font-weight: 300;
 }
+
+.modal-backdrop.fade.show{
+    display: none;
+}
