@@ -396,7 +396,7 @@ class SetHike(View):
             data['id'] = str(ide)
             data['label'] = 'day' + str(ide)
             ide += 1
-            days.append(data)
+            days.insert(0, data)
 
         this_hike['days'] = days
 

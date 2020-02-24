@@ -584,26 +584,25 @@
                 });
 
             </script>
-
-            Выберите день:
-            <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
-                <option value="1" id="day_1">1</option>
-            </select>
-
-            <button type="button" class="btn btn-outline-secondary" onclick="add_new_day()">Добавить день</button>
-            <button type="button" class="btn btn-outline-secondary" style="float: right;"
+            <button type="button" class="btn btn-outline-secondary"
                 onclick="change_mode()">Создать
                 достопримечательность</button>
             <div class="card" id="days_list">
 
-                <div class="day_card" id="day_1_card">
-                    <h3>День 1</h3>
+                {% for day in days %}
+
+                <div class="day_card" id="{{day.label}}_card">
+                    <h3>{{day.name}}</h3>
                     <label>Заголовок дня</label>
-                    <input type="text" class="form-control" name="day_1_name" placeholder="Заголовок дня">
+                    <input type="text" class="form-control" name="{{day.label}}_caption" placeholder="Заголовок дня" value='{{day.caption}}'>
                     <label>Описание дня</label>
-                    <textarea class="form-control" name="day_1_description" placeholder="Описание дня"
-                        style="font-size: 13px;"></textarea>
+                    <textarea class="form-control" name="{{day.label}}_description" placeholder="Описание дня"
+                        style="font-size: 13px;">{{day.description}}</textarea>
                 </div>
+
+                {% endfor %}
+
+
 
 
 
@@ -757,7 +756,7 @@
                     });
 
                 });
-                function save_markers() {
+                function save_info() {
 
                     coordinates = []
 
@@ -770,9 +769,7 @@
                     coordinates.push(day, lng, lat)
                     
                 });
-
-
-
+                debugger;
                         document.getElementById("coords").value = coordinates;
                         document.getElementById("del_coords").value = cord_del;
                 }
@@ -781,7 +778,8 @@
 
             <input name="coordinates" id="coords" type="hidden">
             <input name="cord_del" id="del_coords" type="hidden">
-            <input type="submit" class="btn btn-secondary btn-block" onclick="save_markers()" value="Сохранить"
+            <input name="days_info" id="days_info" type="hidden">
+            <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
                 style="display: inline-block">
 
 

@@ -48,6 +48,26 @@ class HikeEditor(View, LoginRequiredMixin):
                     pot_users.append((full_name(nt.user), '', nt.user.username, nt.user.id))
             
             context['potential_ptc'] = pot_users
+            days = []
+
+            ide = 1
+            for day in Day.objects.filter(hike=hike):
+                data = {}
+                if day.image.name is not None and day.image.name != "":
+                    data['image'] = day.image
+                else:
+                    data['image'] = ''
+                data['description'] = day.description
+                data['caption'] = day.caption
+                #data['date'] = day.date
+                data['coordinates'] = day.coordinates
+                data['fake_name'] = str('Day' + day.name.split()[1])
+                data['name'] = day.name
+                data['id'] = str(ide)
+                data['label'] = 'day' + str(ide)
+                ide += 1
+                days.insert(0, data)
+
 
 
             context.update({
@@ -62,6 +82,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'participants': participants,
                 'landmarks': list(Landmark.objects.filter(is_public=True)),
                 'description': hike.description,
+                'days': days,
                 'coordinates': hike.coordinates,
                 'join_to_group':hike.join_to_group
             })
@@ -75,7 +96,7 @@ class HikeEditor(View, LoginRequiredMixin):
 
         form = request.POST
 
-        #  print(form)
+        print(form)
         hike = Hike.objects.get(id=id)
         if form['landmarks'] != '':
             landmark_list = eval(form['landmarks'])
@@ -144,14 +165,12 @@ class HikeEditor(View, LoginRequiredMixin):
 
         hike.save()
 
-        hike_id = 1
-        while 'day_'+str(hike_id)+'_name' in form.keys():
-            name = 'day_'+str(hike_id)+'_name'
-            if form[name] != '':
-                new_day = Day(hike=hike, name=form[name], description=form)
-                new_day.save()
-
-            hike_id += 1
+        ide = 1
+        for day in Day.objects.filter(hike=hike):
+            day.caption = form['day' + str(ide) + '_caption']
+            day.description = form['day' + str(ide) + '_description']
+            day.save()
+            ide += 1
         hike.save()
 
         return HttpResponseRedirect("/hike/"+str(hike.id))
