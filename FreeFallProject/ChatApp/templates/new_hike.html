@@ -119,13 +119,13 @@
                 <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
                 <input type="hidden" id="list-usrs" name="participants" value="">
                 <br>
-                <ul class="list-inline ptcs" id="inline-userlist">
+                <ul id="inline-userlist">
 
 
                 </ul>
 
                 <label for="limit_of_members">Количество участников</label>
-                <input type="number" id="limit_of_members" name="limit_of_members" min="1" max="1000">
+                <input type="number" id="limit_of_members" name="limit_of_members" value="10" min="1" max="1000">
                 <br>
 
 
@@ -206,14 +206,14 @@
                         user_card = document.createElement("li");
                         user_card.className = "card";
                         if (user_exists) {
-                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
+                            user_card.style = "width:90px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
                         }
                         else {
-                            user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
+                            user_card.style = "width:90px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
                         }
                         img = document.createElement("img");
                         img.className = "card-img-top";
-                        img.style = "width: 100%;height:70px";
+                        img.style = "width: 100%;height:90px";
                         if (json.exist_image) {
                             data = json.image
                             img.src = 'data:image/gif;base64,' + data;
@@ -230,8 +230,8 @@
                         button.className = "form-control";
                         button.type = "button";
                         button.onclick = function add_this_user() { del_user(user) };
-                        button.style = "height:20px; border: none;";
-                        button.innerHTML = "-";
+                        button.style = "height:40px; border: none;";
+                        button.innerHTML = "Удалить";
 
                         user_card.appendChild(img);
                         user_card.appendChild(span);
