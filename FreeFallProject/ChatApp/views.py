@@ -204,10 +204,10 @@ class NewHike(View, LoginRequiredMixin):
         b = hike.end_date.split('-')
         aa = date(int(a[0]), int(a[1]), int(a[2]))
         bb = date(int(b[0]), int(b[1]), int(b[2]))
-        days_count = int(str(bb-aa).split()[0])
+        days_count = int(str(bb-aa).split()[0]) + 1
         # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
 
-        for i in range(1, days_count+1):
+        for i in range(days_count, 0, -1):
             day = Day(
                 hike=hike,
                 name="День " + str(i),
@@ -381,8 +381,12 @@ class SetHike(View):
         # this_hike['landmarks'] = hike.landmarks
         days = []
 
-        ide = 1
+        
+        print(Day.objects.filter(hike=hike))
         for day in Day.objects.filter(hike=hike):
+
+            ide = int(day.name.split()[1])
+
             data = {}
             if day.image.name is not None and day.image.name != "":
                 data['image'] = day.image
@@ -393,11 +397,16 @@ class SetHike(View):
             data['date'] = day.date
             data['coordinates'] = day.coordinates
             data['fake_name'] = str('Day' + day.name.split()[1])
+            data['idn'] = int(ide)
             data['name'] = day.name
             data['id'] = str(ide)
             data['label'] = 'day' + str(ide)
-            ide += 1
             days.insert(0, data)
+
+        print(sorted(days, key=lambda x: x['idn']))
+
+        days = sorted(days, key=lambda x: x['idn'])
+        print(days)
 
         this_hike['days'] = days
 

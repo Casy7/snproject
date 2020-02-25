@@ -584,6 +584,16 @@
                 });
 
             </script>
+
+            
+            Выберите день:
+            <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
+                {% for day in days %}
+                <option value="{{day.id}}" id="{{day.name}}">{{day.name}}</option>
+                {% endfor %}
+            </select>
+            <button type="button" class="btn btn-outline-secondary" style="float: right;"
+
             <button type="button" class="btn btn-outline-secondary"
                 onclick="change_mode()">Создать
                 достопримечательность</button>

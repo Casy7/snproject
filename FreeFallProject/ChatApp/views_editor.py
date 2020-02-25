@@ -50,8 +50,10 @@ class HikeEditor(View, LoginRequiredMixin):
             context['potential_ptc'] = pot_users
             days = []
 
-            ide = 1
             for day in Day.objects.filter(hike=hike):
+
+                ide = int(day.name.split()[1])
+
                 data = {}
                 if day.image.name is not None and day.image.name != "":
                     data['image'] = day.image
@@ -64,9 +66,13 @@ class HikeEditor(View, LoginRequiredMixin):
                 data['fake_name'] = str('Day' + day.name.split()[1])
                 data['name'] = day.name
                 data['id'] = str(ide)
+                data['idn'] = int(ide)
                 data['label'] = 'day' + str(ide)
                 ide += 1
                 days.insert(0, data)
+
+            days = sorted(days, key=lambda x: x['idn'])
+
 
 
 
@@ -165,8 +171,8 @@ class HikeEditor(View, LoginRequiredMixin):
 
         hike.save()
 
-        ide = 1
         for day in Day.objects.filter(hike=hike):
+            ide = int(day.name.split()[1])
             day.caption = form['day' + str(ide) + '_caption']
             day.description = form['day' + str(ide) + '_description']
             day.save()
