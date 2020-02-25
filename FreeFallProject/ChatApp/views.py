@@ -187,16 +187,16 @@ class NewHike(View, LoginRequiredMixin):
 
 
 
-        base64img = form['cropped_img'][form['cropped_img'].index('base64')+7:]
-        img_buffer = StringIO()
-        hike.image.save(img_buffer, format="imageFormatYouWant")
-        img_str = base64.b64encode(img_buffer.getvalue())
+        # base64img = form['image'][form['cropped_img'].index('base64')+7:]
+        # img_buffer = StringIO()
+        # hike.image.save(img_buffer, format="imageFormatYouWant")
+        # img_str = base64.b64encode(img_buffer.getvalue())
 
-        # if 'image' in request.FILES.keys():
-        size = [ float(x) for x in form['resize_photo'].split(' ')]
+        if 'image' in request.FILES.keys():
+        # size = [ float(x) for x in form['resize_photo'].split(' ')]
 
-        hike.image = request.FILES['image']
-        hike.save()
+            hike.image = request.FILES['image']
+            hike.save()
 
         # img = request.FILES['image']
             # hike.image.save(img[0], img[1])

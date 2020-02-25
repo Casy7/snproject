@@ -31,12 +31,12 @@
       <div>
         <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
       </div>
-      <input type="hidden" id='resize_photo' name="resize_photo">
+      <input type="hidden" id='resize_photo'>
       <div class="card-body">
         <div class="row">
 
           <div class="col-md" id="custom-file-input">
-            <input type="file" class="file-upload" style="display: none;" id="myfile"
+            <input type="file" class="file-upload" name = 'image' style="display: none;" id="myfile"
               accept=".jpg, .jpeg, .png">
             <label type="button" for="myfile" class="form-control"
               style="display: block;text-align: center;">Upload</label>

@@ -9,10 +9,10 @@
         style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
         {% for hike in hike_row %}
 
-        <div class="card" style="max-width: 23%;">
+        <div class="card" style="max-width: 23%;height: 300px !important;">
             <a href="{{hike.link}}">
                 {% if hike.image != '' %}
-                <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: auto;">
+                <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: 300px !important;">
                 {% else %}
                 <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
                 {% endif %}
