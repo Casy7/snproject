@@ -18,7 +18,7 @@ const cropper = new Cropper(image, {
     },
     cropend(event) {
         // document.getElementById('cropped_img').value = cropper.getCroppedCanvas().toDataURL();
-        document.getElementById('myfile').value = cropper.getCroppedCanvas().toDataURL();
+        document.getElementById('crimage').value = cropper.getCroppedCanvas().toDataURL();
     }
 
 });

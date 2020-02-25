@@ -199,16 +199,16 @@ class NewHike(View, LoginRequiredMixin):
             hike.save()
 
         # img = request.FILES['image']
-            # hike.image.save(img[0], img[1])
-            # image_field = request.FILES['image'] # self.cleaned_data.get('image_field')
-            # image_file = StringIO.StringIO(image_field.read())
-            # image = Image.open(image_file)
+            hike.image.save(str(hike.id)+'_img', img[1])
+            image_field = request.FILES['image'] # self.cleaned_data.get('image_field')
+            image_file = StringIO.StringIO(image_field.read())
+            image = Image.open(image_file)
 
-            # w, h = image.size
+            w, h = image.size
 
-            # image = image.resize((w/2, h/2), Image.ANTIALIAS)
-            # image_file = StringIO.StringIO()
-            # image.save(image_file, 'JPEG', quality=90)
+            image = image.resize((w/2, h/2), Image.ANTIALIAS)
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
 
 
             # hike.image = image_file
