@@ -36,7 +36,7 @@
         <div class="row">
 
           <div class="col-md" id="custom-file-input">
-            <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+            <input type="file" class="file-upload" style="display: none;" id="myfile"
               accept=".jpg, .jpeg, .png">
             <label type="button" for="myfile" class="form-control"
               style="display: block;text-align: center;">Upload</label>
@@ -45,9 +45,10 @@
 
           </div>
         </div>
-        <!-- <br> -->
+        
+        <input type="text" id='cropped_img' name="cropped_img" style="display: none;">
+
         <script src="{% static 'js/new_hike.js' %}"></script>
-        <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
         <label for="exampleFormControlInput1">Название похода</label>
 
         <div class="card-title"><span><input type="text" class="form-control" name="name" placeholder=""
@@ -151,10 +152,9 @@
   <script>
     function delete_avatar() {
       document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+      cropper.replace(byId('myimg').src)
       clearInputFile(document.getElementById("myfile"));
       del_avatar_button();
-
-      // 
     }
 
     function add_user() {

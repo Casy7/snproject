@@ -2,10 +2,25 @@ from .models import *
 from .forms import *
 import base64
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
-
+# from io import BytesIO
+# from PIL import Image 
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
 # def set_notification(user, type_of_notification, from_user = None , hike = None, *args):
 #     new_notification = Notification(user, type_of_notification,)
 #     return 0
+
+
+# def pill(image_io):
+#     im = Image.open(image_io)
+#     ltrb_border = (0, 0, 0, 10)
+#     im_with_border = ImageOps.expand(im, border=ltrb_border, fill='white')
+
+#     buffer = BytesIO()
+#     im_with_border.save(fp=buffer, format='JPEG')
+#     buff_val = buffer.getvalue()
+#     return ContentFile(buff_val)
+
 
 def check_notifications(user):
     return list(Notification.objects.filter(user = user))

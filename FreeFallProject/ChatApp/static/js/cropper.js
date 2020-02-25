@@ -6,6 +6,8 @@ const cropper = new Cropper(image, {
   viewMode: 1,
   crop(event) {
     document.getElementById('resize_photo').value=event.detail.x+' '+event.detail.y+' '+event.detail.width+' '+event.detail.height;
+    
+    
     // console.log(event.detail.x);
     // console.log(event.detail.y);
     // console.log(event.detail.width);
@@ -14,4 +16,7 @@ const cropper = new Cropper(image, {
     // console.log(event.detail.scaleX);
     // console.log(event.detail.scaleY);
   },
+  cropend(event) {
+    document.getElementById('cropped_img').value = cropper.getCroppedCanvas().toDataURL();
+  }
 });

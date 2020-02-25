@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.core.files import File
 from django.db.models import Q
+
+# UNUSED BLOCK
+from io import  StringIO
+#ENDBLOCK
+
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 from .models import *
 from .forms import *
@@ -151,16 +156,10 @@ class NewHike(View, LoginRequiredMixin):
         form = request.POST
 
         user_props = {}
-        # print(form)
 
         user = request.user
 
         if request.user.is_anonymous == False:
-            # if user.is_active:
-            #     login(request, user)
-            #     context['name'] = username
-            #     return HttpResponseRedirect("/")
-            # else:
             context['name'] = request.user.username
             user = request.user
         else:
@@ -183,8 +182,66 @@ class NewHike(View, LoginRequiredMixin):
         
         hike.save()
         hike.participants.add(user)
-        if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
+
+
+
+
+
+        base64img = form['cropped_img'][form['cropped_img'].index('base64')+7:]
+        img_buffer = StringIO()
+        hike.image.save(img_buffer, format="imageFormatYouWant")
+        img_str = base64.b64encode(img_buffer.getvalue())
+
+        # if 'image' in request.FILES.keys():
+        size = [ float(x) for x in form['resize_photo'].split(' ')]
+
+        hike.image = request.FILES['image']
+        hike.save()
+
+        # img = request.FILES['image']
+            # hike.image.save(img[0], img[1])
+            # image_field = request.FILES['image'] # self.cleaned_data.get('image_field')
+            # image_file = StringIO.StringIO(image_field.read())
+            # image = Image.open(image_file)
+
+            # w, h = image.size
+
+            # image = image.resize((w/2, h/2), Image.ANTIALIAS)
+            # image_file = StringIO.StringIO()
+            # image.save(image_file, 'JPEG', quality=90)
+
+
+            # hike.image = image_file
+            # hike.save()
+            # image = request.FILES['image']
+            # img = StringIO.StringIO(image.read())
+
+            
+
+            # img_temp = NamedTemporaryFile(delete=True)
+            # img_temp.write(img)
+            # img_temp.flush() 
+            # img.crop((0, 50, 70, 60))
+            # img = img.crop((size[0], size[1], size[2], size[3]))
+
+            # file_buffer = BytesIO()
+            # img.save(file_buffer, 'png')
+
+            # hike.image.save(str(hike.id) + '_avatar.png', ContentFile(file_buffer.read()))
+            # hike.save()
+
+            # file_buffer.close()
+
+
+
+            # thumb_io = StringIO.StringIO()
+            # thumb.save(thumb_io, format='JPEG')
+            # thumb_file = InMemoryUploadedFile(thumb_io, None, 'foo.jpg', 'image/jpeg',
+            #                       thumb_io.len, None)
+           
+
+            # 
+            # image_cropped = request.FILES[0].crop((size[0], size[1], size[2], size[3])).save(...)
         
         participants = participants_new_format(form['participants'])
         for pt in participants:
