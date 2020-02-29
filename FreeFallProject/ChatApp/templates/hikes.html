@@ -4,12 +4,11 @@
 <link rel="stylesheet" href="{% static 'css/hikes.css' %}">
 
 <body>
-    {% for hike_row in hike %}
-    <div class="card-deck text-center"
-        style="padding-top:15px; border-block: 1px solid transparment; box-shadow: none;">
+    <div id="container" class="cols">
+        {% for hike_row in hike %}
         {% for hike in hike_row %}
 
-        <div class="card" style="max-width: 23%;">
+        <div class="card" style="">
             <a href="{{hike.link}}">
                 {% if hike.image != '' %}
                 <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: auto;">
@@ -25,7 +24,7 @@
             </a>
         </div>
         {% endfor %}
+        {% endfor %}
     </div>
-    {% endfor %}
 </body>
 {% endblock %}
