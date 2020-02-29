@@ -160,7 +160,12 @@ class HikeEditor(View, LoginRequiredMixin):
                 [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
 
         for el in delete:
-            coordinates.remove(el)
+            # TODO @fartened, проверь, крашится на этом
+            try:
+                coordinates.remove(el)
+            except:
+                pass
+
 
         hike.coordinates = coordinates
         print(coordinates, delete)

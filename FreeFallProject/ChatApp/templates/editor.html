@@ -504,13 +504,16 @@
 
                         <button type="button" class="btn btn-outline-secondary" style="float: right;"
                             onclick="byId('del_lmk').style='display: none;'">x</button>
-                        <h2>Удаление достопримечательности </h2><h2 id = 'lmk_name'></h2>
-                        <p id= "lmk_desc"></p>
-                        <p id= "lmk_id" style="display: none;"></p>
-                        
-                        <label for="exampleFormControlInput1">Вы уверены, что хотите удалить эту достопримечательность?</label>
+                        <h2>Удаление достопримечательности </h2>
+                        <h2 id='lmk_name'></h2>
+                        <p id="lmk_desc"></p>
+                        <p id="lmk_id" style="display: none;"></p>
+
+                        <label for="exampleFormControlInput1">Вы уверены, что хотите удалить эту
+                            достопримечательность?</label>
                         <button type='button' class="btn btn-outline-danger" onclick="del_lmk()">Удалить</button>
-                        <button type='button' class="btn btn-outline-secondary" onclick="byId('del_lmk').style='display: none;'">Отмена</button>
+                        <button type='button' class="btn btn-outline-secondary"
+                            onclick="byId('del_lmk').style='display: none;'">Отмена</button>
 
                     </div>
                 </div>
@@ -537,19 +540,20 @@
                 };
 
                 function resize() {
-                    i=0
-                    while (document.getElementsByClassName('mapboxgl-canvas')[0].style.width == '400px' && i<10){
-                    try {
-                        osm_map.resize();
-                        i++;
-                        console.log(1);
-                    }
-                    catch (e) {
-                        i++;
-                        console.log(0);
-                    }
+                    i = 0
+                    while (document.getElementsByClassName('mapboxgl-canvas')[0].style.width == '400px' && i < 10) {
+                        try {
+                            osm_map.resize();
+                            i++;
+                            console.log(1);
+                        }
+                        catch (e) {
+                            i++;
+                            console.log(0);
+                        }
 
-                }}
+                    }
+                }
                 resize();
                 function forwardGeocoder(query) {
                     var matchingFeatures = [];
@@ -670,7 +674,7 @@
                 var icon = "url({% static 'icons/marker.png' %})";
                 var icon_m = "url({% static 'icons/marker.png' %})";
                 var icon_l = "url({% static 'icons/mountain.png' %})";
-                
+
                 function change_mode() {
                     if (landmarks_mode) {
                         landmarks_mode = false;
@@ -746,15 +750,16 @@
                     });
 
                     // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
+                    // {% for lk in landmarks %}
                     osm_map.addLayer({
-                        id: "places",
+                        id: "lk_{{lk.id}}",
                         type: "symbol",
                         source: {
                             type: "geojson",
                             data: {
                                 type: "FeatureCollection",
                                 features: [
-                                    // {% for lk in landmarks %}
+
                                     {
                                         type: "Feature",
                                         properties: {
@@ -767,7 +772,7 @@
                                             coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
                                         }
                                     },
-                                    // {% endfor %}
+
 
                                 ]
                             }
@@ -777,21 +782,22 @@
                             "icon-allow-overlap": true
                         }
                     });
+                    osm_map.on("contextmenu", "lk_{{lk.id}}", function (e) {
 
-                    osm_map.on("contextmenu", "places", function (e) {
                         desc = e.features[0].properties.description;
+
                         lk = e.features[0].properties;
-                        id = desc.slice(desc.indexOf('>')+1, desc.indexOf('</p>'));
+                        id = desc.slice(desc.indexOf('>') + 1, desc.indexOf('</p>'));
                         // alert(id);
-                        byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>')+8, desc.indexOf('</strong>'));
-                        byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>')+4, desc.lastIndexOf('</p>'));
+                        byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>') + 8, desc.indexOf('</strong>'));
+                        byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>') + 4, desc.lastIndexOf('</p>'));
                         byId('lmk_id').innerHTML = id;
                         byId('new_landmark').style.display = 'none';
-                        byId('del_lmk').style.display = 'block'
-                    });
-                    
+                        byId('del_lmk').style.display = 'block';
 
-                    osm_map.on("click", "places", function (e) {
+                    });
+                    osm_map.on("click", "lk_{{lk.id}}", function (e) {
+
                         var coordinates = e.features[0].geometry.coordinates.slice();
                         var description = e.features[0].properties.description;
 
@@ -801,12 +807,17 @@
                         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                         }
-
                         new mapboxgl.Popup()
                             .setLngLat(coordinates)
                             .setHTML(description)
                             .addTo(osm_map);
                     });
+                    // {% endfor %}
+
+
+
+
+
 
                     // Change the cursor to a pointer when the mouse is over the places layer.
                     osm_map.on("mouseenter", "places", function () {

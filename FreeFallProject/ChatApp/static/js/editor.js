@@ -205,6 +205,7 @@ function del_lmk(){
             // alert(json);
             // alert(json.exist);
             if (json.result === "success") {
+                osm_map.setLayoutProperty('lk_' + id, 'visibility', 'none');
                 alert('deleted');
 
 
