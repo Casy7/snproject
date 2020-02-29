@@ -669,8 +669,8 @@
                 var landmarks_mode = false;
                 var icon = "url({% static 'icons/marker.png' %})";
                 var icon_m = "url({% static 'icons/marker.png' %})";
-
                 var icon_l = "url({% static 'icons/mountain.png' %})";
+                
                 function change_mode() {
                     if (landmarks_mode) {
                         landmarks_mode = false;
@@ -679,11 +679,11 @@
                     }
                     else {
                         icon = icon_l;
+                        byId('del_lmk').style.display = 'none'
                         byId("new_landmark").style.display = "block";
                         landmarks_mode = true;
                     }
                 }
-
 
                 osm_map.on('load', function () {
                     //osm_map.resize()
@@ -782,10 +782,11 @@
                         desc = e.features[0].properties.description;
                         lk = e.features[0].properties;
                         id = desc.slice(desc.indexOf('>')+1, desc.indexOf('</p>'));
-                        alert(id);
+                        // alert(id);
                         byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>')+8, desc.indexOf('</strong>'));
                         byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>')+4, desc.lastIndexOf('</p>'));
                         byId('lmk_id').innerHTML = id;
+                        byId('new_landmark').style.display = 'none';
                         byId('del_lmk').style.display = 'block'
                     });
                     

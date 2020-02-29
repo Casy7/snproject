@@ -142,3 +142,19 @@ class SendNotifications(View):
             result['result'] = 'fail'
             result['notifications']=[]
         return HttpResponse(json.dumps(result), content_type="application/json")
+
+    
+class ChangeMap(View):
+    def post(self, request):
+        form=request.POST
+        user=request.user
+        result={}
+        if user.is_anonymous == False:
+            lmk_id = int(form['lmk_id'])
+            Landmark.objects.get(id = lmk_id).delete()
+            result['result'] = 'success'
+
+        else:
+            result['result'] = 'fail'
+            result['notifications']=[]
+        return HttpResponse(json.dumps(result), content_type="application/json")

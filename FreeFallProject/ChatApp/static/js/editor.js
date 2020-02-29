@@ -173,3 +173,43 @@ function add_new_day(){
     // day_card.id = "day_"+id+"_card";
 
 }
+
+function del_lmk(){
+    id = byId('lmk_id').innerHTML;
+    $.ajax({
+        url: "/change_map/",
+        type: 'POST',
+        data: { 'lmk_id': id, 'opreation': 'delete_landmark'},
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        },
+        success: function a(json) {
+            // alert(json);
+            // alert(json.exist);
+            if (json.result === "success") {
+                alert('deleted');
+
+
+            }
+        }
+
+    });
+}
