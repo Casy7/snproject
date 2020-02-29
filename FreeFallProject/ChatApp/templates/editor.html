@@ -693,7 +693,7 @@
 
                     was_click = false
                     osm_map.on('click', function (e) {
-
+                        byId('del_lmk').style.display = 'none'
                         var day = (document.getElementById("day").value)
                         var el = document.createElement('div');
                         el.content = day;
