@@ -498,6 +498,25 @@
                     </div>
                 </div>
                 <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
+                <!---->
+                <div class="map-overlay-container" id="del_lmk" style="display: none;">
+                    <div class="map-overlay">
+
+                        <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                            onclick="byId('del_lmk').style='display: none;'">x</button>
+                        <h2>Удаление достопримечательности </h2><h2 id = 'lmk_name'></h2>
+                        <p id= "lmk_desc"></p>
+                        <p id= "lmk_id" style="display: none;"></p>
+                        
+                        <label for="exampleFormControlInput1">Вы уверены, что хотите удалить эту достопримечательность?</label>
+                        <button type='button' class="btn btn-outline-danger" onclick="del_lmk()">Удалить</button>
+                        <button type='button' class="btn btn-outline-secondary" onclick="byId('del_lmk').style='display: none;'">Отмена</button>
+
+                    </div>
+                </div>
+
+
+                <!---->
             </div>
 
             <script>
@@ -610,7 +629,7 @@
                 <option value="{{day.id}}" id="{{day.name}}">{{day.name}}</option>
                 {% endfor %}
             </select>
-            <button type="button" class="btn btn-outline-secondary" style="float: right;" <button type="button"
+            <button type="button" class="btn btn-outline-secondary" style="float: right;"
                 class="btn btn-outline-secondary" onclick="change_mode()">Создать
                 достопримечательность</button>
             <div class="card" id="days_list">
@@ -740,7 +759,7 @@
                                         type: "Feature",
                                         properties: {
                                             description:
-                                                `<strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
+                                                `<p style='display:none'>{{lk.id}}</p><strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
                                             icon: "mountain"
                                         },
                                         geometry: {
@@ -759,6 +778,17 @@
                         }
                     });
 
+                    osm_map.on("contextmenu", "places", function (e) {
+                        desc = e.features[0].properties.description;
+                        lk = e.features[0].properties;
+                        id = desc.slice(desc.indexOf('>')+1, desc.indexOf('</p>'));
+                        alert(id);
+                        byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>')+8, desc.indexOf('</strong>'));
+                        byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>')+4, desc.lastIndexOf('</p>'));
+                        byId('lmk_id').innerHTML = id;
+                        byId('del_lmk').style.display = 'block'
+                    });
+                    
 
                     osm_map.on("click", "places", function (e) {
                         var coordinates = e.features[0].geometry.coordinates.slice();
