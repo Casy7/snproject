@@ -609,8 +609,13 @@ ul ul a {
 
 a{
     /* font-weight: 600; */
-    text-decoration: underline;
+    text-decoration: none;
     /* font-style: oblique; */
+}
+
+
+a .underline{
+    text-decoration: underline;
 }
 
 
