@@ -15,11 +15,11 @@ function str_to_list(str_el) {
 }
 
 
-function del_pot_user(username, user_id){
+function del_pot_user(username, user_id) {
     hike_id = byId('hike_id').value;
-    byId('user_'+username).parentNode.removeChild(byId('user_'+username));
+    byId('user_' + username).parentNode.removeChild(byId('user_' + username));
     send_data = {}
-    send_data['code'] = user_id.toString()+'-'+hike_id.toString()+'-'+'invite_to_hike';
+    send_data['code'] = user_id.toString() + '-' + hike_id.toString() + '-' + 'invite_to_hike';
     send_data['result'] = 'delete';
     console.log(send_data);
 
@@ -52,7 +52,7 @@ function del_pot_user(username, user_id){
         success: function a(json) {
             if (json.exist === "True") {
                 var user_exists = true;
-                str_of_users = str_of_users+','+user;
+                str_of_users = str_of_users + ',' + user;
                 //alert(list);
                 document.getElementById('list-usrs').value = str_of_users;
                 // alert(document.getElementById('list-usrs').value);
@@ -112,10 +112,10 @@ function del_pot_user(username, user_id){
 }
 
 
-function add_new_day(){
+function add_new_day() {
     new_option = document.createElement('option');
-    id = byId('day').childNodes.length-1
-    new_option.id = 'day'+id;
+    id = byId('day').childNodes.length - 1
+    new_option.id = 'day' + id;
     new_option.value = id;
     new_option.innerHTML = id;
     byId('day').appendChild(new_option);
@@ -123,10 +123,10 @@ function add_new_day(){
 
     day_card = document.createElement('div');
     day_card.className = "day_card";
-    day_card.id = "day_"+id+"_card";
+    day_card.id = "day_" + id + "_card";
 
     day_header = document.createElement('h3');
-    day_header.innerHTML = "День "+id;
+    day_header.innerHTML = "День " + id;
 
     day_name_label = document.createElement('label');
     day_name_label.innerHTML = "Заголовок дня";
@@ -134,7 +134,7 @@ function add_new_day(){
     day_input_name = document.createElement('input');
     day_input_name.type = 'text';
     day_input_name.className = "form-control";
-    day_input_name.name = "day_"+id+"_name";
+    day_input_name.name = "day_" + id + "_name";
     day_input_name.placeholder = "Заголовок дня";
 
     day_desc_label = document.createElement('label');
@@ -142,44 +142,29 @@ function add_new_day(){
 
     day_desc = document.createElement('textarea');
     day_desc.className = "form-control";
-    day_desc.name = "day_"+id+"_description";
+    day_desc.name = "day_" + id + "_description";
     day_desc.placeholder = "Описание дня";
     day_desc.style = "font-size: 13px;";
 
-    
+
     day_card.appendChild(day_header);
     day_card.appendChild(day_name_label);
     day_card.appendChild(day_input_name);
     day_card.appendChild(day_desc_label);
     day_card.appendChild(day_desc);
 
-
-
-
-
-
-
-
     byId('days_list').appendChild(day_card);
 
 
 
-    // day_card = document.createElement('div');
-    // day_card.className = "day_card";
-    // day_card.id = "day_"+id+"_card";
-
-    // day_card = document.createElement('div');
-    // day_card.className = "day_card";
-    // day_card.id = "day_"+id+"_card";
-
 }
 
-function del_lmk(){
+function del_lmk() {
     id = byId('lmk_id').innerHTML;
     $.ajax({
         url: "/change_map/",
         type: 'POST',
-        data: { 'lmk_id': id, 'opreation': 'delete_landmark'},
+        data: { 'lmk_id': id, 'operation': 'delete_landmark' },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -206,11 +191,52 @@ function del_lmk(){
             // alert(json.exist);
             if (json.result === "success") {
                 osm_map.setLayoutProperty('lk_' + id, 'visibility', 'none');
-                alert('deleted');
-
+                // alert('deleted');
+                byId('del_lmk').style.display = 'none';
 
             }
         }
 
     });
 }
+function add_lmk(id, name, desc, coords) {
+    id = byId('lmk_id').innerHTML;
+
+    $.ajax({
+        url: "/change_map/",
+        type: 'POST',
+        data: { 'lmk_id': id, 'lmk_name': name, 'lmk_desc': desc, 'lat': coords[0], 'lon':coords[1], 'operation': 'add_landmark'},
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        },
+        success: function a(json) {
+            // alert(json);
+            // alert(json.exist);
+            if (json.result === "success") {
+                osm_map.setLayoutProperty('lk_' + id, 'visibility', 'none');
+                alert('created');
+
+
+            }
+        }
+
+    });
+}    

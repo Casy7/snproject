@@ -150,11 +150,19 @@ class ChangeMap(View):
         user=request.user
         result={}
         if user.is_anonymous == False:
-            lmk_id = int(form['lmk_id'])
-            Landmark.objects.get(id = lmk_id).delete()
-            result['result'] = 'success'
-
+            if form['operation'] == 'delete_landmark':
+                lmk_id = int(form['lmk_id'])
+                Landmark.objects.get(id = lmk_id).delete()
+                result['result'] = 'success'
+            elif form['operation'] == 'add_landmark':
+                lmk = Landmark(
+                    name = form['lmk_name'],
+                    description = form['lmk_desc'],
+                    longitude = form['lat'],
+                    latitude= form['lon']
+                )
+                lmk.save()
+                result['result'] = 'success'
         else:
             result['result'] = 'fail'
-            result['notifications']=[]
         return HttpResponse(json.dumps(result), content_type="application/json")

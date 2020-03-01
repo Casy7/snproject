@@ -174,8 +174,8 @@
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
             aria-labelledby="participants_content">
             <label for="">Максимальное количество участников</label><br>
-            <input type="number" class = 'btn btn-outline-secondary' value={{limit_of_members}} id="limit_of_members" name="limit_of_members" min="1"
-                max="1000">
+            <input type="number" class='btn btn-outline-secondary' value={{limit_of_members}} id="limit_of_members"
+                name="limit_of_members" min="1" max="1000">
             <br>
 
 
@@ -698,20 +698,66 @@
                     was_click = false
                     osm_map.on('click', function (e) {
                         byId('del_lmk').style.display = 'none'
-                        var day = (document.getElementById("day").value)
-                        var el = document.createElement('div');
-                        el.content = day;
-                        el.className = 'marker';
-                        osm_map.resize();
+
                         if (landmarks_mode) {
-                            el.textContent = "";
+                            coords = e.lngLat.toArray();
+                            id = 1;
+                            while (osm_map.getLayer('lk_' + id) != undefined) {
+                                id += 1;
+                            }
                             if (byId("lm_name").value != "") {
-                                el.style.backgroundImage = icon;
-                                arr_of_data = [e.lngLat.toArray(), byId("lm_name").value, byId("lm_desc").value, byId("lm_is_public").value];
-                                landmarks.push(arr_of_data);
-                                byId('lm_list').value = JSON.stringify(landmarks);
-                                byId('lm_name').value = "";
-                                byId('lm_desc').value = "";
+
+                                // Создание достопримечательности
+                                osm_map.addLayer({
+                                    id: "lk_" + id,
+                                    type: "symbol",
+                                    source: {
+                                        type: "geojson",
+                                        data: {
+                                            type: "FeatureCollection",
+                                            features: [
+
+                                                {
+                                                    type: "Feature",
+                                                    properties: {
+                                                        description:
+                                                            `<p style='display:none'>` + id + `</p><strong>` + byId("lm_name").value + `</strong><p>` + byId("lm_desc").value + `</p>`,
+                                                        icon: "mountain"
+                                                    },
+                                                    geometry: {
+                                                        type: "Point",
+                                                        coordinates: coords
+                                                    }
+                                                },
+
+
+                                            ]
+                                        }
+                                    },
+                                    layout: {
+                                        "icon-image": "{icon}-15",
+                                        "icon-allow-overlap": true
+                                    }
+                                });
+                                osm_map.on("click", "lk_"+id, function (e) {
+
+                                    var coordinates = e.features[0].geometry.coordinates.slice();
+                                    var description = e.features[0].properties.description;
+
+                                    // Ensure that if the map is zoomed out such that multiple
+                                    // copies of the feature are visible, the popup appears
+                                    // over the copy being pointed to.
+                                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                                    }
+                                    new mapboxgl.Popup()
+                                        .setLngLat(coordinates)
+                                        .setHTML(description)
+                                        .addTo(osm_map);
+                                });
+                                name = byId("lm_name").value;
+                                desc = byId("lm_desc").value;
+                                add_lmk(id, name, desc, coords);
                                 change_mode();
                             }
                             else {
@@ -719,6 +765,10 @@
                             }
                         }
                         else {
+                            var day = (document.getElementById("day").value)
+                            var el = document.createElement('div');
+                            el.content = day;
+                            el.className = 'marker';
                             was_click = true
                             el.textContent = day;
                             el.style.backgroundImage = icon;
