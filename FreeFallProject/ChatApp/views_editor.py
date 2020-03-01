@@ -86,7 +86,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'type_of_hike': hike.type_of_hike,
                 'limit_of_members': int(hike.limit_of_members),
                 'participants': participants,
-                'landmarks': list(Landmark.objects.all(is_public=True)),
+                'landmarks': list(Landmark.objects.filter(is_public=True)),
                 'description': hike.description,
                 'days': days,
                 'coordinates': hike.coordinates,
