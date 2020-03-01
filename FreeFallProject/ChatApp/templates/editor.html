@@ -173,19 +173,8 @@
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
             aria-labelledby="participants_content">
-            <br>
-            <select class="selectpicker" data-live-search="true" id="select_ptc">
-                {% for user in user_list %}
-                <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
-                {% endfor %}
-
-            </select>
-            <input type="hidden" id='hike_id' value="{{hike_id}}">
-
-            <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
-            <br><br>
-            <label for="">Количество участников</label>
-            <input type="number" value={{limit_of_members}} id="limit_of_members" name="limit_of_members" min="1"
+            <label for="">Максимальное количество участников</label><br>
+            <input type="number" class = 'btn btn-outline-secondary' value={{limit_of_members}} id="limit_of_members" name="limit_of_members" min="1"
                 max="1000">
             <br>
 
@@ -193,23 +182,34 @@
             <label for="">Как пользователи могут присоединиться к группе</label><br>
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" class="custom-control-input" id="open" name="can_users_join" value="open">
-                <label class="custom-control-label" for="defaultInline1">Свободное добавление</label>
+                <label class="custom-control-label" for="open" style="font-weight: 300;">Свободное добавление</label>
             </div>
 
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" class="custom-control-input" id="request" name="can_users_join" value="request"
                     checked>
-                <label class="custom-control-label" for="defaultInline2">По запросу</label>
+                <label class="custom-control-label" for="request" style="font-weight: 300;">По запросу</label>
             </div>
 
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="close" value="close" name="can_users_join">
-                <label class="custom-control-label" for="defaultInline3">Только по приглашению</label>
+                <input type="radio" class="custom-control-input" id="close" name="can_users_join" value="close">
+                <label class="custom-control-label" for="close" style="font-weight: 300;">Только по приглашению</label>
             </div>
             <br><br>
             <script>
                 byId('{{join_to_group}}').checked = 'checked';
             </script>
+            <input type="submit" class="btn btn-outline-secondary btn-block" value="Сохранить эти настройки">
+            <br>
+            <h2 style="text-align: center;">Добавление участников</h2>
+            <select class="selectpicker" data-live-search="true" id="select_ptc">
+                {% for user in user_list %}
+                <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
+                {% endfor %}
+
+            </select>
+            <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
+            <input type="hidden" id='hike_id' value="{{hike_id}}">
             <div class="row">
 
 
