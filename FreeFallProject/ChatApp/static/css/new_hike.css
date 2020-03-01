@@ -31,10 +31,22 @@ input.form-control {
 }
 
 label{
-    margin-top: 8px;
+    margin-top: 14px;
     margin-bottom: 0px;
     font-weight: 600;
 }
+
+label.form-control.upload_label{
+    font-weight: 300;
+    margin-top: 0px !important;
+}
+
 label.custom-control-label{
     font-weight: 300;
+    margin-top: 0px;
+    margin-bottom: 0px;    
+}
+#inline-userlist{
+    padding-left: 0px;
+    padding-right: 0px;
 }
