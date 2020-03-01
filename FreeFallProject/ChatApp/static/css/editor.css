@@ -57,6 +57,11 @@ td {
     border: 1px solid rgb(224, 224, 224);
 }
 
+label.upload-btn{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 300;
+}
 
 /* Тут начинаются пробемы */
 /* .mapboxgl-canvas{

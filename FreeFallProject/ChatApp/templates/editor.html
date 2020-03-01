@@ -75,7 +75,7 @@
                     </td>
 
 
-                    <td style="float: left;min-width: 70%;width: 600px;margin-left: 5%;">
+                    <td style="float: left;min-width: 60%;width: 600px;margin-left: 5%; max-width: 90%;">
                         <table class="col-bg">
                             <tr class="row" style="width: 20%;">
                                 <label for="exampleFormControlInput1">Название</label>
@@ -83,12 +83,12 @@
                                     style="width: 65%;font-size: 18px;" value="{{name}}">
                             </tr>
 
-                            <tr class="row" style="width: 70%;">
+                            <tr class="row" style="max-width: 70%;">
                                 <label for="exampleFormControlInput1">Краткое описание</label>
                                 <span>
                                     <textarea id="sh_desc" class="form-control" name="short_description"
                                         placeholder="Пару строк о походе"
-                                        style="font-size: 14px; height: 140px;">{{short_description}}</textarea>
+                                        style="font-size: 14px; height: 140px;width: 100%; max-width: 100%;">{{short_description}}</textarea>
                                 </span>
                             </tr class="row">
                             <div class="row" id="hidden_fields">
@@ -148,7 +148,7 @@
             </script>
             <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
 
-            <div class="card-body">
+            <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
                 <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
 
                 <textarea id="editor" name="description">

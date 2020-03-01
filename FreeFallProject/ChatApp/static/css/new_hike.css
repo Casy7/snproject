@@ -30,11 +30,7 @@ input.form-control {
     overflow-wrap: normal;
 }
 
-label{
-    margin-top: 14px;
-    margin-bottom: 0px;
-    font-weight: 600;
-}
+
 
 label.form-control.upload_label{
     font-weight: 300;
