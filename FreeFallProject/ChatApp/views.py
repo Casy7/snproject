@@ -202,18 +202,30 @@ class NewHike(View, LoginRequiredMixin):
         # Криповый код, считающий количество дней между датами начала и конца похода.
         a = hike.start_date.split('-')
         b = hike.end_date.split('-')
-        aa = date(int(a[0]), int(a[1]), int(a[2]))
-        bb = date(int(b[0]), int(b[1]), int(b[2]))
-        days_count = int(str(bb-aa).split()[0]) + 1
+
+        if a == b:
+
+            day = Day(
+                    hike=hike,
+                    name="День 1",
+                    date=date(int(a[0]), int(a[1]), int(a[2])),
+                )
+            day.save()
+
+        else:
+
+            aa = date(int(a[0]), int(a[1]), int(a[2]))
+            bb = date(int(b[0]), int(b[1]), int(b[2]))
+            days_count = int(str(bb-aa).split()[0]) + 1
         # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
 
-        for i in range(days_count, 0, -1):
-            day = Day(
-                hike=hike,
-                name="День " + str(i),
-                date=aa + timedelta(i),
-            )
-            day.save()
+            for i in range(days_count, 0, -1):
+                day = Day(
+                    hike=hike,
+                    name="День " + str(i),
+                    date=aa + timedelta(i),
+                )
+                day.save()
 
         hike.save()
 
