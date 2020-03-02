@@ -65,24 +65,24 @@
 
 
                 {% endif %}
+            </div>
+            <ul class="list-unstyled components">
+                <!-- <p>Dummy Heading</p> -->
+                {% if  username != '' %}
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle">Походы</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
 
-                <ul class="list-unstyled components">
-                    <!-- <p>Dummy Heading</p> -->
-                    {% if  username != '' %}
-                    <li>
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Походы</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% for hike in hikes %}
+                        <li>
+                            <a href="/hike/{{hike.1}}">{{hike.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
 
-                            {% for hike in hikes %}
-                            <li>
-                                <a href="/hike/{{hike.1}}">{{hike.0}}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-
-                    <li>
+                <!-- <li>
 
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
                             class="dropdown-toggle">Группы</a>
@@ -97,18 +97,18 @@
                                 <a href="#">Group 3</a>
                             </li>
                         </ul>
-                    </li>
-                    {% endif %}
-                    <!-- <li>
+                    </li> -->
+                {% endif %}
+                <!-- <li>
                     <a href="#">Something</a>
                 </li> -->
-                    <li>
-                        <a href="/home/">О сайте</a>
-                    </li>
-                </ul>
+                <li>
+                    <a href="/home/">О сайте</a>
+                </li>
+            </ul>
 
 
-            </div>
+
 
 
         </nav>
@@ -223,79 +223,79 @@
                                 update_notifications(notification_list)
                                 function update_notifications(notification_list) {
                                     notification_list.forEach(notification => {
-                                        
+
                                         id_code = notification[2] + '-' + notification[4] + '-' + notification[0]
-                                        if (byId(id_code)==null){
-                                        li = document.createElement('li');
-                                        li.id = id_code;
-                                        li.name = notification[0];
+                                        if (byId(id_code) == null) {
+                                            li = document.createElement('li');
+                                            li.id = id_code;
+                                            li.name = notification[0];
 
-                                        if (notification[0] === 'invite_to_hike') {
-                                            text = document.createTextNode(notification[1] + " приглашает вас в поход ");
-                                        }
-                                        else if (notification[0] === 'request_for_ptc') {
-                                            text = document.createTextNode(notification[1] + " подал запрос на вступление в группу похода ");
-                                        }
-                                        else if (notification[0] === 'user_added_to_hike') {
-                                            text = document.createTextNode(notification[1] + " вступил в Ваш поход ");
-                                        }
-                                        li.appendChild(text);
+                                            if (notification[0] === 'invite_to_hike') {
+                                                text = document.createTextNode(notification[1] + " приглашает вас в поход ");
+                                            }
+                                            else if (notification[0] === 'request_for_ptc') {
+                                                text = document.createTextNode(notification[1] + " подал запрос на вступление в группу похода ");
+                                            }
+                                            else if (notification[0] === 'user_added_to_hike') {
+                                                text = document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                            }
+                                            li.appendChild(text);
 
-                                        a = document.createElement('a');
-                                        a.innerText = notification[3];
-                                        a.href = "/hike/" + notification[4];
-                                        li.appendChild(a);
+                                            a = document.createElement('a');
+                                            a.innerText = notification[3];
+                                            a.href = "/hike/" + notification[4];
+                                            li.appendChild(a);
 
-                                        span = document.createElement('span');
-                                        span.className = "timeline-icon";
+                                            span = document.createElement('span');
+                                            span.className = "timeline-icon";
 
-                                        img = document.createElement('img');
-                                        img.className = "notification-logo"
-                                        if (notification[5] != '') {
-                                            img.src = 'data:image/gif;base64,' + notification[5];
-                                        }
-                                        else {
-                                            img.src = "{%static 'icons/logo_grey.png'%}";
-                                        }
-                                        span.appendChild(img);
-                                        li.appendChild(span);
+                                            img = document.createElement('img');
+                                            img.className = "notification-logo"
+                                            if (notification[5] != '') {
+                                                img.src = 'data:image/gif;base64,' + notification[5];
+                                            }
+                                            else {
+                                                img.src = "{%static 'icons/logo_grey.png'%}";
+                                            }
+                                            span.appendChild(img);
+                                            li.appendChild(span);
 
-                                        li.appendChild(document.createElement('br'))
+                                            li.appendChild(document.createElement('br'))
 
-                                        button_agree = document.createElement('button');
-                                        button_agree.className = "btn btn btn-outline-primary"
+                                            button_agree = document.createElement('button');
+                                            button_agree.className = "btn btn btn-outline-primary"
 
-                                        button_disagree = document.createElement('button');
-                                        button_disagree.className = "btn btn btn-outline-danger"
+                                            button_disagree = document.createElement('button');
+                                            button_disagree.className = "btn btn btn-outline-danger"
 
-                                        if (notification[0] === 'invite_to_hike') {
-                                            button_agree.innerText = "Вступить";
-                                            button_disagree.innerText = "Отказаться";
-                                            li.appendChild(button_agree);
-                                            li.appendChild(button_disagree);
-                                        }
-                                        else if (notification[0] === 'request_for_ptc') {
-                                            button_agree.innerText = "Добавить";
-                                            button_disagree.innerText = "Скрыть";
-                                            li.appendChild(button_agree);
-                                            li.appendChild(button_disagree);
-                                        }
-                                        else if (notification[0] === 'user_added_to_hike') {
-                                            text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
-                                        }
-                                        button_agree.onclick = function () {
-                                            notification_choice_send(this.parentNode.id, 'agree')
-                                        }
-                                        button_disagree.onclick = function () {
-                                            notification_choice_send(this.parentNode.id, 'disagree')
-                                        }
+                                            if (notification[0] === 'invite_to_hike') {
+                                                button_agree.innerText = "Вступить";
+                                                button_disagree.innerText = "Отказаться";
+                                                li.appendChild(button_agree);
+                                                li.appendChild(button_disagree);
+                                            }
+                                            else if (notification[0] === 'request_for_ptc') {
+                                                button_agree.innerText = "Добавить";
+                                                button_disagree.innerText = "Скрыть";
+                                                li.appendChild(button_agree);
+                                                li.appendChild(button_disagree);
+                                            }
+                                            else if (notification[0] === 'user_added_to_hike') {
+                                                text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                            }
+                                            button_agree.onclick = function () {
+                                                notification_choice_send(this.parentNode.id, 'agree')
+                                            }
+                                            button_disagree.onclick = function () {
+                                                notification_choice_send(this.parentNode.id, 'disagree')
+                                            }
 
-                                        time = document.createElement('span');
-                                        time.className = 'timeline-date';
-                                        time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '.' + notification[6].substring(5, 7)
-                                        li.appendChild(time);
-                                        byId('notifications').appendChild(li);
-                                    }
+                                            time = document.createElement('span');
+                                            time.className = 'timeline-date';
+                                            time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '.' + notification[6].substring(5, 7)
+                                            li.appendChild(time);
+                                            byId('notifications').appendChild(li);
+                                        }
                                         count_notifications()
 
                                     });
@@ -305,11 +305,11 @@
                                         list_of_ids.push(id_code);
                                     });
                                     byId('notifications').childNodes.forEach(li => {
-                                        if (list_of_ids.indexOf(li.id)===-1){
+                                        if (list_of_ids.indexOf(li.id) === -1) {
                                             li.parentNode.removeChild(li);
                                             count_notifications()
                                         }
-                                        
+
                                     });
                                     count_notifications()
                                 }
@@ -371,17 +371,6 @@
                             </script>
 
                             {% endif %}
-
-
-
-
-
-
-
-
-
-
-
 
                             <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
