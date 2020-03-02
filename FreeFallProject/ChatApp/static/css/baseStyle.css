@@ -721,6 +721,9 @@ a.article, a.article:hover {
     justify-content: flex-start;
 }
 
+.nav-link{
+    margin-left: 5px;
+}
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
