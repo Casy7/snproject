@@ -722,7 +722,8 @@ a.article, a.article:hover {
 }
 
 .nav-link{
-    margin-left: 5px;
+    /* margin-left: 5px; */
+    margin-right: 5px;
 }
 /* ---------------------------------------------------
     MEDIAQUERIES
