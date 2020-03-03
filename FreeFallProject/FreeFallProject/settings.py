@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'FreeFallProject.urls'
@@ -81,8 +82,9 @@ DATABASES = {
         'NAME': 'FreeFallProject',
         'USER': 'postgres',
         'PASSWORD': '3141592653589793238',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': 5432, # 5432 by default, or 5050 for my PC
+        
     }
 }
 
@@ -106,9 +108,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+STATIC_URL = '/static/'
+MEDIA_ROOT = '/user_files/'
+MEDIA_URL = '/media/'
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -119,14 +136,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-MEDIA_ROOT = 'C:/FreeFallImages/'
-MEDIA_URL = '/media/'
-
-# MEDIA_URL = 'C:/FreeFallImages/'
-# MEDIA_ROOT = 'C:/FreeFallImages/'

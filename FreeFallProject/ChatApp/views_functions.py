@@ -1,7 +1,8 @@
 from .models import *
 from .forms import *
 import base64
-from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
+import os
+from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL, BASE_DIR
 
 # def set_notification(user, type_of_notification, from_user = None , hike = None, *args):
 #     new_notification = Notification(user, type_of_notification,)
@@ -25,7 +26,7 @@ def notifications_to_js_format(nt_list):
             new_format_nt.append(notification.hike.id)
             if len(Profile.objects.filter(user = user))>0 and user.profile.avatar.name!='':
                 image = user.profile.avatar
-                with open(MEDIA_ROOT+image.name, "rb") as img_file:
+                with open(os.path.join(BASE_DIR, 'ChatApp\\user_files\\')+image.name.replace('/','\\'), "rb") as img_file:
                     my_string = base64.b64encode(img_file.read()).decode("ASCII")
                 new_format_nt.append(my_string)
                 # str(new_format_nt.append(user.profile.avatar))
