@@ -79,6 +79,14 @@ WSGI_APPLICATION = 'FreeFallProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'FreeFallDB',
+        'USER': 'FreeFallAdmin@freefall',
+        'PASSWORD': 'liceuMFr$$F@ll$$',
+        'HOST': 'freefall.postgres.database.azure.com',
+        'PORT': 5432, # 5432 by default, or 5050 for my PC
+    },
+    'local': {
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'FreeFallProject',
         'USER': 'postgres',
         'PASSWORD': '3141592653589793238',
