@@ -18,6 +18,10 @@ input.form-control {
     font-size: 12px;
 }
 
+.card-title {
+    margin-bottom: none;
+}
+
 .ptcs{
     height: 140px;
     display: flex;
@@ -25,4 +29,20 @@ input.form-control {
     overflow-y: visible;
     overflow-wrap: normal;
 }
-    
+
+
+
+label.form-control.upload_label{
+    font-weight: 300;
+    margin-top: 0px !important;
+}
+
+label.custom-control-label{
+    font-weight: 300;
+    margin-top: 0px;
+    margin-bottom: 0px;    
+}
+#inline-userlist{
+    padding-left: 0px;
+    padding-right: 0px;
+}

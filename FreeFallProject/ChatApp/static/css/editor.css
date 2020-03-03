@@ -40,3 +40,31 @@ td {
     padding-bottom: 3px;
     background-color: rgba(216, 216, 216, 0.445);
 }
+
+
+.day_card{
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 2px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.red-border{
+    border: 1px solid red;
+    background-color: rgb(211, 211, 211);
+}
+.gray-border{
+    border: 1px solid rgb(224, 224, 224);
+}
+
+label.upload-btn{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 300;
+}
+
+/* Тут начинаются пробемы */
+/* .mapboxgl-canvas{
+    width: 100% !important;
+    height: 500px !important;
+} */

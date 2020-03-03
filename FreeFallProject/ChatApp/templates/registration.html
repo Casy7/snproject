@@ -7,6 +7,16 @@
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <link href="{% static 'css/registration.css' %}" rel="stylesheet">
+<!-- <style>
+	#content {
+  /* height: 200px; */
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("{% static 'icons/default.jpg' %}");
+  position: relative;
+}
+</style> -->
 <script src="{% static 'js/registration.js' %}" type="text/javascript"></script>
 <form method="POST">
 	<div class="container">
@@ -16,20 +26,22 @@
 				<div class="card-body">
 
 					{%csrf_token%}
+					{% if error == 0 %}
 					<div class="input-group form-group">
 						<!--NAME-->
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="far fa-address-card"> *</i></span>
 						</div>
-						<input type="text" name="first_name" class="form-control input_text" placeholder="Имя">
+						<input type="text" name="first_name" required="" class="form-control input_text"
+							placeholder="Имя">
 					</div>
 					<div class="input-group form-group">
 						<!--SURNAME-->
 						<div class="input-group-prepend" style="display: inline-block;">
-							<span class="input-group-text"><i
-									class="fas fa-address-card"></i></span>
+							<span class="input-group-text"><i class="fas fa-address-card"> *</i></span>
 						</div>
-						<input type="text" name="last_name" class="form-control input_text" placeholder="Фамилия">
+						<input type="text" name="last_name" required="" class="form-control input_text"
+							placeholder="Фамилия">
 					</div>
 					<div class="input-group form-group">
 						<!--USERNAME-->
@@ -42,9 +54,9 @@
 					<div class="input-group form-group">
 						<!--EMAIL-->
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+							<span class="input-group-text"><i class="fas fa-envelope"> *</i></span>
 						</div>
-						<input type="text" name="email" class="form-control input_text" placeholder="Email">
+						<input type="email" name="email" class="form-control input_text" placeholder="Email">
 					</div>
 					<div class="input-group form-group">
 						<!--PASSWORD-->
@@ -63,12 +75,70 @@
 						<pre><input type="radio" name="gender" id="gender" value="male" checked> Мужской	<input type="radio" name="gender" id="gender" value="female"> Женский  </pre>
 					</div>
 
+
+					{% else %}
+
+
+					<div class="input-group form-group">
+						<!--NAME-->
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="far fa-address-card"> *</i></span>
+						</div>
+						<input type="text" name="first_name" value="{{first_name}}" required=""
+							class="form-control input_text" placeholder="Имя">
+					</div>
+					<div class="input-group form-group">
+						<!--SURNAME-->
+						<div class="input-group-prepend" style="display: inline-block;">
+							<span class="input-group-text"><i class="fas fa-address-card"> *</i></span>
+						</div>
+						<input type="text" name="last_name" value="{{last_name}}" required=""
+							class="form-control input_text" placeholder="Фамилия">
+					</div>
+					<div class="input-group form-group">
+						<!--USERNAME-->
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-at"> *</i></span>
+						</div>
+						<input type="text" name="username" value="{{username}}" required=""
+							class="form-control input_text" placeholder="Никнейм">
+					</div>
+					<div class="input-group form-group">
+						<!--EMAIL-->
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope"> *</i></span>
+						</div>
+						<input type="email" name="email" value="{{email}}" class="form-control input_text"
+							placeholder="Email">
+					</div>
+					<div class="input-group form-group">
+						<!--PASSWORD-->
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i> *</span>
+						</div>
+						<input id="password_field" type="password" required="" name="password"
+							class="form-control input_text" placeholder="Пароль">
+						<div class="input-group-append">
+							<button type="button" class="input-group-text" onclick="show_password()"><i
+									class="fa fa-eye"></i></button>
+						</div>
+					</div>
+					<div class="gender_radiobutton">
+						<p>Пол:</p>
+						{% if gender == 'male' %}
+						<pre><input type="radio" name="gender" id="gender" value="male" checked> Мужской	<input type="radio" name="gender" id="gender" value="female"> Женский  </pre>
+						{% else %}
+						<pre><input type="radio" name="gender" id="gender" value="male"> Мужской	<input type="radio" name="gender" id="gender" value="female" checked> Женский  </pre>
+						{% endif %}
+					</div>
+
+					{% endif %}
 				</div>
 
 				<div class="card-footer">
 					{% if error == 1 %}
-					<div class="d-flex justify-content-center links error-message">
-						User with the same username already exists
+					<div class="d-flex justify-content-center links error-message" style="text-align: center;">
+						Пользователь с таким никнеймом уже существует
 					</div>
 					{% endif %}
 					<input type="submit" value="Регистрация" class="btn btn-outline-secondary btn-block"

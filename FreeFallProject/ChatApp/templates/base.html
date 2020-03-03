@@ -3,7 +3,6 @@
 <html>
 
 <head>
-
     {% load static %}
     {%csrf_token%}
 
@@ -13,7 +12,6 @@
     {% else %}
     <title>FreeFall</title>
     {% endif %}
-
 
 
     <script src="{% static 'js/my_functions.js' %}"></script>
@@ -29,9 +27,9 @@
 
 
     <!-- SCRIPTS -->
+    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
 
-    <script src="{% static '/libs/modules/bootstrap/jquery.js' %}" type="text/javascript"></script>
-    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
+
 
     <!-- UNUSED AT THIS MOMENT BUT IMPORTANT IMPORTS -->
 
@@ -67,24 +65,24 @@
 
 
                 {% endif %}
+            </div>
+            <ul class="list-unstyled components">
+                <!-- <p>Dummy Heading</p> -->
+                {% if  username != '' %}
+                <li>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle">Походы</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
 
-                <ul class="list-unstyled components">
-                    <!-- <p>Dummy Heading</p> -->
-                    {% if  username != '' %}
-                    <li>
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Походы</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% for hike in hikes %}
+                        <li>
+                            <a href="/hike/{{hike.1}}">{{hike.0}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
 
-                            {% for hike in hikes %}
-                            <li>
-                                <a href="/hike/{{hike.1}}">{{hike.0}}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-
-                    <li>
+                <!-- <li>
 
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
                             class="dropdown-toggle">Группы</a>
@@ -99,26 +97,27 @@
                                 <a href="#">Group 3</a>
                             </li>
                         </ul>
-                    </li>
-                    {% endif %}
-                    <!-- <li>
+                    </li> -->
+                {% endif %}
+                <!-- <li>
                     <a href="#">Something</a>
                 </li> -->
-                    <li>
-                        <a href="/home/">О сайте</a>
-                    </li>
-                </ul>
+                <li>
+                    <a href="/home/">О сайте</a>
+                </li>
+            </ul>
 
 
-            </div>
+
 
 
         </nav>
-
+        <script src="{% static 'libs/modules/font-awesome/font-awesome.js' %}" crossorigin="anonymous"></script>
+        <!-- <link rel="stylesheet" href="{% static '/libs/modules/font-awesome/font-awesome.min.css' %}"> -->
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-grey sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-light bg-grey sticky-top updated-nav">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="navbar-btn active">
@@ -126,32 +125,271 @@
                         <span></span>
                         <span></span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                    <!-- <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
-                    </button>
+                    </button> -->
                     <!--HEADER BUTTONS-->
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             {% if username != ''%}
+
+                            <!-- onclick="byId('notification_menu').style.display='none' -->
+                            <a class="nav-link" onclick="show_notifications()" type="button" href="#" role="button"
+                                data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
+                                    class="fas fa-bell"></i><span id="nt_counter"
+                                    class="badge badge-danger">6</span></a>
+
+                            <!-- DROPDOWN NOTIFICATIONS MENU -->
+                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu"
+                                aria-labelledby="dropdownMenu1">
+                                <div class="navbar navbar-expand-lg navbar-light sticky-top"
+                                    style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
+                                    <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
+                                </div>
+
+                                <ul id="notifications" class="timeline timeline-icons timeline-sm" style="margin:10px">
+
+
+                                </ul>
+
+                            </ul>
+                            {% endif %}
+
+
+
+
+
+                            {% if username != ''%}
+                            <script>
+                                count_notifications()
+
+                                notification_list = eval("{{notifications|safe}}"); //
+
+                                var wached = [];
+
+                                autoupdate_notifications()
+                                count_notifications()
+                                function sleep(ms) {
+                                    return new Promise(resolve => setTimeout(resolve, ms));
+                                }
+
+                                async function autoupdate_notifications() {
+                                    while (1) {
+                                        $.ajax({
+                                            url: "/get_user_notifications/",
+                                            type: 'POST',
+                                            data: { 'wached': wached, 'result': 'check' },
+                                            //DO NOT EDIT!
+                                            beforeSend: function (xhr, settings) {
+                                                function getCookie(name) {
+                                                    var cookieValue = null;
+                                                    if (document.cookie && document.cookie != '') {
+                                                        var cookies = document.cookie.split(';');
+                                                        for (var i = 0; i < cookies.length; i++) {
+                                                            var cookie = jQuery.trim(cookies[i]);
+                                                            // Does this cookie string begin with the name we want?
+                                                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                    return cookieValue;
+                                                }
+                                                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                                    // Only send the token to relative URLs i.e. locally.
+                                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                                }
+                                            },
+                                            //EDITABLE CODE
+                                            success: function a(json) {
+                                                if (json.result === "success") {
+                                                    update_notifications(json.notifications);
+                                                    console.log(json.notifications);
+
+                                                }
+                                                else {
+                                                    byId(id_code).parentNode.removeChild(byId(id_code));
+                                                    count_notifications();
+                                                }
+                                            }
+                                        });
+                                        await sleep(20000);
+                                    }
+
+                                }
+                                update_notifications(notification_list)
+                                function update_notifications(notification_list) {
+                                    notification_list.forEach(notification => {
+
+                                        id_code = notification[2] + '-' + notification[4] + '-' + notification[0]
+                                        if (byId(id_code) == null) {
+                                            li = document.createElement('li');
+                                            li.id = id_code;
+                                            li.name = notification[0];
+
+                                            if (notification[0] === 'invite_to_hike') {
+                                                text = document.createTextNode(notification[1] + " приглашает вас в поход ");
+                                            }
+                                            else if (notification[0] === 'request_for_ptc') {
+                                                text = document.createTextNode(notification[1] + " подал запрос на вступление в группу похода ");
+                                            }
+                                            else if (notification[0] === 'user_added_to_hike') {
+                                                text = document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                            }
+                                            li.appendChild(text);
+
+                                            a = document.createElement('a');
+                                            a.innerText = notification[3];
+                                            a.href = "/hike/" + notification[4];
+                                            li.appendChild(a);
+
+                                            span = document.createElement('span');
+                                            span.className = "timeline-icon";
+
+                                            img = document.createElement('img');
+                                            img.className = "notification-logo"
+                                            if (notification[5] != '') {
+                                                img.src = 'data:image/gif;base64,' + notification[5];
+                                            }
+                                            else {
+                                                img.src = "{%static 'icons/logo_grey.png'%}";
+                                            }
+                                            span.appendChild(img);
+                                            li.appendChild(span);
+
+                                            li.appendChild(document.createElement('br'))
+
+                                            button_agree = document.createElement('button');
+                                            button_agree.className = "btn btn btn-outline-primary"
+
+                                            button_disagree = document.createElement('button');
+                                            button_disagree.className = "btn btn btn-outline-danger"
+
+                                            if (notification[0] === 'invite_to_hike') {
+                                                button_agree.innerText = "Вступить";
+                                                button_disagree.innerText = "Отказаться";
+                                                li.appendChild(button_agree);
+                                                li.appendChild(button_disagree);
+                                            }
+                                            else if (notification[0] === 'request_for_ptc') {
+                                                button_agree.innerText = "Добавить";
+                                                button_disagree.innerText = "Скрыть";
+                                                li.appendChild(button_agree);
+                                                li.appendChild(button_disagree);
+                                            }
+                                            else if (notification[0] === 'user_added_to_hike') {
+                                                text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
+                                            }
+                                            button_agree.onclick = function () {
+                                                notification_choice_send(this.parentNode.id, 'agree')
+                                            }
+                                            button_disagree.onclick = function () {
+                                                notification_choice_send(this.parentNode.id, 'disagree')
+                                            }
+
+                                            time = document.createElement('span');
+                                            time.className = 'timeline-date';
+                                            time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '.' + notification[6].substring(5, 7)
+                                            li.appendChild(time);
+                                            byId('notifications').appendChild(li);
+                                        }
+                                        count_notifications()
+
+                                    });
+                                    list_of_ids = []
+                                    notification_list.forEach(notification => {
+                                        id_code = notification[2] + '-' + notification[4] + '-' + notification[0];
+                                        list_of_ids.push(id_code);
+                                    });
+                                    byId('notifications').childNodes.forEach(li => {
+                                        if (list_of_ids.indexOf(li.id) === -1) {
+                                            li.parentNode.removeChild(li);
+                                            count_notifications()
+                                        }
+
+                                    });
+                                    count_notifications()
+                                }
+                                function notification_choice_send(id_code, result) {
+                                    $.ajax({
+                                        url: "/send_notification_choice/",
+                                        type: 'POST',
+                                        data: { 'code': id_code, 'result': result },
+                                        //DO NOT EDIT!
+                                        beforeSend: function (xhr, settings) {
+                                            function getCookie(name) {
+                                                var cookieValue = null;
+                                                if (document.cookie && document.cookie != '') {
+                                                    var cookies = document.cookie.split(';');
+                                                    for (var i = 0; i < cookies.length; i++) {
+                                                        var cookie = jQuery.trim(cookies[i]);
+                                                        // Does this cookie string begin with the name we want?
+                                                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                return cookieValue;
+                                            }
+                                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                                // Only send the token to relative URLs i.e. locally.
+                                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                            }
+                                        },
+                                        //EDITABLE CODE
+                                        success: function a(json) {
+                                            // alert(json);
+                                            // alert(json.exist);
+                                            if (json.result === "success") {
+                                                byId(id_code).parentNode.removeChild(byId(id_code));
+                                                count_notifications();
+                                            }
+                                            else {
+                                                byId(id_code).parentNode.removeChild(byId(id_code));
+                                                count_notifications();
+                                            }
+                                        }
+                                    });
+                                }
+                                function count_notifications() {
+                                    notifications_counter = byId('notifications').childNodes.length;
+                                    byId('nt_counter').innerText = notifications_counter;
+                                    if (notifications_counter > 0) {
+                                        byId('nt_counter').className = "badge badge-danger";
+                                        return notifications_counter;
+
+                                    }
+                                    else {
+                                        byId('nt_counter').className = "badge badge-light";
+                                        return 0;
+                                    }
+                                }
+                            </script>
+
+                            {% endif %}
+
+                            <!--END OF DROPDOWN MENU BLOCK-->
+                            {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/new_hike">Создать поход</a>
+                                <a class="nav-link" href="/new_hike"><i class="fas fa-plus"></i></a>
                             </li>
                             {% endif %}
-                            <!-- <li class="nav-item">
-                                <a class="nav-link" href="/all_hikes">Главная</a>
-                            </li> -->
+
+
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Главная</a>
+                                <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/login">Войти</a>
+                                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout">Выход</a>
+                                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="/my_account">{{username}}</a>
@@ -175,15 +413,24 @@
     </div>
 
     <!-- jQuery  -->
+    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
 
-    <script src="{% static 'libs/modules/bootstrap/jquery.js' %}"></script>
+    <!-- <script src="{% static 'libs/modules/bootstrap/jquery.js' %}"></script> -->
     <!-- Popper.JS -->
 
     <!-- Bootstrap JS -->
-
+    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
     <script src="{% static '/js/baseScripts.js' %}" type="text/javascript"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script> -->
+    <!-- <script src="{% static 'libs/modules/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+    <link href="{% static 'libs/modules/bootstrap-select/dist/css/bootstrap-select.min.css'%}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>    -->
 
-    </script>
+
 </body>
 
 </html>
