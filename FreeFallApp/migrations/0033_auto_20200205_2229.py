@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ChatApp', '0032_auto_20200205_2128'),
+        ('FreeFallApp', '0032_auto_20200205_2128'),
     ]
 
     operations = [

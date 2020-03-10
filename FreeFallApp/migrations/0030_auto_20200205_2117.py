@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('ChatApp', '0029_auto_20200204_1749'),
+        ('FreeFallApp', '0029_auto_20200204_1749'),
     ]
 
     operations = [
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('type_of', models.CharField(choices=[('request_for_ptc', 'request_for_ptc'), ('invite_to_hike', 'invite_to_hike'), ('user_added_to_hike', 'user_added_to_hike'), ('simple_text', 'simple_text')], default='simple_text', max_length=15)),
                 ('datetime', models.DateTimeField(auto_now=True)),
-                ('hike', models.ForeignKey(blank=True, default='', on_delete=django.db.models.deletion.CASCADE, to='ChatApp.Hike')),
+                ('hike', models.ForeignKey(blank=True, default='', on_delete=django.db.models.deletion.CASCADE, to='FreeFallApp.Hike')),
                 ('user', models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

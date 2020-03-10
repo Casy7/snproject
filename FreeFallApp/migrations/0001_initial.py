@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('creation_datetime', models.DateTimeField(blank=True, default=datetime.datetime(2020, 1, 8, 18, 10, 51, 162441))),
                 ('image', models.ImageField(blank=True, null=True, upload_to='hikes/')),
                 ('creator', models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='creator', to=settings.AUTH_USER_MODEL)),
-                ('landmarks', models.ManyToManyField(blank=True, to='ChatApp.Landmark')),
+                ('landmarks', models.ManyToManyField(blank=True, to='FreeFallApp.Landmark')),
                 ('participants', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ChatApp', '0023_auto_20200203_1743'),
+        ('FreeFallApp', '0023_auto_20200203_1743'),
     ]
 
     operations = [
@@ -28,6 +28,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='hike',
             name='days',
-            field=models.ManyToManyField(blank=True, to='ChatApp.Day'),
+            field=models.ManyToManyField(blank=True, to='FreeFallApp.Day'),
         ),
     ]
