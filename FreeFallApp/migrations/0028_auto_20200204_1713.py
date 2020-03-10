@@ -8,14 +8,14 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ChatApp', '0027_auto_20200204_1712'),
+        ('FreeFallApp', '0027_auto_20200204_1712'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='day',
             name='hike',
-            field=models.ForeignKey(default='', null=True, on_delete=django.db.models.deletion.CASCADE, to='ChatApp.Hike'),
+            field=models.ForeignKey(default='', null=True, on_delete=django.db.models.deletion.CASCADE, to='FreeFallApp.Hike'),
         ),
         migrations.AlterField(
             model_name='hike',

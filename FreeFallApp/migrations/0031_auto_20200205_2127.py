@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('ChatApp', '0030_auto_20200205_2117'),
+        ('FreeFallApp', '0030_auto_20200205_2117'),
     ]
 
     operations = [

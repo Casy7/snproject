@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ChatApp', '0038_message_name'),
+        ('FreeFallApp', '0038_message_name'),
     ]
 
     operations = [
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='message',
             name='hike',
-            field=models.ForeignKey(default='', null=True, on_delete=django.db.models.deletion.CASCADE, to='ChatApp.Hike'),
+            field=models.ForeignKey(default='', null=True, on_delete=django.db.models.deletion.CASCADE, to='FreeFallApp.Hike'),
         ),
     ]

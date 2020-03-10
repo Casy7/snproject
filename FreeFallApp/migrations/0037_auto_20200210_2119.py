@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('ChatApp', '0036_auto_20200210_2005'),
+        ('FreeFallApp', '0036_auto_20200210_2005'),
     ]
 
     operations = [
@@ -25,6 +25,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='hike',
             name='messages',
-            field=models.ManyToManyField(blank=True, to='ChatApp.Message'),
+            field=models.ManyToManyField(blank=True, to='FreeFallApp.Message'),
         ),
     ]

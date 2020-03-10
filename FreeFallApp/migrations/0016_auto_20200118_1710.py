@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ChatApp', '0015_auto_20200118_1346'),
+        ('FreeFallApp', '0015_auto_20200118_1346'),
     ]
 
     operations = [

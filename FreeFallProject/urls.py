@@ -20,5 +20,5 @@ from FreeFallApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("FreeFallApp.urls")),
-    path("posts/", include("PostApp.urls")),
+    # path("posts/", include("PostApp.urls")),
 ]
