@@ -1,6 +1,6 @@
 from .models import *
 from .forms import *
-from ChatApp.views import *
+from FreeFallApp.views import *
 import base64
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 

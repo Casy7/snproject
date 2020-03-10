@@ -15,9 +15,9 @@ import json
 import re
 
 
-from ChatApp.views_functions import *
-from ChatApp.views_ajax import *
-from ChatApp.views_editor import *
+from FreeFallApp.views_functions import *
+from FreeFallApp.views_ajax import *
+from FreeFallApp.views_editor import *
 
 
 class HomePage(View):

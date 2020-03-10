@@ -1,4 +1,4 @@
-from ChatApp.views import *
+from FreeFallApp.views import *
 
 
 class HikeEditor(View, LoginRequiredMixin):
