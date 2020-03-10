@@ -135,11 +135,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'BotConstructor', '/user_files/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'FreFallApp', '/user_files/')
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'ChatApp', 'static')
+    os.path.join(BASE_DIR, 'FreFallApp', 'static')
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
