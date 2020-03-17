@@ -86,7 +86,7 @@ class DoesUserExist(View):
             if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
                 result['exist_image'] = True
                 image = user.profile.avatar
-                with open(MEDIA_ROOT+image.name, "rb") as img_file:
+                with open(os.path.join(MEDIA_ROOT,image.name), "rb") as img_file:
                     my_string = base64.b64encode(
                         img_file.read()).decode("ASCII")
                     result['image'] = my_string
