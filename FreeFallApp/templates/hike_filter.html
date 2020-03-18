@@ -1,0 +1,152 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/hike_filter.css' %}">
+<link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
+
+<body>
+    <form id='hikeFilterForm'>
+        <div class="input-group form-group">
+            <!--Поле поиска-->
+
+            <input id="hike_name" type="text" required="" name="hike_name" class="form-control input_text" placeholder="Название или пару слов из описания">
+            <div class="input-group-append">
+                <button type="button" class="input-group-text" onclick="find_all()">Найти</button>
+            </div>
+        </div>
+        <div class="accordion" id="other_filters_list">
+
+            <div class="card">
+
+                <a class='btn btn-outline-secondary form-control' data-toggle="collapse" href="#other_filters" role="button" aria-expanded="false" aria-controls="other_filters}">
+                    <p style="text-align:center">Другие фильтры</p>
+                </a>
+
+                <div class="collapse" id="other_filters">
+                    <div class="form-row">
+                        <div class="col-sm">
+                            <div class="form-row">
+                                <label for="start_day">Временные рамки</label>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-sm-1">
+                                    От
+                                </div>
+
+                                <div class="col-sm">
+                                    <input type="date" name="start" class="form-control" required="" id="start_day" onchange="setMinEndDate()">
+                                </div>
+                                <div class="col-sm-1">
+                                    до
+                                </div>
+                                <div class="col-sm">
+                                    <input type="date" name="end" class="form-control" required="" id="end_day" onchange="setMinEndDate()">
+                                </div>
+                                <script>
+                                    document.getElementById('start_day').value = new Date().toDateInputValue();
+                                    document.getElementById('start_day').min = addDays(Date(), -1).toDateInputValue();
+                                    document.getElementById('end_day').value = addDays(Date(), 200).toDateInputValue();
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-row">
+                                <label for="start_day">Категория похода</label>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-1">
+                                    От
+                                </div>
+                                <div class="col-sm">
+                                    <select name="difficulty" id='min_category' class="form-control" onchange="validate_max_category()">
+                                        <option value="none" selected='selected'>---</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                        </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    до
+                                </div>
+                                <div class="col-sm">
+                                    <select name="difficulty" id='max_category' class="form-control" onchange="validate_min_category()">
+                                        <option value="none" selected='selected'>---</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                        </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+                            <label for="type">Тип</label>
+                            <span>
+                            <select name="type" class="form-control" id="type">
+                                <option value="Пеший">Пеший</option>
+                                <option value="Горный">Горный</option>
+                                <option value="Водный">Водный</option>
+                                <option value="Вело">Вело</option>
+                                <option value="Спелео">Спелео</option>
+                            </select>
+                        </span>
+                        </div>
+
+                    </div>
+                    <label for="exampleFormControlInput6">Участники</label>
+                </div>
+            </div>
+
+        </div>
+        Поиск похода
+
+        <div id="container" class="cols">
+            {% for hike_row in hike %} {% for hike in hike_row %}
+
+            <div class="card" style="">
+                <a href="{{hike.link}}">
+                {% if hike.image != '' %}
+                <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: auto;">
+                {% else %}
+                <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{hike.name}}</h2>
+                    <p class="card-text"></p>Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
+                    <p class="card-text">{{hike.short_description}}</p>
+                    <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
+                </div>
+            </a>
+            </div>
+            {% endfor %} {% endfor %}
+        </div>
+    </form>
+
+
+
+    <script src="{% static 'js/hike_filter.js' %}"></script>
+    <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
+    <!-- DO NOT EDIT BLOCK -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
+
+    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
+
+    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
+    <!-- END OF DO-NOT-EDIT BLOCK -->
+</body>
+{% endblock %}

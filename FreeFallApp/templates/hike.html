@@ -1,334 +1,293 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <!DOCTYPE html>
 <html>
 
 <head>
 
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-  <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+    <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
 </head>
 {% if content.image != '' %}
 <style>
-  .content::before {
-
-    background-image: url({{content.image.url}});
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    /* opacity: 0.5; */
-  }
+    .content::before {
+        background-image: url({{content.image.url}});
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        /* opacity: 0.5; */
+    }
 </style>
 {% endif %}
 
 <head>
-  {% if content.image != '' %}
-  <img src={{content.image.url}} class="img-fluid" width="100%" height="auto" alt="Responsive image">
-  {% endif %}
+    {% if content.image != '' %}
+    <img src={{content.image.url}} class="img-fluid" width="100%" height="auto" alt="Responsive image"> {% endif %}
 </head>
 
 
 <body>
-  <h1> {{content.name}} </h1>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <div>Создатель:</div>
-        {% if content.creator.profile.avatar.name != '' %}
-        <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%"
-            alt="Responsive image">
-          {% else %}
-          <div><img src="{% static 'icons/logo_grey.png' %}" class="leftimg" width="10%" height="10%"
-              alt="Responsive image">
-
-            {% endif %}
-            {{content.creator.first_name}} {{content.creator.last_name}}</div>
-          <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
-          <div>{{content.short_description}}</div>
-          <div>{{content.description|safe}}</div>
-          <div>Сложность похода: {{content.difficulty}}</div>
-          <div>Тип похода: {{content.type_of_hike}}</div>
-          {% if user == content.creator %}
-          <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %} </div> <div
-              class="col">
-              <h2 class="h2">Участники:</h2>
-              {% for username in content.participants %}
-              <ul id='ptc_list'>
-                <li class="li_ptc">{{username}}</li>
-              </ul>
-              {% endfor %}
-              <p>Осталось мест: {{content.vacancies}}</p>
-              {% if content.free_plases != "Nope" %}
-              {% if user.username not in content.usernames %}
-              {% if content.join_to_group == 'open' %}
-              <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
-                value="Принять участие" style="display: inline-block;width:170px;height:35px">
-
-
-              {% elif content.join_to_group == 'request' %}
-              <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
-                value="Подать заявку" style="display: inline-block;width:170px;height:35px">
-              <!-- TODO сделать, если поход открытый, обновление участников, если по заявке, то создание
+    <h1> {{content.name}} </h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div>Создатель:</div>
+                {% if content.creator.profile.avatar.name != '' %}
+                <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%" alt="Responsive image"> {% else %}
+                    <div><img src="{% static 'icons/logo_grey.png' %}" class="leftimg" width="10%" height="10%" alt="Responsive image"> {% endif %} {{content.creator.first_name}} {{content.creator.last_name}}</div>
+                    <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
+                    <div>{{content.short_description}}</div>
+                    <div>{{content.description|safe}}</div>
+                    <div>Сложность похода: {{content.difficulty}}</div>
+                    <div>Тип похода: {{content.type_of_hike}}</div>
+                    {% if user == content.creator %}
+                    <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %} </div>
+                <div class="col">
+                    <h2 class="h2">Участники:</h2>
+                    {% for username in content.participants %}
+                    <ul id='ptc_list'>
+                        <li class="li_ptc">{{username}}</li>
+                    </ul>
+                    {% endfor %}
+                    <p>Осталось мест: {{content.vacancies}}</p>
+                    {% if content.free_plases != "Nope" %} {% if user.username not in content.usernames %} {% if content.join_to_group == 'open' %}
+                    <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()" value="Принять участие" style="display: inline-block;width:170px;height:35px"> {% elif content.join_to_group == 'request' %}
+                    <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()" value="Подать заявку" style="display: inline-block;width:170px;height:35px">
+                    <!-- TODO сделать, если поход открытый, обновление участников, если по заявке, то создание
         соответствующего уведомления -->
-              {% else %}
-              <small>В этот поход добавиться нельзя</small>
+                    {% else %}
+                    <small>В этот поход добавиться нельзя</small> {% endif %}
+                    <script>
+                        // alert('{{user.id}}'+'-'+'{{content.id}}'+'-'+'request_for_ptc')
+                        function take_part() {
+                            $.ajax({
+                                url: "/send_notification_choice/",
+                                type: 'POST',
+                                data: {
+                                    'code': '{{user.id}}' + '-' + '{{content.id}}' + '-' + 'request_for_ptc',
+                                    'result': 'create'
+                                },
+                                //DO NOT EDIT!
+                                beforeSend: function(xhr, settings) {
+                                    function getCookie(name) {
+                                        var cookieValue = null;
+                                        if (document.cookie && document.cookie != '') {
+                                            var cookies = document.cookie.split(';');
+                                            for (var i = 0; i < cookies.length; i++) {
+                                                var cookie = jQuery.trim(cookies[i]);
+                                                // Does this cookie string begin with the name we want?
+                                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        return cookieValue;
+                                    }
+                                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                        // Only send the token to relative URLs i.e. locally.
+                                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                    }
+                                },
+                                //EDITABLE CODE
+                                success: function a(json) {
+                                    // alert(json);
+                                    // alert(json.exist);
+                                    if (json.result === "success") {
+                                        byId('append_user').parentNode.removeChild(byId('append_user'));
+                                        while (document.getElementsByClassName('li_ptc').length > 0) {
 
-              {% endif %}
-              <script>
-                // alert('{{user.id}}'+'-'+'{{content.id}}'+'-'+'request_for_ptc')
-                function take_part() {
-                  $.ajax({
-                    url: "/send_notification_choice/",
-                    type: 'POST',
-                    data: { 'code': '{{user.id}}' + '-' + '{{content.id}}' + '-' + 'request_for_ptc', 'result': 'create' },
-                    //DO NOT EDIT!
-                    beforeSend: function (xhr, settings) {
-                      function getCookie(name) {
-                        var cookieValue = null;
-                        if (document.cookie && document.cookie != '') {
-                          var cookies = document.cookie.split(';');
-                          for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                              break;
-                            }
-                          }
+                                            document.getElementsByClassName('li_ptc')[0].remove();
+                                        }
+                                        json.users.forEach(user => {
+                                            li = document.createElement('li');
+                                            li.innerText = user;
+                                            byId('ptc_list').appendChild(li);
+                                        });
+                                        count_notifications();
+                                    } else {
+                                        alert('Так делать низя');
+                                        count_notifications();
+                                    }
+                                }
+                            });
                         }
-                        return cookieValue;
-                      }
-                      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        // Only send the token to relative URLs i.e. locally.
-                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                      }
-                    },
-                    //EDITABLE CODE
-                    success: function a(json) {
-                      // alert(json);
-                      // alert(json.exist);
-                      if (json.result === "success") {
-                        byId('append_user').parentNode.removeChild(byId('append_user'));
-                        while (document.getElementsByClassName('li_ptc').length > 0) {
-
-                          document.getElementsByClassName('li_ptc')[0].remove();
-                        }
-                        json.users.forEach(user => {
-                          li = document.createElement('li');
-                          li.innerText = user;
-                          byId('ptc_list').appendChild(li);
-                        });
-                        count_notifications();
-                      }
-                      else {
-                        alert('Так делать низя');
-                        count_notifications();
-                      }
-                    }
-                  });
-                }
+                    </script>
 
 
-              </script>
+                    <form method="POST">
+                        {%csrf_token%}
+                        <input id="participate" name="participate" type="hidden" value="Nope">
 
 
-              <form method="POST">
-                {%csrf_token%}
-                <input id="participate" name="participate" type="hidden" value="Nope">
-
-
-              </form>
-              {% endif %}
-              {% endif %}
-              <div>
-                <p></p>
-              </div>
-              <div><a class="btn btn-secondary" href=/discussion/{{content.id}} style="display: inline-block;width:170px;height:35px">Обсудить поход </a> </div>
-          </div>
-        </div>
-        <hr>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col">
-              <div class="accordion" id="accordionExample">
-                {% for day in content.days %}
-
-                <div class="card">
-                      <a data-toggle="collapse" href="#{{day.fake_name}}" role="button" aria-expanded="false" aria-controls="{{day.fake_name}}">
-                        <h3 style="text-align:center">{{day.name}}: {{day.caption}}</h3>
-                      </a>
-
-                      <div class="collapse" id="{{day.fake_name}}">
-                        <div class="card card-body">
-                                {% if day.image != '' %}
-                                <img src={{day.image.url}} class="img-fluid" alt="Responsive image">
-                                {% endif %}
-                                {{day.description}}
-                        </div>
-                      </div>
+                    </form>
+                    {% endif %} {% endif %}
+                    <div>
+                        <p></p>
+                    </div>
+                    <div><a class="btn btn-secondary" href=/discussion/{{content.id}} style="display: inline-block;width:170px;height:35px">Обсудить поход </a> </div>
                 </div>
+            </div>
+            <hr>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <div class="accordion" id="accordionExample">
+                            {% for day in content.days %}
+
+                            <div class="card">
+                                <a data-toggle="collapse" href="#{{day.fake_name}}" role="button" aria-expanded="false" aria-controls="{{day.fake_name}}">
+                                    <h3 style="text-align:center">{{day.name}}: {{day.caption}}</h3>
+                                </a>
+
+                                <div class="collapse" id="{{day.fake_name}}">
+                                    <div class="card card-body">
+                                        {% if day.image != '' %}
+                                        <img src={{day.image.url}} class="img-fluid" alt="Responsive image"> {% endif %} {{day.description}}
+                                    </div>
+                                </div>
+                            </div>
 
 
-            
-                {% endfor %}
-              </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div id="osm_map" style="width:auto;height:500px"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-              <div id="osm_map" style="width:auto;height:500px"></div>
-            </div>
-          </div>
         </div>
-      </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <script>
-        coordinates = {{ content.coordinates | safe }};
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-        if (coordinates.length != 0) {
-          var osm_map = new mapboxgl.Map({
-            container: 'osm_map',
-            style: 'mapbox://styles/mapbox/bright-v9',
-            center: coordinates[Math.floor(coordinates.length / 2)][1],
-            zoom: 5
-          })
-          osm_map.addControl(new mapboxgl.NavigationControl());
-        }
-        else {
-          var osm_map = new mapboxgl.Map({
-            container: 'osm_map',
-            style: 'mapbox://styles/mapbox/bright-v9',
-            center: [3.420253241560829, 46.124064037019906],
-            zoom: 5
-          });
-          osm_map.addControl(new mapboxgl.NavigationControl());
-        }
-
-      </script>
-
-      <script type="text/javascript">
-        coordinates = {{ content.coordinates | safe }};
-        var line = []
-
-        for (i = 0; i < coordinates.length; i++) {
-          var el = document.createElement('div');
-          el.content = coordinates[i][0];
-          el.textContent = coordinates[i][0];
-          el.className = 'marker';
-          el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
-          var x = coordinates[i][1][0];
-          var y = coordinates[i][1][1];
-          line.push([x, y]);
-          var marker = new mapboxgl.Marker(el, { offset: { x: -30, y: -35 }, }).setLngLat([x, y]).addTo(osm_map);
-
-        }
-
-        osm_map.on('load', function () {
-
-          osm_map.addLayer({
-            "id": "route",
-            "type": "line",
-            "source": {
-              "type": "geojson",
-              "data": {
-                "type": "Feature",
-                "properties": {},
-                "geometry": {
-                  "type": "LineString",
-                  "coordinates": line
-                }
-              }
-            },
-            "layout": {
-              "line-join": "round",
-              "line-cap": "round"
-            },
-            "paint": {
-              "line-color": "#888",
-              "line-width": 5
+        <script>
+            coordinates = eval('{{ content.coordinates | safe }}');
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+            if (coordinates.length != 0) {
+                var osm_map = new mapboxgl.Map({
+                    container: 'osm_map',
+                    style: 'mapbox://styles/mapbox/bright-v9',
+                    center: coordinates[Math.floor(coordinates.length / 2)][1],
+                    zoom: 5
+                })
+                osm_map.addControl(new mapboxgl.NavigationControl());
+            } else {
+                var osm_map = new mapboxgl.Map({
+                    container: 'osm_map',
+                    style: 'mapbox://styles/mapbox/bright-v9',
+                    center: [3.420253241560829, 46.124064037019906],
+                    zoom: 5
+                });
+                osm_map.addControl(new mapboxgl.NavigationControl());
             }
-          });
+        </script>
 
-          osm_map.addLayer(
-            {
-              id: "places",
-              type: "symbol",
-              source:
-              {
-                type: "geojson",
-                data:
-                {
-                  type: "FeatureCollection",
-                  features:
-                    [
-                      //                {% for lk in content.landmarks %}
-                      {
-                        type: "Feature",
-                        properties:
-                        {
-                          description:
-                            '<strong>{{lk.name}}</strong><p>{{lk.description}}</p>',
-                          icon: "mountain"
-                        },
-                        geometry:
-                        {
-                          type: "Point",
-                          coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+        <script type="text/javascript">
+            coordinates = eval('{{ content.coordinates | safe }}');
+            var line = []
+
+            for (i = 0; i < coordinates.length; i++) {
+                var el = document.createElement('div');
+                el.content = coordinates[i][0];
+                el.textContent = coordinates[i][0];
+                el.className = 'marker';
+                el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
+                var x = coordinates[i][1][0];
+                var y = coordinates[i][1][1];
+                line.push([x, y]);
+                var marker = new mapboxgl.Marker(el, {
+                    offset: {
+                        x: -30,
+                        y: -35
+                    },
+                }).setLngLat([x, y]).addTo(osm_map);
+
+            }
+
+            osm_map.on('load', function() {
+
+                osm_map.addLayer({
+                    "id": "route",
+                    "type": "line",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "Feature",
+                            "properties": {},
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": line
+                            }
                         }
-                      },
-                      //         {% endfor %}
-                    ]
-                }
-              },
-              layout:
-              {
-                "icon-image": "{icon}-15",
-                "icon-allow-overlap": true
-              }
+                    },
+                    "layout": {
+                        "line-join": "round",
+                        "line-cap": "round"
+                    },
+                    "paint": {
+                        "line-color": "#888",
+                        "line-width": 5
+                    }
+                });
+
+                osm_map.addLayer({
+                    id: "places",
+                    type: "symbol",
+                    source: {
+                        type: "geojson",
+                        data: {
+                            type: "FeatureCollection",
+                            features: [
+                                //                {% for lk in content.landmarks %}
+                                {
+                                    type: "Feature",
+                                    properties: {
+                                        description: `<strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
+                                        icon: "mountain"
+                                    },
+                                    geometry: {
+                                        type: "Point",
+                                        coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                                    }
+                                },
+                                //         {% endfor %}
+                            ]
+                        }
+                    },
+                    layout: {
+                        "icon-image": "{icon}-15",
+                        "icon-allow-overlap": true
+                    }
+                });
+
+                osm_map.on("click", "places", function(e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(osm_map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                osm_map.on("mouseenter", "places", function() {
+                    osm_map.getCanvas().style.cursor = "pointer";
+                });
+
+                // Change it back to a pointer when it leaves.
+                osm_map.on("mouseleave", "places", function() {
+                    osm_map.getCanvas().style.cursor = "";
+                });
             });
-
-          osm_map.on("click", "places", function (e) {
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.description;
-
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
-            new mapboxgl.Popup()
-              .setLngLat(coordinates)
-              .setHTML(description)
-              .addTo(osm_map);
-          });
-
-          // Change the cursor to a pointer when the mouse is over the places layer.
-          osm_map.on("mouseenter", "places", function () {
-            osm_map.getCanvas().style.cursor = "pointer";
-          });
-
-          // Change it back to a pointer when it leaves.
-          osm_map.on("mouseleave", "places", function () {
-            osm_map.getCanvas().style.cursor = "";
-          });
-        });  
-      </script>
+        </script>
 
 
 </body>

@@ -20,6 +20,7 @@ urlpatterns = [
     path('discussion/<int:id>/', Discussion.as_view(), name="discussion"),
     path('editor/<int:id>/', HikeEditor.as_view(), name="editor"),
     path('my_account/', MyAccount.as_view(), name="my_account"),
+    path("hike_filter/", HikeFilter.as_view(), name="hike_filter"),
     url('does_user_exist/', DoesUserExist.as_view(), name='does_user_exist'),
     url('send_notification_choice/', NotificationResult.as_view(), name='send_notification_choice'),
     url('get_user_notifications/', SendNotifications.as_view(), name='get_user_notifications'),

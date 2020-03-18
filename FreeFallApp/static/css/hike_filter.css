@@ -1,0 +1,9 @@
+.content {
+    padding-top: 1%;
+}
+
+#other_filters {
+    border: 1px solid rgb(206, 206, 206);
+    border-top: none;
+    overflow: clip;
+}
