@@ -16,7 +16,7 @@
 
             <div class="card">
 
-                <a class='btn btn-outline-secondary form-control' data-toggle="collapse" href="#other_filters" role="button" aria-expanded="false" aria-controls="other_filters}">
+                <a class='btn btn-secondary form-control' data-toggle="collapse" href="#other_filters" role="button" aria-expanded="true" aria-controls="other_filters">
                     <p style="text-align:center">Другие фильтры</p>
                 </a>
 
@@ -26,7 +26,6 @@
                             <div class="form-row">
                                 <label for="start_day">Временные рамки</label>
                             </div>
-
                             <div class="form-row">
                                 <div class="col-sm-1">
                                     От
@@ -43,12 +42,10 @@
                                 </div>
                                 <script>
                                     document.getElementById('start_day').value = new Date().toDateInputValue();
-                                    document.getElementById('start_day').min = addDays(Date(), -1).toDateInputValue();
                                     document.getElementById('end_day').value = addDays(Date(), 200).toDateInputValue();
                                 </script>
                             </div>
                         </div>
-
                         <div class="col-sm">
                             <div class="form-row">
                                 <label for="start_day">Категория похода</label>
@@ -84,30 +81,57 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="form-row">
-                        <div class="col">
 
+                    <div class="form-row">
+
+                        <div class="col">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Показывать походы </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_completed_groups" checked>
+                                        <label class="form-check-label" for="defaultCheck1">Без свободных мест</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_close_members_entry" checked>
+                                        <label class="form-check-label" for="defaultCheck1">С закрытым добавлением</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_entry_by_request" checked>
+                                        <label class="form-check-label" for="defaultCheck1">С добавлением по запросу</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="col">
                             <label for="type">Тип</label>
-                            <span>
-                            <select name="type" class="form-control" id="type">
+                            <select multiple name="type" class="form-control" id="type">
                                 <option value="Пеший">Пеший</option>
                                 <option value="Горный">Горный</option>
                                 <option value="Водный">Водный</option>
                                 <option value="Вело">Вело</option>
                                 <option value="Спелео">Спелео</option>
                             </select>
-                        </span>
                         </div>
-
                     </div>
-                    <label for="exampleFormControlInput6">Участники</label>
                 </div>
-            </div>
 
+            </div>
+        </div>
         </div>
         Поиск похода
 
@@ -140,13 +164,13 @@
     <!-- DO NOT EDIT BLOCK -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
-    <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script> -->
 
     <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
 
-    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
+    <!-- <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script> -->
 
-    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
+    <!-- <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script> -->
     <!-- END OF DO-NOT-EDIT BLOCK -->
 </body>
 {% endblock %}
