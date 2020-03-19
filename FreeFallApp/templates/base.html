@@ -3,8 +3,7 @@
 <html>
 
 <head>
-    {% load static %}
-    {%csrf_token%}
+    {% load static %} {%csrf_token%}
 
     <!-- TITLE AND PROPERTIES -->
     {% if title != 'none' %}
@@ -54,11 +53,8 @@
                 {% if username == ''%}
                 <h3>FreeFall</h3>
 
-                {% else %}
-
-                {% if avatar != ''%}
-                <img src="{{ avatar.url }}" class="sidebar-avatar">
-                {% endif %}
+                {% else %} {% if avatar != ''%}
+                <img src="{{ avatar.url }}" class="sidebar-avatar"> {% endif %}
 
 
                 <h3 id="sidebar-username">{{username}}</h3>
@@ -68,10 +64,9 @@
             </div>
             <ul class="list-unstyled components">
                 <!-- <p>Dummy Heading</p> -->
-                {% if  username != '' %}
+                {% if username != '' %}
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle">Походы</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Походы</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
 
                         {% for hike in hikes %}
@@ -136,16 +131,13 @@
                             {% if username != ''%}
 
                             <!-- onclick="byId('notification_menu').style.display='none' -->
-                            <a class="nav-link" onclick="show_notifications()" type="button" href="#" role="button"
-                                data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
+                            <a class="nav-link" onclick="show_notifications()" type="button" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
                                     class="fas fa-bell"></i><span id="nt_counter"
                                     class="badge badge-danger">6</span></a>
 
                             <!-- DROPDOWN NOTIFICATIONS MENU -->
-                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu"
-                                aria-labelledby="dropdownMenu1">
-                                <div class="navbar navbar-expand-lg navbar-light sticky-top"
-                                    style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
+                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu" aria-labelledby="dropdownMenu1">
+                                <div class="navbar navbar-expand-lg navbar-light sticky-top" style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
                                     <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
                                 </div>
 
@@ -155,13 +147,7 @@
                                 </ul>
 
                             </ul>
-                            {% endif %}
-
-
-
-
-
-                            {% if username != ''%}
+                            {% endif %} {% if username != ''%}
                             <script>
                                 count_notifications()
 
@@ -171,6 +157,7 @@
 
                                 autoupdate_notifications()
                                 count_notifications()
+
                                 function sleep(ms) {
                                     return new Promise(resolve => setTimeout(resolve, ms));
                                 }
@@ -180,9 +167,12 @@
                                         $.ajax({
                                             url: "/get_user_notifications/",
                                             type: 'POST',
-                                            data: { 'wached': wached, 'result': 'check' },
+                                            data: {
+                                                'wached': wached,
+                                                'result': 'check'
+                                            },
                                             //DO NOT EDIT!
-                                            beforeSend: function (xhr, settings) {
+                                            beforeSend: function(xhr, settings) {
                                                 function getCookie(name) {
                                                     var cookieValue = null;
                                                     if (document.cookie && document.cookie != '') {
@@ -207,10 +197,9 @@
                                             success: function a(json) {
                                                 if (json.result === "success") {
                                                     update_notifications(json.notifications);
-                                                    console.log(json.notifications);
+                                                    // console.log(json.notifications);
 
-                                                }
-                                                else {
+                                                } else {
                                                     byId(id_code).parentNode.removeChild(byId(id_code));
                                                     count_notifications();
                                                 }
@@ -221,6 +210,7 @@
 
                                 }
                                 update_notifications(notification_list)
+
                                 function update_notifications(notification_list) {
                                     notification_list.forEach(notification => {
 
@@ -232,11 +222,9 @@
 
                                             if (notification[0] === 'invite_to_hike') {
                                                 text = document.createTextNode(notification[1] + " приглашает вас в поход ");
-                                            }
-                                            else if (notification[0] === 'request_for_ptc') {
+                                            } else if (notification[0] === 'request_for_ptc') {
                                                 text = document.createTextNode(notification[1] + " подал запрос на вступление в группу похода ");
-                                            }
-                                            else if (notification[0] === 'user_added_to_hike') {
+                                            } else if (notification[0] === 'user_added_to_hike') {
                                                 text = document.createTextNode(notification[1] + " вступил в Ваш поход ");
                                             }
                                             li.appendChild(text);
@@ -253,8 +241,7 @@
                                             img.className = "notification-logo"
                                             if (notification[5] != '') {
                                                 img.src = 'data:image/gif;base64,' + notification[5];
-                                            }
-                                            else {
+                                            } else {
                                                 img.src = "{%static 'icons/logo_grey.png'%}";
                                             }
                                             span.appendChild(img);
@@ -273,20 +260,18 @@
                                                 button_disagree.innerText = "Отказаться";
                                                 li.appendChild(button_agree);
                                                 li.appendChild(button_disagree);
-                                            }
-                                            else if (notification[0] === 'request_for_ptc') {
+                                            } else if (notification[0] === 'request_for_ptc') {
                                                 button_agree.innerText = "Добавить";
                                                 button_disagree.innerText = "Скрыть";
                                                 li.appendChild(button_agree);
                                                 li.appendChild(button_disagree);
-                                            }
-                                            else if (notification[0] === 'user_added_to_hike') {
+                                            } else if (notification[0] === 'user_added_to_hike') {
                                                 text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
                                             }
-                                            button_agree.onclick = function () {
+                                            button_agree.onclick = function() {
                                                 notification_choice_send(this.parentNode.id, 'agree')
                                             }
-                                            button_disagree.onclick = function () {
+                                            button_disagree.onclick = function() {
                                                 notification_choice_send(this.parentNode.id, 'disagree')
                                             }
 
@@ -313,13 +298,17 @@
                                     });
                                     count_notifications()
                                 }
+
                                 function notification_choice_send(id_code, result) {
                                     $.ajax({
                                         url: "/send_notification_choice/",
                                         type: 'POST',
-                                        data: { 'code': id_code, 'result': result },
+                                        data: {
+                                            'code': id_code,
+                                            'result': result
+                                        },
                                         //DO NOT EDIT!
-                                        beforeSend: function (xhr, settings) {
+                                        beforeSend: function(xhr, settings) {
                                             function getCookie(name) {
                                                 var cookieValue = null;
                                                 if (document.cookie && document.cookie != '') {
@@ -347,14 +336,14 @@
                                             if (json.result === "success") {
                                                 byId(id_code).parentNode.removeChild(byId(id_code));
                                                 count_notifications();
-                                            }
-                                            else {
+                                            } else {
                                                 byId(id_code).parentNode.removeChild(byId(id_code));
                                                 count_notifications();
                                             }
                                         }
                                     });
                                 }
+
                                 function count_notifications() {
                                     notifications_counter = byId('notifications').childNodes.length;
                                     byId('nt_counter').innerText = notifications_counter;
@@ -362,8 +351,7 @@
                                         byId('nt_counter').className = "badge badge-danger";
                                         return notifications_counter;
 
-                                    }
-                                    else {
+                                    } else {
                                         byId('nt_counter').className = "badge badge-light";
                                         return 0;
                                     }
@@ -406,8 +394,7 @@
 
             {% endif %}
             <div class="content">
-                {%block content%}
-                {%endblock%}
+                {%block content%} {%endblock%}
             </div>
         </div>
     </div>
