@@ -166,3 +166,14 @@ class ChangeMap(View):
         else:
             result['result'] = 'fail'
         return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+class FilterHikes(View):
+    def post(self, request):
+        result = {}
+        filter_dict = request.POST
+        
+        hikes = Hike.objects.filter(end_date__lte=filter_dict['end_day']).filter(start_date__gte=filter_dict['start_day'])
+
+
+        return HttpResponse(json.dumps(result), content_type="application/json")

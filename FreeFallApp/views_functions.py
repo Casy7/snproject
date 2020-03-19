@@ -142,3 +142,11 @@ def parts_revert_format(participants):
     return text_format
 
 
+def hike_to_json(hike):
+    result = {}
+    # hike = Hike.object.get(id=1)
+    result['name'] = hike.name
+    result['description'] = hike.description
+    result['creator'] = full_name(hike.creator)
+
+    return result
