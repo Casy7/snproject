@@ -28,16 +28,16 @@ function find_all() {
 
 
     send_data = {};
-    send_data['name'] = $('hike_name').value;
-    send_data['min_category'] = $('min_category').value;
-    send_data['max_category'] = $('max_category').value;
-    send_data['start_day'] = $('start_day').value;
-    send_data['end_day'] = $('end_day').value;
-    send_data['types'] = $('types').value;
-    send_data['show_hikes_with_completed_groups'] = $('show_hikes_with_completed_groups').value;
-    send_data['show_hikes_with_close_members_entry'] = $('show_hikes_with_close_members_entry').value;
-    send_data['show_hikes_with_entry_by_request'] = $('show_hikes_with_entry_by_request').value;
-    alert(send_data);
+    send_data['name'] = $('#hike_name').value;
+    send_data['min_category'] = $('#min_category')[0].value;
+    send_data['max_category'] = $('#max_category')[0].value;
+    send_data['start_day'] = $('#start_day')[0].value;
+    send_data['end_day'] = $('#end_day')[0].value;
+    send_data['types'] = $('#types').val();
+    send_data['show_hikes_with_completed_groups'] = $('#show_hikes_with_completed_groups')[0].checked;
+    send_data['show_hikes_with_close_members_entry'] = $('#show_hikes_with_close_members_entry')[0].checked;
+    send_data['show_hikes_with_entry_by_request'] = $('#show_hikes_with_entry_by_request')[0].checked;
+    // alert(send_data);
     console.log(send_data);
     $.ajax({
         url: "/send_notification_choice/",
