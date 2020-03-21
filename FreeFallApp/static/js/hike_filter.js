@@ -26,9 +26,8 @@ function validate_min_category() {
 
 function find_all() {
 
-
     send_data = {};
-    send_data['name'] = $('#hike_name').value;
+    send_data['name'] = $('#hike_name')[0].value;
     send_data['min_category'] = $('#min_category')[0].value;
     send_data['max_category'] = $('#max_category')[0].value;
     send_data['start_day'] = $('#start_day')[0].value;
@@ -43,7 +42,7 @@ function find_all() {
         url: "/get_filtered_hikes/",
         type: 'POST',
         data: send_data,
-        beforeSend: function(xhr, settings) {
+        beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
                 if (document.cookie && document.cookie != '') {
@@ -65,10 +64,29 @@ function find_all() {
             }
         },
         success: function a(json) {
-            if (json.exist === "True") {
+            if (json.result === "success") {
+                $('#container').empty();
+                for (i = 0; i < json.hikes.length; i++) {
+                    hike = json.hikes[i]
+                    jQuery('<div/>', {
+                        id: 'hike_' + hike.id,
+                        class: 'card'
+                    }).appendTo('#container');
 
+                    //img = document.createElement("img");
+                    //img.src = 'data:image/gif;base64,' + hike.image
+                    $(`<img class="card-img-top" src="data:image/gif;base64,` + hike.image + `" alt="Card image cap">`).appendTo('#hike_' + hike.id);
+                    jQuery('<div/>', {
+                        id: 'hike_card_body_' + hike.id,
+                        class: 'card-body'
+                    }).appendTo('#hike_' + hike.id);
+                    $('<h2 class="card-title">'+hike.name+'</h2>').appendTo($('#hike_card_body_' + hike.id));
+                    $('<p class="card-text">Создатель: '+hike.creator+'</p>').appendTo($('#hike_card_body_' + hike.id));
+                    $('<p class="card-text">'+hike.description+'</p>').appendTo($('#hike_card_body_' + hike.id));
+                    $('<small class="text-muted">'+hike.start_date+' - '+ hike.end_date +'</small>').appendTo($('#hike_card_body_' + hike.id));
+                }
             } else {
-                var user_exists = false;
+                console.log(json);
             }
         }
 

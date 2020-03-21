@@ -174,7 +174,7 @@ class FilterHikes(View):
         filter_dict = request.POST
         # Временной фильтр
         hikes = Hike.objects.filter(end_date__lte=filter_dict['end_day']).filter(start_date__gte=filter_dict['start_day'])
-        print(len(hikes))
+        # print(len(hikes))
         # Этот фрагмент отвечает за фильтр категории сложности похода
         all_categories = ['none','I','II','III','IV','V','VI']
         selected_categories = all_categories[all_categories.index(filter_dict['min_category']):all_categories.index(filter_dict['max_category'])+1]
@@ -184,7 +184,7 @@ class FilterHikes(View):
                 filter_cat+='|Q(difficulty=\''+cat+'\')'
 
         hikes = hikes.filter(eval(filter_cat))
-        print(len(hikes))
+        # print(len(hikes))
         # Фильтр типа похода (пеший/горный/водный т.п.)
         
         types = filter_dict['types'].split(',')
@@ -194,7 +194,7 @@ class FilterHikes(View):
                 filter_type+='|Q(type_of_hike=\''+hike_type+'\')'
         
         hikes = hikes.filter(eval(filter_type))
-        print(len(hikes))
+        # print(len(hikes))
 
         # Фильтры свободы добавления
         if filter_dict['show_hikes_with_close_members_entry'] == 'false':
@@ -210,10 +210,43 @@ class FilterHikes(View):
 
         # Фильтр поиска по ключевым словам
 
-        names = []
-        descs = []
-        
+        if filter_dict['name'] != '':
+            names = []
+            descs = []
+            for hike in hikes:
+                names.append(hike.name)
+                descs.append(hike.description)
+            
+            keywords = filter_dict['name'].lower().split(' ')
+            # Основная часть фильтра
+            valid_hikes = []
 
+            for index in range(len(names)):
 
+                name = names[index].lower()
+                overlap = 0
+                hike_header = names[index].lower()
+                
+                if name.split(' ') == keywords:
+                    valid_hikes.append(hikes[index])
+                    continue
 
+                for keyword in keywords:
+                    keyword = cut_keyword(keyword)      # TODO написать сию чудесатую функцию
+                    if keyword in hike_header:
+                        if len(keyword)<=3:
+                            overlap+=1
+                        else:
+                            overlap+=2
+                if overlap/len(keywords)>1:
+                    valid_hikes.append(hikes[index])
+            hikes = valid_hikes
+                
+        # print(hikes)
+        result['result']= 'success'
+        json_format_hikes = []
+        for hike in hikes:
+            json_format_hikes.append(hike_to_json(hike))
+        result['hikes'] = json_format_hikes
+        # print(result)
         return HttpResponse(json.dumps(result), content_type="application/json")

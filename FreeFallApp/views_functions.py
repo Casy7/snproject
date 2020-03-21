@@ -54,9 +54,6 @@ def full_name(user):
         return user.last_name
     else:
         return user.username
-    
-        
-    
 
 
 def new_format(coordinates):
@@ -145,8 +142,27 @@ def parts_revert_format(participants):
 def hike_to_json(hike):
     result = {}
     # hike = Hike.object.get(id=1)
+    result['id'] = hike.id
     result['name'] = hike.name
     result['description'] = hike.description
     result['creator'] = full_name(hike.creator)
+    result['start_date'] = hike.start_date.strftime("%d of %B, %Y")
+    result['end_date'] = hike.end_date.strftime("%d of %B, %Y")
+    if hike.image.name!='':
+        result['image'] = base64.b64encode(hike.image.read()).decode("ASCII")
+    else:
+        result['image'] = ''
 
     return result
+
+
+def cut_keyword(word):
+    if len(word)<=3:
+        return word
+    elif len(word)<=5:
+        return word[:-1]
+    elif len(word)<=7:
+        return word[:-2]
+    else:
+        return word[:-3]
+

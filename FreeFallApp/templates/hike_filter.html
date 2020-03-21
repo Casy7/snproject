@@ -3,143 +3,152 @@
 <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
 
 <body>
-    <form id='hikeFilterForm'>
-        <div class="input-group form-group">
-            <!--Поле поиска-->
 
-            <input id="hike_name" type="text" required="" name="hike_name" class="form-control input_text" placeholder="Название или пару слов из описания">
-            <div class="input-group-append">
-                <button type="button" class="input-group-text" onclick="find_all()">Найти</button>
-            </div>
+    <div class="input-group form-group">
+        <!--Поле поиска-->
+
+        <input id="hike_name" type="text" required="" name="hike_name" class="form-control input_text"
+            placeholder="Название или пару слов из описания">
+        <div class="input-group-append">
+            <button type="button" class="input-group-text" onclick="find_all()">Найти</button>
         </div>
-        <div class="accordion" id="other_filters_list">
+    </div>
+    <div class="accordion" id="other_filters_list">
 
-            <div class="card">
+        <div class="card">
 
-                <a class='btn btn-secondary form-control' data-toggle="collapse" href="#other_filters" role="button" aria-expanded="true" aria-controls="other_filters">
-                    <p style="text-align:center;color: white;">Другие фильтры</p>
-                </a>
+            <a class='btn btn-secondary form-control' data-toggle="collapse" href="#other_filters" role="button"
+                aria-expanded="true" aria-controls="other_filters">
+                <p style="text-align:center;color: white;">Другие фильтры</p>
+            </a>
 
-                <div class="collapse" id="other_filters">
-                    <div class="form-row">
-                        <div class="col-sm">
-                            <div class="form-row">
-                                <label for="start_day">Временные рамки</label>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-sm-1">
-                                    От
-                                </div>
-
-                                <div class="col-sm">
-                                    <input type="date" name="start" class="form-control" required="" id="start_day" onchange="setMinEndDate()">
-                                </div>
-                                <div class="col-sm-1">
-                                    до
-                                </div>
-                                <div class="col-sm">
-                                    <input type="date" name="end" class="form-control" required="" id="end_day" onchange="setMinEndDate()">
-                                </div>
-                                <script>
-                                    document.getElementById('start_day').value = new Date().toDateInputValue();
-                                    document.getElementById('end_day').value = addDays(Date(), 200).toDateInputValue();
-                                </script>
-                            </div>
+            <div class="collapse" id="other_filters">
+                <div class="form-row">
+                    <div class="col-sm">
+                        <div class="form-row">
+                            <label for="start_day">Временные рамки</label>
                         </div>
-                        <div class="col-sm">
-                            <div class="form-row">
-                                <label for="min_category">Категория похода</label>
+                        <div class="form-row">
+                            <div class="col-sm-1">
+                                От
                             </div>
-                            <div class="form-row">
-                                <div class="col-sm-1">
-                                    От
-                                </div>
-                                <div class="col-sm">
-                                    <select name="difficulty" id='min_category' class="form-control" onchange="validate_max_category()">
-                                        <option value="none" selected='selected'>---</option>
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
-                        </select>
-                                </div>
-                                <div class="col-sm-1">
-                                    до
-                                </div>
-                                <div class="col-sm">
-                                    <select name="difficulty" id='max_category' class="form-control" onchange="validate_min_category()">
-                                        <option value="none" selected='selected'>---</option>
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
-                        </select>
-                                </div>
+
+                            <div class="col-sm">
+                                <input type="date" name="start" class="form-control" required="" id="start_day"
+                                    onchange="setMinEndDate()">
                             </div>
+                            <div class="col-sm-1">
+                                до
+                            </div>
+                            <div class="col-sm">
+                                <input type="date" name="end" class="form-control" required="" id="end_day"
+                                    onchange="setMinEndDate()">
+                            </div>
+                            <script>
+                                document.getElementById('start_day').value = new Date().toDateInputValue();
+                                document.getElementById('end_day').value = addDays(Date(), 200).toDateInputValue();
+                            </script>
                         </div>
                     </div>
-
-                    <div class="form-row">
-
-                        <div class="col">
-                            <div class="form-row">
-                                <div class="col">
-                                    <label>Показывать походы </label>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_completed_groups" checked>
-                                        <label class="form-check-label" for="defaultCheck1">Без свободных мест</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_close_members_entry" checked>
-                                        <label class="form-check-label" for="defaultCheck1">С закрытым добавлением</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="" id="show_hikes_with_entry_by_request" checked>
-                                        <label class="form-check-label" for="defaultCheck1">С добавлением по запросу</label>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-sm">
+                        <div class="form-row">
+                            <label for="min_category">Категория похода</label>
                         </div>
-
-                        <div class="col">
-                            <label for="type">Тип</label>
-                            <select multiple name="type" class="form-control" id="types">
-                                <option value="Пеший">Пеший</option>
-                                <option value="Горный">Горный</option>
-                                <option value="Водный">Водный</option>
-                                <option value="Вело">Вело</option>
-                                <option value="Спелео">Спелео</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="col-sm-1">
+                                От
+                            </div>
+                            <div class="col-sm">
+                                <select name="difficulty" id='min_category' class="form-control"
+                                    onchange="validate_max_category()">
+                                    <option value="none" selected='selected'>---</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-1">
+                                до
+                            </div>
+                            <div class="col-sm">
+                                <select name="difficulty" id='max_category' class="form-control"
+                                    onchange="validate_min_category()">
+                                    <option value="none" selected='selected'>---</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="form-row">
+
+                    <div class="col">
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Показывать походы </label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        id="show_hikes_with_completed_groups" checked>
+                                    <label class="form-check-label" for="defaultCheck1">Без свободных мест</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        id="show_hikes_with_close_members_entry" checked>
+                                    <label class="form-check-label" for="defaultCheck1">С закрытым добавлением</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        id="show_hikes_with_entry_by_request" checked>
+                                    <label class="form-check-label" for="defaultCheck1">С добавлением по запросу</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label for="type">Тип</label>
+                        <select multiple name="type" class="form-control" id="types">
+                            <option value="Пеший">Пеший</option>
+                            <option value="Горный">Горный</option>
+                            <option value="Водный">Водный</option>
+                            <option value="Вело">Вело</option>
+                            <option value="Спелео">Спелео</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
-        Поиск похода
 
-        <div id="container" class="cols">
-            {% for hike_row in hike %} {% for hike in hike_row %}
+        </div>
+    </div>
+    </div>
+    Поиск похода
 
-            <div class="card" style="">
-                <a href="{{hike.link}}">
+    <div id="container" class="cols">
+        {% for hike_row in hike %} {% for hike in hike_row %}
+
+        <div class="card">
+            <a href="{{hike.link}}">
                 {% if hike.image != '' %}
                 <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: auto;">
                 {% else %}
@@ -147,22 +156,24 @@
                 {% endif %}
                 <div class="card-body">
                     <h2 class="card-title">{{hike.name}}</h2>
-                    <p class="card-text"></p>Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
+                    <p class="card-text">Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
                     <p class="card-text">{{hike.short_description}}</p>
                     <small class="text-muted">{{hike.start_date}} - {{hike.end_date}}</small>
                 </div>
             </a>
-            </div>
-            {% endfor %} {% endfor %}
         </div>
-    </form>
+        {% endfor %} {% endfor %}
+    </div>
+
 
 
 
     <script src="{% static 'js/hike_filter.js' %}"></script>
     <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
     <!-- DO NOT EDIT BLOCK -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
 
     <!-- <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script> -->
 
