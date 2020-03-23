@@ -166,3 +166,87 @@ class ChangeMap(View):
         else:
             result['result'] = 'fail'
         return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+class FilterHikes(View):
+    def post(self, request):
+        result = {}
+        filter_dict = request.POST
+        # Временной фильтр
+        hikes = Hike.objects.filter(end_date__lte=filter_dict['end_day']).filter(start_date__gte=filter_dict['start_day'])
+        # print(len(hikes))
+        # Этот фрагмент отвечает за фильтр категории сложности похода
+        all_categories = ['none','I','II','III','IV','V','VI']
+        selected_categories = all_categories[all_categories.index(filter_dict['min_category']):all_categories.index(filter_dict['max_category'])+1]
+        filter_cat = 'Q(difficulty=\''+selected_categories[0]+'\')'
+        if len(selected_categories)>1:
+            for cat in selected_categories[1:]:
+                filter_cat+='|Q(difficulty=\''+cat+'\')'
+
+        hikes = hikes.filter(eval(filter_cat))
+        # print(len(hikes))
+        # Фильтр типа похода (пеший/горный/водный т.п.)
+        
+        types = filter_dict['types'].split(',')
+        filter_type = 'Q(type_of_hike=\''+types[0]+'\')'
+        if len(types)>1:
+            for hike_type in types[1:]:
+                filter_type+='|Q(type_of_hike=\''+hike_type+'\')'
+        
+        hikes = hikes.filter(eval(filter_type))
+        # print(len(hikes))
+
+        # Фильтры свободы добавления
+        if filter_dict['show_hikes_with_close_members_entry'] == 'false':
+            hikes = hikes.filter(Q(join_to_group='open')|Q(join_to_group='request'))
+        if filter_dict['show_hikes_with_entry_by_request'] == 'false':
+            hikes = hikes.filter(Q(join_to_group='open')|Q(join_to_group='close'))
+
+        # Фильтр, удаляющий из списка походы со сформированными группами
+        if filter_dict['show_hikes_with_completed_groups'] == 'false':
+            for hike in hikes:
+                if hike.limit_of_members == len(hike.participants.all())+len(Notification.objects.filter(hike=hike)):
+                    hikes.remove(hike)
+
+        # Фильтр поиска по ключевым словам
+
+        if filter_dict['name'] != '':
+            names = []
+            descs = []
+            for hike in hikes:
+                names.append(hike.name)
+                descs.append(hike.description)
+            
+            keywords = filter_dict['name'].lower().split(' ')
+            # Основная часть фильтра
+            valid_hikes = []
+
+            for index in range(len(names)):
+
+                name = names[index].lower()
+                overlap = 0
+                hike_header = names[index].lower()
+                
+                if name.split(' ') == keywords:
+                    valid_hikes.append(hikes[index])
+                    continue
+
+                for keyword in keywords:
+                    keyword = cut_keyword(keyword)      # TODO написать сию чудесатую функцию
+                    if keyword in hike_header:
+                        if len(keyword)<=3:
+                            overlap+=1
+                        else:
+                            overlap+=2
+                if overlap/len(keywords)>1:
+                    valid_hikes.append(hikes[index])
+            hikes = valid_hikes
+                
+        # print(hikes)
+        result['result']= 'success'
+        json_format_hikes = []
+        for hike in hikes:
+            json_format_hikes.append(hike_to_json(hike))
+        result['hikes'] = json_format_hikes
+        # print(result)
+        return HttpResponse(json.dumps(result), content_type="application/json")

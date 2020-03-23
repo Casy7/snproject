@@ -567,3 +567,8 @@ class AccountEditor(View):
         return HttpResponseRedirect('/my_account/')
 
 
+class HikeFilter(View):
+    def get(self, request):
+        context = base_context(request, title='Поиск похода')
+        
+        return render(request, "hike_filter.html", context)
