@@ -77,13 +77,13 @@
                             <div class="col-sm">
                                 <select name="difficulty" id='max_category' class="form-control"
                                     onchange="validate_min_category()">
-                                    <option value="none" selected='selected'>---</option>
+                                    <option value="none">---</option>
                                     <option value="I">I</option>
                                     <option value="II">II</option>
                                     <option value="III">III</option>
                                     <option value="IV">IV</option>
                                     <option value="V">V</option>
-                                    <option value="VI">VI</option>
+                                    <option value="VI" selected='selected'>VI</option>
                                 </select>
                             </div>
                         </div>
@@ -130,25 +130,21 @@
                     <div class="col">
                         <label for="type">Тип</label>
                         <select multiple name="type" class="form-control" id="types">
-                            <option value="Пеший">Пеший</option>
-                            <option value="Горный">Горный</option>
-                            <option value="Водный">Водный</option>
-                            <option value="Вело">Вело</option>
-                            <option value="Спелео">Спелео</option>
+                            <option value="Пеший" selected='selected'>Пеший</option>
+                            <option value="Горный" selected='selected'>Горный</option>
+                            <option value="Водный" selected='selected'>Водный</option>
+                            <option value="Вело" selected='selected'>Вело</option>
+                            <option value="Спелео" selected='selected'>Спелео</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class='cols' id = 'container' style="padding: 5px;">
-
+                <!--Сюда добавляются походы-->
             </div>
+            <div id ='no_hikes_message' style="display: flex;align-self: center;"></div>
         </div>
     </div>
-
-
-
-
-
 
 
 
@@ -197,9 +193,11 @@
                     if (json.result === "success") {
                         $('#container').empty();
                         if (json.hikes.length === 0){
-                            $(`<small id="nothing_was_found" style="text-align:center" class="text-muted">Не найдено походов по этому запросу</small>`).appendTo($('#container'));
+                            $('#no_hikes_message').empty();
+                            $(`<small id="nothing_was_found" style="display:flex;align-self:center" class="text-muted">Не найдено походов по этому запросу</small>`).appendTo($('#no_hikes_message'));
                         }
                         for (i = 0; i < json.hikes.length; i++) {
+                            $('#no_hikes_message').empty();
                             hike = json.hikes[i]
                             jQuery('<div/>', {
                                 id: 'hike_' + hike.id,
