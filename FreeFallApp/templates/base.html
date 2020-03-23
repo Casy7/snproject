@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{% static '/libs/modules/bootstrap/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/baseStyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/map.css' %}">
-
+    <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}">
 
     <!-- SCRIPTS -->
     <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
@@ -370,6 +370,9 @@
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/hike_filter"><i class="fas fa-search"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
