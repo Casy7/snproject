@@ -148,8 +148,12 @@ def hike_to_json(hike):
     result['creator'] = full_name(hike.creator)
     result['start_date'] = hike.start_date.strftime("%d of %B, %Y")
     result['end_date'] = hike.end_date.strftime("%d of %B, %Y")
+
     if hike.image.name!='':
-        result['image'] = base64.b64encode(hike.image.read()).decode("ASCII")
+        try:
+            result['image'] = base64.b64encode(hike.image.read()).decode("ASCII")
+        except FileNotFoundError:
+            result['image'] = ''
     else:
         result['image'] = ''
 
