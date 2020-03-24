@@ -66,11 +66,11 @@
                 <!-- <p>Dummy Heading</p> -->
                 {% if username != '' %}
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Походы</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle first-level">Походы</a>
+                    <ul class="collapse list-unstyled hikes" id="homeSubmenu">
 
                         {% for hike in hikes %}
-                        <li>
+                        <li class='hikes-list-elements'>
                             <a href="/hike/{{hike.1}}">{{hike.0}}</a>
                         </li>
                         {% endfor %}
@@ -98,7 +98,7 @@
                     <a href="#">Something</a>
                 </li> -->
                 <li>
-                    <a href="/home/">О сайте</a>
+                    <a href="/home/" class="first-level">О сайте</a>
                 </li>
             </ul>
 

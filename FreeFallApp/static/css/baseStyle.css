@@ -143,13 +143,49 @@ a.dropdown-menu-header {
     border-bottom: 1px solid #e3e3e3;
 }
 
+.first-level:hover{
+    color: rgb(240, 240, 240);
+    background-color: #841dd8;
+}
+
 .dropdown-menu>li a {
     padding: 10px 20px;
 }
 
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #d4d4d4;
+}
+
+#sidebar ul li:hover {
+
+}
+
+#sidebar ul li.active>a, a[aria-expanded="true"] {
+    color: rgb(255, 255, 255);
+    /* background: #dbe1e7; */
+}
+
+
+.hikes-list-elements:hover, .hikes-list-elements:active{
+    color: rgb(240, 240, 240);
+    background-color: #841dd8;
+}
+
+
+.hikes-list-elements{
+    border-left: 3px solid #eddff0;
+    padding-left: 20px;
+    /* border-top: 1px solid #d3d3d3; */
+    /* margin-left: 20px; */
+}
+.hikes-list-elements:hover
+
 .timeline {
     list-style: none;
-    padding-left: 0;
+    margin-left: 10px;
     position: relative;
 }
 
@@ -495,7 +531,7 @@ a, a:hover, a:focus {
     padding-left: 0px;
     padding-right: 0px;
     width: 100% !important;
-    background-color: rgb(223, 222, 222);
+    background-color: rgb(114, 049, 159);
     color: rgb(190, 190, 190);
     border: none;
     border-radius: 0;
@@ -530,7 +566,7 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: rgb(232, 232, 236);
+    background: rgb(080, 028, 134);
     color: rgb(10, 10, 10);
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
@@ -545,10 +581,10 @@ a, a:hover, a:focus {
     padding-left: 3%;
     width: 100%;
     display: inline-block;
-    height: 70px;
+    height: 50px;
     /* text-align: center; */
     /* vertical-align: middle; */
-    background: #d3d3d3;
+    background: rgb(058, 013, 105);
 }
 
 #sidebar-username {
@@ -568,7 +604,7 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #787f83;
+    border-bottom: 1px solid #d4d4d4;
 }
 
 #sidebar ul p {
@@ -576,21 +612,6 @@ a, a:hover, a:focus {
     padding: 10px;
 }
 
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a:hover {
-    color: rgb(13, 22, 17);
-    background: #dbe1e7;
-}
-
-#sidebar ul li.active>a, a[aria-expanded="true"] {
-    color: rgb(19, 27, 26);
-    background: #dbe1e7;
-}
 
 a[data-toggle="collapse"] {
     position: relative;
