@@ -53,8 +53,11 @@
                 {% if username == ''%}
                 <h3>FreeFall</h3>
 
-                {% else %} {% if avatar != ''%}
-                <img src="{{ avatar.url }}" class="sidebar-avatar"> {% endif %}
+                {% else %}
+
+                {% if avatar != ''%}
+                <img src="{{ avatar.url }}" class="sidebar-avatar">
+                {% endif %}
 
 
                 <h3 id="sidebar-username">{{username}}</h3>
@@ -66,7 +69,8 @@
                 <!-- <p>Dummy Heading</p> -->
                 {% if username != '' %}
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle first-level">Походы</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                        class="dropdown-toggle first-level">Походы</a>
                     <ul class="collapse list-unstyled hikes" id="homeSubmenu">
 
                         {% for hike in hikes %}
@@ -131,13 +135,13 @@
                             {% if username != ''%}
 
                             <!-- onclick="byId('notification_menu').style.display='none' -->
-                            <a class="nav-link" onclick="show_notifications()" type="button" href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
-                                    class="fas fa-bell"></i><span id="nt_counter"
-                                    class="badge badge-danger">6</span></a>
+
 
                             <!-- DROPDOWN NOTIFICATIONS MENU -->
-                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu" aria-labelledby="dropdownMenu1">
-                                <div class="navbar navbar-expand-lg navbar-light sticky-top" style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
+                            <ul class="dropdown-menu dropdown-menu-right pull-right" role="menu" id="notification_menu"
+                                aria-labelledby="dropdownMenu1">
+                                <div class="navbar navbar-expand-lg navbar-light sticky-top"
+                                    style="padding-left: 40%; height:40px;background-color:white;position: sticky-top;text-align: center;">
                                     <h3 style="color: gray; text-align: center;  ">Уведомления</h3>
                                 </div>
 
@@ -172,7 +176,7 @@
                                                 'result': 'check'
                                             },
                                             //DO NOT EDIT!
-                                            beforeSend: function(xhr, settings) {
+                                            beforeSend: function (xhr, settings) {
                                                 function getCookie(name) {
                                                     var cookieValue = null;
                                                     if (document.cookie && document.cookie != '') {
@@ -268,10 +272,10 @@
                                             } else if (notification[0] === 'user_added_to_hike') {
                                                 text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
                                             }
-                                            button_agree.onclick = function() {
+                                            button_agree.onclick = function () {
                                                 notification_choice_send(this.parentNode.id, 'agree')
                                             }
-                                            button_disagree.onclick = function() {
+                                            button_disagree.onclick = function () {
                                                 notification_choice_send(this.parentNode.id, 'disagree')
                                             }
 
@@ -308,7 +312,7 @@
                                             'result': result
                                         },
                                         //DO NOT EDIT!
-                                        beforeSend: function(xhr, settings) {
+                                        beforeSend: function (xhr, settings) {
                                             function getCookie(name) {
                                                 var cookieValue = null;
                                                 if (document.cookie && document.cookie != '') {
@@ -363,27 +367,36 @@
                             <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/new_hike"><i class="fas fa-plus"></i></a>
+                                <a class="nav-link" id='create_hike_button' href="/new_hike"><i class="fas fa-plus"></i>
+                                    Добавить поход</a>
                             </li>
                             {% endif %}
-
-
                             <li class="nav-item">
-                                <a class="nav-link" href="/"><i class="fas fa-home"></i></a>
+                                <a class="nav-link round" onclick="show_notifications()" type="button" href="#" role="button"
+                                    data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
+                                        class="fas fa-bell"></i><span id="nt_counter"
+                                        class="badge badge-danger notifications_badge">6</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/hike_filter"><i class="fas fa-search"></i></a>
+                                <a class="nav-link round" href="/"><i class="fas fa-home"></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link round" href="/hike_filter"><i class="fas fa-search"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i></a>
+                                <a class="nav-link round" href="/login"><i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+                                <a class="nav-link round" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="/my_account">{{username}}</a>
+                                {% if username != ''%}
+                                {% if avatar != ''%}
+                                <img src="{{ avatar.url }}" class="navbar-avatar">
+                                {% endif %}
+                                {% endif %}
                             </li>
                             {% endif %}
                         </ul>

@@ -88,8 +88,10 @@ blockquote {
 }
 
 a .fas {
-    padding-left: 7px;
+    /* padding-left: 7px; */
     font-size: 17px;
+    
+
 }
 
 .dropdown-menu {
@@ -536,6 +538,7 @@ a, a:hover, a:focus {
 }
 
 .navbar-btn {
+    color: #d3d3d3;
     box-shadow: none;
     outline: none !important;
     border: none;
@@ -605,6 +608,15 @@ a, a:hover, a:focus {
     /* display: inline-block; */
     /* vertical-align: middle; */
     background: #d3d3d3;
+}
+
+.navbar-avatar{
+    position: relative;
+    top: -4px;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+
 }
 
 #sidebar ul.components {
@@ -678,7 +690,32 @@ a.article, a.article:hover {
 }
 
 .nav-item .nav-link {
-    color: #555
+    color: #555;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+    /* width: 40px; */
+    height: 40px;
+}
+
+.nav-link.round{
+    height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+#navbarSupportedContent{
+    position: absolute;
+    top: 55%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+#create_hike_button{
+    border-radius: 20px;
+    font-weight: 600;
+}
+.notifications_badge{
+    position: absolute;
+    top:-3.5px
 }
 
 /* ---------------------------------------------------
@@ -708,7 +745,7 @@ a.article, a.article:hover {
     height: 2px;
     margin: 0 auto;
     display: block;
-    background: #555;
+    background: #d3d3d3;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
 }
