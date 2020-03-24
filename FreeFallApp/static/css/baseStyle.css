@@ -31,7 +31,7 @@ h3 {
     font-size: 15px;
 }
 
-label{
+label {
     margin-top: 14px;
     margin-bottom: 0px;
     font-weight: 600;
@@ -88,8 +88,10 @@ blockquote {
 }
 
 a .fas {
-    padding-left: 7px;
+    /* padding-left: 7px; */
     font-size: 17px;
+    
+
 }
 
 .dropdown-menu {
@@ -133,7 +135,7 @@ a.dropdown-menu-header {
     /* display: block; */
 }
 
-#notification_menu{
+#notification_menu {
     /* display: none; */
 }
 
@@ -143,13 +145,48 @@ a.dropdown-menu-header {
     border-bottom: 1px solid #e3e3e3;
 }
 
+.first-level {
+    font-weight: 600;
+}
+
+.first-level:hover {
+    color: rgb(240, 240, 240);
+    background-color: #841dd8;
+}
+
 .dropdown-menu>li a {
     padding: 10px 20px;
 }
 
-.timeline {
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #d4d4d4;
+}
+
+#sidebar ul li:hover {}
+
+#sidebar ul li.active>a, a[aria-expanded="true"] {
+    color: rgb(255, 255, 255);
+    /* background: #dbe1e7; */
+}
+
+.hikes-list-elements:hover, .hikes-list-elements:active {
+    color: rgb(240, 240, 240);
+    background-color: #841dd8;
+}
+
+.hikes-list-elements {
+    border-left: 3px solid #eddff0;
+    padding-left: 20px;
+    /* border-top: 1px solid #d3d3d3; */
+    /* margin-left: 20px; */
+}
+
+.hikes-list-elements:hover .timeline {
     list-style: none;
-    padding-left: 0;
+    margin-left: 10px;
     position: relative;
 }
 
@@ -230,21 +267,18 @@ a.dropdown-menu-header {
 
 .timeline.timeline-icons.timeline-sm li .timeline-icon {
     /* left: 4.5px; */
-    left:-9px;
+    left: -9px;
     top: -6px;
-    
 }
-
 
 .notification-logo {
     margin-right: -20px;
     width: 40px;
     height: 40px;
     left: 50px;
-    border-radius: 50%;    
+    border-radius: 50%;
     background-color: #fff;
 }
-
 
 .timeline.timeline-advanced li {
     padding-top: 0;
@@ -495,7 +529,7 @@ a, a:hover, a:focus {
     padding-left: 0px;
     padding-right: 0px;
     width: 100% !important;
-    background-color: rgb(223, 222, 222);
+    background-color: rgb(114, 049, 159);
     color: rgb(190, 190, 190);
     border: none;
     border-radius: 0;
@@ -504,6 +538,7 @@ a, a:hover, a:focus {
 }
 
 .navbar-btn {
+    color: #d3d3d3;
     box-shadow: none;
     outline: none !important;
     border: none;
@@ -530,7 +565,7 @@ a, a:hover, a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: rgb(232, 232, 236);
+    background: rgb(080, 028, 134);
     color: rgb(10, 10, 10);
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
@@ -545,30 +580,48 @@ a, a:hover, a:focus {
     padding-left: 3%;
     width: 100%;
     display: inline-block;
-    height: 70px;
+    height: 50px;
     /* text-align: center; */
     /* vertical-align: middle; */
-    background: #d3d3d3;
+    background: rgb(058, 013, 105);
 }
 
 #sidebar-username {
     /* display: inline; */
-    vertical-align: middle;
-    margin-top: 20px;
+    /* position: relative; */
+    color: #d3d3d3;
+    /* vertical-align: middle; */
+    /* margin-top: 20px; */
+    position: absolute;
+    top: 50%;
+    left: 60px;
+    transform: translateY(-50%);
 }
 
 .sidebar-avatar {
-    height: 70px;
-    width: 70px;
-    float: inline-end;
+    position: relative;
+    top: 2px;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    float: inline-start;
     /* display: inline-block; */
     /* vertical-align: middle; */
     background: #d3d3d3;
 }
 
+.navbar-avatar{
+    position: relative;
+    top: -4px;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+
+}
+
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #787f83;
+    border-bottom: 1px solid #d4d4d4;
 }
 
 #sidebar ul p {
@@ -576,26 +629,14 @@ a, a:hover, a:focus {
     padding: 10px;
 }
 
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a:hover {
-    color: rgb(13, 22, 17);
-    background: #dbe1e7;
-}
-
-#sidebar ul li.active>a, a[aria-expanded="true"] {
-    color: rgb(19, 27, 26);
-    background: #dbe1e7;
+.middle-align{
+    position: relative;
+    vertical-align: sub;
 }
 
 a[data-toggle="collapse"] {
     position: relative;
     text-decoration: none;
-
 }
 
 .dropdown-toggle::after {
@@ -612,24 +653,19 @@ ul ul a {
     background: #ced4f1; */
 }
 
-
-a{
+a {
     /* font-weight: 600; */
     text-decoration: none;
     /* font-style: oblique; */
 }
 
-
-a .underline{
+a .underline {
     text-decoration: underline;
 }
 
-
-li ul li a{
+li ul li a {
     text-decoration: none;
 }
-
-
 
 ul.CTAs {
     padding: 20px;
@@ -654,7 +690,32 @@ a.article, a.article:hover {
 }
 
 .nav-item .nav-link {
-    color: #555
+    color: #555;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+    /* width: 40px; */
+    height: 40px;
+}
+
+.nav-link.round{
+    height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+#navbarSupportedContent{
+    position: absolute;
+    top: 55%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+#create_hike_button{
+    border-radius: 20px;
+    font-weight: 600;
+}
+.notifications_badge{
+    position: absolute;
+    top:-3.5px
 }
 
 /* ---------------------------------------------------
@@ -684,7 +745,7 @@ a.article, a.article:hover {
     height: 2px;
     margin: 0 auto;
     display: block;
-    background: #555;
+    background: #d3d3d3;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
 }
@@ -707,24 +768,25 @@ a.article, a.article:hover {
     margin: 5px auto;
 }
 
-.navbar-nav{
+.navbar-nav {
     flex-direction: row !important;
 }
 
-.navbar-collapse{
+.navbar-collapse {
     flex-basis: none;
     flex-grow: none;
 }
 
-.updated-nav{
+.updated-nav {
     flex-flow: row nowrap;
     justify-content: flex-start;
 }
 
-.nav-link{
+.nav-link {
     /* margin-left: 5px; */
     margin-right: 5px;
 }
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
