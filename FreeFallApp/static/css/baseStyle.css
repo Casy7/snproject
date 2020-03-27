@@ -190,7 +190,8 @@ a.dropdown-menu-header {
 }
 
 #notifications {
-    padding-left: 5px;
+    border-top: 2px solid #3a0d69;
+    padding-left: 0px;
     overflow: hidden;
 }
 
@@ -206,15 +207,39 @@ a.dropdown-menu-header {
 
 .notification .column button{
     border: none;
+    /* border-top: 1px solid #3a0d69; */
     line-height: 1;
     border-radius: 0;
 }
 
+.notification .column button:hover{
+    
+    color: white;
+    background-color: #72319f;
+}
+
+.notification .column a{
+    font-weight: 600;
+}
+
+.notification-date{
+
+    padding-left: 3px;
+    font-size: 13px;
+    color: gray;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .notification .notification-icon {
-    height: 45px;
+    padding-top: 5px;
+    height: 55px;
     border-radius: 50%;
     position: relative;
     left: 2px;
+}
+
+#no_notifications{
+    padding-top: 20px;
 }
 
 /*

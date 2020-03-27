@@ -161,8 +161,8 @@
                                     id="notification_menu" aria-labelledby="dropdownMenu1">
 
 
-                                    <ul id="notifications" class="timeline timeline-icons timeline-sm" style="">
-
+                                    <ul id="notifications" class="" style="">
+                                        <pre id='no_notifications' style="display: visible;text-align: center;">Нет уведомлений</pre>
 
                                     </ul>
 
@@ -318,14 +318,14 @@
                                                     text = document.document.createTextNode(notification[1] + " вступил в Ваш поход ");
                                                 }
                                                 button_agree.onclick = function () {
-                                                    notification_choice_send(this.parentNode.id, 'agree')
+                                                    notification_choice_send(this.parentNode.parentNode.parentNode.id, 'agree')
                                                 }
                                                 button_disagree.onclick = function () {
-                                                    notification_choice_send(this.parentNode.id, 'disagree')
+                                                    notification_choice_send(this.parentNode.parentNode.parentNode.id, 'disagree')
                                                 }
 
                                                 time = document.createElement('span');
-                                                time.className = 'timeline-date';
+                                                time.className = 'notification-date';
                                                 month_list = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
                                                 time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '-го ' + month_list[parseInt(notification[6].substring(5, 7))+1]
                                                 li.appendChild(time);
@@ -340,7 +340,7 @@
                                             list_of_ids.push(id_code);
                                         });
                                         byId('notifications').childNodes.forEach(li => {
-                                            if (list_of_ids.indexOf(li.id) === -1) {
+                                            if (list_of_ids.indexOf(li.id) === -1 && li.id!='no_notifications') {
                                                 li.parentNode.removeChild(li);
                                                 count_notifications()
                                             }
@@ -396,12 +396,16 @@
 
                                     function count_notifications() {
                                         notifications_counter = byId('notifications').childNodes.length;
-                                        byId('nt_counter').innerText = notifications_counter;
-                                        if (notifications_counter > 0) {
+                                        byId('nt_counter').innerText = notifications_counter-1;
+                                        if (notifications_counter > 1) {
+                                            byId('no_notifications').style.display = 'none';
+                                            byId('nt_counter').style.display = 'visible';
                                             byId('nt_counter').className = "badge badge-danger";
                                             return notifications_counter;
 
                                         } else {
+                                            byId('no_notifications').style.display = 'block';
+                                            byId('nt_counter').style.display = 'none';
                                             byId('nt_counter').className = "badge badge-light";
                                             return 0;
                                         }
