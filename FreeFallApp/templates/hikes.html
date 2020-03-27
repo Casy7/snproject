@@ -8,7 +8,7 @@
         {% for hike_row in hike %}
         {% for hike in hike_row %}
 
-        <div class="card" style="">
+        <div class="card" style="display: inline-flex;">
             <a href="{{hike.link}}">
                 {% if hike.image != '' %}
                 <img class="card-img-top" src={{hike.image.url}} alt="Card image cap" style="height: auto;">
