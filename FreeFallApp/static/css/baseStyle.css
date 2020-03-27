@@ -110,7 +110,7 @@ a.dropdown-menu-header {
 
 .badge {
     /* padding: 3px 5px 2px; */
-    position: static;
+    position: absolute;
     min-width: 10px;
     font-size: 12px;
     font-weight: bold;
@@ -607,7 +607,7 @@ a, a:hover, a:focus {
     float: inline-start;
     /* display: inline-block; */
     /* vertical-align: middle; */
-    background: #d3d3d3;
+    background: #d3d3d300;
 }
 
 .navbar-avatar{
@@ -689,15 +689,23 @@ a.article, a.article:hover {
     color: #fff !important;
 }
 
-.nav-item .nav-link {
-    color: #555;
-    background-color: #d3d3d3;
+.nav-item .nav-link.main-navbar {
+    color: #d3d3d3 !important;
+    /* background-color: #d3d3d3; */
     border-radius: 50%;
     /* width: 40px; */
     height: 40px;
 }
 
-.nav-link.round{
+
+/* .nav-item .nav-link {
+    color: #555;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+    height: 40px;
+} */
+
+.nav-link.main-navbar.round{
     height: 40px;
     text-align: center;
     width: 40px;
@@ -715,7 +723,7 @@ a.article, a.article:hover {
 }
 .notifications_badge{
     position: absolute;
-    top:-3.5px
+    top:-5px;
 }
 
 /* ---------------------------------------------------

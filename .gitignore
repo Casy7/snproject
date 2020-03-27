@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.jpg
+*.png
 
 # Distribution / packaging
 .Python
@@ -102,3 +104,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+FreeFallApp/user_files/hikes/5f22bc89837da97ca905e4c956536d48.jpg

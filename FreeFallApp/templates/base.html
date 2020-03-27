@@ -54,11 +54,13 @@
                 <h3>FreeFall</h3>
 
                 {% else %}
-
-                {% if avatar != ''%}
-                <img src="{{ avatar.url }}" class="sidebar-avatar">
+                <a href="/my_account">
+                    {% if avatar != ''%}
+                    <img src="{{ avatar.url }}" class="sidebar-avatar">
+                    {% else %}
+                <img src="{% static 'icons/logo_white.png' %}" class="sidebar-avatar">
                 {% endif %}
-
+                </a>
 
                 <h3 id="sidebar-username">{{username}}</h3>
 
@@ -209,7 +211,7 @@
                                                 }
                                             }
                                         });
-                                        await sleep(20000);
+                                        await sleep(60000);
                                     }
 
                                 }
@@ -367,35 +369,40 @@
                             <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link" id='create_hike_button' href="/new_hike"><i class="fas fa-plus"></i>
+                                <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i class="fas fa-plus"></i>
                                     Добавить поход</a>
                             </li>
-                            {% endif %}
+                            
                             <li class="nav-item">
-                                <a class="nav-link round" onclick="show_notifications()" type="button" href="#" role="button"
+                                <a class="nav-link main-navbar round" onclick="show_notifications()" type="button" href="#" role="button"
                                     data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
                                         class="fas fa-bell"></i><span id="nt_counter"
                                         class="badge badge-danger notifications_badge">6</span></a>
+                            </li>{% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link main-navbar round" href="/"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link round" href="/"><i class="fas fa-home"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link round" href="/hike_filter"><i class="fas fa-search"></i></a>
+                                <a class="nav-link main-navbar round" href="/hike_filter"><i class="fas fa-search"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link round" href="/login"><i class="fas fa-sign-in-alt"></i></a>
+                                <a class="nav-link main-navbar round" href="/login"><i class="fas fa-sign-in-alt"></i></a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link round" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+                                <a class="nav-link main-navbar round" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
                             </li>
                             <li class="nav-item active">
                                 {% if username != ''%}
-                                {% if avatar != ''%}
-                                <img src="{{ avatar.url }}" class="navbar-avatar">
-                                {% endif %}
+                                    <a href="/my_account">
+                                    {% if avatar != ''%}
+                                    
+                                    <img src="{{ avatar.url }}" class="navbar-avatar">
+                                    {% else %}
+                                    <img src="{% static 'icons/logo_grey.png' %}" class="navbar-avatar">
+                                    {% endif %}
+                                    </a>
                                 {% endif %}
                             </li>
                             {% endif %}
