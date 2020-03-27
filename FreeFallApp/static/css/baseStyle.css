@@ -718,7 +718,9 @@ a.article, a.article:hover {
     transform: translateY(-50%);
 }
 #create_hike_button{
-    border-radius: 20px;
+    border-radius: 15px;
+    color: #72319f !important;
+    background-color: #ebebeb;
     font-weight: 600;
 }
 .notifications_badge{
