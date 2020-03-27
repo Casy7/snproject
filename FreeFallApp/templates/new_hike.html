@@ -110,7 +110,7 @@
                 <label for="exampleFormControlInput6">Участники</label>
                 <!--Скрытый список участников-->
                 <br>
-                <select class="selectpicker" data-live-search="true" id="select_ptc">
+                <select class="selectpicker" data-live-search="true" id="select_ptc"  data-size="5">
                     {% for user in user_list %}
                     <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
                     {% endfor %}
