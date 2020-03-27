@@ -49,41 +49,43 @@
         <!-- Sidebar -->
 
         <nav id="sidebar" class="active">
-            <div class="sidebar-header sticky-top middle-align">
-                {% if username == ''%}
-                <h3>FreeFall</h3>
+            <div class="sticky-top">
+                <div class="sidebar-header">
+                    {% if username == ''%}
+                    <h3>FreeFall</h3>
 
-                {% else %}
-                <a href="/my_account">
-                    {% if avatar != ''%}
-                    <img src="{{ avatar.url }}" class="sidebar-avatar">
                     {% else %}
-                <img src="{% static 'icons/logo_white.png' %}" class="sidebar-avatar">
-                {% endif %}
-                </a>
+                    <a href="/my_account">
+                        {% if avatar != ''%}
+                        <img src="{{ avatar.url }}" class="sidebar-avatar">
+                        {% else %}
+                        <img src="{% static 'icons/logo_white.png' %}" class="sidebar-avatar">
+                        {% endif %}
+                    </a>
 
-                <h3 id="sidebar-username">{{username}}</h3>
+                    <h3 id="sidebar-username">{{username}}</h3>
 
 
-                {% endif %}
-            </div>
-            <ul class="list-unstyled components">
-                <!-- <p>Dummy Heading</p> -->
-                {% if username != '' %}
-                <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                        class="dropdown-toggle first-level">Походы</a>
-                    <ul class="collapse list-unstyled hikes" id="homeSubmenu">
+                    {% endif %}
+                </div>
 
-                        {% for hike in hikes %}
-                        <li class='hikes-list-elements'>
-                            <a href="/hike/{{hike.1}}">{{hike.0}}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </li>
+                <ul class="list-unstyled components">
+                    <!-- <p>Dummy Heading</p> -->
+                    {% if username != '' %}
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                            class="dropdown-toggle first-level">Походы</a>
+                        <ul class="collapse list-unstyled hikes" id="homeSubmenu">
 
-                <!-- <li>
+                            {% for hike in hikes %}
+                            <li class='hikes-list-elements'>
+                                <a href="/hike/{{hike.1}}">{{hike.0}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- <li>
 
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
                             class="dropdown-toggle">Группы</a>
@@ -99,16 +101,16 @@
                             </li>
                         </ul>
                     </li> -->
-                {% endif %}
-                <!-- <li>
+                    {% endif %}
+                    <!-- <li>
                     <a href="#">Something</a>
                 </li> -->
-                <li>
-                    <a href="/home/" class="first-level">О сайте</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="/home/" class="first-level">О сайте</a>
+                    </li>
+                </ul>
 
-
+            </div>
 
 
 
@@ -369,13 +371,14 @@
                             <!--END OF DROPDOWN MENU BLOCK-->
                             {% if username != ''%}
                             <li class="nav-item active">
-                                <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i class="fas fa-plus"></i>
+                                <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i
+                                        class="fas fa-plus"></i>
                                     Добавить поход</a>
                             </li>
-                            
+
                             <li class="nav-item">
-                                <a class="nav-link main-navbar round" onclick="show_notifications()" type="button" href="#" role="button"
-                                    data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
+                                <a class="nav-link main-navbar round" onclick="show_notifications()" type="button"
+                                    href="#" role="button" data-toggle="dropdown" id="dropdownMenu1" data-target="#"><i
                                         class="fas fa-bell"></i><span id="nt_counter"
                                         class="badge badge-danger notifications_badge">6</span></a>
                             </li>{% endif %}
@@ -383,26 +386,29 @@
                                 <a class="nav-link main-navbar round" href="/"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link main-navbar round" href="/hike_filter"><i class="fas fa-search"></i></a>
+                                <a class="nav-link main-navbar round" href="/hike_filter"><i
+                                        class="fas fa-search"></i></a>
                             </li>
                             {% if username == ''%}
                             <li class="nav-item active">
-                                <a class="nav-link main-navbar round" href="/login"><i class="fas fa-sign-in-alt"></i></a>
+                                <a class="nav-link main-navbar round" href="/login"><i
+                                        class="fas fa-sign-in-alt"></i></a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link main-navbar round" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+                                <a class="nav-link main-navbar round" href="/logout"><i
+                                        class="fas fa-sign-out-alt"></i></a>
                             </li>
                             <li class="nav-item active">
                                 {% if username != ''%}
-                                    <a href="/my_account">
+                                <a href="/my_account">
                                     {% if avatar != ''%}
-                                    
+
                                     <img src="{{ avatar.url }}" class="navbar-avatar">
                                     {% else %}
                                     <img src="{% static 'icons/logo_grey.png' %}" class="navbar-avatar">
                                     {% endif %}
-                                    </a>
+                                </a>
                                 {% endif %}
                             </li>
                             {% endif %}
