@@ -19,8 +19,91 @@
 }
 
 #map {
-
     width: 100%;
+}
+
+#hike_desc_container {
+    background-color: white;
+}
+
+.content {
+    padding: 0px;
+}
+
+.hike_header {
+    padding-top: 15%;
+    color: white;
+    text-decoration: none;
+    text-transform: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.hike_details {
+    text-align: center;
+    color: white;
+    padding-bottom: 3%;
+}
+
+.details_icon {
+    height: 20px;
+}
+
+.details_top {
+    display: inline;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.creator_icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.details_username {
+    display: inline;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 0.157em;
+    font-size: 14px;
+    padding-right: 20px;
+}
+
+.hike_creator {
+    display: inline;
+}
+
+.details_edittor_link {
+    color: white;
+}
+
+.details_edittor_link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.join_to_group {
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+#append_user {
+    background-color: #68209b;
+    border-radius: 0px;
+}
+
+#append_user:hover {
+    transition: 1s;
+    background-color: #c323eb;
+    border-color: rgb(255, 181, 43);
+    border-radius: 0px;
+}
+
 /* }
 .mapboxgl-popup-content{
 

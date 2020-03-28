@@ -406,6 +406,7 @@ class SetHike(View):
                 data['image'] = ''
             data['description'] = day.description
             data['caption'] = day.caption
+
             data['date'] = day.date
             data['coordinates'] = day.coordinates
             data['fake_name'] = str('Day' + day.name.split()[1])
@@ -445,6 +446,10 @@ class SetHike(View):
         context['content'].update(this_hike)
         context['content']['creator'] = hike.creator
 
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month]+', '+str(hike.start_date.year)
+
+        context['full_name'] = full_name(hike.creator)
         return render(request, "hike.html", context)
 
     def post(self, request, id):
