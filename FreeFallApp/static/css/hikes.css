@@ -19,6 +19,11 @@
     column-gap: 3%;
     column-width: 30%;
 }
+
+.card {
+    display: inline-flex !important;
+}
+
 .box {
     margin-bottom: 20px;
     height:100px;

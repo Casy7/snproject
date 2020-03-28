@@ -201,7 +201,8 @@
                             hike = json.hikes[i]
                             jQuery('<div/>', {
                                 id: 'hike_' + hike.id,
-                                class: 'card'
+                                class: 'card',
+                                style: 'display:inline-flex'
                             }).appendTo('#container');
                             $(`<a id=\"link_` + hike.id + `\" href=\'/hike/` + hike.id + `\'></a>`).appendTo($('#hike_' + hike.id));
                             //img = document.createElement("img");

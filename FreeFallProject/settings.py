@@ -77,6 +77,9 @@ WSGI_APPLICATION = 'FreeFallProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
+
+# Перед коммитом раскомментить
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -88,7 +91,7 @@ DATABASES = {
     },
     'local': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'FreeFallProject',
+        'NAME': 'FreeFallLocalDB',
         'USER': 'postgres',
         'PASSWORD': '3141592653589793238',
         'HOST': 'localhost',

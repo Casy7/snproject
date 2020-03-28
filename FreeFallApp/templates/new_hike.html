@@ -110,7 +110,7 @@
                 <label for="exampleFormControlInput6">Участники</label>
                 <!--Скрытый список участников-->
                 <br>
-                <select class="selectpicker" data-live-search="true" id="select_ptc">
+                <select class="selectpicker" data-live-search="true" id="select_ptc"  data-size="5">
                     {% for user in user_list %}
                     <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
                     {% endfor %}
@@ -283,7 +283,7 @@
 
 <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
 
-<script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
+<!-- <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script> -->
 
 <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
 <!-- END OF DO-NOT-EDIT BLOCK -->
