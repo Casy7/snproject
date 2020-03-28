@@ -449,7 +449,12 @@ class SetHike(View):
         months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
         context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month]+', '+str(hike.start_date.year)
 
+        if 0<int(str(this_hike['vacancies'])[-1:])<5:
+            context['number_of_free_places'] = str(this_hike['vacancies'])+' места'
+        else:
+            context['number_of_free_places'] = str(this_hike['vacancies'])+' мест'
         context['full_name'] = full_name(hike.creator)
+
         return render(request, "hike.html", context)
 
     def post(self, request, id):
