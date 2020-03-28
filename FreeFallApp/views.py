@@ -381,48 +381,48 @@ class SetHike(View):
 
         # Сюда вставить все достопримечательности
         this_hike['landmarks'] = list(Landmark.objects.filter(is_public=True))
-        # text['image'] = hike.image
         if hike.image.name is not None and hike.image.name != "":
             this_hike['image'] = hike.image
         else:
             this_hike['image'] = ''
-        # landmarks = []
-        # for landmark in hike.landmarks.all():
-        #     landmarks.append(landmark.name)
-
-        # this_hike['landmarks'] = hike.landmarks
         days = []
-
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
         
-        print(Day.objects.filter(hike=hike))
+        
         for day in Day.objects.filter(hike=hike):
 
-            ide = int(day.name.split()[1])
+            day_id = int(day.name.split()[1])
 
-            data = {}
-            if day.image.name is not None and day.image.name != "":
-                data['image'] = day.image
+            if day_id == 1 or day.description !='' or day.caption != '':
+                data = {}
+                data['description'] = day.description
+                data['header'] = day.caption
+                data['date'] = str(day.date.day)+' '+months[day.date.month-1]
+                data['name'] = day.name
+                data['id'] = str(day_id)
+                days.insert(0, data)
             else:
-                data['image'] = ''
-            data['description'] = day.description
-            data['caption'] = day.caption
 
-            data['date'] = day.date
-            data['coordinates'] = day.coordinates
-            data['fake_name'] = str('Day' + day.name.split()[1])
-            data['idn'] = int(ide)
-            data['name'] = day.name
-            data['id'] = str(ide)
-            data['label'] = 'day' + str(ide)
-            days.insert(0, data)
+                if days[0]['date'].find(' - ')!=-1:
+                    days[0]['date'] = days[0]['date'][:days[0]['date'].find(' - ')]
 
-        print(sorted(days, key=lambda x: x['idn']))
+                if days[0]['name'].find(' - ')!=-1:
+                    days[0]['name'] = days[0]['name'][:days[0]['name'].find(' - ')]
 
-        days = sorted(days, key=lambda x: x['idn'])
-        print(days)
+                # days[0]['name'].replace('День', 'Дни')
+
+                days[0]['date']+=' - '+str(day.date.day)+' '+months[day.date.month-1]
+                if days[0]['date'].count(months[day.date.month-1])>1:
+                    date = days[0]['date']
+                    month = months[day.date.month-1]
+                    days[0]['date'] = date[:date.find(month)-1]+date[date.find(month)+len(month):]
+                days[0]['name']+=' - '+str(day_id)
+
+
+
+        days = sorted(days, key=lambda x: int(x['id']))
 
         this_hike['days'] = days
-
         participants = []
         usernames = []
 
@@ -448,8 +448,8 @@ class SetHike(View):
         context['content'].update(this_hike)
         context['content']['creator'] = hike.creator
 
-        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
-        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month]+', '+str(hike.start_date.year)
+        
+        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]+', '+str(hike.start_date.year)
 
         if 0<int(str(this_hike['vacancies'])[-1:])<5:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' места'

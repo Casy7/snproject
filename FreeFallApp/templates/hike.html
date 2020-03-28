@@ -2,9 +2,22 @@
 {% block content %}
 {% load static %}
 
+<style>
+@font-face {
+    font-family: "Roboto";
+    src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
+}
+.new_header { 
+    font-family: "Roboto", Verdana, Tahoma;
+}
+</style>
+
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
+
+
+
 
 
 
@@ -148,7 +161,7 @@
 </div>
 
 
-<div class="container-fluid" id='hike_desc_container'>
+<div class="hike_container" id='hike_desc_container'>
     {% if content.short_description == '' and content.description == '' %}
     <small>Описание отсутствует</small>
     {% else %}
@@ -156,8 +169,26 @@
     <div>{{content.description|safe}}</div>
     {% endif %}
 </div>
+
 <hr>
-<div class="container-fluid">
+<div class="hike_container">
+
+    <div class="accordion" id="accordionExample">
+        {% for day in content.days %}
+
+        <div class="card">
+            <h2 class="new_header">{{ day.name }}: {{ day.header }}</h2>
+            <small style="color: gray;">{{ day.date }}</small>
+            <p>{{day.description}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<hr>
+
+<div class="hike_container">
     <div class="row" style="height: 500px;">
         <div class="col">
             <h2 class="new_header">Участники:</h2>
@@ -185,29 +216,9 @@
         </div>
     </div>
 </div>
+
 <hr>
-<div class="container-fluid">
 
-    <div class="accordion" id="accordionExample">
-        {% for day in content.days %}
-
-        <div class="card">
-            <a data-toggle="collapse" href="#{{day.fake_name}}" role="button" aria-expanded="false"
-                aria-controls="{{day.fake_name}}">
-                <h3 style="text-align:center">{{day.name}}: {{day.caption}}</h3>
-            </a>
-
-            <div class="collapse" id="{{day.fake_name}}">
-                <div class="card card-body">
-                    {% if day.image != '' %}
-                    <img src={{day.image.url}} class="img-fluid" alt="Responsive image"> {% endif %}
-                    {{day.description}}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 <div>
     <a class="btn btn-secondary" href="/discussion/{{content.id}}"
         style="display: inline-block;width:170px;height:35px">Обсудить поход </a>

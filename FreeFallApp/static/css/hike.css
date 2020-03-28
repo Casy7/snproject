@@ -30,6 +30,11 @@
     padding-right: 10%;
 }
 
+.hike_container {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
 hr{
     color: #3a0d69;
     background-color: #f4eaff;
@@ -154,12 +159,14 @@ hr{
     padding: 0px;
     margin-bottom: 0px;
     text-transform: none;
-    font-family: Roboto;
+    font-family: roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
     line-height: 36px;
 }
+
+
 
 /* }
 .mapboxgl-popup-content{
