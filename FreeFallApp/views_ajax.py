@@ -250,3 +250,21 @@ class FilterHikes(View):
         result['hikes'] = json_format_hikes
         # print(result)
         return HttpResponse(json.dumps(result), content_type="application/json")
+
+class AddComment(View, LoginRequiredMixin):
+    def post(self, request):
+        result = {}
+        
+        comment_props = request.POST
+
+        if comment_props['comment'] != '':
+            model = Message(text=comment_props['comment'], author=request.user, hike=Hike.objects.get(id=int(comment_props['hike'])))
+            model.save()
+            result['result'] = 'success'
+            result['author'] = full_name(request.user)
+            months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+            result['time_published'] = model.creation_datetime.strftime('%H:%M, %d ')+months[model.creation_datetime.month-1]
+
+
+
+        return HttpResponse(json.dumps(result), content_type="application/json")

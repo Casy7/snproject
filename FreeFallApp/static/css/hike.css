@@ -19,8 +19,174 @@
 }
 
 #map {
-
     width: 100%;
+}
+
+#hike_desc_container {
+    background-color: white;
+    padding: 1%;
+    
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.hike_container {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+hr{
+    color: #3a0d69;
+    background-color: #f4eaff;
+}
+
+.content {
+    padding: 0px;
+}
+
+.hike_header {
+    padding-top: 15%;
+    color: white;
+    text-decoration: none;
+    text-transform: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.hike_details {
+    text-align: center;
+    color: white;
+    padding-bottom: 3%;
+}
+
+.details_icon {
+    height: 20px;
+}
+
+.details_top {
+    display: inline;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.creator_icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.details_username {
+    display: inline;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 0.157em;
+    font-size: 14px;
+    padding-right: 20px;
+}
+
+.hike_creator {
+    display: inline;
+}
+
+.details_edittor_link {
+    color: white;
+}
+
+.details_edittor_link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.join_to_group {
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+#append_user, #send_comment {
+    background-color: #68209b;
+    border-radius: 0px;
+}
+
+#append_user:hover, #send_comment:hover {
+    transition: 1s;
+    background-color: #c323eb;
+    border-color: rgb(255, 181, 43);
+    border-radius: 0px;
+}
+
+#send_comment{
+    float: right;
+    width: auto;
+}
+
+#comment_fuild{
+    width: auto;
+    position: relative;
+    float: right;
+    min-height: 100px;
+    border-radius: 0px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.user_col {
+    height: 45px;
+    line-height: 1;
+    margin-bottom: 0px;
+}
+
+.avatar_col {
+    width: 45px;
+    flex-grow: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 2px;
+}
+
+.user_full_name {
+    margin-bottom: 0px;
+    line-height: 2em;
+    font-weight: 800;
+    letter-spacing: 0.084em;
+    font-size: 14px;
+    padding-top: 2px;
+}
+
+.user_card {
+    padding-top: 3px;
+}
+
+#ptc_list {
+    padding-left: 20px;
+    height: 464px;
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.new_header {
+    padding: 0px;
+    margin-bottom: 0px;
+    text-transform: none;
+    font-family: roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 36px;
+}
+
+.user_icon_small{
+    width: 30px;
+    height: 30px;
+    display: inline;
+}
+
 /* }
 .mapboxgl-popup-content{
 

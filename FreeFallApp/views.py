@@ -219,11 +219,11 @@ class NewHike(View, LoginRequiredMixin):
             days_count = int(str(bb-aa).split()[0]) + 1
         # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
 
-            for i in range(days_count, 0, -1):
+            for i in range(1, days_count+1):
                 day = Day(
                     hike=hike,
                     name="День " + str(i),
-                    date=aa + timedelta(i),
+                    date=aa + timedelta(days=i-1),
                 )
                 day.save()
 
@@ -381,53 +381,58 @@ class SetHike(View):
 
         # Сюда вставить все достопримечательности
         this_hike['landmarks'] = list(Landmark.objects.filter(is_public=True))
-        # text['image'] = hike.image
         if hike.image.name is not None and hike.image.name != "":
             this_hike['image'] = hike.image
         else:
             this_hike['image'] = ''
-        # landmarks = []
-        # for landmark in hike.landmarks.all():
-        #     landmarks.append(landmark.name)
-
-        # this_hike['landmarks'] = hike.landmarks
         days = []
-
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
         
-        print(Day.objects.filter(hike=hike))
-        for day in Day.objects.filter(hike=hike):
+        
+        for day in Day.objects.filter(hike=hike).order_by('date'):
 
-            ide = int(day.name.split()[1])
+            day_id = int(day.name.split()[1])
 
-            data = {}
-            if day.image.name is not None and day.image.name != "":
-                data['image'] = day.image
+            if day_id == 1 or day.description !='' or day.caption != '':
+                data = {}
+                data['description'] = day.description
+                data['header'] = day.caption
+                data['date'] = str(day.date.day)+' '+months[day.date.month-1]
+                data['name'] = day.name
+                data['id'] = str(day_id)
+                days.insert(0, data)
             else:
-                data['image'] = ''
-            data['description'] = day.description
-            data['caption'] = day.caption
-            data['date'] = day.date
-            data['coordinates'] = day.coordinates
-            data['fake_name'] = str('Day' + day.name.split()[1])
-            data['idn'] = int(ide)
-            data['name'] = day.name
-            data['id'] = str(ide)
-            data['label'] = 'day' + str(ide)
-            days.insert(0, data)
 
-        print(sorted(days, key=lambda x: x['idn']))
+                if days[0]['date'].find(' - ')!=-1:
+                    days[0]['date'] = days[0]['date'][:days[0]['date'].find(' - ')]
 
-        days = sorted(days, key=lambda x: x['idn'])
-        print(days)
+                if days[0]['name'].find(' - ')!=-1:
+                    days[0]['name'] = days[0]['name'][:days[0]['name'].find(' - ')]
+
+                # days[0]['name'].replace('День', 'Дни')
+
+                days[0]['date']+=' - '+str(day.date.day)+' '+months[day.date.month-1]
+
+                days[0]['name']+=' - '+str(day_id)
+
+
+        days = sorted(days, key=lambda x: int(x['id']))
+
+        for day in days:
+            if day['date'].count(day['date'].split(' ')[-1])>1:
+                date = day['date']
+                month = months[day.date.month-1]
+                day['date'] = date[:date.find(month)-1]+date[date.find(month)+len(month):]
 
         this_hike['days'] = days
-
         participants = []
         usernames = []
 
         for participant in hike.participants.all():
-            participants.append(full_name(participant))
-            usernames.append(participant.username)
+            props = [full_name(participant), participant.username, '']
+            if participant.profile.avatar.name != '':
+                props[2] = participant.profile.avatar
+            participants.append(props)
 
         this_hike['participants'] = participants
         this_hike['usernames'] = usernames
@@ -444,6 +449,37 @@ class SetHike(View):
         context['content'] = hike.__dict__
         context['content'].update(this_hike)
         context['content']['creator'] = hike.creator
+
+        
+        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]+', '+str(hike.start_date.year)
+
+        if 0<int(str(this_hike['vacancies'])[-1:])<5:
+            context['number_of_free_places'] = str(this_hike['vacancies'])+' места'
+        else:
+            context['number_of_free_places'] = str(this_hike['vacancies'])+' мест'
+        context['full_name'] = full_name(hike.creator)
+
+        # Комментарии
+
+        comments = []
+
+        hike_comments_models = Message.objects.filter(hike=hike).order_by('creation_datetime')
+
+        for ct_model in hike_comments_models:
+            ct = {}
+            ct['author'] = full_name(ct_model.author)
+            ct['author_username'] = ct_model.author.username
+            ct['comment'] = ct_model.text
+
+            ct['avatar'] = ''
+            if ct_model.author.profile.avatar.name != '':
+                ct['avatar'] = ct_model.author.profile.avatar
+
+            published_time = ct_model.creation_datetime.strftime('%H:%M, %d ')+months[ct_model.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            comments.append(ct)
+        context['comments'] = comments
+
 
         return render(request, "hike.html", context)
 

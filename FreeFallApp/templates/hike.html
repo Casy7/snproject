@@ -1,296 +1,516 @@
-{% extends 'base.html' %} {% block content %} {% load static %}
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
 
-<head>
+<style>
+    @font-face {
+        font-family: "Roboto";
+        src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
+    }
 
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-    <link href="{% static 'css/hike.css' %}" rel='stylesheet'>
-</head>
+    .new_header {
+        font-family: "Roboto", Verdana, Tahoma;
+    }
+</style>
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+<link href="{% static 'css/hike.css' %}" rel='stylesheet'>
+
+
+
+
+
+
 {% if content.image != '' %}
 <style>
-    .content::before {
-        background-image: url({{content.image.url}});
+    #hike_header_card {
+        background: linear-gradient(0deg, rgb(0, 0, 0), rgba(0, 0, 0, 0.664), rgba(34, 101, 163, 0)),
+        url('{{content.image.url}}');
         background-repeat: no-repeat;
-        background-attachment: fixed;
+        background-attachment: scroll;
         background-size: cover;
+        background-position: center;
+        /* opacity: 0.5; */
+    }
+</style>
+{% else %}
+<style>
+    #hike_header_card {
+        background: linear-gradient(0deg, rgb(0, 0, 0), rgba(0, 0, 0, 0.664), rgba(34, 101, 163, 0)),
+        url("{% static 'icons/default.jpg' %}");
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-size: cover;
+        background-position: center;
         /* opacity: 0.5; */
     }
 </style>
 {% endif %}
 
-<head>
-    {% if content.image != '' %}
-    <img src={{content.image.url}} class="img-fluid" width="100%" height="auto" alt="Responsive image"> {% endif %}
-</head>
+
+<div id='hike_header_card'>
+    <h1 class="hike_header"> {{content.name}} </h1><br>
+    <h3 class="hike_details">
+        <div class='details_top'>
+            <svg class="details_icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M26.4844 2.34375H25.0781V0H22.7344V2.34375H7.26562V0H4.92188V2.34375H3.51562C1.57711 2.34375 0 3.92086 0 5.85938V26.4844C0 28.4229 1.57711 30 3.51562 30H26.4844C28.4229 30 30 28.4229 30 26.4844V5.85938C30 3.92086 28.4229 2.34375 26.4844 2.34375ZM27.6562 26.4844C27.6562 27.1305 27.1305 27.6562 26.4844 27.6562H3.51562C2.86945 27.6562 2.34375 27.1305 2.34375 26.4844V11.0156H27.6562V26.4844ZM27.6562 8.67188H2.34375V5.85938C2.34375 5.2132 2.86945 4.6875 3.51562 4.6875H4.92188V7.03125H7.26562V4.6875H22.7344V7.03125H25.0781V4.6875H26.4844C27.1305 4.6875 27.6562 5.2132 27.6562 5.85938V8.67188Z"
+                    fill="white" />
+                <path d="M6.79688 13.4766H4.45312V15.8203H6.79688V13.4766Z" fill="white" />
+                <path d="M11.4844 13.4766H9.14062V15.8203H11.4844V13.4766Z" fill="white" />
+                <path d="M16.1719 13.4766H13.8281V15.8203H16.1719V13.4766Z" fill="white" />
+                <path d="M20.8594 13.4766H18.5156V15.8203H20.8594V13.4766Z" fill="white" />
+                <path d="M25.5469 13.4766H23.2031V15.8203H25.5469V13.4766Z" fill="white" />
+                <path d="M6.79688 18.1641H4.45312V20.5078H6.79688V18.1641Z" fill="white" />
+                <path d="M11.4844 18.1641H9.14062V20.5078H11.4844V18.1641Z" fill="white" />
+                <path d="M16.1719 18.1641H13.8281V20.5078H16.1719V18.1641Z" fill="white" />
+                <path d="M20.8594 18.1641H18.5156V20.5078H20.8594V18.1641Z" fill="white" />
+                <path d="M6.79688 22.8516H4.45312V25.1953H6.79688V22.8516Z" fill="white" />
+                <path d="M11.4844 22.8516H9.14062V25.1953H11.4844V22.8516Z" fill="white" />
+                <path d="M16.1719 22.8516H13.8281V25.1953H16.1719V22.8516Z" fill="white" />
+                <path d="M20.8594 22.8516H18.5156V25.1953H20.8594V22.8516Z" fill="white" />
+                <path d="M25.5469 18.1641H23.2031V20.5078H25.5469V18.1641Z" fill="white" />
+            </svg>
+            {{rus_date}}
+        </div>
+        <div class='details_top'>
+            <svg class="details_icon" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="15" cy="8.80952" r="6.80952" stroke="white" stroke-width="3" />
+                <path d="M28 30.4762C28 23.2965 22.1797 17.4762 15 17.4762C7.8203 17.4762 2 23.2965 2 30.4762"
+                    stroke="white" stroke-width="3" />
+            </svg>
+            {% if content.vacancies != 0 %}
+            Осталось {{number_of_free_places}}
+            {% else %}
+            Нет мест
+            {% endif %}
+        </div>
+        <div class='details_top'>
+            <svg class="details_icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0)">
+                    <path
+                        d="M29.8761 28.2103L16.0681 4.29422L17.514 1.78981C17.7694 1.34742 17.6178 0.781643 17.1755 0.526232C16.733 0.270705 16.1672 0.422346 15.9119 0.864787L15 2.44418L14.0881 0.864787C13.8327 0.422404 13.2669 0.270764 12.8245 0.526232C12.3821 0.781643 12.2305 1.34742 12.486 1.78981L13.9319 4.29422L0.123909 28.2103C-0.0413843 28.4964 -0.0413843 28.849 0.123909 29.1353C0.289143 29.4214 0.594475 29.5978 0.925002 29.5978H29.075C29.4054 29.5978 29.7108 29.4214 29.8761 29.1353C30.0413 28.849 30.0413 28.4964 29.8761 28.2103ZM2.52719 27.7477L14.075 7.74645V14.2014L8.06459 27.7477H2.52719ZM10.0885 27.7477L15 16.6782L19.9114 27.7477H10.0885ZM21.9354 27.7477L15.925 14.2014V7.74645L27.4728 27.7477H21.9354Z"
+                        fill="white" />
+                </g>
+                <defs>
+                    <clipPath id="clip0">
+                        <rect width="30" height="30" fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
+            {{content.type_of_hike}}
+        </div>
+        <div class='details_top'>
+            <svg class="details_icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0)">
+                    <path
+                        d="M30 17.747C30 21.0379 28.9526 24.1617 26.9712 26.7812C26.5803 27.2983 25.8451 27.3985 25.3297 27.0087C24.8135 26.6183 24.7117 25.8833 25.1019 25.3672C26.773 23.1583 27.6562 20.5231 27.6562 17.747C27.6562 10.752 21.9912 5.09766 15 5.09766C8.004 5.09766 2.34375 10.7563 2.34375 17.747C2.34375 20.5231 3.22701 23.1583 4.89784 25.3672C5.28831 25.8833 5.18646 26.6183 4.67033 27.0087C4.15398 27.3992 3.41927 27.2974 3.02856 26.7812C1.04736 24.1617 0 21.0379 0 17.747C0 9.45602 6.71356 2.75391 15 2.75391C23.291 2.75391 30 9.4606 30 17.747ZM22.4252 10.6895C22.8827 11.147 22.8827 11.889 22.4252 12.3466L18.6053 16.1664C18.9198 16.7461 19.0988 17.4099 19.0988 18.1144C19.0988 20.3746 17.26 22.2132 15 22.2132C12.7398 22.2132 10.9012 20.3746 10.9012 18.1144C10.9012 15.8544 12.7398 14.0156 15 14.0156C15.7047 14.0156 16.3683 14.1946 16.948 14.509L20.7678 10.6892C21.2256 10.2317 21.9674 10.2317 22.4252 10.6895ZM16.7551 18.1146C16.7551 17.1469 15.9677 16.3596 15 16.3596C14.0323 16.3596 13.2449 17.1469 13.2449 18.1146C13.2449 19.0823 14.0323 19.8697 15 19.8697C15.9677 19.8697 16.7551 19.0823 16.7551 18.1146Z"
+                        fill="white" />
+                </g>
+                <defs>
+                    <clipPath id="clip0">
+                        <rect width="30" height="30" fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
+            {% if content.difficulty != 'none' %}
+            Сложность {{content.difficulty}}
+            {% else %}
+            Без категории
+            {% endif %}
+        </div>
+    </h3>
+    <div class='join_to_group'>
+        {% if content.free_plases != "Nope" and user.is_anonymous != True %}
+        {% if user.username not in content.usernames %}
+        {% if content.join_to_group == 'open' %}
+        <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
+            value="Принять участие" style="display: inline-block;width:170px;height:35px">
+        {% elif content.join_to_group == 'request' %}
+        <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
+            value="Подать заявку" style="display: inline-block;width:170px;height:35px">
+        <!-- TODO сделать, если поход открытый, обновление участников, если по заявке, то создание соответствующего уведомления -->
+        {% else %}
+        <small style="text-align: center;">В этот поход добавиться нельзя</small>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class='hike_creator'>
+        <div style="display: inline;">
+            {% if content.creator.profile.avatar.name != '' %}
+            <img src={{content.creator.profile.avatar.url}} class='creator_icon'
+                alt="{% static 'icons/logo_grey.png' %}">
+            {% else %}
+            <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon' alt="Responsive image">
+            {% endif %}
+            <p class="details_username">{{ full_name }}</p>
+        </div>
+        {% if user == content.creator %}
+        <div style="display: inline;">
+            <a class="details_edittor_link" href=/editor/{{content.id}}>
+                <svg width="12" height="12" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M16.9024 0.439107L17.5609 1.09778C17.8416 1.37825 17.9995 1.75875 17.9999 2.15565V2.91412C18.0049 3.31791 17.8466 3.7066 17.5609 3.99194L15.7151 5.80828C15.6215 5.90274 15.4939 5.95588 15.3609 5.95588C15.2279 5.95588 15.1004 5.90274 15.0067 5.80828L12.2032 2.96402C12.013 2.76998 12.013 2.45945 12.2032 2.26542L14.009 0.439107C14.2943 0.153349 14.6829 -0.00500538 15.0866 -7.24472e-06H15.8448C16.2416 0.000342155 16.622 0.158289 16.9024 0.439107ZM13.8195 7.68449C14.0096 7.49046 14.0096 7.17993 13.8195 6.9859L10.966 4.17158C10.8723 4.07711 10.7448 4.02398 10.6118 4.02398C10.4788 4.02398 10.3513 4.07711 10.2576 4.17158L2.20608 12.2253C2.01142 12.4183 1.85859 12.6493 1.75711 12.904L0.0410455 17.2352C-0.0561655 17.4601 0.0241544 17.7222 0.230611 17.854C0.372012 17.9952 0.584015 18.0384 0.769376 17.9638L5.09945 16.2073C5.35403 16.1058 5.58498 15.9529 5.7779 15.7582L13.8195 7.68449Z"
+                        fill="white" />
+                </svg>
+                Редактировать поход</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
 
 
-<body>
-    <h1> {{content.name}} </h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <div>Создатель:</div>
-                {% if content.creator.profile.avatar.name != '' %}
-                <div><img src={{content.creator.profile.avatar.url}} class="leftimg" width="10%" height="10%" alt="Responsive image"> {% else %}
-                    <div><img src="{% static 'icons/logo_grey.png' %}" class="leftimg" width="10%" height="10%" alt="Responsive image"> {% endif %} {{content.creator.first_name}} {{content.creator.last_name}}</div>
-                    <div>Даты: {{content.start_date}} - {{content.end_date}}</div>
-                    <div>{{content.short_description}}</div>
-                    <div>{{content.description|safe}}</div>
-                    <div>Сложность похода: {{content.difficulty}}</div>
-                    <div>Тип похода: {{content.type_of_hike}}</div>
-                    {% if user == content.creator %}
-                    <div><a class="btn btn-secondary" href=/editor/{{content.id}}>Редактор </a> </div> {% endif %} </div>
-                <div class="col">
-                    <h2 class="h2">Участники:</h2>
-                    {% for username in content.participants %}
-                    <ul id='ptc_list'>
-                        <li class="li_ptc">{{username}}</li>
-                    </ul>
-                    {% endfor %}
-                    <p>Осталось мест: {{content.vacancies}}</p>
-                    {% if content.free_plases != "Nope" %} {% if user.username not in content.usernames %} {% if content.join_to_group == 'open' %}
-                    <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()" value="Принять участие" style="display: inline-block;width:170px;height:35px"> {% elif content.join_to_group == 'request' %}
-                    <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()" value="Подать заявку" style="display: inline-block;width:170px;height:35px">
-                    <!-- TODO сделать, если поход открытый, обновление участников, если по заявке, то создание
-        соответствующего уведомления -->
-                    {% else %}
-                    <small>В этот поход добавиться нельзя</small> {% endif %}
-                    <script>
-                        // alert('{{user.id}}'+'-'+'{{content.id}}'+'-'+'request_for_ptc')
-                        function take_part() {
-                            $.ajax({
-                                url: "/send_notification_choice/",
-                                type: 'POST',
-                                data: {
-                                    'code': '{{user.id}}' + '-' + '{{content.id}}' + '-' + 'request_for_ptc',
-                                    'result': 'create'
-                                },
-                                //DO NOT EDIT!
-                                beforeSend: function(xhr, settings) {
-                                    function getCookie(name) {
-                                        var cookieValue = null;
-                                        if (document.cookie && document.cookie != '') {
-                                            var cookies = document.cookie.split(';');
-                                            for (var i = 0; i < cookies.length; i++) {
-                                                var cookie = jQuery.trim(cookies[i]);
-                                                // Does this cookie string begin with the name we want?
-                                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        return cookieValue;
-                                    }
-                                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                                        // Only send the token to relative URLs i.e. locally.
-                                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                                    }
-                                },
-                                //EDITABLE CODE
-                                success: function a(json) {
-                                    // alert(json);
-                                    // alert(json.exist);
-                                    if (json.result === "success") {
-                                        byId('append_user').parentNode.removeChild(byId('append_user'));
-                                        while (document.getElementsByClassName('li_ptc').length > 0) {
+<div class="hike_container" id='hike_desc_container'>
+    {% if content.short_description == '' and content.description == '' %}
+    <small>Описание отсутствует</small>
+    {% else %}
+    <div>{{content.short_description}}</div>
+    <div>{{content.description|safe}}</div>
+    {% endif %}
+</div>
 
-                                            document.getElementsByClassName('li_ptc')[0].remove();
-                                        }
-                                        json.users.forEach(user => {
-                                            li = document.createElement('li');
-                                            li.innerText = user;
-                                            byId('ptc_list').appendChild(li);
-                                        });
-                                        count_notifications();
-                                    } else {
-                                        alert('Так делать низя');
-                                        count_notifications();
-                                    }
-                                }
-                            });
-                        }
-                    </script>
+<hr>
+<div class="hike_container">
+
+    <div class="accordion" id="accordionExample">
+        {% for day in content.days %}
+
+        <div class="card">
+            <h2 class="new_header">{{ day.name }}: {{ day.header }}</h2>
+            <small style="color: gray;">{{ day.date }}</small>
+            <p>{{day.description}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 
-                    <form method="POST">
-                        {%csrf_token%}
-                        <input id="participate" name="participate" type="hidden" value="Nope">
+<hr>
 
-
-                    </form>
-                    {% endif %} {% endif %}
-                    <div>
-                        <p></p>
+<div class="hike_container">
+    <div class="row" style="height: 500px;">
+        <div class="col">
+            <h2 class="new_header">Участники:</h2>
+            <ul id='ptc_list'>
+                {% for pt in content.participants %}
+                <li class='row user_card'>
+                    <div class="col user_col avatar_col">
+                        {% if pt.2 != ''%}
+                        <img src="{{ pt.2.url }}" class="sidebar-avatar">
+                        {% else %}
+                        <img src="{% static 'icons/logo_grey.png' %}" class="sidebar-avatar">
+                        {% endif %}
                     </div>
-                    <div><a class="btn btn-secondary" href=/discussion/{{content.id}} style="display: inline-block;width:170px;height:35px">Обсудить поход </a> </div>
-                </div>
-            </div>
-            <hr>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col">
-                        <div class="accordion" id="accordionExample">
-                            {% for day in content.days %}
-
-                            <div class="card">
-                                <a data-toggle="collapse" href="#{{day.fake_name}}" role="button" aria-expanded="false" aria-controls="{{day.fake_name}}">
-                                    <h3 style="text-align:center">{{day.name}}: {{day.caption}}</h3>
-                                </a>
-
-                                <div class="collapse" id="{{day.fake_name}}">
-                                    <div class="card card-body">
-                                        {% if day.image != '' %}
-                                        <img src={{day.image.url}} class="img-fluid" alt="Responsive image"> {% endif %} {{day.description}}
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            {% endfor %}
-                        </div>
+                    <div class="col user_col">
+                        <p class='user_full_name'>{{pt.0}}</p>
+                        <small>{{pt.1}}</small>
                     </div>
-                    <div class="col">
-                        <div id="osm_map" style="width:auto;height:500px"></div>
-                    </div>
-                </div>
-            </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
 
-        <script>
-            coordinates = eval('{{ content.coordinates | safe }}');
-            mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
-            if (coordinates.length != 0) {
-                var osm_map = new mapboxgl.Map({
-                    container: 'osm_map',
-                    style: 'mapbox://styles/mapbox/bright-v9',
-                    center: coordinates[Math.floor(coordinates.length / 2)][1],
-                    zoom: 5
-                })
-                osm_map.addControl(new mapboxgl.NavigationControl());
-            } else {
-                var osm_map = new mapboxgl.Map({
-                    container: 'osm_map',
-                    style: 'mapbox://styles/mapbox/bright-v9',
-                    center: [3.420253241560829, 46.124064037019906],
-                    zoom: 5
-                });
-                osm_map.addControl(new mapboxgl.NavigationControl());
-            }
-        </script>
+        <div class="col">
+            <div id="osm_map" style="width:auto;height:500px"></div>
+        </div>
+    </div>
+</div>
 
-        <script type="text/javascript">
-            coordinates = eval('{{ content.coordinates | safe }}');
-            var line = []
+<hr>
 
-            for (i = 0; i < coordinates.length; i++) {
-                var el = document.createElement('div');
-                el.content = coordinates[i][0];
-                el.textContent = coordinates[i][0];
-                el.className = 'marker';
-                el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
-                var x = coordinates[i][1][0];
-                var y = coordinates[i][1][1];
-                line.push([x, y]);
-                var marker = new mapboxgl.Marker(el, {
-                    offset: {
-                        x: -30,
-                        y: -35
-                    },
-                }).setLngLat([x, y]).addTo(osm_map);
+<div class="hike_container">
+    <h2 class="new_header">Комментарии</h2>
+    <div class="comments" id='comments_list'>
+        {% for ct in comments %}
 
-            }
+        <div class="comment_box">
+            {% if ct.avatar != '' %}
+            <img src='{{ avatar.url }}' class='creator_icon user_icon_small'
+                alt="{% static 'icons/logo_grey.png' %}">
+            {% else %}
+            <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
+            {% endif %}
+            <p class='user_full_name' style="display: inline;">{{ ct.author }}</p>
+            <small>{{ ct.author_username }}</small>
+            <small style="color: gray;float: right;">{{ ct.time_published }}</small>
 
-            osm_map.on('load', function() {
+            <p>
+                {{ ct.comment }}
+            </p>
 
-                osm_map.addLayer({
-                    "id": "route",
-                    "type": "line",
-                    "source": {
-                        "type": "geojson",
-                        "data": {
-                            "type": "Feature",
-                            "properties": {},
-                            "geometry": {
-                                "type": "LineString",
-                                "coordinates": line
+
+        </div>
+
+        {% endfor %}
+    </div>
+    {% if username != '' %}
+    <textarea class="form-control" style="width: 100%;" id="comment_fuild"
+        placeholder="Напишите сообщение..."></textarea>
+    <button type="button" class="btn btn-secondary btn-block" id="send_comment" onclick="send_comment()">Отправить
+        сообщение</button>
+    {% endif %}
+
+</div>
+
+
+<form method="POST">
+    {%csrf_token%}
+    <input id="participate" name="participate" type="hidden" value="Nope">
+</form>
+
+<script src="{% static 'js/hike.js' %}"></script>
+
+<script>
+    // alert('{{user.id}}'+'-'+'{{content.id}}'+'-'+'request_for_ptc')
+    function take_part() {
+        $.ajax({
+            url: "/send_notification_choice/",
+            type: 'POST',
+            data: {
+                'code': '{{user.id}}' + '-' + '{{content.id}}' + '-' + 'request_for_ptc',
+                'result': 'create'
+            },
+            //DO NOT EDIT!
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
                             }
                         }
-                    },
-                    "layout": {
-                        "line-join": "round",
-                        "line-cap": "round"
-                    },
-                    "paint": {
-                        "line-color": "#888",
-                        "line-width": 5
                     }
-                });
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            },
+            //EDITABLE CODE
+            success: function a(json) {
+                // alert(json);
+                // alert(json.exist);
+                if (json.result === "success") {
+                    byId('append_user').parentNode.removeChild(byId('append_user'));
+                    while (document.getElementsByClassName('li_ptc').length > 0) {
 
-                osm_map.addLayer({
-                    id: "places",
-                    type: "symbol",
-                    source: {
-                        type: "geojson",
-                        data: {
-                            type: "FeatureCollection",
-                            features: [
-                                //                {% for lk in content.landmarks %}
-                                {
-                                    type: "Feature",
-                                    properties: {
-                                        description: `<strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
-                                        icon: "mountain"
-                                    },
-                                    geometry: {
-                                        type: "Point",
-                                        coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
-                                    }
-                                },
-                                //         {% endfor %}
-                            ]
+                        document.getElementsByClassName('li_ptc')[0].remove();
+                    }
+                    json.users.forEach(user => {
+                        li = document.createElement('li');
+                        li.innerText = user;
+                        byId('ptc_list').appendChild(li);
+                    });
+                    count_notifications();
+                } else {
+                    alert('Так делать низя');
+                    count_notifications();
+                }
+            }
+        });
+    }
+
+    function send_comment() {
+        $.ajax({
+            url: "/send_comment/",
+            type: 'POST',
+            data: {
+                'comment': byId('comment_fuild').value,
+                'hike': '{{content.id}}',
+                'result': 'create'
+            },
+            //DO NOT EDIT!
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
                         }
-                    },
-                    layout: {
-                        "icon-image": "{icon}-15",
-                        "icon-allow-overlap": true
                     }
-                });
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            },
+            //EDITABLE CODE
+            success: function a(json) {
+                if (json.result === "success") {
+                    comment=`
+                    <div class="comment_box">
+                    <img src='`+document.getElementsByClassName('navbar-avatar')[0].src+`' class='creator_icon user_icon_small'
+                        alt="{% static 'icons/logo_grey.png' %}">
+                    <p class='user_full_name' style="display: inline;">`+json.author+`</p>
+                    <small>`+'{{username}}'+`</small>
+                    <small style="color: gray;float: right;">`+json.time_published+`</small>
+                    <p>
+                        `+byId('comment_fuild').value+`
+                    </p>
+                </div>                  
+                    `
+                    jQuery(comment).appendTo($('#comments_list'));
+                    byId('comment_fuild').value = '';
 
-                osm_map.on("click", "places", function(e) {
-                    var coordinates = e.features[0].geometry.coordinates.slice();
-                    var description = e.features[0].properties.description;
 
-                    // Ensure that if the map is zoomed out such that multiple
-                    // copies of the feature are visible, the popup appears
-                    // over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+
+
+
+                    li = byId(id_code);
+                } else {
+                    alert('Ошибка сервера');
+
+                }
+            }
+        });
+    }
+
+
+</script>
+
+<script>
+    coordinates = eval('{{ content.coordinates | safe }}');
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZmFyZGVuZW5kIiwiYSI6ImNrM3Z0bmk1azBwdHgzZG9wMG02Z3V2c2IifQ._1URrmAMoYXV_IrMRJZQjg';
+    if (coordinates.length != 0) {
+        var osm_map = new mapboxgl.Map({
+            container: 'osm_map',
+            style: 'mapbox://styles/mapbox/bright-v9',
+            center: coordinates[Math.floor(coordinates.length / 2)][1],
+            zoom: 5
+        })
+        osm_map.addControl(new mapboxgl.NavigationControl());
+    } else {
+        var osm_map = new mapboxgl.Map({
+            container: 'osm_map',
+            style: 'mapbox://styles/mapbox/bright-v9',
+            center: [3.420253241560829, 46.124064037019906],
+            zoom: 5
+        });
+        osm_map.addControl(new mapboxgl.NavigationControl());
+    }
+</script>
+
+<script>
+    coordinates = eval('{{ content.coordinates | safe }}');
+    var line = []
+
+    for (i = 0; i < coordinates.length; i++) {
+        var el = document.createElement('div');
+        el.content = coordinates[i][0];
+        el.textContent = coordinates[i][0];
+        el.className = 'marker';
+        el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
+        var x = coordinates[i][1][0];
+        var y = coordinates[i][1][1];
+        line.push([x, y]);
+        var marker = new mapboxgl.Marker(el, {
+            offset: {
+                x: -30,
+                y: -35
+            },
+        }).setLngLat([x, y]).addTo(osm_map);
+
+    }
+
+    osm_map.on('load', function () {
+
+        osm_map.addLayer({
+            "id": "route",
+            "type": "line",
+            "source": {
+                "type": "geojson",
+                "data": {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": line
                     }
+                }
+            },
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+            },
+            "paint": {
+                "line-color": "#888",
+                "line-width": 5
+            }
+        });
 
-                    new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(description)
-                        .addTo(osm_map);
-                });
+        osm_map.addLayer({
+            id: "places",
+            type: "symbol",
+            source: {
+                type: "geojson",
+                data: {
+                    type: "FeatureCollection",
+                    features: [
+                        //                {% for lk in content.landmarks %}
+                        {
+                            type: "Feature",
+                            properties: {
+                                description: `<strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
+                                icon: "mountain"
+                            },
+                            geometry: {
+                                type: "Point",
+                                coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                            }
+                        },
+                        //         {% endfor %}
+                    ]
+                }
+            },
+            layout: {
+                "icon-image": "{icon}-15",
+                "icon-allow-overlap": true
+            }
+        });
 
-                // Change the cursor to a pointer when the mouse is over the places layer.
-                osm_map.on("mouseenter", "places", function() {
-                    osm_map.getCanvas().style.cursor = "pointer";
-                });
+        osm_map.on("click", "places", function (e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
 
-                // Change it back to a pointer when it leaves.
-                osm_map.on("mouseleave", "places", function() {
-                    osm_map.getCanvas().style.cursor = "";
-                });
-            });
-        </script>
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(osm_map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        osm_map.on("mouseenter", "places", function () {
+            osm_map.getCanvas().style.cursor = "pointer";
+        });
+
+        // Change it back to a pointer when it leaves.
+        osm_map.on("mouseleave", "places", function () {
+            osm_map.getCanvas().style.cursor = "";
+        });
+    });
+</script>
 
 
-</body>
-
-</html>
 {% endblock %}
