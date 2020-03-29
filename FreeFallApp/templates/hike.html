@@ -123,7 +123,7 @@
     </h3>
     <div class='join_to_group'>
         {% if content.free_plases != "Nope" and user.is_anonymous != True %}
-        {% if user.username not in content.usernames %}
+        {% if user.username not in content.usernames and content.creator.username != username %}
         {% if content.join_to_group == 'open' %}
         <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
             value="Принять участие" style="display: inline-block;width:170px;height:35px">
