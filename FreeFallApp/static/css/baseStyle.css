@@ -571,7 +571,7 @@ a.article, a.article:hover {
 #create_hike_button {
     border-radius: 15px;
     color: #72319f !important;
-    background-color: #ebebeb;
+    background-color: #ffffff;
     font-weight: 600;
 }
 
@@ -589,6 +589,14 @@ a.article, a.article:hover {
 
 #notifications {
     list-style: none;
+}
+
+.nav-item i{
+    color: white;
+}
+
+#create_hike_button i {
+    color: #72319f;
 }
 
 /* ---------------------------------------------------
