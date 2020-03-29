@@ -227,8 +227,7 @@
 
         <div class="comment_box">
             {% if ct.avatar != '' %}
-            <img src='{{ avatar.url }}' class='creator_icon user_icon_small'
-                alt="{% static 'icons/logo_grey.png' %}">
+            <img src='{{ avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
             {% else %}
             <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
             {% endif %}
@@ -352,15 +351,15 @@
             //EDITABLE CODE
             success: function a(json) {
                 if (json.result === "success") {
-                    comment=`
+                    comment = `
                     <div class="comment_box">
-                    <img src='`+document.getElementsByClassName('navbar-avatar')[0].src+`' class='creator_icon user_icon_small'
+                    <img src='`+ document.getElementsByClassName('navbar-avatar')[0].src + `' class='creator_icon user_icon_small'
                         alt="{% static 'icons/logo_grey.png' %}">
-                    <p class='user_full_name' style="display: inline;">`+json.author+`</p>
-                    <small>`+'{{username}}'+`</small>
-                    <small style="color: gray;float: right;">`+json.time_published+`</small>
+                    <p class='user_full_name' style="display: inline;">`+ json.author + `</p>
+                    <small>`+ '{{username}}' + `</small>
+                    <small style="color: gray;float: right;">`+ json.time_published + `</small>
                     <p>
-                        `+byId('comment_fuild').value+`
+                        `+ byId('comment_fuild').value + `
                     </p>
                 </div>                  
                     `
@@ -389,7 +388,7 @@
     if (coordinates.length != 0) {
         var osm_map = new mapboxgl.Map({
             container: 'osm_map',
-            style: 'mapbox://styles/casy7/ck8delv4d0zgm1io4178mjhbn',
+            style: 'mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g',
             center: coordinates[Math.floor(coordinates.length / 2)][1],
             zoom: 5
         })
@@ -397,7 +396,7 @@
     } else {
         var osm_map = new mapboxgl.Map({
             container: 'osm_map',
-            style: 'mapbox://styles/casy7/ck8delv4d0zgm1io4178mjhbn',
+            style: 'mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g',
             center: [3.420253241560829, 46.124064037019906],
             zoom: 5
         });
@@ -427,31 +426,8 @@
 
     }
 
-    osm_map.on('load', function () {
 
-        osm_map.addLayer({
-            "id": "route",
-            "type": "line",
-            "source": {
-                "type": "geojson",
-                "data": {
-                    "type": "Feature",
-                    "properties": {},
-                    "geometry": {
-                        "type": "LineString",
-                        "coordinates": line
-                    }
-                }
-            },
-            "layout": {
-                "line-join": "round",
-                "line-cap": "round"
-            },
-            "paint": {
-                "line-color": "#888",
-                "line-width": 5
-            }
-        });
+    osm_map.on('load', function () {
 
         osm_map.addLayer({
             id: "places",
@@ -482,34 +458,26 @@
                 "icon-allow-overlap": true
             }
         });
-
-        osm_map.on("click", "places", function (e) {
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.description;
-
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
-
-            new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(description)
-                .addTo(osm_map);
-        });
-
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        osm_map.on("mouseenter", "places", function () {
-            osm_map.getCanvas().style.cursor = "pointer";
-        });
-
-        // Change it back to a pointer when it leaves.
-        osm_map.on("mouseleave", "places", function () {
-            osm_map.getCanvas().style.cursor = "";
-        });
     });
+
+    osm_map.on("click", "places", function (e) {
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(osm_map);
+    });
+
+
 </script>
 
 
