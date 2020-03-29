@@ -219,11 +219,11 @@ class NewHike(View, LoginRequiredMixin):
             days_count = int(str(bb-aa).split()[0]) + 1
         # Конец выделеного комментарием крипового кода. Дальше просто криповый код.
 
-            for i in range(days_count, 0, -1):
+            for i in range(1, days_count+1):
                 day = Day(
                     hike=hike,
                     name="День " + str(i),
-                    date=aa + timedelta(i),
+                    date=aa + timedelta(days=i-1),
                 )
                 day.save()
 
@@ -389,7 +389,7 @@ class SetHike(View):
         months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
         
         
-        for day in Day.objects.filter(hike=hike):
+        for day in Day.objects.filter(hike=hike).order_by('date'):
 
             day_id = int(day.name.split()[1])
 
@@ -412,15 +412,17 @@ class SetHike(View):
                 # days[0]['name'].replace('День', 'Дни')
 
                 days[0]['date']+=' - '+str(day.date.day)+' '+months[day.date.month-1]
-                if days[0]['date'].count(months[day.date.month-1])>1:
-                    date = days[0]['date']
-                    month = months[day.date.month-1]
-                    days[0]['date'] = date[:date.find(month)-1]+date[date.find(month)+len(month):]
+
                 days[0]['name']+=' - '+str(day_id)
 
 
-
         days = sorted(days, key=lambda x: int(x['id']))
+
+        for day in days:
+            if day['date'].count(day['date'].split(' ')[-1])>1:
+                date = day['date']
+                month = months[day.date.month-1]
+                day['date'] = date[:date.find(month)-1]+date[date.find(month)+len(month):]
 
         this_hike['days'] = days
         participants = []
@@ -456,6 +458,28 @@ class SetHike(View):
         else:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' мест'
         context['full_name'] = full_name(hike.creator)
+
+        # Комментарии
+
+        comments = []
+
+        hike_comments_models = Message.objects.filter(hike=hike).order_by('creation_datetime')
+
+        for ct_model in hike_comments_models:
+            ct = {}
+            ct['author'] = full_name(ct_model.author)
+            ct['author_username'] = ct_model.author.username
+            ct['comment'] = ct_model.text
+
+            ct['avatar'] = ''
+            if ct_model.author.profile.avatar.name != '':
+                ct['avatar'] = ct_model.author.profile.avatar
+
+            published_time = ct_model.creation_datetime.strftime('%H:%M, %d ')+months[ct_model.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            comments.append(ct)
+        context['comments'] = comments
+
 
         return render(request, "hike.html", context)
 

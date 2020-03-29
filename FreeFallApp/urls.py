@@ -26,6 +26,7 @@ urlpatterns = [
     url('get_user_notifications/', SendNotifications.as_view(), name='get_user_notifications'),
     url('change_map/', ChangeMap.as_view(), name='change_map'),
     url('get_filtered_hikes', FilterHikes.as_view(), name='get_filtered_hikes'),
+    url('send_comment', AddComment.as_view(), name='send_comment'),
     path('account_editor/', AccountEditor.as_view(), name="account_editor"),
 
 

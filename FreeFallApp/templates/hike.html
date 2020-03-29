@@ -3,13 +3,14 @@
 {% load static %}
 
 <style>
-@font-face {
-    font-family: "Roboto";
-    src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
-}
-.new_header { 
-    font-family: "Roboto", Verdana, Tahoma;
-}
+    @font-face {
+        font-family: "Roboto";
+        src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
+    }
+
+    .new_header {
+        font-family: "Roboto", Verdana, Tahoma;
+    }
 </style>
 
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
@@ -219,15 +220,47 @@
 
 <hr>
 
-<div>
-    <a class="btn btn-secondary" href="/discussion/{{content.id}}"
-        style="display: inline-block;width:170px;height:35px">Обсудить поход </a>
+<div class="hike_container">
+    <h2 class="new_header">Комментарии</h2>
+    <div class="comments" id='comments_list'>
+        {% for ct in comments %}
+
+        <div class="comment_box">
+            {% if ct.avatar != '' %}
+            <img src='{{ avatar.url }}' class='creator_icon user_icon_small'
+                alt="{% static 'icons/logo_grey.png' %}">
+            {% else %}
+            <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
+            {% endif %}
+            <p class='user_full_name' style="display: inline;">{{ ct.author }}</p>
+            <small>{{ ct.author_username }}</small>
+            <small style="color: gray;float: right;">{{ ct.time_published }}</small>
+
+            <p>
+                {{ ct.comment }}
+            </p>
+
+
+        </div>
+
+        {% endfor %}
+    </div>
+    {% if username != '' %}
+    <textarea class="form-control" style="width: 100%;" id="comment_fuild"
+        placeholder="Напишите сообщение..."></textarea>
+    <button type="button" class="btn btn-secondary btn-block" id="send_comment" onclick="send_comment()">Отправить
+        сообщение</button>
+    {% endif %}
+
 </div>
+
 
 <form method="POST">
     {%csrf_token%}
     <input id="participate" name="participate" type="hidden" value="Nope">
 </form>
+
+<script src="{% static 'js/hike.js' %}"></script>
 
 <script>
     // alert('{{user.id}}'+'-'+'{{content.id}}'+'-'+'request_for_ptc')
@@ -284,6 +317,70 @@
             }
         });
     }
+
+    function send_comment() {
+        $.ajax({
+            url: "/send_comment/",
+            type: 'POST',
+            data: {
+                'comment': byId('comment_fuild').value,
+                'hike': '{{content.id}}',
+                'result': 'create'
+            },
+            //DO NOT EDIT!
+            beforeSend: function (xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            },
+            //EDITABLE CODE
+            success: function a(json) {
+                if (json.result === "success") {
+                    comment=`
+                    <div class="comment_box">
+                    <img src='`+document.getElementsByClassName('navbar-avatar')[0].src+`' class='creator_icon user_icon_small'
+                        alt="{% static 'icons/logo_grey.png' %}">
+                    <p class='user_full_name' style="display: inline;">`+json.author+`</p>
+                    <small>`+'{{username}}'+`</small>
+                    <small style="color: gray;float: right;">`+json.time_published+`</small>
+                    <p>
+                        `+byId('comment_fuild').value+`
+                    </p>
+                </div>                  
+                    `
+                    jQuery(comment).appendTo($('#comments_list'));
+                    byId('comment_fuild').value = '';
+
+
+
+
+
+                    li = byId(id_code);
+                } else {
+                    alert('Ошибка сервера');
+
+                }
+            }
+        });
+    }
+
+
 </script>
 
 <script>
