@@ -1,0 +1,2739 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+-- Started on 2020-03-26 21:39:13
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE "FreeFallAdmin";
+ALTER ROLE "FreeFallAdmin" WITH NOSUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION NOBYPASSRLS PASSWORD 'md56ac95590fc72ab85fa44a8ea6140a90d';
+CREATE ROLE azure_pg_admin;
+ALTER ROLE azure_pg_admin WITH NOSUPERUSER INHERIT NOCREATEROLE NOCREATEDB NOLOGIN NOREPLICATION NOBYPASSRLS;
+CREATE ROLE azure_superuser;
+ALTER ROLE azure_superuser WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS;
+
+
+--
+-- Role memberships
+--
+
+GRANT azure_pg_admin TO "FreeFallAdmin" GRANTED BY azure_superuser;
+
+
+
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.6
+-- Dumped by pg_dump version 11.5
+
+-- Started on 2020-03-26 21:39:15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2020-03-26 21:39:25
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.6
+-- Dumped by pg_dump version 11.5
+
+-- Started on 2020-03-26 21:39:25
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4504 (class 1262 OID 23008)
+-- Name: FreeFallDB; Type: DATABASE; Schema: -; Owner: FreeFallAdmin
+--
+
+CREATE DATABASE "FreeFallDB" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'English_United States.1252' LC_CTYPE = 'English_United States.1252';
+
+
+ALTER DATABASE "FreeFallDB" OWNER TO "FreeFallAdmin";
+
+\connect "FreeFallDB"
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 227 (class 1259 OID 23187)
+-- Name: FreeFallApp_contact; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_contact" (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    value character varying(250) NOT NULL,
+    user_id integer NOT NULL,
+    visible_for character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public."FreeFallApp_contact" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 226 (class 1259 OID 23185)
+-- Name: FreeFallApp_contact_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_contact_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_contact_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4505 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: FreeFallApp_contact_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_contact_id_seq" OWNED BY public."FreeFallApp_contact".id;
+
+
+--
+-- TOC entry 229 (class 1259 OID 23265)
+-- Name: FreeFallApp_day; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_day" (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    description character varying(200000) NOT NULL,
+    coordinates character varying(200000) NOT NULL,
+    date date NOT NULL,
+    caption character varying(200) NOT NULL,
+    image character varying(100),
+    hike_id integer
+);
+
+
+ALTER TABLE public."FreeFallApp_day" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 228 (class 1259 OID 23263)
+-- Name: FreeFallApp_day_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_day_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_day_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4506 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: FreeFallApp_day_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_day_id_seq" OWNED BY public."FreeFallApp_day".id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 23160)
+-- Name: FreeFallApp_hike; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_hike" (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    description character varying(200000) NOT NULL,
+    short_description character varying(1000) NOT NULL,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    difficulty character varying(200) NOT NULL,
+    type_of_hike character varying(200) NOT NULL,
+    coordinates character varying(200000) NOT NULL,
+    creation_datetime timestamp with time zone NOT NULL,
+    image character varying(100),
+    creator_id integer,
+    join_to_group character varying(10) NOT NULL,
+    limit_of_members integer NOT NULL
+);
+
+
+ALTER TABLE public."FreeFallApp_hike" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 220 (class 1259 OID 23158)
+-- Name: FreeFallApp_hike_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_hike_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_hike_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4507 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: FreeFallApp_hike_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_hike_id_seq" OWNED BY public."FreeFallApp_hike".id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 23171)
+-- Name: FreeFallApp_hike_landmarks; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_hike_landmarks" (
+    id integer NOT NULL,
+    hike_id integer NOT NULL,
+    landmark_id integer NOT NULL
+);
+
+
+ALTER TABLE public."FreeFallApp_hike_landmarks" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 222 (class 1259 OID 23169)
+-- Name: FreeFallApp_hike_landmarks_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_hike_landmarks_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_hike_landmarks_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4508 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: FreeFallApp_hike_landmarks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_hike_landmarks_id_seq" OWNED BY public."FreeFallApp_hike_landmarks".id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 23179)
+-- Name: FreeFallApp_hike_participants; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_hike_participants" (
+    id integer NOT NULL,
+    hike_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."FreeFallApp_hike_participants" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 224 (class 1259 OID 23177)
+-- Name: FreeFallApp_hike_participants_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_hike_participants_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_hike_participants_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4509 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: FreeFallApp_hike_participants_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_hike_participants_id_seq" OWNED BY public."FreeFallApp_hike_participants".id;
+
+
+--
+-- TOC entry 217 (class 1259 OID 23136)
+-- Name: FreeFallApp_landmark; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_landmark" (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    description character varying(200000) NOT NULL,
+    image character varying(100),
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    is_public boolean NOT NULL
+);
+
+
+ALTER TABLE public."FreeFallApp_landmark" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 216 (class 1259 OID 23134)
+-- Name: FreeFallApp_landmark_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_landmark_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_landmark_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4510 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: FreeFallApp_landmark_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_landmark_id_seq" OWNED BY public."FreeFallApp_landmark".id;
+
+
+--
+-- TOC entry 233 (class 1259 OID 23350)
+-- Name: FreeFallApp_message; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_message" (
+    id integer NOT NULL,
+    creation_datetime timestamp with time zone NOT NULL,
+    text character varying(200000) NOT NULL,
+    author_id integer,
+    name character varying(200) NOT NULL,
+    hike_id integer
+);
+
+
+ALTER TABLE public."FreeFallApp_message" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 232 (class 1259 OID 23348)
+-- Name: FreeFallApp_message_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_message_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_message_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4511 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: FreeFallApp_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_message_id_seq" OWNED BY public."FreeFallApp_message".id;
+
+
+--
+-- TOC entry 231 (class 1259 OID 23313)
+-- Name: FreeFallApp_notification; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_notification" (
+    id integer NOT NULL,
+    type_of_notification character varying(25) NOT NULL,
+    datetime timestamp with time zone NOT NULL,
+    hike_id integer NOT NULL,
+    user_id integer NOT NULL,
+    from_user_id integer,
+    text character varying(2000)
+);
+
+
+ALTER TABLE public."FreeFallApp_notification" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 230 (class 1259 OID 23311)
+-- Name: FreeFallApp_notification_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_notification_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_notification_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4512 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: FreeFallApp_notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_notification_id_seq" OWNED BY public."FreeFallApp_notification".id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 23147)
+-- Name: FreeFallApp_profile; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public."FreeFallApp_profile" (
+    id integer NOT NULL,
+    about character varying(2000) NOT NULL,
+    gender character varying(20) NOT NULL,
+    see_hikes character varying(10) NOT NULL,
+    add_to_participation character varying(10) NOT NULL,
+    request_for_participation character varying(10) NOT NULL,
+    user_id integer NOT NULL,
+    avatar character varying(100)
+);
+
+
+ALTER TABLE public."FreeFallApp_profile" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 218 (class 1259 OID 23145)
+-- Name: FreeFallApp_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public."FreeFallApp_profile_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."FreeFallApp_profile_id_seq" OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4513 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: FreeFallApp_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public."FreeFallApp_profile_id_seq" OWNED BY public."FreeFallApp_profile".id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 23040)
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 206 (class 1259 OID 23038)
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4514 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 23050)
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 208 (class 1259 OID 23048)
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4515 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 23032)
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 204 (class 1259 OID 23030)
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4516 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 23058)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 213 (class 1259 OID 23068)
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 212 (class 1259 OID 23066)
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4517 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- TOC entry 210 (class 1259 OID 23056)
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4518 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- TOC entry 215 (class 1259 OID 23076)
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 214 (class 1259 OID 23074)
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4519 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- TOC entry 235 (class 1259 OID 23396)
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 234 (class 1259 OID 23394)
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4520 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- TOC entry 203 (class 1259 OID 23022)
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 202 (class 1259 OID 23020)
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4521 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 23011)
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 200 (class 1259 OID 23009)
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4522 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- TOC entry 236 (class 1259 OID 23427)
+-- Name: django_session; Type: TABLE; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO "FreeFallAdmin";
+
+--
+-- TOC entry 4228 (class 2604 OID 23190)
+-- Name: FreeFallApp_contact id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_contact" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_contact_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4229 (class 2604 OID 23268)
+-- Name: FreeFallApp_day id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_day" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_day_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4225 (class 2604 OID 23163)
+-- Name: FreeFallApp_hike id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_hike_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4226 (class 2604 OID 23174)
+-- Name: FreeFallApp_hike_landmarks id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_landmarks" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_hike_landmarks_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4227 (class 2604 OID 23182)
+-- Name: FreeFallApp_hike_participants id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_participants" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_hike_participants_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4223 (class 2604 OID 23139)
+-- Name: FreeFallApp_landmark id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_landmark" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_landmark_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4231 (class 2604 OID 23353)
+-- Name: FreeFallApp_message id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_message" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_message_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4230 (class 2604 OID 23316)
+-- Name: FreeFallApp_notification id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_notification" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_notification_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4224 (class 2604 OID 23150)
+-- Name: FreeFallApp_profile id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_profile" ALTER COLUMN id SET DEFAULT nextval('public."FreeFallApp_profile_id_seq"'::regclass);
+
+
+--
+-- TOC entry 4218 (class 2604 OID 23043)
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- TOC entry 4219 (class 2604 OID 23053)
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 4217 (class 2604 OID 23035)
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 4220 (class 2604 OID 23061)
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 4221 (class 2604 OID 23071)
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 4222 (class 2604 OID 23079)
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 4232 (class 2604 OID 23399)
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 4216 (class 2604 OID 23025)
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- TOC entry 4215 (class 2604 OID 23014)
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 4489 (class 0 OID 23187)
+-- Dependencies: 227
+-- Data for Name: FreeFallApp_contact; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_contact" (id, name, value, user_id, visible_for) FROM stdin;
+1	email	lenin@mail.com	4	noone
+\.
+
+
+--
+-- TOC entry 4491 (class 0 OID 23265)
+-- Dependencies: 229
+-- Data for Name: FreeFallApp_day; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_day" (id, name, description, coordinates, date, caption, image, hike_id) FROM stdin;
+1	День 11		[]	2022-03-21			1
+2	День 10		[]	2022-03-20			1
+3	День 9		[]	2022-03-19			1
+4	День 8		[]	2022-03-18			1
+5	День 7		[]	2022-03-17			1
+6	День 6		[]	2022-03-16			1
+7	День 5		[]	2022-03-15			1
+8	День 4		[]	2022-03-14			1
+9	День 3		[]	2022-03-13			1
+10	День 2		[]	2022-03-12			1
+11	День 1		[]	2022-03-11			1
+12	День 1	Конец настал.	[]	2020-03-10	Мы будем биться до конца!		2
+23	День 1		[]	2020-03-12			3
+22	День 2		[]	2020-03-13			3
+21	День 3		[]	2020-03-14			3
+20	День 4		[]	2020-03-15			3
+19	День 5		[]	2020-03-16			3
+18	День 6		[]	2020-03-17			3
+17	День 7		[]	2020-03-18			3
+16	День 8		[]	2020-03-19			3
+15	День 9		[]	2020-03-20			3
+14	День 10		[]	2020-03-21			3
+13	День 11		[]	2020-03-22			3
+34	День 1		[]	2020-03-19			4
+33	День 2		[]	2020-03-20			4
+32	День 3		[]	2020-03-21			4
+31	День 4		[]	2020-03-22			4
+30	День 5		[]	2020-03-23			4
+29	День 6		[]	2020-03-24			4
+28	День 7		[]	2020-03-25			4
+27	День 8		[]	2020-03-26			4
+26	День 9		[]	2020-03-27			4
+25	День 10		[]	2020-03-28			4
+24	День 11		[]	2020-03-29			4
+35	День 376		[]	2023-04-01			5
+36	День 375		[]	2023-03-31			5
+37	День 374		[]	2023-03-30			5
+38	День 373		[]	2023-03-29			5
+39	День 372		[]	2023-03-28			5
+40	День 371		[]	2023-03-27			5
+41	День 370		[]	2023-03-26			5
+42	День 369		[]	2023-03-25			5
+43	День 368		[]	2023-03-24			5
+44	День 367		[]	2023-03-23			5
+45	День 366		[]	2023-03-22			5
+46	День 365		[]	2023-03-21			5
+47	День 364		[]	2023-03-20			5
+48	День 363		[]	2023-03-19			5
+49	День 362		[]	2023-03-18			5
+50	День 361		[]	2023-03-17			5
+51	День 360		[]	2023-03-16			5
+52	День 359		[]	2023-03-15			5
+53	День 358		[]	2023-03-14			5
+54	День 357		[]	2023-03-13			5
+55	День 356		[]	2023-03-12			5
+56	День 355		[]	2023-03-11			5
+57	День 354		[]	2023-03-10			5
+58	День 353		[]	2023-03-09			5
+59	День 352		[]	2023-03-08			5
+60	День 351		[]	2023-03-07			5
+61	День 350		[]	2023-03-06			5
+62	День 349		[]	2023-03-05			5
+63	День 348		[]	2023-03-04			5
+64	День 347		[]	2023-03-03			5
+65	День 346		[]	2023-03-02			5
+66	День 345		[]	2023-03-01			5
+67	День 344		[]	2023-02-28			5
+68	День 343		[]	2023-02-27			5
+69	День 342		[]	2023-02-26			5
+70	День 341		[]	2023-02-25			5
+71	День 340		[]	2023-02-24			5
+72	День 339		[]	2023-02-23			5
+73	День 338		[]	2023-02-22			5
+74	День 337		[]	2023-02-21			5
+75	День 336		[]	2023-02-20			5
+76	День 335		[]	2023-02-19			5
+77	День 334		[]	2023-02-18			5
+78	День 333		[]	2023-02-17			5
+79	День 332		[]	2023-02-16			5
+80	День 331		[]	2023-02-15			5
+81	День 330		[]	2023-02-14			5
+82	День 329		[]	2023-02-13			5
+83	День 328		[]	2023-02-12			5
+84	День 327		[]	2023-02-11			5
+85	День 326		[]	2023-02-10			5
+86	День 325		[]	2023-02-09			5
+87	День 324		[]	2023-02-08			5
+88	День 323		[]	2023-02-07			5
+89	День 322		[]	2023-02-06			5
+90	День 321		[]	2023-02-05			5
+91	День 320		[]	2023-02-04			5
+92	День 319		[]	2023-02-03			5
+93	День 318		[]	2023-02-02			5
+94	День 317		[]	2023-02-01			5
+95	День 316		[]	2023-01-31			5
+96	День 315		[]	2023-01-30			5
+97	День 314		[]	2023-01-29			5
+98	День 313		[]	2023-01-28			5
+99	День 312		[]	2023-01-27			5
+100	День 311		[]	2023-01-26			5
+101	День 310		[]	2023-01-25			5
+102	День 309		[]	2023-01-24			5
+104	День 307		[]	2023-01-22			5
+105	День 306		[]	2023-01-21			5
+107	День 304		[]	2023-01-19			5
+108	День 303		[]	2023-01-18			5
+109	День 302		[]	2023-01-17			5
+110	День 301		[]	2023-01-16			5
+111	День 300		[]	2023-01-15			5
+112	День 299		[]	2023-01-14			5
+113	День 298		[]	2023-01-13			5
+114	День 297		[]	2023-01-12			5
+115	День 296		[]	2023-01-11			5
+116	День 295		[]	2023-01-10			5
+117	День 294		[]	2023-01-09			5
+118	День 293		[]	2023-01-08			5
+119	День 292		[]	2023-01-07			5
+120	День 291		[]	2023-01-06			5
+121	День 290		[]	2023-01-05			5
+122	День 289		[]	2023-01-04			5
+124	День 287		[]	2023-01-02			5
+125	День 286		[]	2023-01-01			5
+126	День 285		[]	2022-12-31			5
+127	День 284		[]	2022-12-30			5
+128	День 283		[]	2022-12-29			5
+129	День 282		[]	2022-12-28			5
+130	День 281		[]	2022-12-27			5
+131	День 280		[]	2022-12-26			5
+132	День 279		[]	2022-12-25			5
+133	День 278		[]	2022-12-24			5
+134	День 277		[]	2022-12-23			5
+135	День 276		[]	2022-12-22			5
+136	День 275		[]	2022-12-21			5
+137	День 274		[]	2022-12-20			5
+138	День 273		[]	2022-12-19			5
+139	День 272		[]	2022-12-18			5
+141	День 270		[]	2022-12-16			5
+142	День 269		[]	2022-12-15			5
+143	День 268		[]	2022-12-14			5
+144	День 267		[]	2022-12-13			5
+145	День 266		[]	2022-12-12			5
+146	День 265		[]	2022-12-11			5
+147	День 264		[]	2022-12-10			5
+148	День 263		[]	2022-12-09			5
+149	День 262		[]	2022-12-08			5
+150	День 261		[]	2022-12-07			5
+151	День 260		[]	2022-12-06			5
+152	День 259		[]	2022-12-05			5
+153	День 258		[]	2022-12-04			5
+154	День 257		[]	2022-12-03			5
+155	День 256		[]	2022-12-02			5
+156	День 255		[]	2022-12-01			5
+158	День 253		[]	2022-11-29			5
+159	День 252		[]	2022-11-28			5
+160	День 251		[]	2022-11-27			5
+161	День 250		[]	2022-11-26			5
+162	День 249		[]	2022-11-25			5
+163	День 248		[]	2022-11-24			5
+164	День 247		[]	2022-11-23			5
+165	День 246		[]	2022-11-22			5
+166	День 245		[]	2022-11-21			5
+167	День 244		[]	2022-11-20			5
+168	День 243		[]	2022-11-19			5
+169	День 242		[]	2022-11-18			5
+170	День 241		[]	2022-11-17			5
+171	День 240		[]	2022-11-16			5
+172	День 239		[]	2022-11-15			5
+173	День 238		[]	2022-11-14			5
+175	День 236		[]	2022-11-12			5
+176	День 235		[]	2022-11-11			5
+177	День 234		[]	2022-11-10			5
+178	День 233		[]	2022-11-09			5
+179	День 232		[]	2022-11-08			5
+180	День 231		[]	2022-11-07			5
+181	День 230		[]	2022-11-06			5
+182	День 229		[]	2022-11-05			5
+183	День 228		[]	2022-11-04			5
+184	День 227		[]	2022-11-03			5
+185	День 226		[]	2022-11-02			5
+186	День 225		[]	2022-11-01			5
+187	День 224		[]	2022-10-31			5
+188	День 223		[]	2022-10-30			5
+189	День 222		[]	2022-10-29			5
+190	День 221		[]	2022-10-28			5
+192	День 219		[]	2022-10-26			5
+193	День 218		[]	2022-10-25			5
+194	День 217		[]	2022-10-24			5
+195	День 216		[]	2022-10-23			5
+196	День 215		[]	2022-10-22			5
+197	День 214		[]	2022-10-21			5
+198	День 213		[]	2022-10-20			5
+199	День 212		[]	2022-10-19			5
+200	День 211		[]	2022-10-18			5
+201	День 210		[]	2022-10-17			5
+202	День 209		[]	2022-10-16			5
+203	День 208		[]	2022-10-15			5
+204	День 207		[]	2022-10-14			5
+205	День 206		[]	2022-10-13			5
+206	День 205		[]	2022-10-12			5
+207	День 204		[]	2022-10-11			5
+209	День 202		[]	2022-10-09			5
+210	День 201		[]	2022-10-08			5
+211	День 200		[]	2022-10-07			5
+212	День 199		[]	2022-10-06			5
+213	День 198		[]	2022-10-05			5
+214	День 197		[]	2022-10-04			5
+215	День 196		[]	2022-10-03			5
+216	День 195		[]	2022-10-02			5
+217	День 194		[]	2022-10-01			5
+218	День 193		[]	2022-09-30			5
+219	День 192		[]	2022-09-29			5
+220	День 191		[]	2022-09-28			5
+221	День 190		[]	2022-09-27			5
+222	День 189		[]	2022-09-26			5
+224	День 187		[]	2022-09-24			5
+225	День 186		[]	2022-09-23			5
+226	День 185		[]	2022-09-22			5
+227	День 184		[]	2022-09-21			5
+229	День 182		[]	2022-09-19			5
+230	День 181		[]	2022-09-18			5
+231	День 180		[]	2022-09-17			5
+232	День 179		[]	2022-09-16			5
+233	День 178		[]	2022-09-15			5
+234	День 177		[]	2022-09-14			5
+235	День 176		[]	2022-09-13			5
+236	День 175		[]	2022-09-12			5
+237	День 174		[]	2022-09-11			5
+238	День 173		[]	2022-09-10			5
+239	День 172		[]	2022-09-09			5
+240	День 171		[]	2022-09-08			5
+241	День 170		[]	2022-09-07			5
+242	День 169		[]	2022-09-06			5
+243	День 168		[]	2022-09-05			5
+244	День 167		[]	2022-09-04			5
+246	День 165		[]	2022-09-02			5
+247	День 164		[]	2022-09-01			5
+248	День 163		[]	2022-08-31			5
+249	День 162		[]	2022-08-30			5
+250	День 161		[]	2022-08-29			5
+251	День 160		[]	2022-08-28			5
+252	День 159		[]	2022-08-27			5
+253	День 158		[]	2022-08-26			5
+254	День 157		[]	2022-08-25			5
+255	День 156		[]	2022-08-24			5
+256	День 155		[]	2022-08-23			5
+257	День 154		[]	2022-08-22			5
+258	День 153		[]	2022-08-21			5
+259	День 152		[]	2022-08-20			5
+260	День 151		[]	2022-08-19			5
+261	День 150		[]	2022-08-18			5
+263	День 148		[]	2022-08-16			5
+264	День 147		[]	2022-08-15			5
+265	День 146		[]	2022-08-14			5
+266	День 145		[]	2022-08-13			5
+267	День 144		[]	2022-08-12			5
+268	День 143		[]	2022-08-11			5
+269	День 142		[]	2022-08-10			5
+270	День 141		[]	2022-08-09			5
+271	День 140		[]	2022-08-08			5
+272	День 139		[]	2022-08-07			5
+273	День 138		[]	2022-08-06			5
+274	День 137		[]	2022-08-05			5
+275	День 136		[]	2022-08-04			5
+276	День 135		[]	2022-08-03			5
+277	День 134		[]	2022-08-02			5
+278	День 133		[]	2022-08-01			5
+280	День 131		[]	2022-07-30			5
+281	День 130		[]	2022-07-29			5
+282	День 129		[]	2022-07-28			5
+283	День 128		[]	2022-07-27			5
+284	День 127		[]	2022-07-26			5
+285	День 126		[]	2022-07-25			5
+286	День 125		[]	2022-07-24			5
+287	День 124		[]	2022-07-23			5
+288	День 123		[]	2022-07-22			5
+289	День 122		[]	2022-07-21			5
+290	День 121		[]	2022-07-20			5
+291	День 120		[]	2022-07-19			5
+292	День 119		[]	2022-07-18			5
+293	День 118		[]	2022-07-17			5
+294	День 117		[]	2022-07-16			5
+295	День 116		[]	2022-07-15			5
+297	День 114		[]	2022-07-13			5
+298	День 113		[]	2022-07-12			5
+299	День 112		[]	2022-07-11			5
+300	День 111		[]	2022-07-10			5
+301	День 110		[]	2022-07-09			5
+302	День 109		[]	2022-07-08			5
+303	День 108		[]	2022-07-07			5
+304	День 107		[]	2022-07-06			5
+305	День 106		[]	2022-07-05			5
+306	День 105		[]	2022-07-04			5
+307	День 104		[]	2022-07-03			5
+308	День 103		[]	2022-07-02			5
+309	День 102		[]	2022-07-01			5
+310	День 101		[]	2022-06-30			5
+311	День 100		[]	2022-06-29			5
+312	День 99		[]	2022-06-28			5
+313	День 98		[]	2022-06-27			5
+314	День 97		[]	2022-06-26			5
+316	День 95		[]	2022-06-24			5
+317	День 94		[]	2022-06-23			5
+318	День 93		[]	2022-06-22			5
+319	День 92		[]	2022-06-21			5
+320	День 91		[]	2022-06-20			5
+321	День 90		[]	2022-06-19			5
+322	День 89		[]	2022-06-18			5
+323	День 88		[]	2022-06-17			5
+324	День 87		[]	2022-06-16			5
+325	День 86		[]	2022-06-15			5
+326	День 85		[]	2022-06-14			5
+327	День 84		[]	2022-06-13			5
+328	День 83		[]	2022-06-12			5
+329	День 82		[]	2022-06-11			5
+331	День 80		[]	2022-06-09			5
+332	День 79		[]	2022-06-08			5
+333	День 78		[]	2022-06-07			5
+334	День 77		[]	2022-06-06			5
+335	День 76		[]	2022-06-05			5
+336	День 75		[]	2022-06-04			5
+337	День 74		[]	2022-06-03			5
+338	День 73		[]	2022-06-02			5
+339	День 72		[]	2022-06-01			5
+340	День 71		[]	2022-05-31			5
+341	День 70		[]	2022-05-30			5
+342	День 69		[]	2022-05-29			5
+343	День 68		[]	2022-05-28			5
+344	День 67		[]	2022-05-27			5
+346	День 65		[]	2022-05-25			5
+103	День 308		[]	2023-01-23			5
+106	День 305		[]	2023-01-20			5
+123	День 288		[]	2023-01-03			5
+140	День 271		[]	2022-12-17			5
+157	День 254		[]	2022-11-30			5
+174	День 237		[]	2022-11-13			5
+191	День 220		[]	2022-10-27			5
+208	День 203		[]	2022-10-10			5
+223	День 188		[]	2022-09-25			5
+228	День 183		[]	2022-09-20			5
+245	День 166		[]	2022-09-03			5
+262	День 149		[]	2022-08-17			5
+279	День 132		[]	2022-07-31			5
+296	День 115		[]	2022-07-14			5
+315	День 96		[]	2022-06-25			5
+330	День 81		[]	2022-06-10			5
+345	День 66		[]	2022-05-26			5
+347	День 64		[]	2022-05-24			5
+348	День 63		[]	2022-05-23			5
+349	День 62		[]	2022-05-22			5
+350	День 61		[]	2022-05-21			5
+351	День 60		[]	2022-05-20			5
+352	День 59		[]	2022-05-19			5
+353	День 58		[]	2022-05-18			5
+354	День 57		[]	2022-05-17			5
+355	День 56		[]	2022-05-16			5
+356	День 55		[]	2022-05-15			5
+357	День 54		[]	2022-05-14			5
+358	День 53		[]	2022-05-13			5
+359	День 52		[]	2022-05-12			5
+360	День 51		[]	2022-05-11			5
+361	День 50		[]	2022-05-10			5
+362	День 49		[]	2022-05-09			5
+363	День 48		[]	2022-05-08			5
+364	День 47		[]	2022-05-07			5
+365	День 46		[]	2022-05-06			5
+366	День 45		[]	2022-05-05			5
+367	День 44		[]	2022-05-04			5
+368	День 43		[]	2022-05-03			5
+369	День 42		[]	2022-05-02			5
+370	День 41		[]	2022-05-01			5
+371	День 40		[]	2022-04-30			5
+372	День 39		[]	2022-04-29			5
+373	День 38		[]	2022-04-28			5
+374	День 37		[]	2022-04-27			5
+375	День 36		[]	2022-04-26			5
+376	День 35		[]	2022-04-25			5
+377	День 34		[]	2022-04-24			5
+378	День 33		[]	2022-04-23			5
+379	День 32		[]	2022-04-22			5
+380	День 31		[]	2022-04-21			5
+381	День 30		[]	2022-04-20			5
+382	День 29		[]	2022-04-19			5
+383	День 28		[]	2022-04-18			5
+384	День 27		[]	2022-04-17			5
+385	День 26		[]	2022-04-16			5
+386	День 25		[]	2022-04-15			5
+387	День 24		[]	2022-04-14			5
+388	День 23		[]	2022-04-13			5
+389	День 22		[]	2022-04-12			5
+390	День 21		[]	2022-04-11			5
+391	День 20		[]	2022-04-10			5
+392	День 19		[]	2022-04-09			5
+393	День 18		[]	2022-04-08			5
+394	День 17		[]	2022-04-07			5
+395	День 16		[]	2022-04-06			5
+396	День 15		[]	2022-04-05			5
+397	День 14		[]	2022-04-04			5
+398	День 13		[]	2022-04-03			5
+399	День 12		[]	2022-04-02			5
+400	День 11		[]	2022-04-01			5
+401	День 10		[]	2022-03-31			5
+402	День 9		[]	2022-03-30			5
+403	День 8		[]	2022-03-29			5
+404	День 7		[]	2022-03-28			5
+405	День 6		[]	2022-03-27			5
+406	День 5	гшпдбри	[]	2022-03-26	гдшд гш		5
+407	День 4	гпшдгшдбгрю гшпдб гпшд гшпдлп гшлд пгшлд гпшлд пгшл гшпд	[]	2022-03-25	гшдпгшдб		5
+408	День 3	гшдбпгшдг	[]	2022-03-24	гдгшд		5
+409	День 2	гшдбшгщд	[]	2022-03-23	пролш		5
+410	День 1	ыамро	[]	2022-03-22	ыа		5
+411	День 11		[]	2020-04-01			6
+412	День 10		[]	2020-03-31			6
+413	День 9		[]	2020-03-30			6
+414	День 8		[]	2020-03-29			6
+415	День 7		[]	2020-03-28			6
+416	День 6		[]	2020-03-27			6
+417	День 5		[]	2020-03-26			6
+418	День 4		[]	2020-03-25			6
+419	День 3		[]	2020-03-24			6
+420	День 2		[]	2020-03-23			6
+421	День 1		[]	2020-03-22			6
+430	День 2		[]	2020-03-25			7
+429	День 3		[]	2020-03-26			7
+428	День 4		[]	2020-03-27			7
+427	День 5		[]	2020-03-28			7
+426	День 6		[]	2020-03-29			7
+425	День 7		[]	2020-03-30			7
+424	День 8		[]	2020-03-31			7
+423	День 9		[]	2020-04-01			7
+422	День 10		[]	2020-04-02			7
+441	День 2		[]	2020-03-24			8
+440	День 3		[]	2020-03-25			8
+439	День 4		[]	2020-03-26			8
+438	День 5		[]	2020-03-27			8
+437	День 6		[]	2020-03-28			8
+436	День 7		[]	2020-03-29			8
+435	День 8		[]	2020-03-30			8
+434	День 9		[]	2020-03-31			8
+433	День 10		[]	2020-04-01			8
+432	День 11		[]	2020-04-02			8
+443	День 11		[]	2020-04-02			9
+442	День 1		[]	2020-03-23			8
+444	День 10		[]	2020-04-01			9
+445	День 9		[]	2020-03-31			9
+446	День 8		[]	2020-03-30			9
+447	День 7		[]	2020-03-29			9
+448	День 6		[]	2020-03-28			9
+449	День 5		[]	2020-03-27			9
+450	День 4		[]	2020-03-26			9
+451	День 3		[]	2020-03-25			9
+452	День 2		[]	2020-03-24			9
+453	День 1		[]	2020-03-23			9
+464	День 1		[]	2020-03-23			10
+463	День 2		[]	2020-03-24			10
+462	День 3		[]	2020-03-25			10
+461	День 4		[]	2020-03-26			10
+460	День 5		[]	2020-03-27			10
+459	День 6		[]	2020-03-28			10
+458	День 7		[]	2020-03-29			10
+457	День 8		[]	2020-03-30			10
+456	День 9		[]	2020-03-31			10
+455	День 10		[]	2020-04-01			10
+454	День 11		[]	2020-04-02			10
+431	День 1		[]	2020-03-24			7
+478	День 1	Прилетаем в Женеву, откуда прямым автобусом из аэропорта добираемся до города Шамони-Мон-блан, и там уже селимся в кемпинге. 	[]	2020-05-31	Женева, Шамони -- Шамони-Мон-блан		11
+477	День 2	Идём траверсом на Юго-Запад, проходим ледник "Вид из орлиного гнезда", обходим справа гору Mont Vorassay, через Шале Дю Трюк спускаемся в посёлок Ле Контамин-Монжуа, где докупаем еду. Поднимаемся до озера Армансет и там ночуем.	[]	2020-06-01	Шамони-Мон-блан -- Ле Контамин-Монжуа		11
+476	День 3	Небольшой переход с набором высоты, полуднёвка в природном заповеднике des Contamines-Montjoie для акклиматизации.	[]	2020-06-02	Переход до природного заповедника des Contamines-Montjoie		11
+474	День 5	Штурмовой день. Продолжаем движение по хребту, минуем шпиль de Bionnassay и восходим на Dôme du Goûter.	[]	2020-06-04	Шпиль de Bionnassay		11
+470	День 9	Поднимаемся на Grand Golliat и делаем марш-бросок до горы Combin du Meitin, по итогу около 25км с набором высоты 1,5км.	[]	2020-06-08	Вершина Combin du Meitin		11
+466	День 13	Несложный, но достаточно длинный путь, проходящий через вершину Эгюий-де-ла-Гранд-Сасьер. Готовимся к финальному переходу.	[]	2020-06-12	Долина Vallone di Chavannes		11
+465	День 14	Программа-минимум: мы проходим через тоннель под Монбланом прямо до Шамони-Мон-Блан.\r\nПрограмма-максимум: идём через горы. Подъём через ледник Монблан и спускаемся вниз с другой стороны хребта через убежище Де Готтер	[]	2020-06-13	Возвращение в Шамони-Мон-Блан		11
+475	День 4	По леднику Трес Ла Тете выходим на хребет и по нему идём до стоянки Refuge Durier.	[]	2020-06-03	Выход на хребет		11
+473	День 6	Марш-бросок до вершины, где устраиваем двухчасовой привал с перекусом. Обед на Проклятой горе, спускаемся и ночуем в хижине Rifugio Torino.	[]	2020-06-05	Вершина Монблан		11
+472	День 7	Продолжаем движение по хребту. Идём через Cresta di Rochefort, проходим статую Dent du Géant.\r\nВосходим на гору Эгий де Триоле и ночуем под ней.	[]	2020-06-06	Спуск по хребту Курмайор		11
+471	День 8	Долгий и достаточно однообразный спуск. Останавливаемся либо в убежище Чезаре Далмацци в Триоле, либо спускаемся ниже до долины Валь-Ферре к истоку реки Елена и ночуем там.	[]	2020-06-07	Долина Валь-Ферре		11
+469	День 10	Идём вниз по долине. Оставляем слева озёра Lac de Thoules, выходим к цивилизации. Через посёлки Glacier, Ollomont, La Cretaz-roisan выходим к городу Аоста. Закупаемся продуктами и поднимаемся к Национальному парку Гран Парадизо.	[]	2020-06-09	Водопады Mont-Rion		11
+468	День 11	Делаем небольшой крюк по долине и сосходим на вершину. Затем сворачиваем на маршрут до Pointe de Calabre, где устраиваемся на ночёвку.	[]	2020-06-10	Крюк до вершины Гран Парадизо		11
+467	День 12	По дуге движемся на Северо-Запад, спускаемся до часовни Йохен Тур в Валь Гризенше, затем переходим через перешеек к озеру Нуар	[]	2020-06-11	Часовня Йохен Тур в Валь Гризенше, озеро Нуар		11
+\.
+
+
+--
+-- TOC entry 4483 (class 0 OID 23160)
+-- Dependencies: 221
+-- Data for Name: FreeFallApp_hike; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_hike" (id, name, description, short_description, start_date, end_date, difficulty, type_of_hike, coordinates, creation_datetime, image, creator_id, join_to_group, limit_of_members) FROM stdin;
+1	Поход по Приэльбрусью		ыыА ыыА ыыА ыыА	2022-03-10	2022-03-20	II	Пеший	[]	2020-03-10 17:43:04.588155+00		1	request	10
+2	На Челябинск!		Заберем таинственный метеорит и глянем на отчизну нашего великого Божества.	2020-03-10	2020-03-10	none	Пеший	[[1, [30.732621688489075, 46.4762000280958]], [1, [61.402461982414366, 55.14275400603438]]]	2020-03-11 21:43:10.861395+00		2	open	10
+3	Водопады Йотунхеймена		На фотографии река Собь. Или Обь. Или нет	2020-03-11	2020-03-21	II	Горный	[[1, [9.948499513973502, 60.283323222168036]]]	2020-03-11 22:00:56.028925+00	hikes/panoramio-47164792.jpg	3	request	10
+8	Пробный поход			2020-03-22	2020-04-01	none	Пеший	[[1, [3.4203619368536238, 46.12448649958577]], [1, [3.429621517202463, 46.128870734007194]], [1, [3.4211753464045103, 46.12298340400014]], [1, [11.621957429937993, 43.571345776516495]], [1, [12.88168236360525, 42.85729290287705]], [1, [13.54653718970701, 42.34213975267002]]]	2020-03-22 19:39:37.513637+00		2	request	10
+4	В поисках ежей 		Ну ежи и ежи, ничего такого.	2020-03-18	2020-03-28	none	Пеший	[]	2020-03-18 11:59:38.532834+00	hikes/IMG_20200317_215423.jpg	2	request	10
+9	Летние радиальные выходы по Норвегии			2020-03-22	2020-04-01	none	Пеший	[]	2020-03-22 20:07:49.583609+00	hikes/67895uk.jpg	3	request	10
+5	Выход по Крыму		Красивый сбалансированный маршрут, идеально для знакомства с горным Крымом. Ай-Петри, Большой каньон, Коровий грот, скальник Таракташ.	2022-03-21	2023-03-31	none	Пеший	[[1, [3.4019269594082573, 46.125296440245705]], [1, [3.419779742611297, 46.12785435820851]], [1, [3.4476747163662083, 46.121132133683034]]]	2020-03-21 16:47:22.853029+00	hikes/IMG_20181005_151939.jpg	4	request	10
+6	789			2020-03-21	2020-03-31	none	Пеший	[]	2020-03-21 21:55:19.594515+00	hikes/84624152_181685333244450_3115495750459034441_n.jpg	6	request	10
+11	Восхождение на Монблан		Круговой маршрут на 14 дней с Женева/Шамони	2020-05-30	2020-06-12	IV	Горный	[]	2020-03-24 16:00:57.965296+00	hikes/monblan.jpg	3	open	6
+10	Норвежский какой-то там хребет		кер кенр у кеурн ке к	2020-03-22	2020-04-01	none	Пеший	[]	2020-03-22 20:12:29.953012+00	hikes/6y.jpg	3	request	10
+7	Тестовый поход		Пару строк	2020-03-23	2020-04-01	none	Пеший	[[1, [3.3667154431176414, 46.12051407964154]], [1, [3.382218988296927, 46.12790158733091]], [1, [3.3995393551786037, 46.1225289527122]], [1, [3.396753660892159, 46.11424635301262]], [1, [3.4028171384372854, 46.112994962792385]], [1, [3.406103450694218, 46.1144709585063]], [2, [3.4107320595066994, 46.11363670491659]], [2, [3.415592098759248, 46.11203233559536]], [2, [3.4210979735859155, 46.11188944418731]]]	2020-03-23 20:26:11.822677+00		7	request	10
+\.
+
+
+--
+-- TOC entry 4485 (class 0 OID 23171)
+-- Dependencies: 223
+-- Data for Name: FreeFallApp_hike_landmarks; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_hike_landmarks" (id, hike_id, landmark_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4487 (class 0 OID 23179)
+-- Dependencies: 225
+-- Data for Name: FreeFallApp_hike_participants; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_hike_participants" (id, hike_id, user_id) FROM stdin;
+1	1	1
+2	2	2
+3	2	1
+5	3	3
+6	2	3
+7	1	3
+8	3	1
+9	4	2
+10	4	3
+11	4	6
+12	5	4
+13	4	4
+14	3	4
+15	6	6
+16	7	7
+17	8	2
+18	9	3
+19	10	3
+20	11	3
+\.
+
+
+--
+-- TOC entry 4479 (class 0 OID 23136)
+-- Dependencies: 217
+-- Data for Name: FreeFallApp_landmark; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_landmark" (id, name, description, image, latitude, longitude, is_public) FROM stdin;
+1	Йотунхейм	Да-да, водопады вот тут.\n(нет.)		60.283381288380156	9.9482113769747968	t
+2	лнгл	гшщджршжз		46.124701558579773	3.4317102083100508	t
+3	Gran Paradiso			45.512674190577115	7.2669826941256588	t
+4	Mont Blanc	4810м, вторая по высоте вершина Европы		45.825053071167275	6.8674908652976683	t
+\.
+
+
+--
+-- TOC entry 4495 (class 0 OID 23350)
+-- Dependencies: 233
+-- Data for Name: FreeFallApp_message; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_message" (id, creation_datetime, text, author_id, name, hike_id) FROM stdin;
+1	2020-03-23 17:50:21.696455+00	Тест	7		5
+2	2020-03-23 17:50:33.446693+00	Тест 2	7		5
+\.
+
+
+--
+-- TOC entry 4493 (class 0 OID 23313)
+-- Dependencies: 231
+-- Data for Name: FreeFallApp_notification; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_notification" (id, type_of_notification, datetime, hike_id, user_id, from_user_id, text) FROM stdin;
+4	invite_to_hike	2020-03-11 21:58:07.5675+00	3	2	3	
+6	invite_to_hike	2020-03-11 21:58:07.583744+00	3	5	3	
+9	invite_to_hike	2020-03-18 11:59:21.710082+00	4	5	2	
+12	invite_to_hike	2020-03-21 16:45:46.829791+00	5	5	4	
+13	invite_to_hike	2020-03-21 16:45:46.840345+00	5	2	4	
+16	request_for_ptc	2020-03-23 17:18:40.509329+00	5	4	7	
+17	invite_to_hike	2020-03-24 13:07:45.203357+00	11	8	3	
+18	invite_to_hike	2020-03-24 13:07:50.492605+00	11	9	3	
+19	invite_to_hike	2020-03-24 13:07:58.336887+00	11	10	3	
+\.
+
+
+--
+-- TOC entry 4481 (class 0 OID 23147)
+-- Dependencies: 219
+-- Data for Name: FreeFallApp_profile; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public."FreeFallApp_profile" (id, about, gender, see_hikes, add_to_participation, request_for_participation, user_id, avatar) FROM stdin;
+6		male	all	noone	all	6	
+3		male	all	noone	all	4	
+4		male	all	noone	all	5	
+7		male	all	noone	all	7	
+1		male	all	noone	all	1	users/avatars/external-content.duckduckgo.com.jpg
+10		female	all	noone	all	10	users/avatars/image.jpg
+9		male	all	noone	all	9	users/avatars/34.jpg
+8		male	all	noone	all	8	users/avatars/56784578.jpg
+5		male	all	noone	all	3	users/avatars/image1.0.png
+2		male	all	noone	all	2	users/avatars/IMG_20200110_010802_354.jpg
+11		male	all	noone	all	11	
+\.
+
+
+--
+-- TOC entry 4469 (class 0 OID 23040)
+-- Dependencies: 207
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4471 (class 0 OID 23050)
+-- Dependencies: 209
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4467 (class 0 OID 23032)
+-- Dependencies: 205
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add landmark	7	add_landmark
+26	Can change landmark	7	change_landmark
+27	Can delete landmark	7	delete_landmark
+28	Can view landmark	7	view_landmark
+29	Can add profile	8	add_profile
+30	Can change profile	8	change_profile
+31	Can delete profile	8	delete_profile
+32	Can view profile	8	view_profile
+33	Can add hike	9	add_hike
+34	Can change hike	9	change_hike
+35	Can delete hike	9	delete_hike
+36	Can view hike	9	view_hike
+37	Can add contact	10	add_contact
+38	Can change contact	10	change_contact
+39	Can delete contact	10	delete_contact
+40	Can view contact	10	view_contact
+41	Can add day	11	add_day
+42	Can change day	11	change_day
+43	Can delete day	11	delete_day
+44	Can view day	11	view_day
+45	Can add notification	12	add_notification
+46	Can change notification	12	change_notification
+47	Can delete notification	12	delete_notification
+48	Can view notification	12	view_notification
+49	Can add message	13	add_message
+50	Can change message	13	change_message
+51	Can delete message	13	delete_message
+52	Can view message	13	view_message
+\.
+
+
+--
+-- TOC entry 4473 (class 0 OID 23058)
+-- Dependencies: 211
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$180000$ZEjBd9pPyM9o$LD6UpuWGdklN6Q2tjcyTaRhUid0AIDJLH4iwJd6aW5g=	2020-03-23 17:11:38.387969+00	f	karlin	Джордж	Карлин	karlin@mail.com	f	t	2020-03-10 17:38:23.04479+00
+8	pbkdf2_sha256$180000$B3EMUSgmfimD$YeQfKDvJVfaMi0geXX2Je8QVpRNydd7YmSsLkbRuSvQ=	\N	f	KirVlasov	Кирилл	Власов	vlasov@mail.com	f	t	2020-03-23 17:23:00.984559+00
+9	pbkdf2_sha256$180000$y3QhqqaIJ8He$gunq4dcpFMPT9+rWmX48x0hnlaq9iTnAQbXQu+/Fqk4=	\N	f	glebK	Глеб	Кожевников	gleb@mail.com	f	t	2020-03-23 17:24:30.3352+00
+10	pbkdf2_sha256$180000$XFMYVPV6styX$EmosQgNRjkzqzjwEutSonGYfn1bnTqoPHz59i7RE+tU=	\N	f	OksanaM	Оксана	Матвеева	oksana@mail.com	f	t	2020-03-23 17:26:50.201104+00
+3	pbkdf2_sha256$180000$qsyWMbJhwYFZ$lnrs9Kmvo7XBtpzRcJfDbhbQrPxB5hZDTI1sTcnoYOA=	2020-03-23 18:56:49.886982+00	t	Casy7	Ярослав	Касьянов		t	t	2020-03-10 17:40:27.417583+00
+2	pbkdf2_sha256$180000$re8KPyZrrHlR$7hiCdpBvoR3n4BvEYXPnqGTJHtCZDXl0nDELwRo5tII=	2020-03-24 21:20:28.489932+00	t	Fardenend	Максим	Алексеев	default@mail.com	t	t	2020-03-10 17:39:32+00
+5	pbkdf2_sha256$180000$6uwlfbnpLM1F$eMFyBApSdREm4YbpBP3BFhgs/otmLGiwv4hWCvBPoHs=	2020-03-11 20:11:59.697056+00	f	stalin	Иосиф	Сталин	stalin@mail.com	f	t	2020-03-11 20:11:43.833473+00
+11	pbkdf2_sha256$180000$uCAyXsHZPs1l$vGtfnJ92VcPxAGxBx+CQEIK0PHOTrfZViJwiZaY0Z1g=	2020-03-26 14:19:37.333411+00	f	qweq	qweq	qweq	qweq@gv	f	t	2020-03-26 14:19:25.133077+00
+6	pbkdf2_sha256$180000$rYdFgOqvMyCB$Nj2zxUPXnaZ8SFgT2itARsXPu6g2qaJBJVqhg0HTP9o=	2020-03-21 16:38:54.614072+00	f	rowan	Рован	Ар`Наэс Мирин	rowan@mail.com	f	t	2020-03-16 18:56:37.695514+00
+4	pbkdf2_sha256$180000$lnRgZjTjTvEh$Dtbsgu32OuYQCP7xrCESSqxpGUlnwHEVaxo/0cpxK2w=	2020-03-21 16:40:13.883992+00	f	lenin	Пётр	Ильич	lenin@mail.com	f	t	2020-03-11 19:55:55.822264+00
+7	pbkdf2_sha256$180000$rFKssoHuMDsT$So+CJiXl7Zo1uUP+52/vkJ87/PAVWsOUOotqULUHdkw=	2020-03-23 16:01:17.177455+00	f	vadym	v	v	vasa911@gmail.com	f	t	2020-03-22 19:31:08.38527+00
+\.
+
+
+--
+-- TOC entry 4475 (class 0 OID 23068)
+-- Dependencies: 213
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4477 (class 0 OID 23076)
+-- Dependencies: 215
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4497 (class 0 OID 23396)
+-- Dependencies: 235
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-03-11 21:55:55.238331+00	2	Profile object (2)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+2	2020-03-11 21:56:05.22078+00	3	Profile object (3)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+3	2020-03-11 22:17:58.932558+00	5	Profile object (5)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+4	2020-03-17 18:01:01.997177+00	2	Fardenend	2	[{"changed": {"fields": ["Email address"]}}]	4	3
+5	2020-03-17 18:02:19.67069+00	1	Profile object (1)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+6	2020-03-17 18:03:36.986891+00	2	Profile object (2)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+7	2020-03-17 18:04:00.62087+00	3	Profile object (3)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+8	2020-03-17 18:04:16.712512+00	4	Profile object (4)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+9	2020-03-17 18:04:46.629078+00	5	Profile object (5)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+10	2020-03-23 19:20:29.224888+00	10	Profile object (10)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+11	2020-03-23 19:20:47.964182+00	9	Profile object (9)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+12	2020-03-23 19:21:57.182399+00	8	Profile object (8)	2	[{"changed": {"fields": ["Avatar"]}}]	8	3
+13	2020-03-24 21:27:45.213528+00	2	Profile object (2)	2	[{"changed": {"fields": ["Avatar"]}}]	8	2
+\.
+
+
+--
+-- TOC entry 4465 (class 0 OID 23022)
+-- Dependencies: 203
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	FreeFallApp	landmark
+8	FreeFallApp	profile
+9	FreeFallApp	hike
+10	FreeFallApp	contact
+11	FreeFallApp	day
+12	FreeFallApp	notification
+13	FreeFallApp	message
+\.
+
+
+--
+-- TOC entry 4463 (class 0 OID 23011)
+-- Dependencies: 201
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-03-10 17:21:17.414131+00
+2	auth	0001_initial	2020-03-10 17:21:19.312311+00
+3	FreeFallApp	0001_initial	2020-03-10 17:21:25.746032+00
+4	FreeFallApp	0002_auto_20200108_1811	2020-03-10 17:21:28.998315+00
+5	FreeFallApp	0003_auto_20200108_1816	2020-03-10 17:21:29.259634+00
+6	FreeFallApp	0004_auto_20200108_1820	2020-03-10 17:21:29.649571+00
+7	FreeFallApp	0005_auto_20200108_2231	2020-03-10 17:21:30.267867+00
+8	FreeFallApp	0006_auto_20200108_2235	2020-03-10 17:21:31.656939+00
+9	FreeFallApp	0007_auto_20200114_0912	2020-03-10 17:21:31.970759+00
+10	FreeFallApp	0008_auto_20200114_0913	2020-03-10 17:21:32.241029+00
+11	FreeFallApp	0009_auto_20200114_0917	2020-03-10 17:21:32.556701+00
+12	FreeFallApp	0010_auto_20200114_0920	2020-03-10 17:21:32.808739+00
+13	FreeFallApp	0011_auto_20200114_0921	2020-03-10 17:21:33.090888+00
+14	FreeFallApp	0012_auto_20200114_0923	2020-03-10 17:21:33.357564+00
+15	FreeFallApp	0013_auto_20200114_0929	2020-03-10 17:21:33.622317+00
+16	FreeFallApp	0014_auto_20200114_0936	2020-03-10 17:21:33.908156+00
+17	FreeFallApp	0015_auto_20200118_1346	2020-03-10 17:21:34.283411+00
+18	FreeFallApp	0016_auto_20200118_1710	2020-03-10 17:21:35.057574+00
+19	FreeFallApp	0017_auto_20200118_1859	2020-03-10 17:21:36.010549+00
+20	FreeFallApp	0018_auto_20200119_2054	2020-03-10 17:21:36.465281+00
+21	FreeFallApp	0018_auto_20200119_0026	2020-03-10 17:21:37.015882+00
+22	FreeFallApp	0019_merge_20200121_0934	2020-03-10 17:21:37.261081+00
+23	FreeFallApp	0020_auto_20200121_0934	2020-03-10 17:21:37.52928+00
+24	FreeFallApp	0021_auto_20200121_1833	2020-03-10 17:21:37.800977+00
+25	FreeFallApp	0022_auto_20200128_0947	2020-03-10 17:21:38.066952+00
+26	FreeFallApp	0023_auto_20200203_1743	2020-03-10 17:21:38.348285+00
+27	FreeFallApp	0024_auto_20200204_1046	2020-03-10 17:21:39.451143+00
+28	FreeFallApp	0025_auto_20200204_1105	2020-03-10 17:21:40.835569+00
+29	FreeFallApp	0026_auto_20200204_1142	2020-03-10 17:21:41.702416+00
+30	FreeFallApp	0027_auto_20200204_1712	2020-03-10 17:21:42.334416+00
+31	FreeFallApp	0028_auto_20200204_1713	2020-03-10 17:21:43.055429+00
+32	FreeFallApp	0029_auto_20200204_1749	2020-03-10 17:21:43.504824+00
+33	FreeFallApp	0030_auto_20200205_2117	2020-03-10 17:21:44.143734+00
+34	FreeFallApp	0031_auto_20200205_2127	2020-03-10 17:21:45.560886+00
+35	FreeFallApp	0032_auto_20200205_2128	2020-03-10 17:21:46.209157+00
+36	FreeFallApp	0033_auto_20200205_2229	2020-03-10 17:21:46.998407+00
+37	FreeFallApp	0034_notification_text	2020-03-10 17:21:47.700796+00
+38	FreeFallApp	0035_auto_20200207_0139	2020-03-10 17:21:48.398166+00
+39	FreeFallApp	0036_auto_20200210_2005	2020-03-10 17:21:48.794334+00
+40	FreeFallApp	0037_auto_20200210_2119	2020-03-10 17:21:49.664321+00
+41	FreeFallApp	0038_message_name	2020-03-10 17:21:51.576113+00
+42	FreeFallApp	0039_auto_20200210_2134	2020-03-10 17:21:52.114542+00
+43	admin	0001_initial	2020-03-10 17:21:53.244101+00
+44	admin	0002_logentry_remove_auto_add	2020-03-10 17:21:55.124299+00
+45	admin	0003_logentry_add_action_flag_choices	2020-03-10 17:21:55.786542+00
+46	contenttypes	0002_remove_content_type_name	2020-03-10 17:21:56.852508+00
+47	auth	0002_alter_permission_name_max_length	2020-03-10 17:21:57.217694+00
+48	auth	0003_alter_user_email_max_length	2020-03-10 17:21:57.610127+00
+49	auth	0004_alter_user_username_opts	2020-03-10 17:21:57.888498+00
+50	auth	0005_alter_user_last_login_null	2020-03-10 17:21:58.246253+00
+51	auth	0006_require_contenttypes_0002	2020-03-10 17:21:58.498766+00
+52	auth	0007_alter_validators_add_error_messages	2020-03-10 17:21:58.799623+00
+53	auth	0008_alter_user_username_max_length	2020-03-10 17:21:59.394455+00
+54	auth	0009_alter_user_last_name_max_length	2020-03-10 17:21:59.796212+00
+55	auth	0010_alter_group_name_max_length	2020-03-10 17:22:00.193807+00
+56	auth	0011_update_proxy_permissions	2020-03-10 17:22:00.460127+00
+57	sessions	0001_initial	2020-03-10 17:22:01.143753+00
+\.
+
+
+--
+-- TOC entry 4498 (class 0 OID 23427)
+-- Dependencies: 236
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: FreeFallAdmin
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+pve81xemvt500tbt2cf7ebg9i1hst7p2	YWE2MzZmYWExYTkwNDM4NjAwNmQ1YjZhMDhjOTAyMjI5NGZiOWEwMzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkODRhNTcxZjlkODI2Y2YyYTY4Y2U5YTg1MTdmZTJmOTZlZDE2YWY1In0=	2020-03-24 17:39:59.261804+00
+jnihmieu13srg96llghfqpxdtmluxsvp	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-24 17:41:09.099426+00
+l551plfhanhtpejegmrjwnrbsh3pnhum	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-24 17:48:28.72222+00
+epeftz4qs7kswopidcs3868clm2kxkh9	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-24 17:49:11.48097+00
+w6jei7cy0j2up0uhpw1wfotlcd5xhb62	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-24 17:52:42.943909+00
+cq3twaunthex61zm1x81bpuwkwdlwrd3	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-03-24 18:07:06.340293+00
+4rgjy99vih4kgcfl2j76n635dzv15nef	NjlmY2M5NmVjMWRmYTdjMTRkYTE0Y2ZjZjQxZjg2MDJiOGQxM2YyNDp7Il9hdXRoX3VzZXJfaWQiOiI1IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzZGVlNjg4Mzk2NDFiNDMyMmU0OWZkZjhmODMyNmM1ZTdmZGI0MjNiIn0=	2020-03-25 20:11:59.706654+00
+6onqct7186tbb4dxg8xjk48mp1mbxb0l	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-25 21:35:57.506896+00
+583f5wqezu9i89pt3ko1hk9fkk32t5ah	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-03-25 21:55:22.911931+00
+xp2sykyvtimykcgxxuiv478rppwzirmo	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-03-30 18:54:01.083821+00
+bxv4p2gwkoaseb0dh5lpcdg3w4crdjwp	MmVkMDU5ZThkOGQzZjlhZDkzMGY2MjJmMmI3Y2UwYjk3NWQzOWY1ZDp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkZjMzYmI5NDMyZmQ0MGQzZDQ3NmUwOTg0MmQwNWFiZWQ5MDQ0ODIwIn0=	2020-03-30 18:56:54.786721+00
+dn2v3j6cmhfa8c81zm2mkojkfc0faosl	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-03-31 17:59:54.826061+00
+rsle23mra8n1rrbper1qo9rbz2yy1i7e	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-03-31 20:01:59.91628+00
+6mzx6h4ijp1hij2kkiep3n0cqshtscvs	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-01 18:07:02.306516+00
+2tif8cuk6i8qrpud5ur72o08nc1ky7c2	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-01 22:19:34.10918+00
+b91idy0rl099cmuzk7cxoqn5ea0afwr3	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-02 15:57:10.903142+00
+fmqgx6y00ekof5q2pa6jebmysvf21rkx	ZGRhMGRhYmJlNGEyZTAwYjhkNWNhOTEzYjI1MjllODU4YWNjYTliOTp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5ZDdjYTQxZGVhMjE1NjIxM2JhMjBlNTAwMTE1ZmJhYWZjYzdhODcwIn0=	2020-04-05 19:31:20.214603+00
+9rq5ei4ktqmh3if7b7n1ww04vbf19r1b	ZGRhMGRhYmJlNGEyZTAwYjhkNWNhOTEzYjI1MjllODU4YWNjYTliOTp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5ZDdjYTQxZGVhMjE1NjIxM2JhMjBlNTAwMTE1ZmJhYWZjYzdhODcwIn0=	2020-04-06 16:01:17.186881+00
+zf3684h4j3dhlqgkkd51r6a1zm0b84au	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-06 17:10:42.346638+00
+hyu0p02d8787vsedqwkxp0vnddutr2vp	Y2Y0MjY4ODMzNDg3YjRmMWIwMTM4YzMwZjhmYzU2MjBiOWZkYTNjOTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyNDIzMTcwMTUxNTBkNGE4YTMxNzc0Y2ExNzE5Y2M1NWM1ZDNjOTExIn0=	2020-04-06 17:11:38.551366+00
+9dqyh0oclb7p9ajxtg8ecdtj4ydf61dy	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-06 17:27:12.352507+00
+2lnv5may96j8le1ros9aj63vzimdnnew	Yjc0NjcyNGVhMWRmMGE4N2ZlNDZjM2ZkMTE1YzBlZjA4OGFkZWYzZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDg2MDVkZjc3M2VjZWE3Yzc3NGRmNjMzNDAzNWRjYzdiY2NjZTc4In0=	2020-04-06 18:56:49.894748+00
+vi86ttbhna9esss6lkd1v6tptzidtqdy	YWE2MzZmYWExYTkwNDM4NjAwNmQ1YjZhMDhjOTAyMjI5NGZiOWEwMzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkODRhNTcxZjlkODI2Y2YyYTY4Y2U5YTg1MTdmZTJmOTZlZDE2YWY1In0=	2020-04-07 17:58:02.093083+00
+s78i4n4ry3c3mopw79i4id6off8e31fj	YWE2MzZmYWExYTkwNDM4NjAwNmQ1YjZhMDhjOTAyMjI5NGZiOWEwMzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkODRhNTcxZjlkODI2Y2YyYTY4Y2U5YTg1MTdmZTJmOTZlZDE2YWY1In0=	2020-04-07 21:20:28.498127+00
+wvm6qys6sk8wchfdznz0q6l4vi44qk7h	ZGEwMTI4YzkwODhiZWFkODgyYjY1MjZiZDk3ZGNmYTg4YmY1MmZmMjp7Il9hdXRoX3VzZXJfaWQiOiIxMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNGZmMDE3Zjc1Mjg3YzJkYWU2N2I0NzgyZTg3YTIzNGVmZjZhOGM1NCJ9	2020-04-09 14:19:37.404303+00
+\.
+
+
+--
+-- TOC entry 4523 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: FreeFallApp_contact_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_contact_id_seq"', 1, true);
+
+
+--
+-- TOC entry 4524 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: FreeFallApp_day_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_day_id_seq"', 478, true);
+
+
+--
+-- TOC entry 4525 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: FreeFallApp_hike_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_hike_id_seq"', 11, true);
+
+
+--
+-- TOC entry 4526 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: FreeFallApp_hike_landmarks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_hike_landmarks_id_seq"', 1, false);
+
+
+--
+-- TOC entry 4527 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: FreeFallApp_hike_participants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_hike_participants_id_seq"', 20, true);
+
+
+--
+-- TOC entry 4528 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: FreeFallApp_landmark_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_landmark_id_seq"', 4, true);
+
+
+--
+-- TOC entry 4529 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: FreeFallApp_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_message_id_seq"', 2, true);
+
+
+--
+-- TOC entry 4530 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: FreeFallApp_notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_notification_id_seq"', 19, true);
+
+
+--
+-- TOC entry 4531 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: FreeFallApp_profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public."FreeFallApp_profile_id_seq"', 11, true);
+
+
+--
+-- TOC entry 4532 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- TOC entry 4533 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 4534 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 52, true);
+
+
+--
+-- TOC entry 4535 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 4536 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 11, true);
+
+
+--
+-- TOC entry 4537 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 4538 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 13, true);
+
+
+--
+-- TOC entry 4539 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
+
+
+--
+-- TOC entry 4540 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: FreeFallAdmin
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 57, true);
+
+
+--
+-- TOC entry 4295 (class 2606 OID 23192)
+-- Name: FreeFallApp_contact FreeFallApp_contact_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_contact"
+    ADD CONSTRAINT "FreeFallApp_contact_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4299 (class 2606 OID 23273)
+-- Name: FreeFallApp_day FreeFallApp_day_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_day"
+    ADD CONSTRAINT "FreeFallApp_day_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4284 (class 2606 OID 23207)
+-- Name: FreeFallApp_hike_landmarks FreeFallApp_hike_landmarks_hike_id_landmark_id_e6cd85c0_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_landmarks"
+    ADD CONSTRAINT "FreeFallApp_hike_landmarks_hike_id_landmark_id_e6cd85c0_uniq" UNIQUE (hike_id, landmark_id);
+
+
+--
+-- TOC entry 4287 (class 2606 OID 23176)
+-- Name: FreeFallApp_hike_landmarks FreeFallApp_hike_landmarks_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_landmarks"
+    ADD CONSTRAINT "FreeFallApp_hike_landmarks_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4290 (class 2606 OID 23221)
+-- Name: FreeFallApp_hike_participants FreeFallApp_hike_participants_hike_id_user_id_9b734c51_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_participants"
+    ADD CONSTRAINT "FreeFallApp_hike_participants_hike_id_user_id_9b734c51_uniq" UNIQUE (hike_id, user_id);
+
+
+--
+-- TOC entry 4292 (class 2606 OID 23184)
+-- Name: FreeFallApp_hike_participants FreeFallApp_hike_participants_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_participants"
+    ADD CONSTRAINT "FreeFallApp_hike_participants_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4281 (class 2606 OID 23168)
+-- Name: FreeFallApp_hike FreeFallApp_hike_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike"
+    ADD CONSTRAINT "FreeFallApp_hike_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4274 (class 2606 OID 23144)
+-- Name: FreeFallApp_landmark FreeFallApp_landmark_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_landmark"
+    ADD CONSTRAINT "FreeFallApp_landmark_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4308 (class 2606 OID 23358)
+-- Name: FreeFallApp_message FreeFallApp_message_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_message"
+    ADD CONSTRAINT "FreeFallApp_message_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4303 (class 2606 OID 23318)
+-- Name: FreeFallApp_notification FreeFallApp_notification_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_notification"
+    ADD CONSTRAINT "FreeFallApp_notification_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4276 (class 2606 OID 23155)
+-- Name: FreeFallApp_profile FreeFallApp_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_profile"
+    ADD CONSTRAINT "FreeFallApp_profile_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4278 (class 2606 OID 23157)
+-- Name: FreeFallApp_profile FreeFallApp_profile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_profile"
+    ADD CONSTRAINT "FreeFallApp_profile_user_id_key" UNIQUE (user_id);
+
+
+--
+-- TOC entry 4247 (class 2606 OID 23425)
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 4252 (class 2606 OID 23092)
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- TOC entry 4255 (class 2606 OID 23055)
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4249 (class 2606 OID 23045)
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4242 (class 2606 OID 23083)
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- TOC entry 4244 (class 2606 OID 23037)
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4263 (class 2606 OID 23073)
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4266 (class 2606 OID 23107)
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- TOC entry 4257 (class 2606 OID 23063)
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4269 (class 2606 OID 23081)
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4272 (class 2606 OID 23121)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- TOC entry 4260 (class 2606 OID 23419)
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 4311 (class 2606 OID 23405)
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4237 (class 2606 OID 23029)
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- TOC entry 4239 (class 2606 OID 23027)
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4235 (class 2606 OID 23019)
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4315 (class 2606 OID 23434)
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- TOC entry 4296 (class 1259 OID 23240)
+-- Name: FreeFallApp_contact_user_id_32eab849; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_contact_user_id_32eab849" ON public."FreeFallApp_contact" USING btree (user_id);
+
+
+--
+-- TOC entry 4297 (class 1259 OID 23310)
+-- Name: FreeFallApp_day_hike_id_8fae961c; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_day_hike_id_8fae961c" ON public."FreeFallApp_day" USING btree (hike_id);
+
+
+--
+-- TOC entry 4279 (class 1259 OID 23205)
+-- Name: FreeFallApp_hike_creator_id_431384fd; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_hike_creator_id_431384fd" ON public."FreeFallApp_hike" USING btree (creator_id);
+
+
+--
+-- TOC entry 4282 (class 1259 OID 23218)
+-- Name: FreeFallApp_hike_landmarks_hike_id_9a0f9fd0; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_hike_landmarks_hike_id_9a0f9fd0" ON public."FreeFallApp_hike_landmarks" USING btree (hike_id);
+
+
+--
+-- TOC entry 4285 (class 1259 OID 23219)
+-- Name: FreeFallApp_hike_landmarks_landmark_id_dae792e0; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_hike_landmarks_landmark_id_dae792e0" ON public."FreeFallApp_hike_landmarks" USING btree (landmark_id);
+
+
+--
+-- TOC entry 4288 (class 1259 OID 23232)
+-- Name: FreeFallApp_hike_participants_hike_id_f3c282d3; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_hike_participants_hike_id_f3c282d3" ON public."FreeFallApp_hike_participants" USING btree (hike_id);
+
+
+--
+-- TOC entry 4293 (class 1259 OID 23233)
+-- Name: FreeFallApp_hike_participants_user_id_88dd8631; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_hike_participants_user_id_88dd8631" ON public."FreeFallApp_hike_participants" USING btree (user_id);
+
+
+--
+-- TOC entry 4305 (class 1259 OID 23372)
+-- Name: FreeFallApp_message_author_id_b170b571; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_message_author_id_b170b571" ON public."FreeFallApp_message" USING btree (author_id);
+
+
+--
+-- TOC entry 4306 (class 1259 OID 23393)
+-- Name: FreeFallApp_message_hike_id_f8549e07; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_message_hike_id_f8549e07" ON public."FreeFallApp_message" USING btree (hike_id);
+
+
+--
+-- TOC entry 4300 (class 1259 OID 23336)
+-- Name: FreeFallApp_notification_from_user_id_d0fae93f; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_notification_from_user_id_d0fae93f" ON public."FreeFallApp_notification" USING btree (from_user_id);
+
+
+--
+-- TOC entry 4301 (class 1259 OID 23329)
+-- Name: FreeFallApp_notification_hike_id_a086309a; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_notification_hike_id_a086309a" ON public."FreeFallApp_notification" USING btree (hike_id);
+
+
+--
+-- TOC entry 4304 (class 1259 OID 23330)
+-- Name: FreeFallApp_notification_user_id_23f8543c; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX "FreeFallApp_notification_user_id_23f8543c" ON public."FreeFallApp_notification" USING btree (user_id);
+
+
+--
+-- TOC entry 4245 (class 1259 OID 23426)
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- TOC entry 4250 (class 1259 OID 23103)
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- TOC entry 4253 (class 1259 OID 23104)
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 4240 (class 1259 OID 23089)
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- TOC entry 4261 (class 1259 OID 23119)
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- TOC entry 4264 (class 1259 OID 23118)
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- TOC entry 4267 (class 1259 OID 23133)
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 4270 (class 1259 OID 23132)
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- TOC entry 4258 (class 1259 OID 23420)
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- TOC entry 4309 (class 1259 OID 23416)
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- TOC entry 4312 (class 1259 OID 23417)
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- TOC entry 4313 (class 1259 OID 23436)
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- TOC entry 4316 (class 1259 OID 23435)
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: FreeFallAdmin
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- TOC entry 4330 (class 2606 OID 23241)
+-- Name: FreeFallApp_contact FreeFallApp_contact_user_id_32eab849_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_contact"
+    ADD CONSTRAINT "FreeFallApp_contact_user_id_32eab849_fk_auth_user_id" FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4331 (class 2606 OID 23305)
+-- Name: FreeFallApp_day FreeFallApp_day_hike_id_8fae961c_fk_FreeFallApp_hike_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_day"
+    ADD CONSTRAINT "FreeFallApp_day_hike_id_8fae961c_fk_FreeFallApp_hike_id" FOREIGN KEY (hike_id) REFERENCES public."FreeFallApp_hike"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4325 (class 2606 OID 23200)
+-- Name: FreeFallApp_hike FreeFallApp_hike_creator_id_431384fd_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike"
+    ADD CONSTRAINT "FreeFallApp_hike_creator_id_431384fd_fk_auth_user_id" FOREIGN KEY (creator_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4326 (class 2606 OID 23208)
+-- Name: FreeFallApp_hike_landmarks FreeFallApp_hike_lan_hike_id_9a0f9fd0_fk_FreeFallA; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_landmarks"
+    ADD CONSTRAINT "FreeFallApp_hike_lan_hike_id_9a0f9fd0_fk_FreeFallA" FOREIGN KEY (hike_id) REFERENCES public."FreeFallApp_hike"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4327 (class 2606 OID 23213)
+-- Name: FreeFallApp_hike_landmarks FreeFallApp_hike_lan_landmark_id_dae792e0_fk_FreeFallA; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_landmarks"
+    ADD CONSTRAINT "FreeFallApp_hike_lan_landmark_id_dae792e0_fk_FreeFallA" FOREIGN KEY (landmark_id) REFERENCES public."FreeFallApp_landmark"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4328 (class 2606 OID 23222)
+-- Name: FreeFallApp_hike_participants FreeFallApp_hike_par_hike_id_f3c282d3_fk_FreeFallA; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_participants"
+    ADD CONSTRAINT "FreeFallApp_hike_par_hike_id_f3c282d3_fk_FreeFallA" FOREIGN KEY (hike_id) REFERENCES public."FreeFallApp_hike"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4329 (class 2606 OID 23227)
+-- Name: FreeFallApp_hike_participants FreeFallApp_hike_participants_user_id_88dd8631_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_hike_participants"
+    ADD CONSTRAINT "FreeFallApp_hike_participants_user_id_88dd8631_fk_auth_user_id" FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4335 (class 2606 OID 23367)
+-- Name: FreeFallApp_message FreeFallApp_message_author_id_b170b571_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_message"
+    ADD CONSTRAINT "FreeFallApp_message_author_id_b170b571_fk_auth_user_id" FOREIGN KEY (author_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4336 (class 2606 OID 23388)
+-- Name: FreeFallApp_message FreeFallApp_message_hike_id_f8549e07_fk_FreeFallApp_hike_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_message"
+    ADD CONSTRAINT "FreeFallApp_message_hike_id_f8549e07_fk_FreeFallApp_hike_id" FOREIGN KEY (hike_id) REFERENCES public."FreeFallApp_hike"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4332 (class 2606 OID 23319)
+-- Name: FreeFallApp_notification FreeFallApp_notifica_hike_id_a086309a_fk_FreeFallA; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_notification"
+    ADD CONSTRAINT "FreeFallApp_notifica_hike_id_a086309a_fk_FreeFallA" FOREIGN KEY (hike_id) REFERENCES public."FreeFallApp_hike"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4334 (class 2606 OID 23337)
+-- Name: FreeFallApp_notification FreeFallApp_notification_from_user_id_d0fae93f_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_notification"
+    ADD CONSTRAINT "FreeFallApp_notification_from_user_id_d0fae93f_fk_auth_user_id" FOREIGN KEY (from_user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4333 (class 2606 OID 23324)
+-- Name: FreeFallApp_notification FreeFallApp_notification_user_id_23f8543c_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_notification"
+    ADD CONSTRAINT "FreeFallApp_notification_user_id_23f8543c_fk_auth_user_id" FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4324 (class 2606 OID 23195)
+-- Name: FreeFallApp_profile FreeFallApp_profile_user_id_35e89dca_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public."FreeFallApp_profile"
+    ADD CONSTRAINT "FreeFallApp_profile_user_id_35e89dca_fk_auth_user_id" FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4319 (class 2606 OID 23098)
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4318 (class 2606 OID 23093)
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4317 (class 2606 OID 23084)
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4321 (class 2606 OID 23113)
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4320 (class 2606 OID 23108)
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4323 (class 2606 OID 23127)
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4322 (class 2606 OID 23122)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4337 (class 2606 OID 23406)
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 4338 (class 2606 OID 23411)
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: FreeFallAdmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+-- Completed on 2020-03-26 21:40:00
+
+--
+-- PostgreSQL database dump complete
+--
+
