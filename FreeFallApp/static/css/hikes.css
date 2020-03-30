@@ -8,6 +8,49 @@
 } */
 
 
+.title {
+    padding: 0px;
+    margin-bottom: 0px;
+    text-transform: none;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.date_lable {
+    position	: absolute;
+    color: white;
+    top: 63%;
+    right : 2%;
+	width		: 100%;
+}
+
+.creator_lable {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: auto;
+    margin-bottom: 5px;
+    /* identical to box height */
+
+
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.desc_lable {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    margin-bottom: 5px; 
+
+    color: rgba(0, 0, 0, 0.8);
+}
+
+
 .cols {
     -moz-column-count:3;
     -moz-column-gap: 3%;
@@ -25,7 +68,6 @@
 }
 
 .box {
-    margin-bottom: 20px;
     height:100px;
     background:#BFBFBF;
 }
