@@ -421,7 +421,7 @@ class SetHike(View):
         for day in days:
             if day['date'].count(day['date'].split(' ')[-1])>1:
                 date = day['date']
-                month = months[day.date.month-1]
+                month = day['date'].split(' ')[-1]
                 day['date'] = date[:date.find(month)-1]+date[date.find(month)+len(month):]
 
         this_hike['days'] = days
