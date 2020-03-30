@@ -251,6 +251,8 @@ class FilterHikes(View):
         # print(result)
         return HttpResponse(json.dumps(result), content_type="application/json")
 
+
+
 class AddComment(View, LoginRequiredMixin):
     def post(self, request):
         result = {}

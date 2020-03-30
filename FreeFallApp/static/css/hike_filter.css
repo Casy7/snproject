@@ -12,3 +12,27 @@
 label.form-check-label {
     margin-top: 0px;
 }
+
+#collapse_button{
+    
+    border-color: #72319f;
+    background-color: rgb(255, 255, 255);
+    transition: 0.3s; 
+}
+
+#collapse_button *{
+    
+}
+
+#collapse_button:active, #collapse_button:hover{
+    border-end-start-radius: 0px;
+    border-end-end-radius: 0px;
+    box-shadow: none;
+    color: white;
+    background-color: #72319f;
+
+}
+.card{
+    display: block !important;
+
+}

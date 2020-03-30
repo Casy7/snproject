@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/hike_filter.css' %}">
+
 <link rel="stylesheet" href="{% static 'css/hikes.css' %}">
+<link rel="stylesheet" href="{% static 'css/hike_filter.css' %}">
 <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
 
 <body>
@@ -11,16 +12,20 @@
         <input id="hike_name" type="text" name="hike_name" class="form-control input_text"
             placeholder="Название похода">
         <div class="input-group-append">
-            <button type="button" class="input-group-text" onclick="find_all()">Найти</button>
+            <button type="button" style="background-color: indigo;color: white;border-color: #72319f;"
+                class="input-group-text" onclick="find_all()">Найти</button>
         </div>
     </div>
     <div class="accordion" id="other_filters_list">
+        <input type="checkbox" class="" id='filters_switch' style="padding-right: 50px;"><label class="form-check-label"
+            style="padding-left: 10px;" for="filters_switch"> Включить другие фильтры</label>
 
-        <div class="card">
+        <div class="card" style="display: inline;">
 
-            <a class='btn btn-secondary form-control' data-toggle="collapse" href="#other_filters" role="button"
-                aria-expanded="true" aria-controls="other_filters">
-                <p style="text-align:center;color: white;">Другие фильтры</p>
+            <a class='btn btn-secondary btn-block form-control' id='collapse_button' data-toggle="collapse"
+                href="#other_filters" role="button" aria-expanded="true" aria-controls="other_filters">
+
+                <p style="text-align:center;color: indigo; display: inline;">Другие фильтры</p>
             </a>
 
             <div class="collapse" id="other_filters">
@@ -139,10 +144,10 @@
                     </div>
                 </div>
             </div>
-            <div class='cols' id = 'container' style="padding: 5px;">
+            <div class='cols' id='container' style="padding: 5px;">
                 <!--Сюда добавляются походы-->
             </div>
-            <div id ='no_hikes_message' style="display: flex;align-self: center;"></div>
+            <div id='no_hikes_message' style="display: flex;align-self: center;"></div>
         </div>
     </div>
 
@@ -152,16 +157,31 @@
 
         function find_all() {
 
-            send_data = {};
-            send_data['name'] = $('#hike_name')[0].value;
-            send_data['min_category'] = $('#min_category')[0].value;
-            send_data['max_category'] = $('#max_category')[0].value;
-            send_data['start_day'] = $('#start_day')[0].value;
-            send_data['end_day'] = $('#end_day')[0].value;
-            send_data['types'] = $('#types').val().toString();
-            send_data['show_hikes_with_completed_groups'] = $('#show_hikes_with_completed_groups')[0].checked;
-            send_data['show_hikes_with_close_members_entry'] = $('#show_hikes_with_close_members_entry')[0].checked;
-            send_data['show_hikes_with_entry_by_request'] = $('#show_hikes_with_entry_by_request')[0].checked;
+            if (byId('filters_switch').checked) {
+                send_data = {};
+                send_data['name'] = $('#hike_name')[0].value;
+                send_data['min_category'] = $('#min_category')[0].value;
+                send_data['max_category'] = $('#max_category')[0].value;
+                send_data['start_day'] = $('#start_day')[0].value;
+                send_data['end_day'] = $('#end_day')[0].value;
+                send_data['types'] = $('#types').val().toString();
+                send_data['show_hikes_with_completed_groups'] = $('#show_hikes_with_completed_groups')[0].checked;
+                send_data['show_hikes_with_close_members_entry'] = $('#show_hikes_with_close_members_entry')[0].checked;
+                send_data['show_hikes_with_entry_by_request'] = $('#show_hikes_with_entry_by_request')[0].checked;
+            }
+            else {
+                send_data = {
+                    'name':$('#hike_name')[0].value,
+                    'min_category': 'none',
+                    'max_category': 'VI',
+                    'start_day': '1986-01-01',
+                    'end_day': '2076-01-01',
+                    'types':"Пеший,Горный,Водный,Вело,Спелео",
+                    'show_hikes_with_completed_groups':true,
+                    'show_hikes_with_close_members_entry':true,
+                    'show_hikes_with_entry_by_request':true
+                };
+            }
             // alert(send_data);
             console.log(send_data);
             $.ajax({
@@ -192,7 +212,7 @@
                 success: function a(json) {
                     if (json.result === "success") {
                         $('#container').empty();
-                        if (json.hikes.length === 0){
+                        if (json.hikes.length === 0) {
                             $('#no_hikes_message').empty();
                             $(`<small id="nothing_was_found" style="display:flex;align-self:center" class="text-muted">Не найдено походов по этому запросу</small>`).appendTo($('#no_hikes_message'));
                         }
@@ -246,14 +266,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-
-    <!-- <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script> -->
-
     <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
 
-    <!-- <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script> -->
-
-    <!-- <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script> -->
     <!-- END OF DO-NOT-EDIT BLOCK -->
 </body>
 {% endblock %}
