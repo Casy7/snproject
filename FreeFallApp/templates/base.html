@@ -40,7 +40,16 @@
         } */
     </style>
 
+    <style>
+        @font-face {
+            font-family: "Roboto";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
+        }
 
+        .new_header {
+            font-family: "Roboto", Verdana, Tahoma;
+        }
+    </style>
 
 </head>
 
@@ -162,7 +171,8 @@
 
 
                                     <ul id="notifications" class="" style="">
-                                        <pre id='no_notifications' style="display: visible;text-align: center;">Нет уведомлений</pre>
+                                        <pre id='no_notifications'
+                                            style="display: visible;text-align: center;">Нет уведомлений</pre>
 
                                     </ul>
 
@@ -246,27 +256,27 @@
                                                 li = byId(id_code);
 
                                                 jQuery('<div/>', {
-                                                    id: 'row_'+id_code,
+                                                    id: 'row_' + id_code,
                                                     class: 'row',
                                                     name: notification[0]
-                                                }).appendTo($('#'+id_code));
-                                                row = $('#row_'+id_code);
+                                                }).appendTo($('#' + id_code));
+                                                row = $('#row_' + id_code);
 
                                                 jQuery('<div/>', {
-                                                    id: 'col_for_avatar_'+id_code,
+                                                    id: 'col_for_avatar_' + id_code,
                                                     style: 'flex-grow:0',
                                                     class: 'col-sm column',
                                                     name: notification[0]
                                                 }).appendTo(row);
-                                                img_col = byId('col_for_avatar_'+id_code);    
-                                                
+                                                img_col = byId('col_for_avatar_' + id_code);
+
                                                 jQuery('<div/>', {
-                                                    id: 'col_for_text_'+id_code,
+                                                    id: 'col_for_text_' + id_code,
                                                     style: 'flex-grow:5',
                                                     class: 'col-md column',
                                                     name: notification[0]
                                                 }).appendTo(row);
-                                                txt_col = byId('col_for_text_'+id_code);                                                   
+                                                txt_col = byId('col_for_text_' + id_code);
 
                                                 img = document.createElement('img');
                                                 img.className = "notification-icon";
@@ -326,10 +336,10 @@
 
                                                 time = document.createElement('span');
                                                 time.className = 'notification-date';
-                                                month_list = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
-                                                time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '-го ' + month_list[parseInt(notification[6].substring(5, 7))+1]
+                                                month_list = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+                                                time.innerText = notification[6].substring(11, 16) + ',   ' + notification[6].substring(8, 10) + '-го ' + month_list[parseInt(notification[6].substring(5, 7)) + 1]
                                                 li.appendChild(time);
-                                                
+
                                             }
                                             count_notifications()
 
@@ -340,7 +350,7 @@
                                             list_of_ids.push(id_code);
                                         });
                                         byId('notifications').childNodes.forEach(li => {
-                                            if (list_of_ids.indexOf(li.id) === -1 && li.id!='no_notifications') {
+                                            if (list_of_ids.indexOf(li.id) === -1 && li.id != 'no_notifications') {
                                                 li.parentNode.removeChild(li);
                                                 count_notifications()
                                             }
@@ -396,7 +406,7 @@
 
                                     function count_notifications() {
                                         notifications_counter = byId('notifications').childNodes.length;
-                                        byId('nt_counter').innerText = notifications_counter-1;
+                                        byId('nt_counter').innerText = notifications_counter - 1;
                                         if (notifications_counter > 1) {
                                             byId('no_notifications').style.display = 'none';
                                             byId('nt_counter').style.display = 'visible';
