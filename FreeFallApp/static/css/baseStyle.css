@@ -390,7 +390,7 @@ a, a:hover, a:focus {
 }
 
 .navbar-btn {
-    color: #d3d3d3;
+    color: #ffffff;
     box-shadow: none;
     outline: none !important;
     border: none;
@@ -442,7 +442,7 @@ a, a:hover, a:focus {
     /* display: inline; */
     /* position: relative; */
     /* margin-top: 20px; */
-    color: #d3d3d3;
+    color: #ffffff;
     position: relative;
     height: 45px;
     top: 34px;
@@ -541,7 +541,7 @@ a.article, a.article:hover {
 }
 
 .nav-item .nav-link.main-navbar {
-    color: #d3d3d3 !important;
+    color: #ffffff;
     /* background-color: #d3d3d3; */
     border-radius: 50%;
     /* width: 40px; */
@@ -626,7 +626,7 @@ a.article, a.article:hover {
     height: 2px;
     margin: 0 auto;
     display: block;
-    background: #d3d3d3;
+    background: #ffffff;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
 }
