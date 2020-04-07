@@ -161,7 +161,7 @@ a.dropdown-menu-header {
     padding: 10px;
     font-size: 1.1em;
     display: block;
-    color: #d4d4d4;
+    color: #ffffff;
 }
 
 #sidebar ul li:hover {}
@@ -464,9 +464,9 @@ a, a:hover, a:focus {
 
 .navbar-avatar {
     position: relative;
-    top: -4px;
-    height: 45px;
-    width: 45px;
+    top: 0px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
 }
 
@@ -563,13 +563,13 @@ a.article, a.article:hover {
 
 #navbarSupportedContent {
     position: absolute;
-    top: 55%;
+    top: 50%;
     right: 10px;
     transform: translateY(-50%);
 }
 
 #create_hike_button {
-    border-radius: 15px;
+    border-radius: 13px;
     color: #72319f !important;
     background-color: #ffffff;
     font-weight: 600;

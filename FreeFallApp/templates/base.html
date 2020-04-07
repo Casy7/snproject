@@ -149,7 +149,7 @@
                     </button> -->
                     <!--HEADER BUTTONS-->
                     <div class="" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
+                        <ul class="nav navbar-nav ml-auto" style="display: -webkit-inline-box;">
                             {% if username != ''%}
 
                             <!-- onclick="byId('notification_menu').style.display='none' -->
@@ -157,9 +157,9 @@
                             {% endif %}
 
                             {% if username != ''%}
-                            <li class="nav-item active">
+                            <li class="nav-item active" style="vertical-align: middle;">
                                 <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i
-                                        class="fas fa-plus"></i>
+                                        class="fas fa-plus" style="vertical-align: middle;"></i>
                                     Добавить поход</a>
                             </li>
 
@@ -454,7 +454,7 @@
 
                                     <img src="{{ avatar.url }}" class="navbar-avatar">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_grey.png' %}" class="navbar-avatar">
+                                    <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar"> <!--style="width: 35px;height: 35px;">--> 
                                     {% endif %}
                                 </a>
                                 {% endif %}
