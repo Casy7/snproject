@@ -108,17 +108,20 @@ hr{
 
 #append_user, #send_comment {
     background-color: #68209b;
-    border-radius: 0px;
+    border: 0px;
+    /* border-radius: 4px; */
 }
 
-#append_user:hover, #send_comment:hover {
+#append_user:hover{
     transition: 1s;
+    border: 1px solid rgb(255, 181, 43);
     background-color: #c323eb;
-    border-color: rgb(255, 181, 43);
-    border-radius: 0px;
+
+    border-radius: 3px;
 }
 
 #send_comment{
+    border: none;
     float: right;
     width: auto;
 }
@@ -128,7 +131,7 @@ hr{
     position: relative;
     float: right;
     min-height: 100px;
-    border-radius: 0px;
+    border-radius: 3px;
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
@@ -157,7 +160,7 @@ hr{
 }
 
 .user_card {
-    padding-top: 3px;
+    padding-top: 15px;
 }
 
 #ptc_list {
