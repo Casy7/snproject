@@ -435,7 +435,9 @@ class SetHike(View):
         participants = []
         usernames = []
 
+
         for participant in hike.participants.all():
+            usernames.append(participant.username)
             props = [full_name(participant), participant.username, '']
             if participant.profile.avatar.name != '':
                 props[2] = participant.profile.avatar

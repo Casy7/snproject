@@ -8,9 +8,9 @@
         {% for hike_row in hike %}
         {% for hike in hike_row %}
 
-        <div class="card" style="display: inline-flex;">
+        <div class="card hike_card" style="display: inline-flex;">
             <a href="{{hike.link}}">
-                <div>
+                <div class='img_hike'>
                     {% if hike.image != '' %}
                     <img class="card-img-top" src={{hike.image.url}} alt="Card image cap"
                         style="height: auto; border-radius: 3px;">
@@ -18,15 +18,16 @@
                     <img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap"
                         style="border-radius: 3px;">
                     {% endif %}
-                    <p class="date_lable" style='text-align:right'>{{rus_date}}</p>
+                    
                 </div>
+                <p class="date_lable roboto" style='text-align:right'>{{rus_date}}</p>
                 <h2 class="title new_header" >{{hike.name}}</h2>
-                <p class="creator_lable">Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
+                <p class="creator_lable roboto">Создатель: {{hike.creator.first_name}} {{hike.creator.last_name}}</p>
                 <p class="desc_lable">{{hike.short_description}}</p>
                 <div class="row">
-                    <div class="col hike_detail" style="">
+                    <div class="col hike_detail roboto">
                         Сложность: {{hike.difficulty}} </div>
-                    <div class="col hike_detail type_of_hike" style=""> Тип похода: {{hike.type_of_hike}} </div>
+                    <div class="col hike_detail type_of_hike"> Тип похода: {{hike.type_of_hike}} </div>
                 </div>
             </a>
         </div>

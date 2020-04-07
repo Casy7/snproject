@@ -175,7 +175,7 @@
 
 <div class="hike_container">
     <div class="row" style="height: 500px;">
-        <div class="col">
+        <div class="col-sm-4">
             <h2 class="new_header">Участники:</h2>
             <ul id='ptc_list'>
                 {% for pt in content.participants %}
@@ -429,7 +429,29 @@
 
 
     osm_map.on('load', function () {
-
+        osm_map.addLayer({
+            "id": "route",
+            "type": "line",
+            "source": {
+                "type": "geojson",
+                "data": {
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": line
+                    }
+                }
+            },
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+            },
+            "paint": {
+                "line-color": "#888",
+                "line-width": 5
+            }
+        });
         osm_map.addLayer({
             id: "places",
             type: "symbol",
@@ -459,6 +481,7 @@
                 "icon-allow-overlap": true
             }
         });
+
     });
 
     osm_map.on("click", "places", function (e) {
@@ -477,7 +500,14 @@
             .setHTML(description)
             .addTo(osm_map);
     });
+    osm_map.on("mouseenter", "places", function () {
+        osm_map.getCanvas().style.cursor = "pointer";
+    });
 
+    // Change it back to a pointer when it leaves.
+    osm_map.on("mouseleave", "places", function () {
+        osm_map.getCanvas().style.cursor = "";
+    });
 
 </script>
 
