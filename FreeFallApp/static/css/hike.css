@@ -57,10 +57,13 @@ hr{
     text-align: center;
 }
 
+#hike_header_card{
+    padding-bottom: 5px;
+}
+
 .hike_details {
     text-align: center;
     color: white;
-    padding-bottom: 3%;
 }
 
 .details_icon {
