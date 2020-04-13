@@ -137,7 +137,7 @@
         {% endif %}
         {% endif %}
     </div>
-    <div class='hike_creator'>
+    <div class="hike_creator" style="position: relative; bottom: 20px; left: 50px;">
         <div style="display: inline;">
             {% if content.creator.profile.avatar.name != '' %}
             <img src={{content.creator.profile.avatar.url}} class='creator_icon'
@@ -162,7 +162,7 @@
 </div>
 
 
-<div class="hike_container" id='hike_desc_container'>
+<div class="hike_container" id='hike_desc_container' style="padding-top: 30px;">
     {% if content.short_description == '' and content.description == '' %}
     <small>Описание отсутствует</small>
     {% else %}
@@ -173,7 +173,7 @@
 
 <hr>
 
-<div class="hike_container">
+<div class="hike_container" style="padding-top: 30px;">
     <div class="row" style="height: 500px;">
         <div class="col">
             <h2 class="new_header">Участники:</h2>
@@ -204,12 +204,12 @@
 
 <hr>
 
-<div class="hike_container">
+<div class="hike_container" style="padding-top: 60px; padding-bottom: 60px;">
 
     <div class="accordion" id="accordionExample">
         {% for day in content.days %}
 
-        <div class="card">
+        <div class="card" style="padding-top: 30px;">
             <h2 class="new_header">{{ day.name }}: {{ day.header }}</h2>
             <small style="color: gray;">{{ day.date }}</small>
             <p>{{day.description}}</p>
@@ -246,7 +246,7 @@
         {% endfor %}
     </div>
     {% if username != '' %}
-    <textarea class="form-control" style="width: 100%;" id="comment_fuild"
+    <textarea class="form-control" style="width: 100%; margin-bottom: 25px;" id="comment_fuild"
         placeholder="Напишите сообщение..."></textarea>
     <button type="button" class="btn btn-secondary btn-block" id="send_comment" onclick="send_comment()">Отправить
         сообщение</button>
@@ -391,7 +391,7 @@
             container: 'osm_map',
             style: 'mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g',
             center: coordinates[Math.floor(coordinates.length / 2)][1],
-            zoom: 5
+            zoom: 13
         })
         osm_map.addControl(new mapboxgl.NavigationControl());
     } else {
@@ -399,7 +399,7 @@
             container: 'osm_map',
             style: 'mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g',
             center: [3.420253241560829, 46.124064037019906],
-            zoom: 5
+            zoom: 13
         });
         osm_map.addControl(new mapboxgl.NavigationControl());
     }
