@@ -79,7 +79,6 @@ WSGI_APPLICATION = 'FreeFallProject.wsgi.application'
 
 
 
-# Перед коммитом раскомментить
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
