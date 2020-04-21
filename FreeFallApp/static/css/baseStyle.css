@@ -197,7 +197,6 @@ a.dropdown-menu-header {
 
 .notification {
     border-top: 1px solid #3a0d69;
-    
 }
 
 .notification .column {
@@ -205,25 +204,23 @@ a.dropdown-menu-header {
     flex-grow: 5;
 }
 
-.notification .column button{
+.notification .column button {
     border: none;
     /* border-top: 1px solid #3a0d69; */
     line-height: 1;
     border-radius: 0;
 }
 
-.notification .column button:hover{
-    
+.notification .column button:hover {
     color: white;
     background-color: #72319f;
 }
 
-.notification .column a{
+.notification .column a {
     font-weight: 600;
 }
 
-.notification-date{
-
+.notification-date {
     padding-left: 3px;
     font-size: 13px;
     color: gray;
@@ -238,7 +235,7 @@ a.dropdown-menu-header {
     left: 2px;
 }
 
-#no_notifications{
+#no_notifications {
     padding-top: 20px;
 }
 
@@ -559,6 +556,9 @@ a.article, a.article:hover {
     height: 40px;
     text-align: center;
     width: 40px;
+    position: relative;
+    display: inline;
+    top: 9px;
 }
 
 #navbarSupportedContent {
@@ -570,9 +570,33 @@ a.article, a.article:hover {
 
 #create_hike_button {
     border-radius: 13px;
-    color: #72319f !important;
+    color: #72319f;
     background-color: #ffffff;
+    position: relative;
+    height: 34px;
+    display: inline-block;
+    top: 4px;
+}
+
+#create_hike_button p {
+
+    color: #72319f;
     font-weight: 600;
+    top: 20px;
+    /* transform: translateY(-50%); */
+    position: relative;
+    display: ruby-base;
+    vertical-align: baseline;
+    top: -2px;
+}
+
+#create_hike_button i {
+    display: contents;
+    color: #72319f;
+    font-weight: 600;
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
 }
 
 .notifications_badge {
@@ -591,7 +615,7 @@ a.article, a.article:hover {
     list-style: none;
 }
 
-.nav-item i{
+.nav-item i {
     color: white;
 }
 
