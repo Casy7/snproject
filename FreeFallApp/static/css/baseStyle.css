@@ -553,12 +553,15 @@ a.article, a.article:hover {
 } */
 
 .nav-link.main-navbar.round {
-    height: 40px;
+    /* height: 34px; */
     text-align: center;
     width: 40px;
     position: relative;
-    display: inline;
-    top: 9px;
+    /* display: inline;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    bottom: 0px; */
+    top: 2px;
 }
 
 #navbarSupportedContent {
@@ -579,7 +582,6 @@ a.article, a.article:hover {
 }
 
 #create_hike_button p {
-
     color: #72319f;
     font-weight: 600;
     top: 20px;
