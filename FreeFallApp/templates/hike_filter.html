@@ -15,17 +15,16 @@
             <button type="button" style="background-color: indigo;color: white;border-color: #72319f;"
                 class="input-group-text" onclick="find_all()">Найти</button>
         </div>
-    </div>
+    </div> <input type="checkbox" class="" id='filters_switch' style="padding-right: 50px;"><label
+        class="form-check-label" style="padding-left: 10px;" for="filters_switch"> Включить другие фильтры</label>
     <div class="accordion" id="other_filters_list">
-        <input type="checkbox" class="" id='filters_switch' style="padding-right: 50px;"><label class="form-check-label"
-            style="padding-left: 10px;" for="filters_switch"> Включить другие фильтры</label>
 
-        <div class="card" style="display: inline;">
 
-            <a class='btn btn-secondary btn-block form-control' id='collapse_button' data-toggle="collapse"
+
+
+            <a class='btn btn-block' id='collapse_button' data-toggle="collapse"
                 href="#other_filters" role="button" aria-expanded="true" aria-controls="other_filters">
-
-                <p style="text-align:center;color: indigo; display: inline;">Другие фильтры</p>
+            Другие фильтры
             </a>
 
             <div class="collapse" id="other_filters">
@@ -144,13 +143,13 @@
                     </div>
                 </div>
             </div>
-            <div class='cols' id='container' style="padding: 5px;">
-                <!--Сюда добавляются походы-->
-            </div>
-            <div id='no_hikes_message' style="display: flex;align-self: center;"></div>
-        </div>
-    </div>
 
+
+    </div>
+    <div class='cols' id='container' style="padding: 5px;">
+        <!--Сюда добавляются походы-->
+    </div>
+    <div id='no_hikes_message' style="display: flex;align-self: center;"></div>
 
 
     <script>
@@ -171,15 +170,15 @@
             }
             else {
                 send_data = {
-                    'name':$('#hike_name')[0].value,
+                    'name': $('#hike_name')[0].value,
                     'min_category': 'none',
                     'max_category': 'VI',
                     'start_day': '1986-01-01',
                     'end_day': '2076-01-01',
-                    'types':"Пеший,Горный,Водный,Вело,Спелео",
-                    'show_hikes_with_completed_groups':true,
-                    'show_hikes_with_close_members_entry':true,
-                    'show_hikes_with_entry_by_request':true
+                    'types': "Пеший,Горный,Водный,Вело,Спелео",
+                    'show_hikes_with_completed_groups': true,
+                    'show_hikes_with_close_members_entry': true,
+                    'show_hikes_with_entry_by_request': true
                 };
             }
             // alert(send_data);
@@ -227,7 +226,7 @@
                             $(`<a id=\"link_` + hike.id + `\" href=\'/hike/` + hike.id + `\'></a>`).appendTo($('#hike_' + hike.id));
                             //img = document.createElement("img");
                             //img.src = 'data:image/gif;base64,' + hike.image
-                            $(`<div class="img_hike" id="img_hike_div_`+hike.id+`"></div>`).appendTo($('#link_' + hike.id));
+                            $(`<div class="img_hike" id="img_hike_div_` + hike.id + `"></div>`).appendTo($('#link_' + hike.id));
                             if (hike.image === '') {
                                 $(`<img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">`).appendTo($('#img_hike_div_' + hike.id));
                             }
@@ -239,7 +238,7 @@
                             $('<h2 class="title new_header">' + hike.name + '</h2>').appendTo($('#link_' + hike.id));
                             $('<p class="creator_lable roboto">Создатель: ' + hike.creator + '</p>').appendTo($('#link_' + hike.id));
                             $('<p class="desc_lable">' + hike.description + '</p>').appendTo($('#link_' + hike.id));
-                            $('<div class="row" id="details_row_'+hike.id+'"></div>').appendTo($('#link_' + hike.id));
+                            $('<div class="row" id="details_row_' + hike.id + '"></div>').appendTo($('#link_' + hike.id));
 
                             $('<div class="col hike_detail roboto">Сложность: ' + hike.difficulty + '</p>').appendTo($('#details_row_' + hike.id));
                             $('<div class="col hike_detail type_of_hike">Тип похода: ' + hike.type + '</p>').appendTo($('#details_row_' + hike.id));
