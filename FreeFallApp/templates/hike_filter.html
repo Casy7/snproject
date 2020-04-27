@@ -227,11 +227,12 @@
                             $(`<a id=\"link_` + hike.id + `\" href=\'/hike/` + hike.id + `\'></a>`).appendTo($('#hike_' + hike.id));
                             //img = document.createElement("img");
                             //img.src = 'data:image/gif;base64,' + hike.image
+                            $(`<div class="img_hike" id="img_hike_div_`+hike.id+`"></div>`).appendTo($('#link_' + hike.id));
                             if (hike.image === '') {
-                                $(`<img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">`).appendTo('#link_' + hike.id);
+                                $(`<img class="card-img-top" src="{% static 'icons/default.jpg' %}" alt="Card image cap">`).appendTo($('#img_hike_div_' + hike.id));
                             }
                             else {
-                                $(`<img class="card-img-top" src="data:image/gif;base64,` + hike.image + `" alt="Card image cap">`).appendTo('#link_' + hike.id);
+                                $(`<img class="card-img-top" src="data:image/gif;base64,` + hike.image + `" alt="Card image cap">`).appendTo($('#img_hike_div_' + hike.id));
                             }
                             jQuery('<div/>', {
                                 id: 'hike_card_body_' + hike.id,
@@ -240,7 +241,7 @@
                             $('<h2 class="card-title">' + hike.name + '</h2>').appendTo($('#hike_card_body_' + hike.id));
                             $('<p class="card-text">Создатель: ' + hike.creator + '</p>').appendTo($('#hike_card_body_' + hike.id));
                             $('<p class="card-text">' + hike.description + '</p>').appendTo($('#hike_card_body_' + hike.id));
-                            $('<small class="text-muted">' + hike.start_date + ' - ' + hike.end_date + '</small>').appendTo($('#hike_card_body_' + hike.id));
+                            $('<p class="date_lable roboto">' + hike.start_date + ' - ' + hike.end_date + '</p>').appendTo($('#hike_card_body_' + hike.id));
                         }
                     } else {
                         console.log(json);

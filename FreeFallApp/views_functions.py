@@ -144,7 +144,7 @@ def hike_to_json(hike):
     # hike = Hike.object.get(id=1)
     result['id'] = hike.id
     result['name'] = hike.name
-    result['description'] = hike.description
+    result['description'] = hike.short_description
     result['creator'] = full_name(hike.creator)
     result['start_date'] = hike.start_date.strftime("%d of %B, %Y")
     result['end_date'] = hike.end_date.strftime("%d of %B, %Y")
