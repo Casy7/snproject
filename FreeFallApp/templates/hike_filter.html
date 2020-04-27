@@ -234,14 +234,16 @@
                             else {
                                 $(`<img class="card-img-top" src="data:image/gif;base64,` + hike.image + `" alt="Card image cap">`).appendTo($('#img_hike_div_' + hike.id));
                             }
-                            jQuery('<div/>', {
-                                id: 'hike_card_body_' + hike.id,
-                                class: 'card-body'
-                            }).appendTo('#link_' + hike.id);
-                            $('<h2 class="card-title">' + hike.name + '</h2>').appendTo($('#hike_card_body_' + hike.id));
-                            $('<p class="card-text">Создатель: ' + hike.creator + '</p>').appendTo($('#hike_card_body_' + hike.id));
-                            $('<p class="card-text">' + hike.description + '</p>').appendTo($('#hike_card_body_' + hike.id));
-                            $('<p class="date_lable roboto">' + hike.start_date + ' - ' + hike.end_date + '</p>').appendTo($('#hike_card_body_' + hike.id));
+
+                            $('<p class="date_lable roboto" style="text-align:right">' + hike.date + '</p>').appendTo($('#link_' + hike.id));
+                            $('<h2 class="title new_header">' + hike.name + '</h2>').appendTo($('#link_' + hike.id));
+                            $('<p class="creator_lable roboto">Создатель: ' + hike.creator + '</p>').appendTo($('#link_' + hike.id));
+                            $('<p class="desc_lable">' + hike.description + '</p>').appendTo($('#link_' + hike.id));
+                            $('<div class="row" id="details_row_'+hike.id+'"></div>').appendTo($('#link_' + hike.id));
+
+                            $('<div class="col hike_detail roboto">Сложность: ' + hike.difficulty + '</p>').appendTo($('#details_row_' + hike.id));
+                            $('<div class="col hike_detail type_of_hike">Тип похода: ' + hike.type + '</p>').appendTo($('#details_row_' + hike.id));
+
                         }
                     } else {
                         console.log(json);
