@@ -1,3 +1,12 @@
+document.addEventListener('keypress', search);
+
+function search(e) {
+    if (e.key == "Enter") {
+        // console.log(e);
+        find_all();
+    }
+}
+
 function validate_max_category() {
 
     lt = ['I', 'II', 'III', 'IV', 'V', 'VI'];

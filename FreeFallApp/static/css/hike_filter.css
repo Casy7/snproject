@@ -13,17 +13,31 @@ label.form-check-label {
     margin-top: 0px;
 }
 
+#hike_name {
+    border-color: indigo;
+}
+
+#hike_name:focus{
+    box-shadow: none;
+}
+
 #collapse_button{
-    
+    background-color: indigo;
     border-color: #72319f;
-    background-color: rgb(255, 255, 255);
+    width: auto;
     transition: 0.3s; 
+    color: white;
 }
 
-#collapse_button *{
-    
+input.form-control, select.form-control{
+    border-color: indigo;
 }
 
+#collapse_button:focus{
+    color: white;
+    box-shadow: none;
+
+}
 #collapse_button:active, #collapse_button:hover{
     border-end-start-radius: 0px;
     border-end-end-radius: 0px;
@@ -32,7 +46,7 @@ label.form-check-label {
     background-color: #72319f;
 
 }
-.card{
+/* .card{
     display: block !important;
 
-}
+} */

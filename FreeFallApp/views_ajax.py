@@ -238,7 +238,7 @@ class FilterHikes(View):
                             overlap+=1
                         else:
                             overlap+=2
-                if overlap/len(keywords)>1:
+                if overlap/len(keywords)>=1:
                     valid_hikes.append(hikes[index])
             hikes = valid_hikes
                 
