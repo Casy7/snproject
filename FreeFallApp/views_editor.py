@@ -148,27 +148,33 @@ class HikeEditor(View, LoginRequiredMixin):
         coordinates = str(form['coordinates'])
         data = coordinates.split(',')
         coordinates = []
-        for i in range(len(data)//3):
+        for i in range(len(data)//4):
             coordinates.append(
-                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
+                [str(data[i*4]), int(data[i*4+1]), [float(data[i*4+2]), float(data[i*4+3])]])
 
         delete = str(form['cord_del'])
+        print(delete)
         data = delete.split(',')
+        print(data)
         delete = []
-        for i in range(len(data)//3):
-            delete.append(
-                [int(data[i*3]), [float(data[i*3+1]), float(data[i*3+2])]])
-
-        for el in delete:
-            # TODO @fartened, проверь, крашится на этом
-            try:
-                coordinates.remove(el)
-            except:
-                pass
 
 
-        hike.coordinates = coordinates
-        print(coordinates, delete)
+        end_coordinates = []
+
+        for el in data:
+            for marker in coordinates:
+                if marker[0] == el:
+                    coordinates.remove(marker)
+                    break
+
+        for el in coordinates:
+            end_coordinates.append([el[1], el[2]])
+
+
+
+
+        hike.coordinates = end_coordinates
+        print(end_coordinates, delete)
         if 'image' in request.FILES.keys():
             hike.image = request.FILES['image']
         elif 'delete_photo' in form.keys():

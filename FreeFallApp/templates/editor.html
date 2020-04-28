@@ -599,6 +599,7 @@
                     el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
                     el.x = coordinates[i][1][0];
                     el.y = coordinates[i][1][1];
+                    var id = el.id;
                     var marker = new mapboxgl.Marker(el, { draggable: true }).setLngLat([el.x, el.y]).addTo(osm_map);
 
                     elements.push({
@@ -608,7 +609,8 @@
 
                     markers.push({
                         day: coordinates[i][0],
-                        marker: marker
+                        marker: marker,
+                        id: id,
                     })
 
 
@@ -618,7 +620,7 @@
                     var el = item.element;
                     var marker = item.marker;
                     item.element.addEventListener('contextmenu', function () {
-                        cord_del.push(Array(el.textContent, [el.x, el.y]));
+                        cord_del.push(el.id);
                         document.getElementById("del_coords").value = cord_del;
                         marker.remove();
                     });
@@ -767,6 +769,7 @@
                         else {
                             var day = (document.getElementById("day").value)
                             var el = document.createElement('div');
+                            el.id = 'marker' + markers.length.toString();
                             el.content = day;
                             el.className = 'marker';
                             was_click = true
@@ -774,6 +777,7 @@
                             el.style.backgroundImage = icon;
                             coordinates.push(Array(Number(day), e.lngLat.toArray()));
                             document.getElementById("coords").value = coordinates;
+                            var id = el.id;
                         
 
                         var marker = new mapboxgl.Marker(el, { draggable: true })
@@ -781,12 +785,13 @@
                             .addTo(osm_map);
 
                         markers.push({
+                            id: id,
                             day: Number(day),
                             marker: marker
                         })
 
                         el.addEventListener('contextmenu', function () {
-                            cord_del.push(Array(el.textContent, e.lngLat.toArray()));
+                            cord_del.push(el.id);
                             document.getElementById("del_coords").value = cord_del;
                             marker.remove();
 
@@ -890,8 +895,9 @@
                         var lngLat = item.marker.getLngLat();
                         var lng = lngLat.lng;
                         var lat = lngLat.lat;
+                        var id = item.id;
 
-                        coordinates.push(day, lng, lat)
+                        coordinates.push(id, day, lng, lat)
 
                     });
                     debugger;

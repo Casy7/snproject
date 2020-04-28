@@ -25,7 +25,7 @@
 {% if content.image != '' %}
 <style>
     #hike_header_card {
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.945), rgba(0, 0, 0, 0.384), rgba(34, 101, 163, 0)),
+        background: linear-gradient(0deg, rgb(0, 0, 0), rgba(0, 0, 0, 0.664), rgba(34, 101, 163, 0)),
         url('{{content.image.url}}');
         background-repeat: no-repeat;
         background-attachment: scroll;
@@ -37,7 +37,7 @@
 {% else %}
 <style>
     #hike_header_card {
-        background: linear-gradient(0deg, rgb(0, 0, 0), rgba(0, 0, 0, 0.438), rgba(34, 101, 163, 0)),
+        background: linear-gradient(0deg, rgb(0, 0, 0), rgba(0, 0, 0, 0.664), rgba(34, 101, 163, 0)),
         url("{% static 'icons/default.jpg' %}");
         background-repeat: no-repeat;
         background-attachment: scroll;
@@ -137,7 +137,7 @@
         {% endif %}
         {% endif %}
     </div>
-    <div class="hike_creator" style="position: relative; bottom: 5px; left: 5px;">
+    <div class="hike_creator" style="position: relative; bottom: 20px; left: 50px;">
         <div style="display: inline;">
             {% if content.creator.profile.avatar.name != '' %}
             <img src={{content.creator.profile.avatar.url}} class='creator_icon'
@@ -304,11 +304,11 @@
 
                         document.getElementsByClassName('li_ptc')[0].remove();
                     }
-                    // json.users.forEach(user => {
-                    //     li = document.createElement('li');
-                    //     li.innerText = user;
-                    //     byId('ptc_list').appendChild(li);
-                    // });
+                    json.users.forEach(user => {
+                        li = document.createElement('li');
+                        li.innerText = user;
+                        byId('ptc_list').appendChild(li);
+                    });
                     count_notifications();
                 } else {
                     alert('Так делать низя');
