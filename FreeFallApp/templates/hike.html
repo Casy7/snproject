@@ -138,15 +138,17 @@
         {% endif %}
     </div>
     <div class="hike_creator" style="position: relative; bottom: 20px; left: 50px;">
-        <div style="display: inline;">
-            {% if content.creator.profile.avatar.name != '' %}
-            <img src={{content.creator.profile.avatar.url}} class='creator_icon'
-                alt="{% static 'icons/logo_grey.png' %}">
-            {% else %}
-            <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon' alt="Responsive image">
-            {% endif %}
-            <p class="details_username">{{ full_name }}</p>
-        </div>
+        <a href="/account/{{content.creator.username}}">
+            <div style="display: inline;">
+                {% if content.creator.profile.avatar.name != '' %}
+                <img src={{content.creator.profile.avatar.url}} class='creator_icon'
+                    alt="{% static 'icons/logo_grey.png' %}">
+                {% else %}
+                <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon' alt="Responsive image">
+                {% endif %}
+                <p class="details_username">{{ full_name }}</p>
+            </div>
+        </a>
         {% if user == content.creator %}
         <div style="display: inline;">
             <a class="details_edittor_link" href=/editor/{{content.id}}>
@@ -179,19 +181,21 @@
             <h2 class="new_header">Участники:</h2>
             <ul id='ptc_list'>
                 {% for pt in content.participants %}
-                <li class='row user_card'>
-                    <div class="col user_col avatar_col">
-                        {% if pt.2 != ''%}
-                        <img src="{{ pt.2.url }}" class="sidebar-avatar">
-                        {% else %}
-                        <img src="{% static 'icons/logo_grey.png' %}" class="sidebar-avatar">
-                        {% endif %}
-                    </div>
-                    <div class="col user_col">
-                        <p class='user_full_name'>{{pt.0}}</p>
-                        <small>{{pt.1}}</small>
-                    </div>
-                </li>
+                <a href="{{pt.3}}">
+                    <li class='row user_card'>
+                        <div class="col user_col avatar_col">
+                            {% if pt.2 != ''%}
+                            <img src="{{ pt.2.url }}" class="sidebar-avatar">
+                            {% else %}
+                            <img src="{% static 'icons/logo_grey.png' %}" class="sidebar-avatar">
+                            {% endif %}
+                        </div>
+                        <div class="col user_col">
+                            <p class='user_full_name'>{{pt.0}}</p>
+                            <small>{{pt.1}}</small>
+                        </div>
+                    </li>
+                </a>
                 {% endfor %}
             </ul>
         </div>

@@ -56,8 +56,11 @@ class Registration(View):
                 username=form['username']), gender=form['gender'])
             user_desc.save()
 
+            user = authenticate(username=username, password=password)
+            login(request, user)
+
             # print(form)
-            return HttpResponseRedirect("/login")
+            return HttpResponseRedirect("/account_editor/")
 
         else:
             context = base_context(request, title='Регистрация',
@@ -441,6 +444,7 @@ class SetHike(View):
             props = [full_name(participant), participant.username, '']
             if participant.profile.avatar.name != '':
                 props[2] = participant.profile.avatar
+            props.append("/account/" + participant.username)
             participants.append(props)
 
         this_hike['participants'] = participants
@@ -503,11 +507,13 @@ class SetHike(View):
         return HttpResponseRedirect("/hike/"+str(hike.id))
 
 
-class MyAccount(View):
+class Account(View):
 
-    def get(self, request):
+    def get(self, request, username):
 
-        user = request.user
+        user = User.objects.get(username=username)
+
+        # user = request.user
 
         first_name = user.first_name
         last_name = user.last_name
@@ -532,7 +538,7 @@ class MyAccount(View):
         context['contacts'] = Contact.objects.filter(user=user)
         context['list_of_alowed_positions'] = ["phone", "telegram", "email"]
         # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
-        return render(request, "my_account.html", context)
+        return render(request, "account.html", context)
 
 
 class AccountEditor(View):
@@ -609,7 +615,7 @@ class AccountEditor(View):
                     new_contact.save()
 
         context = base_context(request)
-        return HttpResponseRedirect('/my_account/')
+        return HttpResponseRedirect('/account/' + str(user.username))
 
 
 class HikeFilter(View):
