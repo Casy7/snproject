@@ -45,11 +45,11 @@
             <td class="img-container" style="padding: 0px;width: 250px;">
 
                 <div class="row">
-                    {% if avatar == '' %}
+                    {% if image == '' %}
                     <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
                     {% else %}
-                    <img src="{{profile.avatar.url}}" id="myimg" class="avatar" default="Фото не выбрано"></img>
+                    <img src="{{image}}" id="myimg" class="avatar" default="Фото не выбрано"></img>
                     {% endif %}
                 </div>
 
