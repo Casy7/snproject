@@ -14,7 +14,7 @@
 
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<link  href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
+<link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
 
 <script>
@@ -23,8 +23,23 @@
         clearInputFile(document.getElementById("myfile"));
         del_avatar_button();
         // 
-    }</script>
-<div class="card" style="width:50%; border: 1px solid rgb(221, 221, 221); margin: auto;border-radius: 0px; min-width: 500px;">
+    }
+</script>
+
+<style>
+    img {
+        display: block;
+        max-width: 100%;
+        height: 500px;
+    }
+
+</style>
+
+
+
+
+<div class="card"
+    style="width:50%; border: 1px solid rgb(221, 221, 221); margin: auto;border-radius: 0px; min-width: 500px;">
     <form method="POST" enctype="multipart/form-data">
         {%csrf_token%}
 
@@ -32,14 +47,15 @@
         <div class="img-container">
 
             <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"></img>
+            <input type="hidden" id='resize_photo' name = 'resize_coordinates'>
 
-            <!-- <i class="fas fa-camera upload"></i> -->
             <div class="card-body">
                 <div class="row">
 
                     <div class="col-md" id="custom-file-input">
                         <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
                             accept=".jpg, .jpeg, .png">
+                        <!-- <input type="hidden" class="file-upload" name='image' style="display: none;" id="crimage"> -->
                         <label type="button" for="myfile" class="form-control upload_label"
                             style="display: block;text-align: center;">Загрузить фото</label>
                     </div>
@@ -49,18 +65,29 @@
                 </div>
                 <!-- <br> -->
                 <script src="{% static 'js/new_hike.js' %}"></script>
+
+
+
+                <input type="text" id='cropped_img' name="cropped_img" style="display: none;">
+
+
+
+
+
+
+
                 <!--  <td rowspan="2" width="2" id="upload_photo"><i class="fas fa-camera upload"></i></td> -->
-                <label for="exampleFormControlInput1">Название похода</label>
+                <label for="">Название похода</label>
 
                 <div class="card-title"><span><input type="text" class="form-control" name="name" placeholder=""
                             style="font-size: 15px;" required=""></span>
                 </div>
-                <label for="exampleFormControlInput1">Краткое описание</label>
+                <label for="">Краткое описание</label>
                 <span>
                     <textarea class="form-control" name="short_description" placeholder="Пару строк о походе"
                         style="font-size: 13px;"></textarea>
                 </span>
-                <label for="exampleFormControlInput2">Временные рамки</label>
+                <label for="">Временные рамки</label>
                 <div class="form-row">
                     <div class="col">
                         <input type="date" name="start" class="form-control" required="" id="start_day"
@@ -109,7 +136,7 @@
                 <label for="exampleFormControlInput6">Участники</label>
                 <!--Скрытый список участников-->
                 <br>
-                <select class="selectpicker" data-live-search="true" id="select_ptc"  data-size="5">
+                <select class="selectpicker" data-live-search="true" id="select_ptc" data-size="5">
                     {% for user in user_list %}
                     <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
                     {% endfor %}
@@ -138,7 +165,8 @@
                 <br>
                 <!-- Default inline 1-->
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="defaultInline1" value="open" name="can_users_join">
+                    <input type="radio" class="custom-control-input" id="defaultInline1" value="open"
+                        name="can_users_join">
                     <label class="custom-control-label" for="defaultInline1">Свободное добавление</label>
                 </div>
 
@@ -156,7 +184,7 @@
                     <label class="custom-control-label" for="defaultInline3">Только по приглашению</label>
                 </div>
                 <br><br>
-                <input type="submit" class="btn btn-secondary btn-block" onclick = "save_hike()" value="Создать">
+                <input type="submit" class="btn btn-secondary btn-block" onclick="save_hike()" value="Создать">
             </div>
         </div>
     </form>{%csrf_token%}
@@ -221,7 +249,7 @@
                         user_card.className = "card";
                         user_card.style = "width:90px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc; margin-bottom: 7px;";
 
-                
+
                         img = document.createElement("img");
                         img.className = "card-img-top";
                         img.style = "width: 100%;height:90px";
@@ -240,15 +268,15 @@
                         button = document.createElement("button");
                         button.className = "form-control";
                         button.type = "button";
-                        button.onclick = function delete_user() { 
+                        button.onclick = function delete_user() {
 
                             userlist = byId('list-usrs').value.split(',');
                             userlist.splice(userlist.indexOf(user), 1);
-                            
+
                             byId('list-usrs').value = userlist;
                             element = byId(this.parentNode.id);
                             element.parentNode.removeChild(element)
-                         };
+                        };
                         button.style = "height:40px; border: none;";
                         button.innerHTML = "Удалить";
 
@@ -263,7 +291,7 @@
 
                         li.appendChild(user_card);
                         document.getElementById('inline-userlist').insertBefore(li, byId("add-user"));
-                        
+
                     }
                     else {
                         var user_exists = false;
@@ -279,10 +307,13 @@
 
 </div>
 
-
-
-
+<script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
+<script src="{% static 'js/cropper.js' %}"></script>
+<script>
+    document.getElementsByClassName('img-container')[0].style.height = '500px'
+</script>
 <!-- Да, вызов bootstrap два раза, по итогу 3. Но измените порядок -- всё полетит -->
+
 
 <!-- DO NOT EDIT BLOCK -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -294,7 +325,7 @@
 <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
 
 <!-- <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script> -->
-<script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
+
 <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
 <!-- END OF DO-NOT-EDIT BLOCK -->
 

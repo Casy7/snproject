@@ -7,6 +7,8 @@ from django.shortcuts import render
 from django.core.files import File
 from django.db.models import Q
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import ContentFile
 from .models import *
 from .forms import *
 from datetime import date, timedelta
@@ -14,6 +16,9 @@ import base64
 import json
 import re
 
+import io
+from django.core.files import File
+from PIL import Image
 
 from FreeFallApp.views_functions import *
 from FreeFallApp.views_ajax import *
@@ -157,11 +162,6 @@ class NewHike(View, LoginRequiredMixin):
         user = request.user
 
         if request.user.is_anonymous == False:
-            # if user.is_active:
-            #     login(request, user)
-            #     context['name'] = username
-            #     return HttpResponseRedirect("/")
-            # else:
             context['name'] = request.user.username
             user = request.user
         else:
@@ -184,8 +184,21 @@ class NewHike(View, LoginRequiredMixin):
         
         hike.save()
         hike.participants.add(user)
+
+
         if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
+            # hike.image = request.FILES['image']
+            hike.save()
+
+            (crop_x, crop_y, crop_width, crop_height) = map(float, form['resize_coordinates'].split(' '))
+            image = Image.open(request.FILES['image'])
+            cropped_image = image.crop((crop_x, crop_y, crop_width+crop_x, crop_height+crop_y))
+            thumb_io = io.BytesIO()
+            cropped_image.save(thumb_io, image.format, quality=60)
+
+            hike.image.save(image.filename, ContentFile(thumb_io.getvalue()), save = False)
+            hike.save()
+
         
         participants = participants_new_format(form['participants'])
         for pt in participants:
