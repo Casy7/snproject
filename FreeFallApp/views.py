@@ -521,9 +521,6 @@ class Account(View):
         last_name = user.last_name
         username = user.username
 
-        print(user)
-        print(Profile.objects.get(user=user).avatar.url)
-
         if len(Profile.objects.filter(user=user)) == 0:
             profile = Profile(user=user)
         else:
@@ -537,7 +534,10 @@ class Account(View):
             full_name = username
 
         context = base_context(request, title=full_name, header=username)
-        context['image'] = Profile.objects.get(user=user).avatar.url
+        context['image'] = ''
+        if user.profile.avatar.name != '':
+            context['image'] = user.profile.avatar
+
         context['user'] = user
         context['cur_user'] = cur_user
         context['profile'] = profile
