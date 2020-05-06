@@ -533,10 +533,12 @@ class Account(View):
         else:
             full_name = username
 
+        print(user.profile.avatar.name)
+
         context = base_context(request, title=full_name, header=username)
         context['image'] = ''
         if user.profile.avatar.name != '':
-            context['image'] = user.profile.avatar
+            context['image'] = Profile.objects.get(user=user).avatar.url
 
         context['user'] = user
         context['cur_user'] = cur_user
