@@ -513,6 +513,8 @@ class Account(View):
 
         user = User.objects.get(username=username)
 
+        cur_user = request.user
+
         # user = request.user
 
         first_name = user.first_name
@@ -533,6 +535,7 @@ class Account(View):
 
         context = base_context(request, title=full_name, header=username)
         context['user'] = user
+        context['cur_user'] = cur_user
         context['profile'] = profile
         context['full_name'] = full_name
         context['contacts'] = Contact.objects.filter(user=user)

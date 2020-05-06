@@ -74,8 +74,9 @@
         </tr>
     </table>
 
-
+    {%if user == cur_user %}
     <input style = "margin-top: 20px" type="button" value="Изменить" onClick='location.href="/account_editor/"'>
+    {% endif %}
     {% if contacts %}
     <h4 style = "margin-top: 20px">Контакты:</h4>
     {% for contact in contacts %}
