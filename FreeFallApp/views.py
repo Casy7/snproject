@@ -273,7 +273,7 @@ class AllHikes(View):
                     text['difficulty'] = "Без категории"
                 text['type_of_hike'] = hike.type_of_hike
                 text['name'] = hike.name
-                context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
+                text['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
                 text['start_date'] = hike.start_date
                 text['creator'] = hike.creator
 

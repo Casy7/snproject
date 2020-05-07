@@ -610,7 +610,7 @@ a.article, a.article:hover {
     min-width: 400px;
     min-height: 70px;
     float: right;
-    left: 0;
+    /* left: 0; */
 }
 
 #notifications {
