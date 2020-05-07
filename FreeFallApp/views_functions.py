@@ -25,14 +25,17 @@ def notifications_to_js_format(nt_list):
             new_format_nt.append(user.id)
             new_format_nt.append(notification.hike.name)
             new_format_nt.append(notification.hike.id)
-            if len(Profile.objects.filter(user=user)) > 0 and user.profile.avatar.name != '':
-                image = user.profile.avatar
-                with open(os.path.join(MEDIA_ROOT,image.name), "rb") as img_file:
-                    my_string = base64.b64encode(
-                        img_file.read()).decode("ASCII")
-                new_format_nt.append(my_string)
-                # str(new_format_nt.append(user.profile.avatar))
-            else:
+            try:
+                if len(Profile.objects.filter(user=user)) > 0 and user.profile.avatar.name != '':
+                    image = user.profile.avatar
+                    with open(os.path.join(MEDIA_ROOT,image.name), "rb") as img_file:
+                        my_string = base64.b64encode(
+                            img_file.read()).decode("ASCII")
+                    new_format_nt.append(my_string)
+                    # str(new_format_nt.append(user.profile.avatar))
+                else:
+                    new_format_nt.append('')
+            except:
                 new_format_nt.append('')
             new_format_nt.append(str(notification.datetime))
             result_list.append(new_format_nt)
