@@ -29,8 +29,9 @@ class NotificationResult(View):
                 notification.delete()
                 result['result'] = 'success'
             elif form['result'] == 'delete':
-                if User.objects.get(id = decode_code[0]) in hike.participants.all():
-                    hike.participants.remove(User.objects.get(id = decode_code[0]))
+                if User.objects.get(id=decode_code[0]) in hike.participants.all():
+                    hike.participants.remove(
+                        User.objects.get(id=decode_code[0]))
                 else:
                     while len(Notification.objects.filter(from_user=user).filter(user__id=decode_code[0]).filter(hike__id=decode_code[1])):
                         notification = Notification.objects.filter(from_user=user).filter(
@@ -86,24 +87,23 @@ class DoesUserExist(View):
             if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
                 result['exist_image'] = True
                 image = user.profile.avatar
-                with open(os.path.join(MEDIA_ROOT,image.name), "rb") as img_file:
+                with open(os.path.join(MEDIA_ROOT, image.name), "rb") as img_file:
                     my_string = base64.b64encode(
                         img_file.read()).decode("ASCII")
                     result['image'] = my_string
-
 
             result['full_name'] = full_name(user)
             result['id'] = user.id
             if 'add_to_hike' in form.keys() and form['add_to_hike'] == 'true':
                 hike_id = form['hike_id']
                 if len(Notification.objects.filter(hike=Hike.objects.get(id=hike_id)).filter(user=user).filter(type_of_notification='invite_to_hike')) == 0:
-                    nt=Notification(user=user,
-                                    hike=Hike.objects.get(id=hike_id),
-                                    type_of_notification='invite_to_hike',
-                                    from_user=request.user)
+                    nt = Notification(user=user,
+                                      hike=Hike.objects.get(id=hike_id),
+                                      type_of_notification='invite_to_hike',
+                                      from_user=request.user)
                     nt.save()
         else:
-            result['exist']='False'
+            result['exist'] = 'False'
         return HttpResponse(
             json.dumps(result),
             content_type="application/json"
@@ -112,54 +112,64 @@ class DoesUserExist(View):
 
 class IsNewHikeValid(View):
     def post(self, request):
-        req=request
-        form=HikeForm(request.POST)
+        req = request
+        form = HikeForm(request.POST)
         if form.is_valid():
             pass
-        result={}
+        result = {}
         if len(User.objects.filter(username=form['username'])) > 0:
-            result['exist']='True'
+            result['exist'] = 'True'
         else:
-            result['exist']='False'
+            result['exist'] = 'False'
         return HttpResponse(
             json.dumps(result),
             content_type="application/json"
         )
 
 
-class SendNotifications(View):
+class SendNotifications(View, LoginRequiredMixin):
     def post(self, request):
-        form=request.POST
-        user=request.user
-        result={}
-        if user.is_anonymous == False:
+        form = request.POST
+        user = request.user
+        result = {}
 
-            result['result'] = 'success'
-            result['notifications']=notifications_to_js_format(
-                check_notifications(user))
+        already_received = []
+        if form['already_received'] != '':
 
-        else:
-            result['result'] = 'fail'
-            result['notifications']=[]
+            for js_nt in form['already_received'].split(','):
+                already_received.append(js_nt_to_notification(user, js_nt))
+
+        # result['result'] = 'fail'
+        # result['notifications']=[]
+        result['result'] = 'success'
+
+        all_user_notifications = check_notifications(user)
+        notifications_to_send = []
+
+        for notification in already_received:
+            all_user_notifications.remove(notification)
+
+        result['notifications'] = notifications_to_js_format(
+            all_user_notifications)
         return HttpResponse(json.dumps(result), content_type="application/json")
 
-    
+
 class ChangeMap(View):
     def post(self, request):
-        form=request.POST
-        user=request.user
-        result={}
+        form = request.POST
+        user = request.user
+        result = {}
         if user.is_anonymous == False:
             if form['operation'] == 'delete_landmark':
                 lmk_id = int(form['lmk_id'])
-                Landmark.objects.get(id = lmk_id).delete()
+                Landmark.objects.get(id=lmk_id).delete()
                 result['result'] = 'success'
             elif form['operation'] == 'add_landmark':
                 lmk = Landmark(
-                    name = form['lmk_name'],
-                    description = form['lmk_desc'],
-                    longitude = form['lat'],
-                    latitude= form['lon']
+                    name=form['lmk_name'],
+                    description=form['lmk_desc'],
+                    longitude=form['lat'],
+                    latitude=form['lon']
                 )
                 lmk.save()
                 result['result'] = 'success'
@@ -173,34 +183,38 @@ class FilterHikes(View):
         result = {}
         filter_dict = request.POST
         # Временной фильтр
-        hikes = Hike.objects.filter(end_date__lte=filter_dict['end_day']).filter(start_date__gte=filter_dict['start_day'])
+        hikes = Hike.objects.filter(end_date__lte=filter_dict['end_day']).filter(
+            start_date__gte=filter_dict['start_day'])
         # print(len(hikes))
         # Этот фрагмент отвечает за фильтр категории сложности похода
-        all_categories = ['none','I','II','III','IV','V','VI']
-        selected_categories = all_categories[all_categories.index(filter_dict['min_category']):all_categories.index(filter_dict['max_category'])+1]
+        all_categories = ['none', 'I', 'II', 'III', 'IV', 'V', 'VI']
+        selected_categories = all_categories[all_categories.index(
+            filter_dict['min_category']):all_categories.index(filter_dict['max_category'])+1]
         filter_cat = 'Q(difficulty=\''+selected_categories[0]+'\')'
-        if len(selected_categories)>1:
+        if len(selected_categories) > 1:
             for cat in selected_categories[1:]:
-                filter_cat+='|Q(difficulty=\''+cat+'\')'
+                filter_cat += '|Q(difficulty=\''+cat+'\')'
 
         hikes = hikes.filter(eval(filter_cat))
         # print(len(hikes))
         # Фильтр типа похода (пеший/горный/водный т.п.)
-        
+
         types = filter_dict['types'].split(',')
         filter_type = 'Q(type_of_hike=\''+types[0]+'\')'
-        if len(types)>1:
+        if len(types) > 1:
             for hike_type in types[1:]:
-                filter_type+='|Q(type_of_hike=\''+hike_type+'\')'
-        
+                filter_type += '|Q(type_of_hike=\''+hike_type+'\')'
+
         hikes = hikes.filter(eval(filter_type))
         # print(len(hikes))
 
         # Фильтры свободы добавления
         if filter_dict['show_hikes_with_close_members_entry'] == 'false':
-            hikes = hikes.filter(Q(join_to_group='open')|Q(join_to_group='request'))
+            hikes = hikes.filter(Q(join_to_group='open') |
+                                 Q(join_to_group='request'))
         if filter_dict['show_hikes_with_entry_by_request'] == 'false':
-            hikes = hikes.filter(Q(join_to_group='open')|Q(join_to_group='close'))
+            hikes = hikes.filter(Q(join_to_group='open') |
+                                 Q(join_to_group='close'))
 
         # Фильтр, удаляющий из списка походы со сформированными группами
         if filter_dict['show_hikes_with_completed_groups'] == 'false':
@@ -216,7 +230,7 @@ class FilterHikes(View):
             for hike in hikes:
                 names.append(hike.name)
                 descs.append(hike.description)
-            
+
             keywords = filter_dict['name'].lower().split(' ')
             # Основная часть фильтра
             valid_hikes = []
@@ -226,24 +240,25 @@ class FilterHikes(View):
                 name = names[index].lower()
                 overlap = 0
                 hike_header = names[index].lower()
-                
+
                 if name.split(' ') == keywords:
                     valid_hikes.append(hikes[index])
                     continue
 
                 for keyword in keywords:
-                    keyword = cut_keyword(keyword)      # TODO написать сию чудесатую функцию
+                    # TODO написать сию чудесатую функцию
+                    keyword = cut_keyword(keyword)
                     if keyword in hike_header:
-                        if len(keyword)<=3:
-                            overlap+=1
+                        if len(keyword) <= 3:
+                            overlap += 1
                         else:
-                            overlap+=2
-                if overlap/len(keywords)>=1:
+                            overlap += 2
+                if overlap/len(keywords) >= 1:
                     valid_hikes.append(hikes[index])
             hikes = valid_hikes
-                
+
         # print(hikes)
-        result['result']= 'success'
+        result['result'] = 'success'
         json_format_hikes = []
         for hike in hikes:
             json_format_hikes.append(hike_to_json(hike))
@@ -252,21 +267,21 @@ class FilterHikes(View):
         return HttpResponse(json.dumps(result), content_type="application/json")
 
 
-
 class AddComment(View, LoginRequiredMixin):
     def post(self, request):
         result = {}
-        
+
         comment_props = request.POST
 
         if comment_props['comment'] != '':
-            model = Message(text=comment_props['comment'], author=request.user, hike=Hike.objects.get(id=int(comment_props['hike'])))
+            model = Message(text=comment_props['comment'], author=request.user, hike=Hike.objects.get(
+                id=int(comment_props['hike'])))
             model.save()
             result['result'] = 'success'
             result['author'] = full_name(request.user)
-            months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
-            result['time_published'] = model.creation_datetime.strftime('%H:%M, %d ')+months[model.creation_datetime.month-1]
-
-
+            months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+            result['time_published'] = model.creation_datetime.strftime(
+                '%H:%M, %d ')+months[model.creation_datetime.month-1]
 
         return HttpResponse(json.dumps(result), content_type="application/json")

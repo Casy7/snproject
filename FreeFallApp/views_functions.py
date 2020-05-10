@@ -40,7 +40,6 @@ def notifications_to_js_format(nt_list):
             new_format_nt.append(str(notification.datetime))
             result_list.append(new_format_nt)
         elif notification.type_of_notification == "simple_text":
-
             result_list.append(new_format_nt)
 
     return result_list
@@ -206,3 +205,11 @@ def beauty_date_interval(date1: datetime, date2: datetime, show_year=False, show
                 result+= ', '+str(date1.year)
 
     return result
+
+
+def js_nt_to_notification(user: User, nt: str):
+    nt = nt.split('-')
+    notification = Notification.objects.filter(user=user).filter(from_user__id=nt[0]).filter(hike__id=nt[1])
+    if notification != []:
+        return notification[0]
+    
