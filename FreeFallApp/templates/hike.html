@@ -232,7 +232,7 @@
 
         <div class="comment_box">
             {% if ct.avatar != '' %}
-            <img src='{{ avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+            <img src='{{ ct.avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
             {% else %}
             <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
             {% endif %}
@@ -257,7 +257,7 @@
     {% endif %}
 
 </div>
-
+<img id='logo_grey' style="display: none;" src = "{% static 'icons/logo_grey.png' %}">
 
 <form method="POST">
     {%csrf_token%}
@@ -358,7 +358,7 @@
                 if (json.result === "success") {
                     comment = `
                     <div class="comment_box">
-                    <img src='`+ document.getElementsByClassName('navbar-avatar')[0].src + `' class='creator_icon user_icon_small'
+                    <img src='`+ document.getElementsByClassName('navbar-avatar')[1].src + `' class='creator_icon user_icon_small'
                         alt="{% static 'icons/logo_grey.png' %}">
                     <p class='user_full_name' style="display: inline;">`+ json.author + `</p>
                     <small>`+ '{{username}}' + `</small>
