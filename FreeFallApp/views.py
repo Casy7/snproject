@@ -484,7 +484,7 @@ class SetHike(View):
             context['number_of_free_places'] = str(this_hike['vacancies'])+' места'
         else:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' мест'
-        context['full_name'] = full_name(hike.creator)
+        context['author_full_name'] = full_name(hike.creator)
 
         # Комментарии
 

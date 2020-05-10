@@ -79,6 +79,7 @@ def base_context(request, **args):
         if len(Profile.objects.filter(user=user)) != 0:
 
             context['username'] = user.username
+            context['full_name'] = full_name(user)
             if bool(user.profile.avatar):
                 context['avatar'] = user.profile.avatar
             else:

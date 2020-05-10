@@ -121,9 +121,12 @@
             {% endif %}
         </div>
     </h3>
+    <input type="hidden" id = "join_to_group" value="{{ content.join_to_group }}">
     <div class='join_to_group'>
-        {% if content.free_plases != "Nope" and user.is_anonymous != True %}
+        {% if content.free_plases != "Nope" and user.is_anonymous != True and content.vacancies > 0 %}
         {% if user.username not in content.usernames and content.creator.username != username %}
+
+
         {% if content.join_to_group == 'open' %}
         <input type="button" id='append_user' class="btn btn-secondary btn-block" onclick="take_part()"
             value="Принять участие" style="display: inline-block;width:170px;height:35px">
@@ -134,6 +137,8 @@
         {% else %}
         <small style="text-align: center;">В этот поход добавиться нельзя</small>
         {% endif %}
+
+
         {% endif %}
         {% endif %}
     </div>
@@ -146,7 +151,7 @@
                 {% else %}
                 <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon' alt="Responsive image">
                 {% endif %}
-                <p class="details_username">{{ full_name }}</p>
+                <p class="details_username">{{ author_full_name }}</p>
             </div>
         </a>
         {% if user == content.creator %}
@@ -259,10 +264,10 @@
 </div>
 <img id='logo_grey' style="display: none;" src = "{% static 'icons/logo_grey.png' %}">
 
-<form method="POST">
+<!-- <form method="POST">
     {%csrf_token%}
     <input id="participate" name="participate" type="hidden" value="Nope">
-</form>
+</form> -->
 
 <script src="{% static 'js/hike.js' %}"></script>
 
@@ -303,17 +308,35 @@
                 // alert(json);
                 // alert(json.exist);
                 if (json.result === "success") {
-                    byId('append_user').parentNode.removeChild(byId('append_user'));
-                    while (document.getElementsByClassName('li_ptc').length > 0) {
 
-                        document.getElementsByClassName('li_ptc')[0].remove();
+                    byId('append_user').className += ' disabled';
+
+                    if (byId('join_to_group').value == 'request'){
+                        byId('append_user').value = 'Заявка отправлена';
+
+
                     }
-                    json.users.forEach(user => {
-                        li = document.createElement('li');
-                        li.innerText = user;
-                        byId('ptc_list').appendChild(li);
-                    });
-                    count_notifications();
+                    else if (byId('join_to_group').value == 'open'){
+                        byId('append_user').value = 'Вы теперь в группе';
+
+
+                    }
+
+                    user_ptc_li = `                
+                    <a href="/account/{{ username }}">
+                        <li class='row user_card'>
+                            <div class="col user_col avatar_col">
+                                <img src=`+ document.getElementsByClassName('navbar-avatar')[1].src + ` class="sidebar-avatar">
+                            </div>
+                            <div class="col user_col">
+                                <p class='user_full_name'>{{ full_name }}</p>
+                                <small>{{ username }}</small>
+                            </div>
+                        </li>
+                    </a>`
+
+                    jQuery(user_ptc_li).appendTo($('#ptc_list'));
+
                 } else {
                     alert('Так делать низя');
                     count_notifications();
