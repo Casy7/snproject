@@ -286,7 +286,8 @@ class AllHikes(View):
                     text['difficulty'] = "Без категории"
                 text['type_of_hike'] = hike.type_of_hike
                 text['name'] = hike.name
-                text['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
+                text['rus_date'] = beauty_date_interval(hike.start_date, hike.end_date, True)
+                # text['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
                 text['start_date'] = hike.start_date
                 text['creator'] = hike.creator
 
@@ -297,8 +298,8 @@ class AllHikes(View):
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
 
-                if len(text['short_description']) > 200:
-                    text['short_description'] = text['short_description'][0:198]+'...'
+                if len(text['short_description']) > 250:
+                    text['short_description'] = text['short_description'][0:248]
 
                 hike_row.append(text)
                 stack_index += 1
