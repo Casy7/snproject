@@ -6,7 +6,7 @@
         viewMode: 1,
         crop(event) {
             document.getElementById('resize_photo').value = event.detail.x + ' ' + event.detail.y + ' ' + event.detail.width + ' ' + event.detail.height;
-            // console.log(event.detail.x + ' ' + event.detail.y + ' ' + event.detail.width + ' ' + event.detail.height);
+            console.log(event.detail.x + ' ' + event.detail.y + ' ' + event.detail.width + ' ' + event.detail.height);
 
 
         },
