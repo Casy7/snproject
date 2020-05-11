@@ -232,7 +232,7 @@ function add_lmk(id, name, desc, coords) {
             // alert(json.exist);
             if (json.result === "success") {
                 osm_map.setLayoutProperty('lk_' + id, 'visibility', 'none');
-                alert('created');
+                // alert('created');
 
 
             }
