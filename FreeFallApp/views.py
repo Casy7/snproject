@@ -128,7 +128,7 @@ class NewHike(View, LoginRequiredMixin):
     def get(self, request):
 
         context = base_context(
-            request, title='Новый поход', header='Новый поход', error=0)
+            request, title='Создать поход', header='Создать поход', error=0)
         user_list = []
         for user in User.objects.all():
             if user != request.user:
@@ -478,7 +478,7 @@ class SetHike(View):
         context['content']['creator'] = hike.creator
 
         
-        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]+', '+str(hike.start_date.year)
+        context['rus_date'] = beauty_date_interval(hike.start_date, hike.end_date, True, True)
 
         if 0<int(str(this_hike['vacancies'])[-1:])<5:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' места'

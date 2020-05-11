@@ -2,6 +2,7 @@ from .models import *
 from .forms import *
 from FreeFallApp.views import *
 import base64
+import os.path
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
 
 
@@ -84,7 +85,7 @@ class DoesUserExist(View):
             result['exist'] = 'True'
             result['exist_image'] = False
             user = User.objects.get(username=form['username'])
-            if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
+            if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '' and os.path.isfile(user.profile.avatar.path):
                 result['exist_image'] = True
                 image = user.profile.avatar
                 with open(os.path.join(MEDIA_ROOT, image.name), "rb") as img_file:
