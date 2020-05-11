@@ -5,9 +5,11 @@ function rs(res) {
 }
 
 function delete_avatar() {
-    document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+    document.getElementById("default_img").style.display = 'block';
+    byId('cropper_div').style.display = 'none';
     clearInputFile(document.getElementById("myfile"));
     del_avatar_button();
+    document.getElementsByClassName('img-container')[0].style.height = 'initial';
     // 
 }
 
