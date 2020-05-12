@@ -531,7 +531,7 @@
                     center: [3.420253241560829, 46.124064037019906],
                     zoom: 13
                 });
-                osm_map.resize()
+                // osm_map.resize()
                 var customData = {
                     features: [
 
@@ -541,20 +541,19 @@
 
                 function resize() {
                     i = 0
-                    while (document.getElementsByClassName('mapboxgl-canvas')[0].style.width == '400px' && i < 10) {
                         try {
                             osm_map.resize();
                             i++;
-                            console.log(1);
+                            console.log('map was resized');
                         }
                         catch (e) {
                             i++;
-                            console.log(0);
+                            console.log('error with_resizing');
                         }
 
-                    }
+                    
                 }
-                resize();
+                // resize();
                 function forwardGeocoder(query) {
                     var matchingFeatures = [];
                     for (var i = 0; i < customData.features.length; i++) {
@@ -801,7 +800,7 @@
 
                     osm_map.on('render', function (t) {
                         osm_map.resize();
-                        resize();
+                        // resize();
                     });
 
                     // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
