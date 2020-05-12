@@ -537,13 +537,34 @@ a.article, a.article:hover {
     color: #fff !important;
 }
 
-.nav-item .nav-link.main-navbar {
-    color: #ffffff;
-    /* background-color: #d3d3d3; */
-    border-radius: 50%;
-    /* width: 40px; */
-    height: 40px;
+.nav-item {
+    /* position: absolute; */
+    /* top: 50px; */
 }
+
+#main_navbar_ul{
+    position: relative;
+    /* right: 14px;
+    top: 0px; */
+    /* position: absolute;
+    top: 50%;
+    transform: translateY(-50%);     */
+
+}
+
+#main_navbar_ul >*{
+    display: inline-flex;
+    vertical-align:middle;
+    top: 50%;
+    /* position: relative; */
+    /* transform: translateY(-50%); */
+}
+
+/* .nav-item .nav-link.main-navbar {
+    color: #ffffff;
+    border-radius: 50%;
+    height: 40px;
+} */
 
 /* .nav-item .nav-link {
     color: #555;
@@ -555,21 +576,15 @@ a.article, a.article:hover {
 .nav-link.main-navbar.round {
     /* height: 34px; */
     text-align: center;
-    width: 40px;
-    position: relative;
-    /* display: inline;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    bottom: 0px; */
-    top: 2px;
+    /* width: 40px; */
+    /* position: relative; */
+    display: ruby-text !important;
+    /* padding-bottom: 0px;
+    padding-top: 0px; */
+    /* bottom: 0px; */
+    /* top: 2px; */
 }
 
-#navbarSupportedContent {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
 
 #create_hike_button {
     border-radius: 13px;
@@ -577,26 +592,29 @@ a.article, a.article:hover {
     background-color: #ffffff;
     position: relative;
     height: 34px;
-    display: inline-block;
-    top: 4px;
+    /* top: 50%; */
+    /* right: 10px; */
+    /* transform: translateY(10%); */
+    /* display: inline-block; */
+    top: 2px;
 }
 
 #create_hike_button p {
     color: #72319f;
     font-weight: 600;
-    top: 20px;
+    /* top: 20px; */
     /* transform: translateY(-50%); */
-    position: relative;
-    display: ruby-base;
-    vertical-align: baseline;
-    top: -2px;
+    /* position: relative; */
+    /* display: ruby-base; */
+    /* vertical-align: baseline; */
+    /* top: -2px; */
 }
 
-#create_hike_button i {
-    display: contents;
+#create_hike_button >* {
+    display: inline list-item;
     color: #72319f;
     font-weight: 600;
-    top: 50%;
+    top: -10%;
     transform: translateY(-50%);
     position: relative;
 }
@@ -675,8 +693,8 @@ a.article, a.article:hover {
     margin: 5px auto;
 }
 
-.navbar-nav {
-    flex-direction: row !important;
+.navbar-nav.ml-auto {
+    flex-direction: row;
 }
 
 .navbar-collapse {
@@ -691,7 +709,7 @@ a.article, a.article:hover {
 
 .nav-link {
     /* margin-left: 5px; */
-    margin-right: 5px;
+    margin-right: 7px;
 }
 
 /* ---------------------------------------------------
