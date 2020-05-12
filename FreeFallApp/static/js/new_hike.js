@@ -1,21 +1,54 @@
+
+
+function rs(res) {
+    cropper.replace(res);
+}
+
+function delete_avatar() {
+    document.getElementById("default_img").style.display = 'block';
+    byId('cropper_div').style.display = 'none';
+    clearInputFile(document.getElementById("myfile"));
+    del_avatar_button();
+    document.getElementsByClassName('img-container')[0].style.height = 'initial';
+    // 
+}
+
+function save_hike() {
+    document.getElementById("del_users").value = users_del;
+}
+
+
+
+function update_ptc_list() {
+    ptc_list = []
+    Object.values(document.getElementsByClassName('user_card')).forEach(ptc => {
+        ptc_list.push(ptc.id.substring(0, ptc.id.length - 5));
+    })
+    byId('list-usrs').value = ptc_list;
+}
+
+
 function readURL() {
     var myimg = document.getElementById("myimg");
     var input = document.getElementById("myfile");
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-
-            // console.log("changed");
             myimg.src = e.target.result;
-            //paste code here
+
+            cropper.replace(byId('myimg').src);
         }
-        create_del_button();
-        // document.getElementById("del_photo").style.display = "visible";
+
+
         reader.readAsDataURL(input.files[0]);
+
+        // byId('res_img').value = reader['result'];
+
+        create_del_button();
+
+
     }
 }
-
-
 
 
 function create_del_button() {
@@ -32,6 +65,8 @@ function create_del_button() {
     }
     document.getElementById("del_button").appendChild(button);
 }
+
+
 function del_avatar_button() {
     del_div = document.getElementById("del_button");
     while (document.getElementById("del_button").childNodes.length > 0) {
@@ -40,96 +75,59 @@ function del_avatar_button() {
     }
 }
 
-document.querySelector('#myfile').addEventListener('change', function () {
-    readURL();
-    del_avatar_button();
-    create_del_button();
-});
 
-
-function clearInputFile(f){
-    if(f.value){
-        try{
+function clearInputFile(f) {
+    if (f.value) {
+        try {
             f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
-        }catch(err){ }
-        if(f.value){ //for IE5 ~ IE10
+        } catch (err) { }
+        if (f.value) { //for IE5 ~ IE10
             var form = document.createElement('form'),
                 parentNode = f.parentNode, ref = f.nextSibling;
             form.appendChild(f);
             form.reset();
-            parentNode.insertBefore(f,ref);
+            parentNode.insertBefore(f, ref);
         }
     }
 }
-// function add_day (){
-//     // alert(document.getElementsByName("day")[0]);
-//     a_new_day = document.getElementsByName("day")[0].cloneNode(false);
-//     day = document.createElement("input");
-//     //alert("start_day"+i.toString());
-//     day.name = "start_day"+i.toString();
-//     day.className = "form-control";
-//     day.placeholder = "День "+i.toString();
 
-//     row1 = document.createElement("div");
-//     row1.className = "col-sm";
-//     row2 = document.createElement("div");
-//     row2.className = "col-sm";    
-//     row3 = document.createElement("div");
-//     row3.className = "col-sm";   
-//     row_btn = document.createElement("div");
-//     row_btn.className = "col-sm-1";
+document.querySelector('#myfile').addEventListener('change', function () {
+    byId('cropper_div').style.display = 'block';
+    byId('myimg').style.display = 'block';
+    byId('default_img').style.display = 'none';
+    document.getElementsByClassName('img-container')[0].style.height = '500px';
+
+    readURL();
+    cropper.destroy();
+    cropper.replace(byId('myimg').src);
+
+    del_avatar_button();
+    create_del_button();
 
 
-//     start = document.createElement("input");
-//     //alert("start_day"+i.toString());
-//     start.name = "start_day"+i.toString();
-//     start.className = "form-control";
+    // cropper.reset();
+});
 
-//     end = document.createElement("input");
-//     //alert("start_day"+i.toString());
-//     end.name = "end_day"+i.toString();
-//     end.className = "form-control";
 
-//     btn = document.createElement("input");
-//     //alert("start_day"+i.toString());
+function add_user() {
 
-//     btn.type = "button";
-//     btn.value = "+";
+    username = byId('select_ptc').value;
+    if (byId(username + '_user') == null) {
+        add_ptc();
+        // update_ptc_list();
+    }
+}
 
-//     btn.onclick = function add_a_day(){
-//         add_day();
-//     };
 
-//     btn.className = "form-control";
-
-//     row1.appendChild(day);
-//     row2.appendChild(start);
-//     row3.appendChild(end);
-//     row_btn.appendChild(btn)
-
-//     a_new_day.appendChild(row1);
-//     a_new_day.appendChild(row2);
-//     a_new_day.appendChild(row3);
-//     a_new_day.appendChild(row_btn);
-
-//     // a_new_day.appendChild(document.createElement("br"));
-
-//     document.getElementById("track").appendChild(a_new_day);
-//     document.getElementById("track").appendChild(document.createElement("br"));
-    
-//     // a_new_day.childNodes[0].setAttribute("name", "start_day"+i);
-//     i+=1;
-//     // alert(document.getElementsByName("day"));
-//     ;
-// }
 
 function del_user(user) {
-    $('#' + user).remove();
+    byId(user + '_user').parentNode.removeChild(byId(user + '_user'));
+    byId(user + '_user').parentNode.removeChild(byId(user + '_user'));
+    // Два раза, сначала удаляются только дочерние элементы карточки
+    ptc_list = []
+    Object.values(document.getElementsByClassName('user_card')).forEach(ptc => {
+        ptc_list.push(ptc.id.substring(0, ptc.id.length - 5));
+    })
+    byId('list-usrs').value = ptc_list;
 }
 
-function str_to_list(str_el) {
-    str_el = str_el.replace('[', '');
-    str_el = str_el.replace(']', '');
-    list = str_el.split(", ");
-    return list
-}

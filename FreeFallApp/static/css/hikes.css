@@ -39,7 +39,6 @@
 }
 
 .creator_lable {
-    
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
@@ -50,10 +49,17 @@
 }
 
 .desc_lable {
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
     font-style: normal;
     font-weight: 300;
     font-size: 16px;
-    line-height: 19px;
+    line-height: 20px;
+    height: 80px;
     margin-bottom: 5px;
     color: rgba(0, 0, 0, 0.8);
 }
@@ -92,7 +98,7 @@
     text-align: right;
 }
 
-.hike_card{
+.hike_card {
     padding-top: 20px;
     padding-bottom: 20px;
 }

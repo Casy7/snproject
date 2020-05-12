@@ -7,6 +7,8 @@ from django.shortcuts import render
 from django.core.files import File
 from django.db.models import Q
 from FreeFallProject.settings import MEDIA_ROOT, MEDIA_URL
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import ContentFile
 from .models import *
 from .forms import *
 from datetime import date, timedelta
@@ -14,6 +16,9 @@ import base64
 import json
 import re
 
+import io
+from django.core.files import File
+from PIL import Image
 
 from FreeFallApp.views_functions import *
 from FreeFallApp.views_ajax import *
@@ -123,7 +128,7 @@ class NewHike(View, LoginRequiredMixin):
     def get(self, request):
 
         context = base_context(
-            request, title='Новый поход', header='Новый поход', error=0)
+            request, title='Создать поход', header='Создать поход', error=0)
         user_list = []
         for user in User.objects.all():
             if user != request.user:
@@ -160,11 +165,6 @@ class NewHike(View, LoginRequiredMixin):
         user = request.user
 
         if request.user.is_anonymous == False:
-            # if user.is_active:
-            #     login(request, user)
-            #     context['name'] = username
-            #     return HttpResponseRedirect("/")
-            # else:
             context['name'] = request.user.username
             user = request.user
         else:
@@ -187,8 +187,21 @@ class NewHike(View, LoginRequiredMixin):
         
         hike.save()
         hike.participants.add(user)
+
+
         if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
+            # hike.image = request.FILES['image']
+            hike.save()
+
+            (crop_x, crop_y, crop_width, crop_height) = map(float, form['resize_coordinates'].split(' '))
+            image = Image.open(request.FILES['image'])
+            cropped_image = image.crop((crop_x, crop_y, crop_width+crop_x, crop_height+crop_y))
+            thumb_io = io.BytesIO()
+            cropped_image.save(thumb_io, image.format, quality=60)
+
+            hike.image.save(image.filename, ContentFile(thumb_io.getvalue()), save = False)
+            hike.save()
+
         
         participants = participants_new_format(form['participants'])
         for pt in participants:
@@ -273,7 +286,8 @@ class AllHikes(View):
                     text['difficulty'] = "Без категории"
                 text['type_of_hike'] = hike.type_of_hike
                 text['name'] = hike.name
-                text['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
+                text['rus_date'] = beauty_date_interval(hike.start_date, hike.end_date, True)
+                # text['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]
                 text['start_date'] = hike.start_date
                 text['creator'] = hike.creator
 
@@ -284,8 +298,8 @@ class AllHikes(View):
                 text['end_date'] = hike.end_date
                 text['short_description'] = hike.short_description
 
-                if len(text['short_description']) > 200:
-                    text['short_description'] = text['short_description'][0:198]+'...'
+                if len(text['short_description']) > 250:
+                    text['short_description'] = text['short_description'][0:248]
 
                 hike_row.append(text)
                 stack_index += 1
@@ -464,13 +478,13 @@ class SetHike(View):
         context['content']['creator'] = hike.creator
 
         
-        context['rus_date'] = str(hike.start_date.day)+' '+months[hike.start_date.month-1]+' - '+str(hike.end_date.day)+' '+months[hike.end_date.month-1]+', '+str(hike.start_date.year)
+        context['rus_date'] = beauty_date_interval(hike.start_date, hike.end_date, True, True)
 
         if 0<int(str(this_hike['vacancies'])[-1:])<5:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' места'
         else:
             context['number_of_free_places'] = str(this_hike['vacancies'])+' мест'
-        context['full_name'] = full_name(hike.creator)
+        context['author_full_name'] = full_name(hike.creator)
 
         # Комментарии
 
@@ -516,6 +530,7 @@ class Account(View):
         cur_user = request.user
 
         # user = request.user
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
 
         first_name = user.first_name
         last_name = user.last_name
@@ -547,7 +562,40 @@ class Account(View):
         context['contacts'] = Contact.objects.filter(user=user)
         context['list_of_alowed_positions'] = ["phone", "telegram", "email"]
         # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
+
+        posts = Post.objects.filter(post_author=user).order_by('creation_datetime')
+
+        print(posts)
+
+        users_posts = []
+
+        for post in posts:
+            ct = {}
+            ct['name'] = post.name
+            ct['content'] = post.content
+
+            published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            users_posts.append(ct)
+        context['users_posts'] = users_posts
+
         return render(request, "account.html", context)
+
+    def post(self, request, username):
+        form = request.POST
+        print(form)
+
+        post = Post(
+            post_author = request.user,
+            name = form['post_name'],
+            content = form['post_content'],
+            creation_datetime = datetime.now()
+        )
+        
+        post.save()
+
+        return HttpResponseRedirect("/account/" + username + "#")
+
 
 
 class AccountEditor(View):

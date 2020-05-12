@@ -46,10 +46,10 @@
 
                 <div class="row">
                     {% if avatar == '' %}
-                    <img src="{% static 'icons/logo_grey.png' %}" id="myimg" class="avatar"
+                    <img src="{% static 'icons/logo_grey.png' %}" width="250" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
                     {% else %}
-                    <img src="{{profile.avatar.url}}" id="myimg" class="avatar" default="Фото не выбрано"></img>
+                    <img src="{{profile.avatar.url}}" width="250" id="myimg" class="avatar" default="Фото не выбрано"></img>
                     {% endif %}
                 </div>
                 <div class="row" style="padding: 0px;width: 250px;">

@@ -46,3 +46,7 @@ label.custom-control-label{
     padding-left: 0px;
     padding-right: 0px;
 }
+
+.img_container {
+    height: 500px !important;
+}

@@ -49,6 +49,7 @@
         .new_header {
             font-family: "Roboto", Verdana, Tahoma;
         }
+
         .roboto {
             font-family: "Roboto", Verdana, Tahoma;
         }
@@ -151,16 +152,18 @@
                     <!--HEADER BUTTONS-->
 
                     <a href='/'>
-                    <div class=row style="position: absolute; left: 45%; top: 7%;">
-                        <div class=col>
-                            <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar">
-                        </div>
+                        <div class=row style="position: absolute; left: 45%; top: 7%;">
+                            <div class=col>
+                                <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar">
+                            </div>
 
-                        <div class=col>
-                            <p style="font-family: 'Roboto'; color: white; font-style: normal; font-size: 24px; margin-left: -20px;">FreeFall</p>
+                            <div class=col>
+                                <p
+                                    style="font-family: 'Roboto'; color: white; font-style: normal; font-size: 24px; margin-left: -20px;">
+                                    FreeFall</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
 
 
 
@@ -176,7 +179,8 @@
                             <li class="nav-item active" style="vertical-align: middle;">
                                 <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i
                                         class="fas fa-plus" style="vertical-align: middle;"></i>
-                                    <p>Добавить поход</p></a>
+                                    <p>Добавить поход</p>
+                                </a>
                             </li>
 
                             <li class="nav-item">
@@ -199,14 +203,13 @@
 
                                 {% if username != ''%}
                                 <script>
-                                    count_notifications()
-
+                                    // count_notifications()
                                     notification_list = eval("{{notifications|safe}}"); //
 
-                                    var wached = [];
+                                    var watched = [];
 
                                     autoupdate_notifications()
-                                    count_notifications()
+                                    // count_notifications()
 
                                     function sleep(ms) {
                                         return new Promise(resolve => setTimeout(resolve, ms));
@@ -214,12 +217,22 @@
 
                                     async function autoupdate_notifications() {
                                         while (1) {
+                                            already_received = []
+                                            nt = document.getElementsByClassName('notification');
+
+                                            Object.values(nt).forEach(nt => {
+                                                already_received.push(nt.id)
+                                            }
+                                            );
+
+
                                             $.ajax({
                                                 url: "/get_user_notifications/",
                                                 type: 'POST',
                                                 data: {
-                                                    'wached': wached,
-                                                    'result': 'check'
+                                                    'watched': watched,
+                                                    'result': 'check',
+                                                    'already_received': already_received.toString()
                                                 },
                                                 //DO NOT EDIT!
                                                 beforeSend: function (xhr, settings) {
@@ -247,19 +260,22 @@
                                                 success: function a(json) {
                                                     if (json.result === "success") {
                                                         update_notifications(json.notifications);
-                                                        // console.log(json.notifications);
+                                                        console.log(json.notifications);
+                                                        count_notifications();
 
                                                     } else {
-                                                        byId(id_code).parentNode.removeChild(byId(id_code));
-                                                        count_notifications();
+                                                        // byId(id_code).parentNode.removeChild(byId(id_code));
+                                                        // count_notifications();
                                                     }
                                                 }
                                             });
-                                            await sleep(60000);
+                                            await sleep(10000);
                                         }
 
                                     }
                                     update_notifications(notification_list)
+
+
 
                                     function update_notifications(notification_list) {
                                         notification_list.forEach(notification => {
@@ -360,22 +376,22 @@
                                                 li.appendChild(time);
 
                                             }
-                                            count_notifications()
+                                            // count_notifications()
 
                                         });
-                                        list_of_ids = []
-                                        notification_list.forEach(notification => {
-                                            id_code = notification[2] + '-' + notification[4] + '-' + notification[0];
-                                            list_of_ids.push(id_code);
-                                        });
-                                        byId('notifications').childNodes.forEach(li => {
-                                            if (list_of_ids.indexOf(li.id) === -1 && li.id != 'no_notifications') {
-                                                li.parentNode.removeChild(li);
-                                                count_notifications()
-                                            }
+                                        // list_of_ids = []
+                                        // notification_list.forEach(notification => {
+                                        //     id_code = notification[2] + '-' + notification[4] + '-' + notification[0];
+                                        //     list_of_ids.push(id_code);
+                                        // });
+                                        // byId('notifications').childNodes.forEach(li => {
+                                        //     if (list_of_ids.indexOf(li.id) === -1 && li.id != 'no_notifications') {
+                                        //         li.parentNode.removeChild(li);
+                                        //         count_notifications()
+                                        //     }
 
-                                        });
-                                        count_notifications()
+                                        // });
+                                        // count_notifications()
                                     }
 
                                     function notification_choice_send(id_code, result) {
@@ -424,9 +440,9 @@
                                     }
 
                                     function count_notifications() {
-                                        notifications_counter = byId('notifications').childNodes.length;
-                                        byId('nt_counter').innerText = notifications_counter - 1;
-                                        if (notifications_counter > 1) {
+                                        notifications_counter = document.getElementsByClassName('notification').length;
+                                        byId('nt_counter').innerText = notifications_counter;
+                                        if (notifications_counter >= 1) {
                                             byId('no_notifications').style.display = 'none';
                                             byId('nt_counter').style.display = 'visible';
                                             byId('nt_counter').className = "badge badge-danger";
@@ -466,7 +482,8 @@
 
                                     <img src="{{ avatar.url }}" class="navbar-avatar">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar"> <!--style="width: 35px;height: 35px;">--> 
+                                    <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar">
+                                    <!--style="width: 35px;height: 35px;">-->
                                     {% endif %}
                                 </a>
                                 {% endif %}
@@ -486,8 +503,8 @@
                 {%block content%} {%endblock%}
             </div>
             <div class="footer-copyright text-center py-3" style="min-height:13%">
-            <a href="#"> </a>
-          </div>
+                <a href="#"> </a>
+            </div>
         </div>
 
 
