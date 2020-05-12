@@ -530,6 +530,7 @@ class Account(View):
         cur_user = request.user
 
         # user = request.user
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
 
         first_name = user.first_name
         last_name = user.last_name
@@ -561,7 +562,40 @@ class Account(View):
         context['contacts'] = Contact.objects.filter(user=user)
         context['list_of_alowed_positions'] = ["phone", "telegram", "email"]
         # context['list_of_alowed_visible_conds'] = ["noone","friends","all"]
+
+        posts = Post.objects.filter(post_author=user).order_by('creation_datetime')
+
+        print(posts)
+
+        users_posts = []
+
+        for post in posts:
+            ct = {}
+            ct['name'] = post.name
+            ct['content'] = post.content
+
+            published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            users_posts.append(ct)
+        context['users_posts'] = users_posts
+
         return render(request, "account.html", context)
+
+    def post(self, request, username):
+        form = request.POST
+        print(form)
+
+        post = Post(
+            post_author = request.user,
+            name = form['post_name'],
+            content = form['post_content'],
+            creation_datetime = datetime.now()
+        )
+        
+        post.save()
+
+        return HttpResponseRedirect("/account/" + username + "#")
+
 
 
 class AccountEditor(View):
