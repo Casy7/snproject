@@ -54,7 +54,12 @@ class Landmark(models.Model):
     is_public = models.BooleanField(default=True)
     latitude = models.FloatField(default=0.0)
 
-    
+
+class Post(models.Model):
+    post_author = models.ForeignKey(User, null=True, default=None, related_name="post_author", on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, default='A new hike')
+    content = models.CharField(max_length=20000, default='')
+    creation_datetime = models.DateTimeField(auto_now=True)    
 
 
 
