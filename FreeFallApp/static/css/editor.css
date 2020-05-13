@@ -62,11 +62,12 @@ td {
 }
 
 #myimg {
-    width: 350px;
+    padding-top: 3%;
+    width: 430px;
     height: auto;
     /* border: 1px solid grey; */
     /* border-radius: 2px; */
-    background-color: rgb(241, 241, 241);
+    /* background-color: rgb(241, 241, 241); */
 }
 
 .map-overlay-container {
@@ -124,6 +125,18 @@ label.upload-btn {
     height: 70px;
     width: 100%;
     content: '';
+}
+
+.photo_edit_menu {
+    position: absolute;
+    color: white;
+    bottom: 5px;
+    right: 5px;
+    
+}
+
+.photo_edit_menu >i{
+    padding-right: 15px;
 }
 
 /* Тут начинаются пробемы */

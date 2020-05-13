@@ -48,20 +48,23 @@
                         <div class="row avt">
                             {% if image == '' %}
                             <img src="{% static 'icons/default.jpg' %}" id="myimg" class="avatar"
-                                default="Фото не выбрано" style="width: 350px;"></img>
+                                default="Фото не выбрано"></img>
                             {% else %}
                             <img src="{{ image.url }}" id="myimg" class="avatar" default="Фото не выбрано"
-                                style="width: 350px;height: auto;"></img>
+                                style="height: auto;"></img>
                             {% endif %}
                         </div>
-                        <div class="row" style="padding: 0px; margin: 0px;">
+                        <div class="photo_edit_menu">
+                            <i class="fas fa-plus"></i><i class="far fa-trash-alt"></i>
+                        </div>
+                        <!-- <div class="row" style="padding: 0px; margin: 0px;">
                             <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
                                 <label type="button" for="myfile" class="upload-btn"
                                     style="display: block;text-align: center;width: 100%;">Загрузить
                                 </label>
                             </div>
                             <div class="col-sm" id="del_button" style="padding: 0px;">
-                                <!-- Сюда добавляется кнопка удаления -->
+
 
                                 {% if image.name != '' %}
                                 <script>
@@ -70,9 +73,9 @@
                                 {% endif %}
 
                             </div>
-                        </div>
-                        <script src="{% static 'js/upload_photo.js' %}"></script>
-                        </script>
+                        </div> -->
+                        <!-- <script src="{% static 'js/upload_photo.js' %}"></script>
+                        </script> -->
                     </div>
 
 
