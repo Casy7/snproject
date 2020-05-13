@@ -10,10 +10,9 @@
 
 <script src="{% static 'js/editor.js' %}"></script>
 <script src="{% static 'js/my_account.js' %}"></script>
-<script>
+<link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
 
-</script>
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
@@ -42,7 +41,7 @@
                     accept=".jpg, .jpeg, .png">
             </div>
 
-            <div class="col">
+            <div class="col" style="padding-right: 0px;">
                 <div class="row">
                     <div class="col">
                         <div class="row avt">
@@ -117,10 +116,6 @@
             <div class="row" id="hidden_fields" style="display: none;">
                 <input type="hidden" name="landmarks" id="lm_list">
             </div>
-
-
-
-
 
 
 
@@ -263,6 +258,38 @@
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
 
+        <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
+        <script src="{% static 'js/cropper.js' %}"></script>
+        <script src="{% static 'js/new_hike.js' %}"></script>
+
+
+        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="Cropper_photo" id="Cropper_photo">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -271,17 +298,6 @@
 
 
         <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
-
-
-
-
-
-
-
-
-
-
-
 
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"

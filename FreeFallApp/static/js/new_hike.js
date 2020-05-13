@@ -1,8 +1,8 @@
 
-
 function rs(res) {
     cropper.replace(res);
 }
+
 
 function delete_avatar() {
     document.getElementById("default_img").style.display = 'block';
@@ -12,6 +12,7 @@ function delete_avatar() {
     document.getElementsByClassName('img-container')[0].style.height = 'initial';
     // 
 }
+
 
 function save_hike() {
     document.getElementById("del_users").value = users_del;
@@ -91,22 +92,6 @@ function clearInputFile(f) {
     }
 }
 
-document.querySelector('#myfile').addEventListener('change', function () {
-    byId('cropper_div').style.display = 'block';
-    byId('myimg').style.display = 'block';
-    byId('default_img').style.display = 'none';
-    document.getElementsByClassName('img-container')[0].style.height = '500px';
-
-    readURL();
-    cropper.destroy();
-    cropper.replace(byId('myimg').src);
-
-    del_avatar_button();
-    create_del_button();
-
-
-    // cropper.reset();
-});
 
 
 function add_user() {

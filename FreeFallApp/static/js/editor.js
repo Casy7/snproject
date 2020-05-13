@@ -3,9 +3,26 @@ x.setAttribute("type", "image");
 var days = document.getElementsByName("day");
 var i = 1;
 
+
+document.querySelector('#myfile').addEventListener('change', function () {
+    $('#Cropper_photo').modal(options)
+
+    readURL();
+    cropper.destroy();
+    cropper.replace(byId('myimg').src);
+
+    del_avatar_button();
+    create_del_button();
+
+
+    // cropper.reset();
+});
+
+
 function del_user(user) {
     $('#' + user).remove();
 }
+
 
 function str_to_list(str_el) {
     str_el = str_el.replace('[', '');
@@ -159,6 +176,7 @@ function add_new_day() {
 
 }
 
+
 function del_lmk() {
     id = byId('lmk_id').innerHTML;
     $.ajax({
@@ -199,6 +217,8 @@ function del_lmk() {
 
     });
 }
+
+
 function add_lmk(id, name, desc, coords) {
     id = byId('lmk_id').innerHTML;
 
