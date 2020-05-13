@@ -139,6 +139,12 @@ label.upload-btn {
     padding-right: 15px;
 }
 
+
+#upload_label{
+    border: none;
+    background-color: transparent;
+    padding-right: 5px;
+}
 /* Тут начинаются пробемы */
 
 /* .mapboxgl-canvas{

@@ -55,7 +55,8 @@
                             {% endif %}
                         </div>
                         <div class="photo_edit_menu">
-                            <i class="fas fa-plus"></i><i class="far fa-trash-alt"></i>
+                            <label id='upload_label' type="button" for="myfile"><i class="fas fa-plus"></i></label>
+                            <i class="far fa-trash-alt"></i>
                         </div>
                         <!-- <div class="row" style="padding: 0px; margin: 0px;">
                             <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
@@ -66,17 +67,23 @@
                             <div class="col-sm" id="del_button" style="padding: 0px;">
 
 
+
+
+                            </div>
+                        </div> -->
+                        <script src="{% static 'js/upload_photo.js' %}"></script>
+                        
+                    </div>
+
                                 {% if image.name != '' %}
                                 <script>
                                     del_without_replacing();
                                 </script>
                                 {% endif %}
 
-                            </div>
-                        </div> -->
-                        <!-- <script src="{% static 'js/upload_photo.js' %}"></script>
-                        </script> -->
-                    </div>
+
+
+
 
 
                     <div class="col">
