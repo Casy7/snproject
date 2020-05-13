@@ -1,12 +1,57 @@
 .ck-editor__editable_inline {
-    min-height: 400px;
+    min-height: 150px;
 }
 
 /* .mapboxgl-map {
     padding: 15px;
 } */
 
-.mapboxgl-popup-content{
+.content {
+    display: block;
+    position: initial;
+    padding-right: 17%;
+    padding-left: 17%;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 3px white;
+    /* transition: linear 0.3s; */
+}
+
+.nav-tabs .nav-link:hover, :checked {
+    border: none;
+    border-bottom: 3px white;
+}
+
+.nav-tabs .nav-link.active {
+    border: none;
+    border-bottom: 3px solid indigo;
+}
+
+label {
+    /* font-family: Roboto; */
+    font-style: normal;
+    padding-bottom: 5px;
+    line-height: 19px;
+}
+
+/* .active_tab_line {
+    width: 35%;
+    position: center;
+    color: indigo;
+    display: inline-block;
+    transition: cubic-bezier(1, 0, 0, 1); 
+} */
+
+.active_tab_line {
+    width: 35%;
+    position: center;
+    color: indigo;
+    display: inline-block;
+}
+
+.mapboxgl-popup-content {
     box-sizing: content-box;
     max-width: 700px;
     padding: 5px;
@@ -19,8 +64,8 @@ td {
 #myimg {
     width: 350px;
     height: auto;
-    border: 1px solid grey;
-    border-radius: 2px;
+    /* border: 1px solid grey; */
+    /* border-radius: 2px; */
     background-color: rgb(241, 241, 241);
 }
 
@@ -41,29 +86,48 @@ td {
     background-color: rgba(216, 216, 216, 0.445);
 }
 
-
-.day_card{
+.day_card {
     border: 1px solid rgb(187, 187, 187);
     border-radius: 2px;
     padding: 5px;
     margin: 5px;
 }
 
-.red-border{
+.red-border {
     border: 1px solid red;
     background-color: rgb(211, 211, 211);
 }
-.gray-border{
+
+.gray-border {
     border: 1px solid rgb(224, 224, 224);
 }
 
-label.upload-btn{
+label.upload-btn {
     margin-top: 0px;
     margin-bottom: 0px;
     font-weight: 300;
 }
 
+.hike_diff_btns, .hike_type_btns {
+    min-width: 50px;
+}
+
+.hike_diff_btns.indigo.outline, .hike_type_btns.indigo.outline {
+    border: 2px ridge rgb(154, 67, 255);
+}
+
+.avt::after {
+    display: block;
+    position: relative;
+    background-image: linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 100%);
+    margin-top: -70px;
+    height: 70px;
+    width: 100%;
+    content: '';
+}
+
 /* Тут начинаются пробемы */
+
 /* .mapboxgl-canvas{
     width: 100% !important;
     height: 500px !important;

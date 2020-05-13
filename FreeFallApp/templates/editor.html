@@ -17,7 +17,7 @@
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="basic_parameters_nav" data-toggle="tab" href="#basic_parameters_content"
                 role="tab" aria-controls="basic_parameters_content" aria-selected="true">Базовые параметры</a>
@@ -31,7 +31,7 @@
                 aria-controls="map_content" aria-selected="false">Карта</a>
         </li>
     </ul>
-
+    <!-- <hr class="active_tab_line" style=""> -->
     <div class="tab-content" id="myTabContent">
         <!-- БАЗОВЫЕ ПАРАМЕТЫ -->
         <div class="tab-pane fade show active" id="basic_parameters_content" role="tabpanel" aria-labelledby="home-tab">
@@ -41,10 +41,11 @@
                 <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
                     accept=".jpg, .jpeg, .png">
             </div>
-            <table class="form-row" style="padding-left: 1%;">
-                <tr class="col">
-                    <td class="img-container" style="padding: 0px;margin:0px;width: 350px;">
-                        <div class="row" style="padding: 0px;margin:0px;width: 350px;">
+
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="row avt">
                             {% if image == '' %}
                             <img src="{% static 'icons/default.jpg' %}" id="myimg" class="avatar"
                                 default="Фото не выбрано" style="width: 350px;"></img>
@@ -72,88 +73,163 @@
                         </div>
                         <script src="{% static 'js/upload_photo.js' %}"></script>
                         </script>
-                    </td>
+                    </div>
 
 
-                    <td style="float: left;min-width: 60%;width: 600px;margin-left: 5%; max-width: 90%;">
-                        <table class="col-bg">
-                            <tr class="row" style="width: 20%;">
-                                <label for="exampleFormControlInput1">Название</label>
-                                <input type="text" class="form-control" name="name" placeholder=" "
-                                    style="width: 65%;font-size: 18px;" value="{{name}}">
-                            </tr>
+                    <div class="col">
 
-                            <tr class="row" style="max-width: 70%;">
-                                <label for="exampleFormControlInput1">Краткое описание</label>
-                                <span>
-                                    <textarea id="sh_desc" class="form-control" name="short_description"
-                                        placeholder="Пару строк о походе"
-                                        style="font-size: 14px; height: 140px;width: 100%; max-width: 100%;">{{short_description}}</textarea>
-                                </span>
-                            </tr class="row">
-                            <div class="row" id="hidden_fields">
-                                <input type="hidden" name="landmarks" id="lm_list">
-                            </div>
-                        </table>
+                        <div class="row">
+                            <div class="col">
+                            <label for="exampleFormControlInput1">Название похода</label>
+                        </div>
+                        </div>
+                        <div class="row"><div class="col">
+                            <input type="text" class="form-control" name="name" placeholder=" " style="font-size: 18px;"
+                                value="{{name}}"></div>
+                        </div>
+
+                        <div class="row"><div class="col">
+                            <label for="">Краткое описание</label></div>
+                        </div>
+                        <div class="row"><div class="col">
+                            <textarea id="sh_desc" class="form-control" name="short_description"
+                                placeholder="Несколько строк о походе" style="font-size: 14px; height: 140px;">{{short_description}}
+                            </textarea></div>
+                        </div>
+                    </div>
 
 
-                        <!-- Полное имя и описание -->
-                    </td>
-                </tr>
-            </table>
-            <!--END-->
+                    <!-- Полное имя и описание -->
 
-            <label for="exampleFormControlInput2">Временные рамки</label>
-            <div class="form-row">
-                <div class="col">
-                    <input type="date" name="start" class="form-control" value={{start_date}}>
-                </div>
-                <div class="col">
-                    <input type="date" name="end" class="form-control" value={{end_date}}>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col">
-                    <label for="exampleFormControlInput2">Сложность</label>
-                    <span>
-                        <select name="difficulty" class="form-control" id="difficulty" value="II">
-                            <option value="none" id="none">Без категории</option>
-                            <option value="I" id="I">I</option>
-                            <option value="II" id="II">II</option>
-                            <option value="III" id="III_">III</option>
-                            <option value="IV" id="IV">IV</option>
-                            <option value="V" id="V">V</option>
-                            <option value="VI" id="VI">VI</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="col">
-                    <label for="exampleFormControlInput2">Тип</label>
-                    <span>
-                        <select name="type" class="form-control" id="type_of_hike">
-                            <option value="Пеший" id="wlk_type">Пеший</option>
-                            <option value="Горный" id="mnt_type">Горный</option>
-                            <option value="Водный" id="wtr_type">Водный</option>
-                            <option value="Вело" id="bck_type">Вело</option>
-                            <option value="Спелео" id="cv_type">Спелео</option>
-                        </select>
-                    </span>
-                </div>
+            <!--END-->
+            <div class="row" id="hidden_fields" style="display: none;">
+                <input type="hidden" name="landmarks" id="lm_list">
+            </div>
 
+
+
+
+
+
+
+
+            <div class="col">
+
+                <div class="row" style="width: 60%;">
+
+                    <div class="col-sm">
+                        <div class="row">
+                            <label for="">Дата начала похода</label>
+                        </div>
+                        <div class="row">
+                            <input type="date" name="start" class="form-control" value={{start_date}}>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="row">
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <p style="vertical-align: middle;text-align: center;"> </p>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="row">
+                            <label for="">Дата окончания похода</label>
+                        </div>
+                        <div class="row">
+                            <input type="date" name="end" class="form-control" value={{end_date}}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="">Сложность</label><br>
+
+                    <button type="button" onclick="select_difficulty('none')" value="none"
+                        class='btn btn-outline-secondary hike_diff_btns'>Без категории</button>
+                    <button type="button" onclick="select_difficulty('I')" value="I"
+                        class='btn btn-outline-secondary hike_diff_btns'>I</button>
+                    <button type="button" onclick="select_difficulty('II')" value="II"
+                        class='btn btn-outline-secondary hike_diff_btns'>II</button>
+                    <button type="button" onclick="select_difficulty('III')" value="III"
+                        class='btn btn-outline-secondary hike_diff_btns'>III</button>
+                    <button type="button" onclick="select_difficulty('IV')" value="IV"
+                        class='btn btn-outline-secondary hike_diff_btns'>IV</button>
+                    <button type="button" onclick="select_difficulty('V')" value="V"
+                        class='btn btn-outline-secondary hike_diff_btns'>V</button>
+                    <button type="button" onclick="select_difficulty('VI')" value="VI"
+                        class='btn btn-outline-secondary hike_diff_btns'>VI</button>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Тип</label><br>
+                    <button type="button" onclick="select_type('Пеший')" value="Пеший" id="wlk_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Пеший</button>
+                    <button type="button" onclick="select_type('Горный')" value="Горный" id="mnt_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Горный</button>
+                    <button type="button" onclick="select_type('Водный')" value="Водный" id="wtr_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Водный</button>
+                    <button type="button" onclick="select_type('Вело')" value="Вело" id="bck_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Вело</button>
+                    <button type="button" onclick="select_type('Спелео')" value="Спелео" id="cv_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Спелео</button>
+                </div>
             </div>
             <script>
+                function select_type(type) {
+                    byId('set_type').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('hike_type_btns')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary hike_type_btns indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary hike_type_btns';
+                        }
+                    })
+                }
+                function select_difficulty(type) {
+                    byId('set_difficulty').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('hike_diff_btns')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary hike_diff_btns indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary hike_diff_btns';
+                        }
+                    })
+                }
+            </script>
+
+
+            <input type="hidden" name='type' id='set_type'>
+            <input type="hidden" name='difficulty' id='set_difficulty'>
+
+            <script>
                 document.getElementById("sh_desc").value = `{{short_description}}`;
-                document.getElementById("difficulty").value = "{{difficulty}}";
-                document.getElementById("type_of_hike").value = "{{type_of_hike}}";
+                select_difficulty("{{difficulty}}");
+                select_type("{{type_of_hike}}");
             </script>
             <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
 
-            <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
+
+
+            <label for="exampleFormControlInput1">Подробное описание</label>
+            <div class="card-body" style="padding:0px;padding-bottom:5px;padding-left: 0px;padding-right: 0px;">
 
                 <textarea id="editor" name="description">
                     {{description|safe}}
                 </textarea>
+                <div id="toolbar-container" class="edtor" style="width: 90px;"></div>
                 <script>
                     ClassicEditor
                         .create(document.querySelector('#editor'))
@@ -165,10 +241,37 @@
                         });
                 </script>
             </div>
-            <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
+            <br>
+            <div class='row'>
+                <div class='col'>
+                    <a href="/editor" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
+                        изменения</a></div>
+                <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
+                        value="Сохранить изменения">
+                </div>
+            </div>
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
+
+
+
+
+
+
+
+
         <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
@@ -541,17 +644,17 @@
 
                 function resize() {
                     i = 0
-                        try {
-                            osm_map.resize();
-                            i++;
-                            console.log('map was resized');
-                        }
-                        catch (e) {
-                            i++;
-                            console.log('error with_resizing');
-                        }
+                    try {
+                        osm_map.resize();
+                        i++;
+                        console.log('map was resized');
+                    }
+                    catch (e) {
+                        i++;
+                        console.log('error with_resizing');
+                    }
 
-                    
+
                 }
                 // resize();
                 function forwardGeocoder(query) {
@@ -740,7 +843,7 @@
                                         "icon-allow-overlap": true
                                     }
                                 });
-                                osm_map.on("click", "lk_"+id, function (e) {
+                                osm_map.on("click", "lk_" + id, function (e) {
 
                                     var coordinates = e.features[0].geometry.coordinates.slice();
                                     var description = e.features[0].properties.description;
@@ -777,24 +880,25 @@
                             coordinates.push(Array(Number(day), e.lngLat.toArray()));
                             document.getElementById("coords").value = coordinates;
                             var id = el.id;
-                        
 
-                        var marker = new mapboxgl.Marker(el, { draggable: true })
-                            .setLngLat(e.lngLat.wrap())
-                            .addTo(osm_map);
 
-                        markers.push({
-                            id: id,
-                            day: Number(day),
-                            marker: marker
-                        })
+                            var marker = new mapboxgl.Marker(el, { draggable: true })
+                                .setLngLat(e.lngLat.wrap())
+                                .addTo(osm_map);
 
-                        el.addEventListener('contextmenu', function () {
-                            cord_del.push(el.id);
-                            document.getElementById("del_coords").value = cord_del;
-                            marker.remove();
+                            markers.push({
+                                id: id,
+                                day: Number(day),
+                                marker: marker
+                            })
 
-                        });}
+                            el.addEventListener('contextmenu', function () {
+                                cord_del.push(el.id);
+                                document.getElementById("del_coords").value = cord_del;
+                                marker.remove();
+
+                            });
+                        }
 
                     });
 

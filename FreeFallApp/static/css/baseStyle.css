@@ -643,6 +643,35 @@ a.article, a.article:hover {
     color: #72319f;
 }
 
+.indigo{
+    color: indigo;
+}
+
+.btn.indigo{
+    background-color: #72319F;
+    color: white;
+    border-color: indigo;
+    transition: 0.2s;
+}
+
+.btn.indigo:hover,.btn.indigo:active{
+    background-color: indigo;
+    color: white;
+    border-color: #72319F;
+}
+
+.btn.indigo.outline{
+    background-color: transparent;
+    color: indigo;
+    border-color: #72319F;
+}
+
+.btn.indigo.outline:hover,.btn.indigo.outline:active{
+    background-color: rgb(244, 238, 255);
+    color: indigo;
+    border-color: indigo;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
