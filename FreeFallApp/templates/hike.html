@@ -174,7 +174,7 @@
     <small>Описание отсутствует</small>
     {% else %}
     <div>{{content.short_description}}</div>
-    <div>{{content.description|safe}}</div>
+    <div style='word-wrap: break-word;'>{{content.description|safe}}</div>
     {% endif %}
 </div>
 
