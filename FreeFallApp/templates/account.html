@@ -150,13 +150,13 @@
     <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
         <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
 
-        <textarea id="editor" name="post_content" placeholder="Вы ТЮДОР...">
+        <textarea id="editor" name="post_content" placeholder="Напишите что-нибудь...">
             
         </textarea>
         <script>
             ClassicEditor
                 .create(document.querySelector('#editor'), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link' ]
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload']
             } )
                 .then(editor => {
                     console.log(editor);
