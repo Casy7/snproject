@@ -571,7 +571,6 @@ class Account(View):
 
         for post in posts:
             ct = {}
-            ct['name'] = post.name
             ct['content'] = post.content
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
@@ -587,14 +586,13 @@ class Account(View):
 
         post = Post(
             post_author = request.user,
-            name = form['post_name'],
             content = form['post_content'],
             creation_datetime = datetime.now()
         )
         
         post.save()
 
-        return HttpResponseRedirect("/account/" + username + "#")
+        return HttpResponseRedirect("/account/" + username)
 
 
 
