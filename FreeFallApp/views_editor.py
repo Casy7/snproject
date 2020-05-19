@@ -144,7 +144,7 @@ class HikeEditor(View, LoginRequiredMixin):
         hike.end_date = form['end']
         hike.difficulty = form['difficulty']
         hike.type_of_hike = form['type']
-
+        hike.join_to_group = form['can_users_join']
         coordinates = str(form['coordinates'])
         data = coordinates.split(',')
         coordinates = []

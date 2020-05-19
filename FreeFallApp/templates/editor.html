@@ -11,7 +11,7 @@
 
 <link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
-<img id='test_rs' src='' alt = 'nothing' style="display: none;">
+<img id='test_rs' src='' alt='nothing' style="display: none;">
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
@@ -48,13 +48,14 @@
                             <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
                                 default="Фото не выбрано"></img>
                             {% else %}
-                            <img src="{{ image.url }}" id="result_image_show" class="avatar preview" default="Фото не выбрано"
-                                style="height: auto;"></img>
+                            <img src="{{ image.url }}" id="result_image_show" class="avatar preview"
+                                default="Фото не выбрано" style="height: auto;"></img>
                             {% endif %}
                         </div>
                         <div id="photo_edit_menu">
                             <label id='upload_label' type="button" for="myfile"><i class="fas fa-plus"></i></label>
-                            <a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>
+                            <a type="button" id="del_button" onclick="delete_avatar()"><i
+                                    class="far fa-trash-alt"></i></a>
                         </div>
                         <!-- <div class="row" style="padding: 0px; margin: 0px;">
                             <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
@@ -249,22 +250,15 @@
                 </script>
             </div>
             <br>
-            <div class='row'>
-                <div class='col'>
-                    <a href="/editor/{{ id }}" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
-                        изменения</a></div>
-                <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
-                        value="Сохранить изменения">
-                </div>
-            </div>
+
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
 
 
 
 
-        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
-            style="" aria-hidden="true">
+        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo" style=""
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -279,20 +273,21 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary indigo outline" data-dismiss="modal">Отменить</button>
+                        <button type="button" class="btn btn-secondary indigo outline"
+                            data-dismiss="modal">Отменить</button>
                         <button type="button" class="btn btn-secondary indigo" data-dismiss="modal">Сохранить</button>
                     </div>
                 </div>
             </div>
         </div>
-<input type="hidden" name = "resize_photo" id="resize_photo">
+        <input type="hidden" name="resize_photo" id="resize_photo">
         <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
         <script>
             byId('image_to_crop').src = byId('result_image_show').src;
         </script>
         <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
         <!-- <script src="{% static 'js/cropper.js' %}"></script> -->
-        
+
 
 
 
@@ -311,34 +306,54 @@
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
             aria-labelledby="participants_content">
             <label for="">Максимальное количество участников</label><br>
-            <input type="number" class='btn btn-outline-secondary' value={{limit_of_members}} id="limit_of_members"
-                name="limit_of_members" min="1" max="1000">
-            <br>
-
-
-            <label for="">Как пользователи могут присоединиться к группе</label><br>
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="open" name="can_users_join" value="open">
-                <label class="custom-control-label" for="open" style="font-weight: 300;">Свободное добавление</label>
+            <div class="input-group form-group counter">
+                <!--PASSWORD-->
+                <div class="input-group-prepend indigo outline">
+                    <button type="button" class="input-group-text indigo outline"
+                        onclick="byId('limit_of_members').value--">-</button>
+                </div>
+                <input type="number" required="" class='btn form-control indigo outline' value={{limit_of_members}}
+                    class="" id="limit_of_members" name="limit_of_members" min="1" step="1" max="1000">
+                <div class="input-group-append">
+                    <button type="button" class="input-group-text indigo outline"
+                        onclick="byId('limit_of_members').value++">+</button>
+                </div>
             </div>
 
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="request" name="can_users_join" value="request"
-                    checked>
-                <label class="custom-control-label" for="request" style="font-weight: 300;">По запросу</label>
+
+            <input id='users_join_ability' type="hidden" name='can_users_join' value='{{join_to_group}}'>
+            <div class="row">
+                <div class="col">
+                    <label for="">Как пользователи могут присоединиться к группе</label><br>
+                    <button type="button" onclick="set_join_ability('open')" value="open"
+                        class='btn btn-outline-secondary add_to_group_type'>Свободное добавление</button>
+                    <button type="button" onclick="set_join_ability('request')" value="request"
+                        class='btn btn-outline-secondary add_to_group_type'>По запросу</button>
+                    <button type="button" onclick="set_join_ability('close')" value="close"
+                        class='btn btn-outline-secondary add_to_group_type'>Только по приглашению</button>
+
+                </div>
             </div>
 
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="close" name="can_users_join" value="close">
-                <label class="custom-control-label" for="close" style="font-weight: 300;">Только по приглашению</label>
-            </div>
-            <br><br>
             <script>
-                byId('{{join_to_group}}').checked = 'checked';
+                function set_join_ability(type) {
+                    byId('users_join_ability').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('add_to_group_type')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary add_to_group_type indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary add_to_group_type';
+                        }
+                    })
+                }
+                set_join_ability('{{join_to_group}}');
             </script>
-            <input type="submit" class="btn btn-outline-secondary btn-block" value="Сохранить эти настройки">
+            
             <br>
-            <h2 style="text-align: center;">Добавление участников</h2>
+            <h2 class="new_header" style="padding-bottom: 0px;font-size: 1.5rem;">Добавление участников</h2>
+            <hr>
             <select class="selectpicker" data-live-search="true" id="select_ptc">
                 {% for user in user_list %}
                 <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
@@ -372,7 +387,7 @@
                                     {% if user.1 != '' %}
                                     <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_grey.png' %}" style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
@@ -387,9 +402,6 @@
                         </div>
                         {% endfor %}
                     </div>
-                </div>
-
-                <div class="col-sm" style="overflow-y: scroll; min-height: 300px;width: 70%;max-height: 300px;">
                     <div class="card" id="potential_ptc">
                         {% for user in participants %}
                         <div class="card" id='user_{{user.2}}'
@@ -400,7 +412,7 @@
                                     {% if user.1 != '' %}
                                     <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_grey.png' %}" style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
@@ -535,7 +547,7 @@
                                 img.src = 'data:image/gif;base64,' + data;
                             }
                             else {
-                                img.src = "{%static 'icons/logo_grey.png'%}";
+                                img.src = "{%static 'icons/default_user.png'%}";
                             }
                             col2.appendChild(img);
 
@@ -774,7 +786,7 @@
             <button type="button" class="btn btn-outline-secondary" style="float: right;"
                 class="btn btn-outline-secondary" onclick="change_mode()">Создать
                 достопримечательность</button>
-            <div class="card" id="days_list">
+            <div class="card" id="days_list" style="display: unset;">
 
                 {% for day in days %}
 
@@ -1047,15 +1059,23 @@
             <input name="coordinates" id="coords" type="hidden">
             <input name="cord_del" id="del_coords" type="hidden">
             <input name="days_info" id="days_info" type="hidden">
-            <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
-                style="display: inline-block">
+            <!-- <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
+                style="display: inline-block"> -->
 
 
 
             <!--END OF CODE -->
         </div>
     </div>
-
+            <div class='row'>
+                <div class='col'>
+                    <a href="/editor/{{ id }}"
+                        class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
+                        изменения</a></div>
+                <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
+                        value="Сохранить изменения">
+                </div>
+            </div>
 </form>
 
 <!-- <script src="{% static '/js/editor.js' %}" type="text/javascript"></script> -->

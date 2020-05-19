@@ -42,16 +42,74 @@
 
     <style>
         @font-face {
+            font-family: "Roboto-Thin";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Thin.ttf' %}") format("truetype");
+        }
+
+        @font-face {
             font-family: "Roboto";
             src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
         }
 
+        @font-face {
+            font-family: "Roboto-Black";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Black.ttf' %}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Roboto-Light";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Light.ttf' %}") format("truetype");
+        }
+        @font-face {
+            font-family: "Roboto-Medium";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Medium.ttf' %}") format("truetype");
+        }
+        /*
+        @font-face {
+            font-family: "Roboto-Black-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-BlackItalic.ttf' %}") format("truetype");
+        }
+        @font-face {
+            font-family: "Roboto-Bold";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Bold.ttf' %}") format("truetype");
+        }
+        @font-face {
+            font-family: "Roboto-Bold-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-BoldItalic.ttf' %}") format("truetype");
+        }
+        @font-face {
+            font-family: "Roboto-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Italic.ttf' %}") format("truetype");
+        }
+ 
+        @font-face {
+            font-family: "Roboto-Light-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-LightItalic.ttf' %}") format("truetype");
+        }
+
+
+        @font-face {
+            font-family: "Roboto-Medium-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-MediumItalic.ttf' %}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Roboto";
+            src: url("{% static 'libs/fonts/roboto/Roboto-Regular.ttf' %}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Roboto-Thin-Italic";
+            src: url("{% static 'libs/fonts/roboto/Roboto-ThinItalic.ttf' %}") format("truetype");
+        }*/
+
         .new_header {
-            font-family: "Roboto", Verdana, Tahoma;
+            font-family: "Roboto-Medium", "Roboto", "Roboto-Black", Tahoma;
+            text-transform: none;
         }
 
         .roboto {
-            font-family: "Roboto", Verdana, Tahoma;
+            font-family: "Roboto", "Roboto-medium", Tahoma;
         }
     </style>
 

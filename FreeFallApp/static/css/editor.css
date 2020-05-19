@@ -117,7 +117,7 @@ label.upload-btn {
     min-width: 50px;
 }
 
-.hike_diff_btns.indigo.outline, .hike_type_btns.indigo.outline {
+.hike_diff_btns.indigo.outline, .hike_type_btns.indigo.outline, .add_to_group_type.indigo.outline {
     border: 2px ridge rgb(154, 67, 255);
 }
 
@@ -173,6 +173,42 @@ label.upload-btn {
 #image_to_crop {
     width: -moz-available;
     height: auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.counter {
+    border: 1px solid indigo;
+    border-radius: 3px;
+    width: max-content;
+}
+
+.counter>* {
+    background-color: transparent;
+    /* border: 1px solid indigo; */
+}
+
+.counter button {
+    width: 40px;
+    font-size: 1.2rem;
+    background-color: white;
+    /* border: 1px solid indigo; */
+}
+
+.counter input {
+    height: inherit;
+    text-align: center;
 }
 
 /* Тут начинаются пробемы */
