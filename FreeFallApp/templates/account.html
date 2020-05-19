@@ -32,6 +32,7 @@
     }
 </script>
 <script src="{% static 'js/my_account.js'%}"></script>
+<div style="width: 70%; margin: auto;">
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="col-md" id="custom-file-input">
@@ -42,7 +43,7 @@
     <table class="form-row">
         <tr class="col">
             <!-- style="width: 250px;"> -->
-            <td class="img-container" style="padding: 0px;width: 250px;">
+            <td class="img-container" style="padding: 20px;width: 250px;">
 
                 <div class="row">
                     {% if image == '' %}
@@ -75,7 +76,7 @@
     </table>
 
     {%if user == cur_user %}
-    <a href="/account_editor/"><button type="button" class="btn btn-secondary btn-block" style="width: 150px; background: #72319f" id="send_comment">
+    <a href="/account_editor/"><button type="button" class="btn btn-secondary btn-block" style="width: 150px; background: #72319f">
         Изменить</button></a>
 
     {% endif %}
@@ -93,7 +94,11 @@
 
 </form>
 
+{%if user == cur_user %}
+
 <hr>
+
+<!-- 
 
 <div id="darkness">
     <div id="window">
@@ -121,6 +126,8 @@
     </div>
 
 </form>
+
+
         
     </div>
   </div>
@@ -129,25 +136,93 @@
     Создать пост</button></a>
 
 
-  <div class="posts" id='posts_list'>
+ -->
+
+    <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
+
+  <style>
+      .ck-editor__editable_inline {
+    height: 200px;
+}
+    </style>
+
+
+    <form method="POST">
+        {% csrf_token %}
+
+    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+        <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
+
+        <textarea id="editor" name="post_content" placeholder="Напишите что-нибудь...">
+            
+        </textarea>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload']
+            } )
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
+
+    <input type="submit" class="btn btn-secondary btn-block" style="float: right; margin-top: 20px; width: 150px; background: #72319f" value="Сохранить"></input>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+
+  <div class="posts" style="padding-top: 50px" id='posts_list'>
+    <hr style="padding-bottom: 20px">
     {% for post in users_posts %}
 
-    <div class="comment_box">
-        <p class='post_name' style="display: inline; font-family: Roboto;font-style: normal;font-weight: bold;font-size: 30px;line-height: 36px;">{{ post.name }}</p>
-        <small style="color: gray;float: right;">{{ post.time_published }}</small>
+    <div class="card post_card">
 
-        <p style="font-family: Roboto;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 24px;
-        line-height: 36px;">
-            {{ post.content }}
-        </p>
+        <div class="row">
+            <div class="col-1">
+                <a href="/account/{{ post.author_username }}">
+                {% if post.avatar != '' %}
+                <img src='{{ ct.avatar.url }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+                {% else %}
+                <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
+                {% endif %}
+                </a>
+            </div>
+            <div class="col-9">
+                <a href="/account/{{ post.author_username }}">
+                <p class='user_full_name' style="display: inline;
+                    line-height: 2em;
+                    font-weight: 800;
+                    letter-spacing: 0.084em;
+                    font-size: 14px;
+                    padding-top: 2px;">{{ post.author_fullname }}</p>
+                <br>
+                <small>{{ post.author_username }}</small>
+                </a>       
+            </div>
+            <div class="col-2">
+                <div>
+                    <small style="color: gray;float: right;">{{ post.time_published }}</small>
+                </div>
+            </div>
+        </div>
 
-
+        <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
+            {{post.content|safe}}
+        </div>
+    
     </div>
 
+    <hr>
+
     {% endfor %}
+</div>
 </div>
 
 
