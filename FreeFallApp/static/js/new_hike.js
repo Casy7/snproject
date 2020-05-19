@@ -30,14 +30,14 @@ function update_ptc_list() {
 
 
 function readURL() {
-    var myimg = document.getElementById("myimg");
+    var myimg = document.getElementById("image_to_crop");
     var input = document.getElementById("myfile");
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
             myimg.src = e.target.result;
 
-            cropper.replace(byId('myimg').src);
+            cropper.replace(byId('image_to_crop').src);
         }
 
 

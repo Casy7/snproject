@@ -5,18 +5,124 @@ var i = 1;
 
 
 document.querySelector('#myfile').addEventListener('change', function () {
-    $('#Cropper_photo').modal(options)
 
-    readURL();
-    cropper.destroy();
-    cropper.replace(byId('myimg').src);
-
-    del_avatar_button();
-    create_del_button();
+    // cropper.destroy();
+    $('#cropper_photo').modal();
+    // byId('image_to_crop').src
+    create_cropper();
+    read_image_URL();
 
 
     // cropper.reset();
 });
+
+
+function each(arr, callback) {
+    var length = arr.length;
+    var i;
+
+    for (i = 0; i < length; i++) {
+        callback.call(arr, arr[i], i, arr);
+    }
+
+    return arr;
+}
+
+
+function read_image_URL() {
+    var myimg = document.getElementById("image_to_crop");
+    var input = document.getElementById("myfile");
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            src = e.target.result;
+            byId('test_rs').src = src;
+            try {
+                cropper.reset();
+                cropper.clear();
+
+                cropper.destroy();
+            }
+            catch (e) {
+
+            }
+            
+            myimg.src = src;
+            create_cropper();
+            return e.target.result;
+        }
+
+
+        reader.readAsDataURL(input.files[0]);
+        // byId('test_rs').src = src;
+        // byId('res_img').value = reader['result'];
+
+        create_del_button();
+
+
+    }
+}
+
+
+function create_cropper() {
+    read_image_URL();
+        // byId('image_to_crop').src = byId('test_rs').src;
+    var image = document.querySelector('#image_to_crop');
+    var previews = document.querySelectorAll('.preview');
+    var previewReady = false;
+    var cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        viewMode: 1,
+        ready: function () {
+            var clone = this.cloneNode();
+
+            clone.className = '';
+            clone.style.cssText = (
+                'display: block;' +
+                'width: 100%;' +
+                'min-width: 0;' +
+                'min-height: 0;' +
+                'max-width: none;' +
+                'max-height: none;'
+            );
+
+            each(previews, function (elem) {
+                elem.appendChild(clone.cloneNode());
+            });
+            previewReady = true;
+        },
+
+        crop: function (event) {
+            if (!previewReady) {
+                return;
+            }
+
+            var data = event.detail;
+            var cropper = this.cropper;
+            var imageData = cropper.getImageData();
+            var previewAspectRatio = data.width / data.height;
+
+            each(previews, function (elem) {
+                var previewImage = byId('result_image_show');
+                var previewWidth = elem.offsetWidth;
+                var previewHeight = previewWidth / previewAspectRatio;
+                var imageScaledRatio = data.width / previewWidth;
+
+                elem.style.height = previewHeight + 'px';
+                previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+                previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+                previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+                previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+            });
+        },
+    });
+    cropper.replace(byId('test_rs').src);
+    
+    del_avatar_button();
+    create_del_button();
+}
+
+
 
 
 function del_user(user) {
@@ -225,7 +331,7 @@ function add_lmk(id, name, desc, coords) {
     $.ajax({
         url: "/change_map/",
         type: 'POST',
-        data: { 'lmk_id': id, 'lmk_name': name, 'lmk_desc': desc, 'lat': coords[0], 'lon':coords[1], 'operation': 'add_landmark'},
+        data: { 'lmk_id': id, 'lmk_name': name, 'lmk_desc': desc, 'lat': coords[0], 'lon': coords[1], 'operation': 'add_landmark' },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -259,4 +365,13 @@ function add_lmk(id, name, desc, coords) {
         }
 
     });
-}    
+}
+
+
+function create_del_button() {
+    jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));
+}
+
+function del_avatar_button() {
+    $('#del_button').remove();
+}

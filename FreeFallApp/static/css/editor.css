@@ -61,10 +61,14 @@ td {
     overflow: hidden;
 }
 
-#myimg {
-    padding-top: 3%;
-    width: 430px;
-    height: auto;
+#result_image_show {
+    /* height: 241px;
+    margin-left: 23.9436px;
+    margin-top: -30.1945px; */
+    /* padding-top: 3%; */
+    /* width: 430px;
+    height: 240px;
+    overflow: hidden; */
     /* border: 1px solid grey; */
     /* border-radius: 2px; */
     /* background-color: rgb(241, 241, 241); */
@@ -127,24 +131,50 @@ label.upload-btn {
     content: '';
 }
 
-.photo_edit_menu {
+#photo_edit_menu {
     position: absolute;
     color: white;
     bottom: 5px;
     right: 5px;
-    
 }
 
-.photo_edit_menu >i{
+.photo_edit_menu>i {
     padding-right: 15px;
 }
 
-
-#upload_label{
+#upload_label {
     border: none;
     background-color: transparent;
     padding-right: 5px;
 }
+
+.modal-backdrop.fade.show {
+    display: none;
+}
+
+#cropper_photo {
+    /* width: 40%; */
+    overflow: hidden;
+    top: 20%;
+}
+
+.modal-dialog {
+    max-width: 700px;
+}
+
+.img-container {
+    width: -moz-available;
+    /* width: 300px;
+    height: 200px;
+    max-width: 40%;
+    max-height: 30%; */
+}
+
+#image_to_crop {
+    width: -moz-available;
+    height: auto;
+}
+
 /* Тут начинаются пробемы */
 
 /* .mapboxgl-canvas{

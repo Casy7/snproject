@@ -8,11 +8,10 @@
 
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 
-<script src="{% static 'js/editor.js' %}"></script>
-<script src="{% static 'js/my_account.js' %}"></script>
+
 <link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
-
+<img id='test_rs' src='' alt = 'nothing' style="display: none;">
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
@@ -44,18 +43,18 @@
             <div class="col" style="padding-right: 0px;">
                 <div class="row">
                     <div class="col">
-                        <div class="row avt">
+                        <div class="row avt" style="overflow: hidden;height: 240px; width: 430px;">
                             {% if image == '' %}
-                            <img src="{% static 'icons/default.jpg' %}" id="myimg" class="avatar"
+                            <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
                                 default="Фото не выбрано"></img>
                             {% else %}
-                            <img src="{{ image.url }}" id="myimg" class="avatar" default="Фото не выбрано"
+                            <img src="{{ image.url }}" id="result_image_show" class="avatar preview" default="Фото не выбрано"
                                 style="height: auto;"></img>
                             {% endif %}
                         </div>
-                        <div class="photo_edit_menu">
+                        <div id="photo_edit_menu">
                             <label id='upload_label' type="button" for="myfile"><i class="fas fa-plus"></i></label>
-                            <i class="far fa-trash-alt"></i>
+                            <a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>
                         </div>
                         <!-- <div class="row" style="padding: 0px; margin: 0px;">
                             <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
@@ -70,15 +69,15 @@
 
                             </div>
                         </div> -->
-                        <script src="{% static 'js/upload_photo.js' %}"></script>
-                        
+                        <!-- <script src="{% static 'js/upload_photo.js' %}"></script> -->
+
                     </div>
 
-                                {% if image.name != '' %}
-                                <script>
-                                    del_without_replacing();
-                                </script>
-                                {% endif %}
+                    {% if image.name != '' %}
+                    <!-- <script>
+                        del_without_replacing();
+                    </script> -->
+                    {% endif %}
 
 
 
@@ -89,20 +88,23 @@
 
                         <div class="row">
                             <div class="col">
-                            <label for="exampleFormControlInput1">Название похода</label>
+                                <label for="exampleFormControlInput1">Название похода</label>
+                            </div>
                         </div>
-                        </div>
-                        <div class="row"><div class="col">
-                            <input type="text" class="form-control" name="name" placeholder=" " style="font-size: 18px;"
-                                value="{{name}}"></div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control" name="name" placeholder=" "
+                                    style="font-size: 18px;" value="{{name}}"></div>
                         </div>
 
-                        <div class="row"><div class="col">
-                            <label for="">Краткое описание</label></div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Краткое описание</label></div>
                         </div>
-                        <div class="row"><div class="col">
-                            <textarea id="sh_desc" class="form-control" name="short_description"
-                                placeholder="Несколько строк о походе" style="font-size: 14px; height: 140px;">{{short_description}}
+                        <div class="row">
+                            <div class="col">
+                                <textarea id="sh_desc" class="form-control" name="short_description"
+                                    placeholder="Несколько строк о походе" style="font-size: 14px; height: 140px;">{{short_description}}
                             </textarea></div>
                         </div>
                     </div>
@@ -249,7 +251,7 @@
             <br>
             <div class='row'>
                 <div class='col'>
-                    <a href="/editor" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
+                    <a href="/editor/{{ id }}" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
                         изменения</a></div>
                 <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
                         value="Сохранить изменения">
@@ -258,33 +260,39 @@
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
 
-        <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
-        <script src="{% static 'js/cropper.js' %}"></script>
-        <script src="{% static 'js/new_hike.js' %}"></script>
 
 
-        <div class="modal" tabindex="-1" role="dialog" aria-labelledby="Cropper_photo" id="Cropper_photo">
+
+        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
+            style="" aria-hidden="true">
             <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Обрезать фотографию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="img-container">
+                            <img id="image_to_crop" src="{% static 'icons/default.jpg' %}" alt="Oops..." class="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary indigo outline" data-dismiss="modal">Отменить</button>
+                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal">Сохранить</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-              </div>
             </div>
-          </div>
-
-
-
+        </div>
+<input type="hidden" name = "resize_photo" id="resize_photo">
+        <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
+        <script>
+            byId('image_to_crop').src = byId('result_image_show').src;
+        </script>
+        <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
+        <!-- <script src="{% static 'js/cropper.js' %}"></script> -->
+        
 
 
 
@@ -1050,6 +1058,7 @@
 
 </form>
 
-<script src="{% static '/js/editor.js' %}" type="text/javascript"></script>
-
+<!-- <script src="{% static '/js/editor.js' %}" type="text/javascript"></script> -->
+<script src="{% static 'js/editor.js' %}"></script>
+<script src="{% static 'js/my_account.js' %}"></script>
 {% endblock %}

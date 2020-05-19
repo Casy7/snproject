@@ -37,7 +37,7 @@
         <div class="img-container">
             <img src="{% static 'icons/default.jpg' %}" id='default_img' class="card-img-top" style="height: initial;">
             <div id='cropper_div' style="display: none;">
-                <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"
+                <img src="{% static 'icons/default.jpg' %}" id="image_to_crop" class="card-img-top" default="Фото не выбрано"
                     style="display: none;">
                 <input type="hidden" id='resize_photo' name='resize_coordinates'>
             </div>
@@ -190,13 +190,13 @@
 <script>
 document.querySelector('#myfile').addEventListener('change', function () {
     byId('cropper_div').style.display = 'block';
-    byId('myimg').style.display = 'block';
+    byId('image_to_crop').style.display = 'block';
     byId('default_img').style.display = 'none';
     document.getElementsByClassName('img-container')[0].style.height = '500px';
 
     readURL();
     cropper.destroy();
-    cropper.replace(byId('myimg').src);
+    cropper.replace(byId('image_to_crop').src);
 
     del_avatar_button();
     create_del_button();

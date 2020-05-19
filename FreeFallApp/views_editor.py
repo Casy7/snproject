@@ -8,7 +8,7 @@ class HikeEditor(View, LoginRequiredMixin):
 
         context = base_context(
             request, title='Track')# , header='Изменение похода: '+hike.name)
-
+        context['id'] = hike.id
         if hike.image.name is not None:
             context['image'] = hike.image
         else:

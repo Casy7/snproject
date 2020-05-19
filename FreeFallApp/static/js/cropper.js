@@ -1,6 +1,6 @@
 
 
-    const image = document.getElementById('myimg');
+    const image = document.getElementById('image_to_crop');
     const cropper = new Cropper(image, {
         aspectRatio: 16 / 9,
         viewMode: 1,
