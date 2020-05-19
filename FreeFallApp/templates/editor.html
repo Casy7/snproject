@@ -58,20 +58,7 @@
                             <a type="button" id="del_button" onclick="delete_avatar()"><i
                                     class="far fa-trash-alt"></i></a>
                         </div>
-                        <!-- <div class="row" style="padding: 0px; margin: 0px;">
-                            <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
-                                <label type="button" for="myfile" class="upload-btn"
-                                    style="display: block;text-align: center;width: 100%;">Загрузить
-                                </label>
-                            </div>
-                            <div class="col-sm" id="del_button" style="padding: 0px;">
 
-
-
-
-                            </div>
-                        </div> -->
-                        <!-- <script src="{% static 'js/upload_photo.js' %}"></script> -->
 
                     </div>
 
@@ -375,18 +362,6 @@
             </select>
             <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
             <input type="hidden" id='hike_id' value="{{hike_id}}">
-            <!-- <div class="row">
-
-
-
-                <div class="col-sm">
-                    <label>Приглашённые пользователи</label>
-                </div>
-                <div class="col-sm" style="">
-                    <label>Вступившие пользователи</label>
-                </div>
-
-            </div> -->
 
             <div class="row">
                 <div class="col-sm" style="overflow-y: scroll; min-height: 300px; width: 70%;">
@@ -531,84 +506,120 @@
                         // alert(json);
                         // alert(json.exist);
                         if (json.exist === "True") {
-                            var user_exists = true;
-                            // list.push(user);
-                            // document.getElementById('list-usrs').value = list;
-                            // alert(document.getElementById('list-usrs').value);
-
-                            user_card = document.createElement("li");
-
-                            user_card.className = "card";
-                            user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
-                            user_card.id = 'user_' + user;
+                            // var user_exists = true;
 
 
-                            id_field = document.createElement('input')
-                            id_field.type = 'hidden';
-                            id_field.value = json.id;
-                            id_field.className = "user_hidden_id"
+                            // user_card = document.createElement("li");
+
+                            // user_card.className = "card";
+                            // user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
+                            // user_card.id = 'user_' + user;
+
+
+                            // id_field = document.createElement('input')
+                            // id_field.type = 'hidden';
+                            // id_field.value = json.id;
+                            // id_field.className = "user_hidden_id"
 
 
 
 
-                            byId('potential_ptc').appendChild(user_card);
+                            // byId('potential_ptc').appendChild(user_card);
 
-                            row = document.createElement('div');
-                            row.className = 'row';
-                            row.style = "padding: 5px;";
-                            user_card.appendChild(row);
-                            row.appendChild(id_field);
+                            // row = document.createElement('div');
+                            // row.className = 'row';
+                            // row.style = "padding: 5px;";
+                            // user_card.appendChild(row);
+                            // row.appendChild(id_field);
 
-                            col2 = document.createElement('div');
-                            col2.className = "col-sm-2";
-                            col2.style = "vertical-align: middle;";
-                            row.appendChild(col2)
+                            // col2 = document.createElement('div');
+                            // col2.className = "col-sm-2";
+                            // col2.style = "vertical-align: middle;";
+                            // row.appendChild(col2)
 
-                            img = document.createElement("img");
-                            img.style = "width: 60px;height:60px";
+                            // img = document.createElement("img");
+                            // img.style = "width: 60px;height:60px";
+                            // if (json.exist_image) {
+                            //     data = json.image
+                            //     img.src = 'data:image/gif;base64,' + data;
+                            // }
+                            // else {
+                            //     img.src = "{%static 'icons/default_user.png'%}";
+                            // }
+                            // col2.appendChild(img);
+
+                            // col1 = document.createElement('div');
+                            // col1.className = "col-sm";
+                            // col1.style = "vertical-align: bottom;height: 60px;";
+                            // row.appendChild(col1);
+
+                            // p = document.createElement('p');
+                            // p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
+                            // p.innerHTML = json.full_name;
+
+                            // col1.appendChild(p)
+
+                            // p_username = document.createElement('p');
+                            // p_username.style = "color: gray;line-height: 0em;";
+                            // p_username.innerHTML = '@' + user;
+                            // col1.appendChild(p_username);
+
+                            // col3 = document.createElement('div');
+                            // col3.className = "col-sm-3";
+                            // col3.style = "height: 60px;vertical-align: bottom";
+                            // row.appendChild(col3);
+
+                            // button = document.createElement('button');
+                            // button.type = 'button';
+                            // button.className = "btn btn-light";
+                            // button.style = "height: 60px;width: 100%;";
+                            // button.innerHTML = 'Удалить';
+
+                            // button.onclick = function () {
+                            //     del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
+                            //         this.parentNode.parentNode.childNodes[0].value
+                            //     )
+                            // }
+                            // col3.appendChild(button);
+
+
+
+
+
                             if (json.exist_image) {
                                 data = json.image
-                                img.src = 'data:image/gif;base64,' + data;
+                                img = 'data:image/gif;base64,' + data;
                             }
                             else {
-                                img.src = "{%static 'icons/default_user.png'%}";
+                                img = "{%static 'icons/default_user.png'%}";
                             }
-                            col2.appendChild(img);
+                            
 
-                            col1 = document.createElement('div');
-                            col1.className = "col-sm";
-                            col1.style = "vertical-align: bottom;height: 60px;";
-                            row.appendChild(col1);
 
-                            p = document.createElement('p');
-                            p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
-                            p.innerHTML = json.full_name;
+                            $(`<div class="card" id='user_`+user+`'
+                            style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                            <div class="row" style="padding: 5px;">
+                                <input type='hidden' class="user_hidden_id" value='`+user+`'>
+                                <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
 
-                            col1.appendChild(p)
+                                    <img src="`+img+`" style="width: 60px; height: 60px;">
 
-                            p_username = document.createElement('p');
-                            p_username.style = "color: gray;line-height: 0em;";
-                            p_username.innerHTML = '@' + user;
-                            col1.appendChild(p_username);
 
-                            col3 = document.createElement('div');
-                            col3.className = "col-sm-3";
-                            col3.style = "height: 60px;vertical-align: bottom";
-                            row.appendChild(col3);
-
-                            button = document.createElement('button');
-                            button.type = 'button';
-                            button.className = "btn btn-light";
-                            button.style = "height: 60px;width: 100%;";
-                            button.innerHTML = 'Удалить';
-
-                            button.onclick = function () {
-                                del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
-                                    this.parentNode.parentNode.childNodes[0].value
-                                )
-                            }
-                            col3.appendChild(button);
-
+                                </div>
+                                <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+json.full_name+`</p>
+                                    <p class='snd_line' style="">@`+user+`</p>
+                                </div>
+                                <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+                                    <div class="row">
+                                        <li class='usr_first_line'>Ожидает подтверждения</li>
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" onclick="del_pot_user('`+user+`','`+hike_id+`')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`).appendTo($('#potential_ptc'));
                         }
 
                     }
