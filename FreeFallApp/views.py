@@ -310,6 +310,42 @@ class AllHikes(View):
         return render(request, "hikes.html", context)
 
 
+
+class Posts(View):
+
+    def get(self, request):
+        context = base_context(request, title='Posts')
+
+        context['posts'] = []
+
+        posts = Post.objects.all()
+
+        all_posts = []
+
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+
+        for post in posts:
+            ct = {}
+            ct['content'] = post.content
+            ct['author'] = post.post_author
+            ct['author_fullname'] = full_name(post.post_author)
+            ct['author_username'] = post.post_author.username
+
+            ct['avatar'] = ''
+            if post.post_author.profile.avatar.name != '':
+                ct['avatar'] = post.post_author.profile.avatar
+
+            published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            all_posts.insert(0, ct)
+        context['all_posts'] = all_posts
+
+
+
+        return render(request, "posts.html", context)
+
+
+
 class MapOfHike(View):
 
     def get(self, request, id):
@@ -572,10 +608,17 @@ class Account(View):
         for post in posts:
             ct = {}
             ct['content'] = post.content
+            ct['author'] = post.post_author
+            ct['author_fullname'] = full_name
+            ct['author_username'] = post.post_author.username
+
+            ct['avatar'] = ''
+            if post.post_author.profile.avatar.name != '':
+                ct['avatar'] = post.post_author.profile.avatar
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
-            users_posts.append(ct)
+            users_posts.insert(0, ct)
         context['users_posts'] = users_posts
 
         return render(request, "account.html", context)

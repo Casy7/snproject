@@ -94,6 +94,8 @@
 
 </form>
 
+{%if user == cur_user %}
+
 <hr>
 
 <!-- 
@@ -144,6 +146,7 @@
 }
     </style>
 
+
     <form method="POST">
         {% csrf_token %}
 
@@ -172,20 +175,51 @@
 
 </div>
 
+{% endif %}
+
 
   <div class="posts" style="padding-top: 50px" id='posts_list'>
     <hr style="padding-bottom: 20px">
     {% for post in users_posts %}
 
-    <div class="comment_box">
-        <small style="color: gray;float: right;">{{ post.time_published }}</small>
+    <div class="card post_card">
+
+        <div class="row">
+            <div class="col-1">
+                <a href="/account/{{ post.author_username }}">
+                {% if post.avatar != '' %}
+                <img src='{{ ct.avatar.url }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+                {% else %}
+                <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
+                {% endif %}
+                </a>
+            </div>
+            <div class="col-9">
+                <a href="/account/{{ post.author_username }}">
+                <p class='user_full_name' style="display: inline;
+                    line-height: 2em;
+                    font-weight: 800;
+                    letter-spacing: 0.084em;
+                    font-size: 14px;
+                    padding-top: 2px;">{{ post.author_fullname }}</p>
+                <br>
+                <small>{{ post.author_username }}</small>
+                </a>       
+            </div>
+            <div class="col-2">
+                <div>
+                    <small style="color: gray;float: right;">{{ post.time_published }}</small>
+                </div>
+            </div>
+        </div>
 
         <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
             {{post.content|safe}}
         </div>
-
-
+    
     </div>
+
+    <hr>
 
     {% endfor %}
 </div>
