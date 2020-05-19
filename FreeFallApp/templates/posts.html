@@ -13,7 +13,7 @@
                 <div class="col-1">
                     <a href="/account/{{ post.author_username }}">
                     {% if post.avatar != '' %}
-                    <img src='{{ ct.avatar.url }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+                    <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
                     {% else %}
                     <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
                     {% endif %}

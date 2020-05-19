@@ -333,7 +333,7 @@ class Posts(View):
 
             ct['avatar'] = ''
             if post.post_author.profile.avatar.name != '':
-                ct['avatar'] = post.post_author.profile.avatar
+                ct['avatar'] = post.post_author.profile.avatar.url
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
@@ -584,8 +584,6 @@ class Account(View):
         else:
             full_name = username
 
-        print(user.profile.avatar.name)
-
         context = base_context(request, title=full_name, header=username)
         context['image'] = ''
         if user.profile.avatar.name != '':
@@ -614,7 +612,7 @@ class Account(View):
 
             ct['avatar'] = ''
             if post.post_author.profile.avatar.name != '':
-                ct['avatar'] = post.post_author.profile.avatar
+                ct['avatar'] = post.post_author.profile.avatar.url
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
