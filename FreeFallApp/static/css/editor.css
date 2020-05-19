@@ -211,6 +211,40 @@ input[type=number] {
     text-align: center;
 }
 
+.del_user {
+    background: none;
+    border: none;
+    color: gray;
+    padding: 0px;
+    right: 15px;
+    position: absolute;
+    bottom: 5px;
+}
+
+.usr_first_line {
+    padding-top: 0.7em;
+}
+
+li.usr_first_line {
+    padding-top: 0.7em;
+    list-style: revert;
+    color: #31719F;
+}
+
+li.usr_first_line.joined {
+    color: #319F49;
+}
+
+.usr_snd_line {
+    color: gray;
+    line-height: 0em;
+}
+
+.usr_status>* {
+    margin-right: 0px;
+    float: right;
+}
+
 /* Тут начинаются пробемы */
 
 /* .mapboxgl-canvas{

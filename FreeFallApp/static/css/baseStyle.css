@@ -615,7 +615,6 @@ a.article, a.article:hover {
     color: #72319f;
     font-weight: 600;
     top: -10%;
-    transform: translateY(-50%);
     position: relative;
 }
 
