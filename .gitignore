@@ -4,10 +4,7 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
-*.jpg
-*.png
-*.jpeg
+user_files/
 
 # Distribution / packaging
 .Python
