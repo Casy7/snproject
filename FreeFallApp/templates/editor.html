@@ -42,8 +42,9 @@
 
             <div class="col" style="padding-right: 0px;">
                 <div class="row">
-                    <div class="col">
-                        <div class="row avt" style="overflow: hidden;height: 240px; width: 430px;">
+                    <div class="col" style="flex-grow: 0;
+                    flex-basis: 0;">
+                        <div class="row avt" style="overflow: hidden;height: 270px; width: 480px;">
                             {% if image == '' %}
                             <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
                                 default="Фото не выбрано"></img>
