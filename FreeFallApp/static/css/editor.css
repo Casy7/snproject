@@ -153,7 +153,6 @@ label.upload-btn {
 }
 
 #cropper_photo {
-    /* width: 40%; */
     overflow: hidden;
     top: 20%;
 }
@@ -164,17 +163,13 @@ label.upload-btn {
 
 .img-container {
     max-width: 900px;
-    /* height: 700px; */ 
-
 }
 
 #image_to_crop {
-    /* width: 500px; */
     display: block;
     min-height: 600px;
     min-width: 600px;
     max-width: 100%;
-    /* width: 100%; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -198,14 +193,12 @@ input[type=number] {
 
 .counter>* {
     background-color: transparent;
-    /* border: 1px solid indigo; */
 }
 
 .counter button {
     width: 40px;
     font-size: 1.2rem;
     background-color: white;
-    /* border: 1px solid indigo; */
 }
 
 .counter input {
@@ -246,15 +239,3 @@ li.usr_first_line.joined {
     margin-right: 0px;
     float: right;
 }
-
-.cropper-container.cropper-bg {
-    /* width: 500px !important;
-    height: 600px !important; */
-}
-
-/* Тут начинаются пробемы */
-
-/* .mapboxgl-canvas{
-    width: 100% !important;
-    height: 500px !important;
-} */

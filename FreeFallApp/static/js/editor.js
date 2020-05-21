@@ -10,13 +10,7 @@ var cropper = new Cropper(image, {
 
     minContainerWidth: 500,
     minContainerHeight: 500,
-    // ready: function () {
 
-    // },
-
-    // crop: function (event) {
-
-    // },
 });
 
 document.querySelector('#myfile').addEventListener('change', function () {
@@ -32,7 +26,7 @@ function get_cropper_data() {
     img_canvas = cropper.getCroppedCanvas({ width: 480, height: 270 });
     img_canvas.id = 'result_image_show';
     jQuery(img_canvas).appendTo($('#place_for_image'));
-    
+
     var url = img_canvas.toDataURL();
     var blobBin = atob(url.split(',')[1]);
     var array = [];
@@ -42,13 +36,13 @@ function get_cropper_data() {
     var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
 
 
-    var formdata = {"myNewFileName": file};
-    base64 = url.substr(url.indexOf(',')+1)
+    var formdata = { "myNewFileName": file };
+    base64 = url.substr(url.indexOf(',') + 1)
     // base64 = url;
     $.ajax({
         url: "upload_hike_image/",
         type: "POST",
-        data: {'base64img':base64},
+        data: { 'base64img': base64 },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -71,11 +65,7 @@ function get_cropper_data() {
             }
         },
         success: function a(json) {
-            // alert(json);
 
-            
-
-            
         }
     });
 
