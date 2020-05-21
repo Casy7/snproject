@@ -7,13 +7,16 @@ var image = document.querySelector('#image_to_crop');
 var cropper = new Cropper(image, {
     aspectRatio: 16 / 9,
     viewMode: 1,
-    ready: function () {
 
-    },
+    minContainerWidth: 500,
+    minContainerHeight: 500,
+    // ready: function () {
 
-    crop: function (event) {
+    // },
 
-    },
+    // crop: function (event) {
+
+    // },
 });
 
 document.querySelector('#myfile').addEventListener('change', function () {
@@ -68,7 +71,7 @@ function get_cropper_data() {
             }
         },
         success: function a(json) {
-            alert(json);
+            // alert(json);
 
             
 

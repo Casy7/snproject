@@ -245,25 +245,26 @@
 
 
 
-        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo" style=""
+        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal-dialog" role="document" style="width: max-content;">
+                <div class="modal-content" style="width: max-content;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Обрезать фотографию</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="img-container">
+                    <div class="modal-body" style="width: max-content;">
+                        <div class="img-container" style="width: max-content;">
                             <img id="image_to_crop" src="{% static 'icons/default.jpg' %}" alt="Oops..." class="">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary indigo outline"
                             data-dismiss="modal">Отменить</button>
-                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal" onclick="get_cropper_data()">Сохранить</button>
+                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal"
+                            onclick="get_cropper_data()">Сохранить</button>
                     </div>
                 </div>
             </div>

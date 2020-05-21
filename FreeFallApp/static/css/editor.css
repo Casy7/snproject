@@ -163,16 +163,18 @@ label.upload-btn {
 }
 
 .img-container {
-    width: -moz-available;
-    /* width: 300px;
-    height: 200px;
-    max-width: 40%;
-    max-height: 30%; */
+    max-width: 900px;
+    /* height: 700px; */ 
+
 }
 
 #image_to_crop {
-    width: -moz-available;
-    height: auto;
+    /* width: 500px; */
+    display: block;
+    min-height: 600px;
+    min-width: 600px;
+    max-width: 100%;
+    /* width: 100%; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -243,6 +245,11 @@ li.usr_first_line.joined {
 .usr_status>* {
     margin-right: 0px;
     float: right;
+}
+
+.cropper-container.cropper-bg {
+    /* width: 500px !important;
+    height: 600px !important; */
 }
 
 /* Тут начинаются пробемы */
