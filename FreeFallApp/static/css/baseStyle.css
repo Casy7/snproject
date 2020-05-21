@@ -239,6 +239,14 @@ a.dropdown-menu-header {
     padding-top: 20px;
 }
 
+.unstyled {
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+    
+}
+
+
 /*
 .sidebar {
     top: 40px;
