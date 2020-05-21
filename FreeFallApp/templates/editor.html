@@ -36,7 +36,7 @@
             <!--БЛОК БАЗОВЫХ ПАРАМЕТРОВ-->
             <br>
             <div class="col-md" id="custom-file-input">
-                <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+                <input type="file" class="file-upload" style="display: none;" id="myfile"
                     accept=".jpg, .jpeg, .png">
             </div>
 
@@ -559,7 +559,11 @@
 
             }
             function delete_avatar() {
-                document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+                $('#result_image_show').remove();
+
+                jQuery(`<img src="{% static 'icons/default.jpg' %}" id='result_image_show' class="avatar preview" style='height: auto;'>`).appendTo($('#place_for_image'));
+                // img_canvas.id = '';
+                // document.getElementById("myimg").src = "";
                 clearInputFile(document.getElementById("myfile"));
                 del_avatar_button();
             }                

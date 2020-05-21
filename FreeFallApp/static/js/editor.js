@@ -23,7 +23,7 @@ document.querySelector('#myfile').addEventListener('change', function () {
 
 function get_cropper_data() {
     $('#result_image_show').remove();
-    img_canvas = cropper.getCroppedCanvas({ width: 480, height: 270 });
+    img_canvas = cropper.getCroppedCanvas({ width: 720, height: 405 });
     img_canvas.id = 'result_image_show';
     jQuery(img_canvas).appendTo($('#place_for_image'));
 
@@ -91,17 +91,12 @@ function read_image_URL() {
         var reader = new FileReader();
         reader.onload = function (e) {
             src = e.target.result;
-            byId('test_rs').src = src;
-
-            myimg.src = src;
             cropper.replace(src);
+            create_del_button();
             return e.target.result;
         }
 
-
         reader.readAsDataURL(input.files[0]);
-        create_del_button();
-
 
     }
 }
@@ -351,9 +346,12 @@ function add_lmk(id, name, desc, coords) {
 
 
 function create_del_button() {
-    jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));
+    if (byId('del_button')==undefined){
+    jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));}
 }
 
 function del_avatar_button() {
-    $('#del_button').remove();
+    for (i = 0; i < 3; i++) {
+        byId('#del_button').parentNode.removeChild(byId('del_button'));
+    }
 }

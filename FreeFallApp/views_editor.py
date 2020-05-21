@@ -153,9 +153,9 @@ class HikeEditor(View, LoginRequiredMixin):
                 [str(data[i*4]), int(data[i*4+1]), [float(data[i*4+2]), float(data[i*4+3])]])
 
         delete = str(form['cord_del'])
-        print(delete)
+        # print(delete)
         data = delete.split(',')
-        print(data)
+        # print(data)
         delete = []
 
 
@@ -174,11 +174,11 @@ class HikeEditor(View, LoginRequiredMixin):
 
 
         hike.coordinates = end_coordinates
-        print(end_coordinates, delete)
-        if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
-        elif 'delete_photo' in form.keys():
-            hike.image = None
+        # print(end_coordinates, delete)
+        # if 'image' in request.FILES.keys():
+        #     hike.image = request.FILES['image']
+        # elif 'delete_photo' in form.keys():
+        #     hike.image = None
 
         hike.save()
 
