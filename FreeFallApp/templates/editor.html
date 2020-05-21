@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col" style="flex-grow: 0;
                     flex-basis: 0;">
-                        <div class="row avt" style="overflow: hidden;height: 270px; width: 480px;">
+                        <div class="row avt" id='place_for_image' style="overflow: hidden;height: 270px; width: 480px;">
                             {% if image == '' %}
                             <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
                                 default="Фото не выбрано"></img>
@@ -263,7 +263,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary indigo outline"
                             data-dismiss="modal">Отменить</button>
-                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal">Сохранить</button>
+                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal" onclick="get_cropper_data()">Сохранить</button>
                     </div>
                 </div>
             </div>
@@ -379,7 +379,8 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">{{user.0}}</p>
+                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                        {{user.0}}</p>
                                     <p class="snd_line" style="">@{{user.2}}</p>
                                 </div>
 
@@ -390,7 +391,8 @@
                                     </div>
                                     <div class="row">{% if user.2 != username %}
                                         <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
-                                            class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>  Удалить</button>{% endif %}
+                                            class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt"
+                                                style="padding-right: 3px;"></i> Удалить</button>{% endif %}
                                     </div>
                                 </div>
 
@@ -412,7 +414,8 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">{{user.0}}</p>
+                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                        {{user.0}}</p>
                                     <p class='snd_line' style="">@{{user.2}}</p>
                                 </div>
                                 <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
@@ -420,7 +423,9 @@
                                         <li class='usr_first_line'>Ожидает подтверждения</li>
                                     </div>
                                     <div class="row">
-                                        <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                        <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
+                                            class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt"
+                                                style="padding-right: 3px;"></i>Удалить</button>
                                     </div>
                                 </div>
                             </div>
@@ -506,85 +511,6 @@
                         // alert(json);
                         // alert(json.exist);
                         if (json.exist === "True") {
-                            // var user_exists = true;
-
-
-                            // user_card = document.createElement("li");
-
-                            // user_card.className = "card";
-                            // user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
-                            // user_card.id = 'user_' + user;
-
-
-                            // id_field = document.createElement('input')
-                            // id_field.type = 'hidden';
-                            // id_field.value = json.id;
-                            // id_field.className = "user_hidden_id"
-
-
-
-
-                            // byId('potential_ptc').appendChild(user_card);
-
-                            // row = document.createElement('div');
-                            // row.className = 'row';
-                            // row.style = "padding: 5px;";
-                            // user_card.appendChild(row);
-                            // row.appendChild(id_field);
-
-                            // col2 = document.createElement('div');
-                            // col2.className = "col-sm-2";
-                            // col2.style = "vertical-align: middle;";
-                            // row.appendChild(col2)
-
-                            // img = document.createElement("img");
-                            // img.style = "width: 60px;height:60px";
-                            // if (json.exist_image) {
-                            //     data = json.image
-                            //     img.src = 'data:image/gif;base64,' + data;
-                            // }
-                            // else {
-                            //     img.src = "{%static 'icons/default_user.png'%}";
-                            // }
-                            // col2.appendChild(img);
-
-                            // col1 = document.createElement('div');
-                            // col1.className = "col-sm";
-                            // col1.style = "vertical-align: bottom;height: 60px;";
-                            // row.appendChild(col1);
-
-                            // p = document.createElement('p');
-                            // p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
-                            // p.innerHTML = json.full_name;
-
-                            // col1.appendChild(p)
-
-                            // p_username = document.createElement('p');
-                            // p_username.style = "color: gray;line-height: 0em;";
-                            // p_username.innerHTML = '@' + user;
-                            // col1.appendChild(p_username);
-
-                            // col3 = document.createElement('div');
-                            // col3.className = "col-sm-3";
-                            // col3.style = "height: 60px;vertical-align: bottom";
-                            // row.appendChild(col3);
-
-                            // button = document.createElement('button');
-                            // button.type = 'button';
-                            // button.className = "btn btn-light";
-                            // button.style = "height: 60px;width: 100%;";
-                            // button.innerHTML = 'Удалить';
-
-                            // button.onclick = function () {
-                            //     del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
-                            //         this.parentNode.parentNode.childNodes[0].value
-                            //     )
-                            // }
-                            // col3.appendChild(button);
-
-
-
-
 
                             if (json.exist_image) {
                                 data = json.image
@@ -593,29 +519,28 @@
                             else {
                                 img = "{%static 'icons/default_user.png'%}";
                             }
-                            
 
 
-                            $(`<div class="card" id='user_`+user+`'
-                            style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                            $(
+                                `<div class="card" id='user_` + user + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='`+user+`'>
+                                <input type='hidden' class="user_hidden_id" value='`+ user + `'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
 
-                                    <img src="`+img+`" style="width: 60px; height: 60px;">
+                                    <img src="`+ img + `" style="width: 60px; height: 60px;">
 
 
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+json.full_name+`</p>
-                                    <p class='snd_line' style="">@`+user+`</p>
+                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ json.full_name + `</p>
+                                    <p class='snd_line' style="">@`+ user + `</p>
                                 </div>
                                 <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
                                     <div class="row">
                                         <li class='usr_first_line'>Ожидает подтверждения</li>
                                     </div>
                                     <div class="row">
-                                        <button type="button" onclick="del_pot_user('`+user+`','`+hike_id+`')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                        <button type="button" onclick="del_pot_user('`+ user + `','` + hike_id + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
                                     </div>
                                 </div>
                             </div>

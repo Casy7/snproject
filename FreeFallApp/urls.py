@@ -28,6 +28,7 @@ urlpatterns = [
     url('change_map/', ChangeMap.as_view(), name='change_map'),
     url('get_filtered_hikes', FilterHikes.as_view(), name='get_filtered_hikes'),
     url('send_comment', AddComment.as_view(), name='send_comment'),
+    url('upload_hike_image/', UploadHikeImage.as_view(), name='upload_hike_image'),
     path('account_editor/', AccountEditor.as_view(), name="account_editor"),
 
 

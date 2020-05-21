@@ -3,18 +3,80 @@ x.setAttribute("type", "image");
 var days = document.getElementsByName("day");
 var i = 1;
 
+var image = document.querySelector('#image_to_crop');
+var cropper = new Cropper(image, {
+    aspectRatio: 16 / 9,
+    viewMode: 1,
+    ready: function () {
+
+    },
+
+    crop: function (event) {
+
+    },
+});
 
 document.querySelector('#myfile').addEventListener('change', function () {
 
-    // cropper.destroy();
     $('#cropper_photo').modal();
-    // byId('image_to_crop').src
-    create_cropper();
     read_image_URL();
 
-
-    // cropper.reset();
 });
+
+
+function get_cropper_data() {
+    $('#result_image_show').remove();
+    img_canvas = cropper.getCroppedCanvas({ width: 480, height: 270 });
+    img_canvas.id = 'result_image_show';
+    jQuery(img_canvas).appendTo($('#place_for_image'));
+    
+    var url = img_canvas.toDataURL();
+    var blobBin = atob(url.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+
+
+    var formdata = {"myNewFileName": file};
+    base64 = url.substr(url.indexOf(',')+1)
+    // base64 = url;
+    $.ajax({
+        url: "upload_hike_image/",
+        type: "POST",
+        data: {'base64img':base64},
+        beforeSend: function (xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        },
+        success: function a(json) {
+            alert(json);
+
+            
+
+            
+        }
+    });
+
+}
 
 
 function each(arr, callback) {
@@ -37,92 +99,19 @@ function read_image_URL() {
         reader.onload = function (e) {
             src = e.target.result;
             byId('test_rs').src = src;
-            try {
-                cropper.reset();
-                cropper.clear();
 
-                cropper.destroy();
-            }
-            catch (e) {
-
-            }
-            
             myimg.src = src;
-            create_cropper();
+            cropper.replace(src);
             return e.target.result;
         }
 
 
         reader.readAsDataURL(input.files[0]);
-        // byId('test_rs').src = src;
-        // byId('res_img').value = reader['result'];
-
         create_del_button();
 
 
     }
 }
-
-
-function create_cropper() {
-    read_image_URL();
-        // byId('image_to_crop').src = byId('test_rs').src;
-    var image = document.querySelector('#image_to_crop');
-    var previews = document.querySelectorAll('.preview');
-    var previewReady = false;
-    var cropper = new Cropper(image, {
-        aspectRatio: 16 / 9,
-        viewMode: 1,
-        ready: function () {
-            var clone = this.cloneNode();
-
-            clone.className = '';
-            clone.style.cssText = (
-                'display: block;' +
-                'width: 100%;' +
-                'min-width: 0;' +
-                'min-height: 0;' +
-                'max-width: none;' +
-                'max-height: none;'
-            );
-
-            each(previews, function (elem) {
-                elem.appendChild(clone.cloneNode());
-            });
-            previewReady = true;
-        },
-
-        crop: function (event) {
-            if (!previewReady) {
-                return;
-            }
-
-            var data = event.detail;
-            var cropper = this.cropper;
-            var imageData = cropper.getImageData();
-            var previewAspectRatio = data.width / data.height;
-
-            each(previews, function (elem) {
-                var previewImage = byId('result_image_show');
-                var previewWidth = elem.offsetWidth;
-                var previewHeight = previewWidth / previewAspectRatio;
-                var imageScaledRatio = data.width / previewWidth;
-
-                elem.style.height = previewHeight + 'px';
-                previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
-                previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
-                previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
-                previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
-            });
-        },
-    });
-    cropper.replace(byId('test_rs').src);
-    
-    del_avatar_button();
-    create_del_button();
-}
-
-
 
 
 function del_user(user) {
