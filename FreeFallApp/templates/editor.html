@@ -368,16 +368,16 @@
                         <div class="card" id='user_{{user.2}}'
                             style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='{{user.3}}'>
+                                <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                     {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/default_user.png' %}" style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
                                         {{user.0}}</p>
                                     <p class="snd_line" style="">@{{user.2}}</p>
                                 </div>
@@ -403,18 +403,18 @@
                         <div class="card" id='user_{{user.2}}'
                             style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='{{user.3}}'>
+                                <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                     {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/default_user.png' %}" style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
                                         {{user.0}}</p>
-                                    <p class='snd_line' style="">@{{user.2}}</p>
+                                    <p class='snd_line'>@{{user.2}}</p>
                                 </div>
                                 <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
                                     <div class="row">
@@ -452,20 +452,21 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body" style="width: max-content;">
+                    <div class="modal-body" style="width: max-content;height: max-content;">
                         <div class="custom-scrollbar-js card" id="join_ptc">
 
 
 
-                            <!-- user = [   username,  full_name,   avatar   ] -->
+                            <!-- user = [   username,  full_name,   avatar,   id   ] -->
                             {% for user in user_list %}
                             <div type="button" class="card standart_user join_user" id='join_user_{{user.0}}'
                                 onclick="select_user('{{user.0}}')">
                                 <a class="row" style="padding: 5px;">
-                                    <input type='hidden' class="user_hidden_id" value='{{user.0}}'>
+                                    <input type='hidden' id="user_hidden_id_{{user.0}}" value='{{user.3}}'>
                                     <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                         {% if user.2 != '' %}
-                                        <img id='join_usr_avatar_{{user.0}}' src="{{user.2.url}}" style="width: 60px; height: 60px;">
+                                        <img id='join_usr_avatar_{{user.0}}' src="{{user.2.url}}"
+                                            style="width: 60px; height: 60px;">
                                         {% else %}
                                         <img id='join_usr_avatar_{{user.0}}' src="{% static 'icons/default_user.png' %}"
                                             style="width: 60px;height: 60px;">
@@ -500,591 +501,685 @@
 
 
 
-    <script src="{% static 'libs/modules/scrollbar/scrollbar.js' %}"></script>
+        <script src="{% static 'libs/modules/scrollbar/scrollbar.js' %}"></script>
 
 
 
 
 
-    <script>
+        <script>
 
-        function send_invites() {
-            add_ptc();
-        }
-
-        async function add_user() {
-
-            if (byId("user_" + byId('select_ptc').value) == undefined) {
+            function send_invites() {
                 add_ptc();
             }
-            else {
-                card = byId("user_" + byId('select_ptc').value);
 
-                async function demo() {
+            async function add_user() {
 
-                    // console.log(6);
-                    byId("user_" + byId('select_ptc').value).className = "red-border";
-                    await sleep(700);
-                    // console.log(7);
-                    byId("user_" + byId('select_ptc').value).className = "";
-                }
-
-                demo();
-            }
-
-        }
-        function add_ptc() {
-            userlist = []
-            users_to_join = document.getElementsByClassName('selected_user');
-            Object.values(users_to_join).forEach(user => {
-                userlist.push(user.id.substr(10));
-            })
-            hike_id = byId('hike_id').value;
-            //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
-            $.ajax({
-                url: "invite_users/",
-                type: 'POST',
-                data: { 'userlist': userlist.toString(), 'add_to_hike': true, 'hike_id': hike_id },
-                beforeSend: function (xhr, settings) {
-                    function getCookie(name) {
-                        var cookieValue = null;
-                        if (document.cookie && document.cookie != '') {
-                            var cookies = document.cookie.split(';');
-                            for (var i = 0; i < cookies.length; i++) {
-                                var cookie = jQuery.trim(cookies[i]);
-                                // Does this cookie string begin with the name we want?
-                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                    break;
-                                }
-                            }
-                        }
-                        return cookieValue;
-                    }
-                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                        // Only send the token to relative URLs i.e. locally.
-                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                    }
-                },
-                success: function a(json) {
-                    // alert(json);
-                    // alert(json.exist);
-                    if (json.status == "success") {
-
-                        Object.values(users_to_join).forEach(user => {
-                            
-                            id = user.id.substr(10);
-                            $(
-                                
-                                `<div class="card" id='user_` + id + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
-                            <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='`+ id + `'>
-                                <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
-
-                                    <img src="`+ byId('join_usr_avatar_'+id).src + `" style="width: 60px; height: 60px;">
-
-
-                                </div>
-                                <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ byId('join_usr_fname_'+id).innerHTML + `</p>
-                                    <p class='snd_line' style="">@`+ id + `</p>
-                                </div>
-                                <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
-                                    <div class="row">
-                                        <li class='usr_first_line'>Ожидает подтверждения</li>
-                                    </div>
-                                    <div class="row">
-                                        <button type="button" onclick="del_pot_user('`+ id + `','` + hike_id + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`).appendTo($('#potential_ptc'));
-                        user.remove();
-                        });
-                    }
-
-                }
-
-            });
-
-
-
-
-
-
-        }
-        function delete_avatar() {
-            $('#result_image_show').remove();
-
-            jQuery(`<img src="{% static 'icons/default.jpg' %}" id='result_image_show' class="avatar preview" style='height: auto;'>`).appendTo($('#place_for_image'));
-            // img_canvas.id = '';
-            // document.getElementById("myimg").src = "";
-            clearInputFile(document.getElementById("myfile"));
-            del_avatar_button();
-        }                
-    </script>
-    <!-- КАРТА -->
-    <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
-
-        <script
-            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-        <link rel="stylesheet"
-            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
-            type="text/css" />
-
-
-        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-        <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
-        <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
-
-        <div id="osm_map" style="width:auto;height:500px">
-            <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
-            <div class="map-overlay-container" id="new_landmark" style="display: none;">
-                <div class="map-overlay">
-
-                    <button type="button" class="btn btn-outline-secondary" style="float: right;"
-                        onclick="change_mode()">x</button>
-                    <h2>Создать достопримечательность</h2>
-
-
-                    <label for="exampleFormControlInput1">Название</label>
-                    <input type="text" class="form-control" name="lm_name" placeholder=" " style="font-size: 18px;"
-                        value="" id="lm_name">
-
-
-                    <label for="public_switcher">Описание</label>
-
-                    <textarea id="lm_desc" class="form-control" name="lm_desc" placeholder=""
-                        style="font-size: 14px; height: 140px;"></textarea>
-
-
-
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" name="is_public" class="custom-control-input" id="lm_is_public" checked>
-                        <label class="custom-control-label" for="lm_is_public">Видна для всех</label>
-                    </div>
-                </div>
-            </div>
-            <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
-            <!---->
-            <div class="map-overlay-container" id="del_lmk" style="display: none;">
-                <div class="map-overlay">
-
-                    <button type="button" class="btn btn-outline-secondary" style="float: right;"
-                        onclick="byId('del_lmk').style='display: none;'">x</button>
-                    <h2>Удаление достопримечательности </h2>
-                    <h2 id='lmk_name'></h2>
-                    <p id="lmk_desc"></p>
-                    <p id="lmk_id" style="display: none;"></p>
-
-                    <label for="exampleFormControlInput1">Вы уверены, что хотите удалить эту
-                        достопримечательность?</label>
-                    <button type='button' class="btn btn-outline-danger" onclick="del_lmk()">Удалить</button>
-                    <button type='button' class="btn btn-outline-secondary"
-                        onclick="byId('del_lmk').style='display: none;'">Отмена</button>
-
-                </div>
-            </div>
-
-
-            <!---->
-        </div>
-
-        <script>
-
-            mapboxgl.accessToken = 'pk.eyJ1IjoiY2FzeTciLCJhIjoiY2s1aWl5MXV4MGI5dDNvbW41bm82OGpmdyJ9.t3Er5THaXs9H0hH2JSp-Ww';
-            var osm_map = new mapboxgl.Map({
-                container: 'osm_map',
-                style: 'mapbox://styles/casy7/ck8delv4d0zgm1io4178mjhbn',
-                center: [3.420253241560829, 46.124064037019906],
-                zoom: 13
-            });
-            // osm_map.resize()
-            var customData = {
-                features: [
-
-                ],
-                type: "FeatureCollection"
-            };
-
-            function resize() {
-                i = 0
-                try {
-                    osm_map.resize();
-                    i++;
-                    console.log('map was resized');
-                }
-                catch (e) {
-                    i++;
-                    console.log('error with_resizing');
-                }
-
-
-            }
-            // resize();
-            function forwardGeocoder(query) {
-                var matchingFeatures = [];
-                for (var i = 0; i < customData.features.length; i++) {
-                    var feature = customData.features[i];
-                    // handle queries with different capitalization than the source data by calling toLowerCase()
-                    if (
-                        feature.properties.title.toLowerCase().search(query.toLowerCase()) !== -1
-                    ) {
-                        // add a tree emoji as a prefix for custom data results
-                        // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
-                        feature["place_name"] = "🌲 " + feature.properties.title;
-                        feature["center"] = feature.geometry.coordinates;
-                        feature["place_type"] = ["park"];
-                        matchingFeatures.push(feature);
-                    }
-                }
-                return matchingFeatures;
-            }
-            osm_map.addControl(
-                new MapboxGeocoder({
-                    accessToken: mapboxgl.accessToken,
-                    localGeocoder: forwardGeocoder,
-                    zoom: 14,
-                    placeholder: "Введите адрес",
-                    mapboxgl: mapboxgl
-                })
-            );
-
-
-            // osm_map.addControl(new mapboxgl.NavigationControl());
-            // osm_map.update();
-
-            coordinates = eval('{{ coordinates | safe }}');
-            var elements = [];
-            var markers = [];
-            for (i = 0; i < coordinates.length; i++) {
-                var el = document.createElement('div');
-                el.id = 'marker' + i.toString();
-                el.content = coordinates[i][0];
-                el.textContent = coordinates[i][0];
-                el.className = 'marker';
-                el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
-                el.x = coordinates[i][1][0];
-                el.y = coordinates[i][1][1];
-                var id = el.id;
-                var marker = new mapboxgl.Marker(el, { draggable: true }).setLngLat([el.x, el.y]).addTo(osm_map);
-
-                elements.push({
-                    element: el,
-                    marker: marker
-                });
-
-                markers.push({
-                    day: coordinates[i][0],
-                    marker: marker,
-                    id: id,
-                })
-
-
-            }
-
-            elements.forEach(function (item, index) {
-                var el = item.element;
-                var marker = item.marker;
-                item.element.addEventListener('contextmenu', function () {
-                    cord_del.push(el.id);
-                    document.getElementById("del_coords").value = cord_del;
-                    marker.remove();
-                });
-            });
-
-        </script>
-
-
-        Выберите день:
-        <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
-            {% for day in days %}
-            <option value="{{day.id}}" id="{{day.name}}">{{day.name}}</option>
-            {% endfor %}
-        </select>
-        <button type="button" class="btn btn-outline-secondary" style="float: right;" class="btn btn-outline-secondary"
-            onclick="change_mode()">Создать
-            достопримечательность</button>
-        <div class="card" id="days_list" style="display: unset;">
-
-            {% for day in days %}
-
-            <div class="day_card" id="{{day.label}}_card">
-                <h3>{{day.name}}</h3>
-                <label>Заголовок дня</label>
-                <input type="text" class="form-control" name="{{day.label}}_caption" placeholder="Заголовок дня"
-                    value='{{day.caption}}'>
-                <label>Описание дня</label>
-                <textarea class="form-control" name="{{day.label}}_description" placeholder="Описание дня"
-                    style="font-size: 13px;">{{day.description}}</textarea>
-            </div>
-
-            {% endfor %}
-
-
-
-
-
-
-        </div>
-
-        <script>
-
-            //osm_map.resize()
-            if (eval('{{ coordinates | safe }}') != []) {
-                var coordinates = eval('{{ coordinates | safe  }}');
-            }
-            else {
-                var coordinates = []
-            }
-            var was_click = false
-            var landmarks = [];
-            var landmarks_mode = false;
-            var icon = "url({% static 'icons/marker.png' %})";
-            var icon_m = "url({% static 'icons/marker.png' %})";
-            var icon_l = "url({% static 'icons/mountain.png' %})";
-
-            function change_mode() {
-                if (landmarks_mode) {
-                    landmarks_mode = false;
-                    icon = icon_m;
-                    byId("new_landmark").style.display = "none";
+                if (byId("user_" + byId('select_ptc').value) == undefined) {
+                    add_ptc();
                 }
                 else {
-                    icon = icon_l;
-                    byId('del_lmk').style.display = 'none'
-                    byId("new_landmark").style.display = "block";
-                    landmarks_mode = true;
+                    card = byId("user_" + byId('select_ptc').value);
+
+                    async function demo() {
+
+                        // console.log(6);
+                        byId("user_" + byId('select_ptc').value).className = "red-border";
+                        await sleep(700);
+                        // console.log(7);
+                        byId("user_" + byId('select_ptc').value).className = "";
+                    }
+
+                    demo();
                 }
+
             }
-
-            osm_map.on('load', function () {
-                //osm_map.resize()
-                cord_del = []
-
-                // byId("new_landmark").style.display = "block";
-
-                was_click = false
-                osm_map.on('click', function (e) {
-                    byId('del_lmk').style.display = 'none'
-
-                    if (landmarks_mode) {
-                        coords = e.lngLat.toArray();
-                        id = 1;
-                        while (osm_map.getLayer('lk_' + id) != undefined) {
-                            id += 1;
-                        }
-                        if (byId("lm_name").value != "") {
-
-                            // Создание достопримечательности
-                            osm_map.addLayer({
-                                id: "lk_" + id,
-                                type: "symbol",
-                                source: {
-                                    type: "geojson",
-                                    data: {
-                                        type: "FeatureCollection",
-                                        features: [
-
-                                            {
-                                                type: "Feature",
-                                                properties: {
-                                                    description:
-                                                        `<p style='display:none'>` + id + `</p><strong>` + byId("lm_name").value + `</strong><p>` + byId("lm_desc").value + `</p>`,
-                                                    icon: "mountain"
-                                                },
-                                                geometry: {
-                                                    type: "Point",
-                                                    coordinates: coords
-                                                }
-                                            },
-
-
-                                        ]
+            function add_ptc() {
+                userlist = []
+                users_to_join = document.getElementsByClassName('selected_user');
+                Object.values(users_to_join).forEach(user => {
+                    userlist.push(user.id.substr(10));
+                })
+                hike_id = byId('hike_id').value;
+                //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
+                $.ajax({
+                    url: "invite_users/",
+                    type: 'POST',
+                    data: { 'userlist': userlist.toString(), 'add_to_hike': true, 'hike_id': hike_id },
+                    beforeSend: function (xhr, settings) {
+                        function getCookie(name) {
+                            var cookieValue = null;
+                            if (document.cookie && document.cookie != '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = jQuery.trim(cookies[i]);
+                                    // Does this cookie string begin with the name we want?
+                                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
                                     }
-                                },
-                                layout: {
-                                    "icon-image": "{icon}-15",
-                                    "icon-allow-overlap": true
                                 }
-                            });
-                            osm_map.on("click", "lk_" + id, function (e) {
-
-                                var coordinates = e.features[0].geometry.coordinates.slice();
-                                var description = e.features[0].properties.description;
-
-                                // Ensure that if the map is zoomed out such that multiple
-                                // copies of the feature are visible, the popup appears
-                                // over the copy being pointed to.
-                                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                                }
-                                new mapboxgl.Popup()
-                                    .setLngLat(coordinates)
-                                    .setHTML(description)
-                                    .addTo(osm_map);
-                            });
-                            name = byId("lm_name").value;
-                            desc = byId("lm_desc").value;
-                            add_lmk(id, name, desc, coords);
-                            change_mode();
+                            }
+                            return cookieValue;
                         }
-                        else {
-                            alert("Пожалуйста, сначала введите название достопримечательности")
-                        }
-                    }
-                    else {
-                        var day = (document.getElementById("day").value)
-                        var el = document.createElement('div');
-                        el.id = 'marker' + markers.length.toString();
-                        el.content = day;
-                        el.className = 'marker';
-                        was_click = true
-                        el.textContent = day;
-                        el.style.backgroundImage = icon;
-                        coordinates.push(Array(Number(day), e.lngLat.toArray()));
-                        document.getElementById("coords").value = coordinates;
-                        var id = el.id;
-
-
-                        var marker = new mapboxgl.Marker(el, { draggable: true })
-                            .setLngLat(e.lngLat.wrap())
-                            .addTo(osm_map);
-
-                        markers.push({
-                            id: id,
-                            day: Number(day),
-                            marker: marker
-                        })
-
-                        el.addEventListener('contextmenu', function () {
-                            cord_del.push(el.id);
-                            document.getElementById("del_coords").value = cord_del;
-                            marker.remove();
-
-                        });
-                    }
-
-                });
-
-                osm_map.on('render', function (t) {
-                    osm_map.resize();
-                    // resize();
-                });
-
-                // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
-                // {% for lk in landmarks %}
-                osm_map.addLayer({
-                    id: "lk_{{lk.id}}",
-                    type: "symbol",
-                    source: {
-                        type: "geojson",
-                        data: {
-                            type: "FeatureCollection",
-                            features: [
-
-                                {
-                                    type: "Feature",
-                                    properties: {
-                                        description:
-                                            `<p style='display:none'>{{lk.id}}</p><strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
-                                        icon: "mountain"
-                                    },
-                                    geometry: {
-                                        type: "Point",
-                                        coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
-                                    }
-                                },
-
-
-                            ]
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                         }
                     },
-                    layout: {
-                        "icon-image": "{icon}-15",
-                        "icon-allow-overlap": true
+                    success: function a(json) {
+                        // alert(json);
+                        // alert(json.exist);
+                        if (json.status == "success") {
+
+                            Object.values(users_to_join).forEach(user => {
+
+                                username = user.id.substr(10);
+                                $(
+
+                                    `<div class="card" id='user_` + username + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                                        <div class="row" style="padding: 5px;">
+                                            <input type='hidden' id="user_hidden_id_`+ username +`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                            <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
+
+                                                <img id="`+'img_user_'+username+`" src="`+ byId('join_usr_avatar_' + username).src + `" style="width: 60px; height: 60px;">
+
+
+                                            </div>
+                                            <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                                <p class='usr_first_line' id = "fname_user_`+username+`" style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ byId('join_usr_fname_' + username).innerHTML + `</p>
+                                                <p class='snd_line' style="">@`+ username + `</p>
+                                            </div>
+                                            <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+                                                <div class="row">
+                                                    <li class='usr_first_line'>Ожидает подтверждения</li>
+                                                </div>
+                                                <div class="row">
+                                                    <button type="button" onclick="del_pot_user('`+ username + `','` + byId('user_hidden_id_'+username).value + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`).appendTo($('#potential_ptc'));
+                                user.remove();
+                            });
+                        }
+
+                    }
+
+                });
+
+
+
+
+
+
+            }
+            function delete_avatar() {
+                $('#result_image_show').remove();
+
+                jQuery(`<img src="{% static 'icons/default.jpg' %}" id='result_image_show' class="avatar preview" style='height: auto;'>`).appendTo($('#place_for_image'));
+                // img_canvas.id = '';
+                // document.getElementById("myimg").src = "";
+                clearInputFile(document.getElementById("myfile"));
+                del_avatar_button();
+            }
+
+            function del_pot_user(username, user_id) {
+                hike_id = byId('hike_id').value;
+                
+                send_data = {}
+                send_data['code'] = user_id.toString() + '-' + hike_id.toString() + '-' + 'invite_to_hike';
+                send_data['result'] = 'delete';
+                console.log(send_data);
+
+
+                $.ajax({
+                    url: "/send_notification_choice/",
+                    type: 'POST',
+                    data: send_data,
+                    beforeSend: function (xhr, settings) {
+                        function getCookie(name) {
+                            var cookieValue = null;
+                            if (document.cookie && document.cookie != '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = jQuery.trim(cookies[i]);
+                                    // Does this cookie string begin with the name we want?
+                                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    },
+                    success: function a(json) {
+                        card = byId('user_' + username)
+                        $(
+                            `<div type="button" class="card standart_user join_user" id='join_user_`+username+`' onclick="select_user('`+username+`')">
+                                <a class="row" style="padding: 5px;">
+                                    <input type='hidden' id="user_hidden_id_`+username+`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                    <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
+                                        <img id='join_usr_avatar_`+username+`' src="`+byId('img_user_'+username).src+`" style="width: 60px; height: 60px;">
+                                    </div>
+                                    <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                        <p class='usr_first_line' id='join_usr_fname_`+username+`'
+                                            style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+
+                                            byId('fname_user_'+username).innerHTML+`</p>
+                                        <p class="snd_line" style="">@`+username+`</p>
+                                    </div>
+
+
+                                    <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+
+                                    </div>
+
+                                </a>
+                            </div>`).appendTo($('#mCSB_1_container')
+                        );
+                        // alert('success')
+                        byId('user_' + username).parentNode.removeChild(byId('user_' + username));
                     }
                 });
-                osm_map.on("contextmenu", "lk_{{lk.id}}", function (e) {
-
-                    desc = e.features[0].properties.description;
-
-                    lk = e.features[0].properties;
-                    id = desc.slice(desc.indexOf('>') + 1, desc.indexOf('</p>'));
-                    // alert(id);
-                    byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>') + 8, desc.indexOf('</strong>'));
-                    byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>') + 4, desc.lastIndexOf('</p>'));
-                    byId('lmk_id').innerHTML = id;
-                    byId('new_landmark').style.display = 'none';
-                    byId('del_lmk').style.display = 'block';
-
-                });
-                osm_map.on("click", "lk_{{lk.id}}", function (e) {
-
-                    var coordinates = e.features[0].geometry.coordinates.slice();
-                    var description = e.features[0].properties.description;
-
-                    // Ensure that if the map is zoomed out such that multiple
-                    // copies of the feature are visible, the popup appears
-                    // over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(description)
-                        .addTo(osm_map);
-                });
-                // {% endfor %}
-
-
-
-
-
-
-                // Change the cursor to a pointer when the mouse is over the places layer.
-                osm_map.on("mouseenter", "places", function () {
-                    osm_map.getCanvas().style.cursor = "pointer";
-                });
-
-                // Change it back to a pointer when it leaves.
-                osm_map.on("mouseleave", "places", function () {
-                    osm_map.getCanvas().style.cursor = "";
-                });
-
-            });
-
-            function save_info() {
-
-                coordinates = []
-
-                markers.forEach(function (item, index) {
-                    var day = item.day;
-                    var lngLat = item.marker.getLngLat();
-                    var lng = lngLat.lng;
-                    var lat = lngLat.lat;
-                    var id = item.id;
-
-                    coordinates.push(id, day, lng, lat)
-
-                });
-                debugger;
-                document.getElementById("coords").value = coordinates;
-                document.getElementById("del_coords").value = cord_del;
             }
 
         </script>
 
-        <input name="coordinates" id="coords" type="hidden">
-        <input name="cord_del" id="del_coords" type="hidden">
-        <input name="days_info" id="days_info" type="hidden">
-        <!-- <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- КАРТА -->
+        <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
+
+            <script
+                src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+            <link rel="stylesheet"
+                href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css"
+                type="text/css" />
+
+
+            <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+            <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+            <link href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css" rel="stylesheet" />
+
+            <div id="osm_map" style="width:auto;height:500px">
+                <!-- БЛОК "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
+                <div class="map-overlay-container" id="new_landmark" style="display: none;">
+                    <div class="map-overlay">
+
+                        <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                            onclick="change_mode()">x</button>
+                        <h2>Создать достопримечательность</h2>
+
+
+                        <label for="exampleFormControlInput1">Название</label>
+                        <input type="text" class="form-control" name="lm_name" placeholder=" " style="font-size: 18px;"
+                            value="" id="lm_name">
+
+
+                        <label for="public_switcher">Описание</label>
+
+                        <textarea id="lm_desc" class="form-control" name="lm_desc" placeholder=""
+                            style="font-size: 14px; height: 140px;"></textarea>
+
+
+
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" name="is_public" class="custom-control-input" id="lm_is_public"
+                                checked>
+                            <label class="custom-control-label" for="lm_is_public">Видна для всех</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- КОНЕЦ БЛОКА "СОЗДАТЬ ДОСТОПРИМЕЧАТЕЛЬНОСТЬ" -->
+                <!---->
+                <div class="map-overlay-container" id="del_lmk" style="display: none;">
+                    <div class="map-overlay">
+
+                        <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                            onclick="byId('del_lmk').style='display: none;'">x</button>
+                        <h2>Удаление достопримечательности </h2>
+                        <h2 id='lmk_name'></h2>
+                        <p id="lmk_desc"></p>
+                        <p id="lmk_id" style="display: none;"></p>
+
+                        <label for="exampleFormControlInput1">Вы уверены, что хотите удалить эту
+                            достопримечательность?</label>
+                        <button type='button' class="btn btn-outline-danger" onclick="del_lmk()">Удалить</button>
+                        <button type='button' class="btn btn-outline-secondary"
+                            onclick="byId('del_lmk').style='display: none;'">Отмена</button>
+
+                    </div>
+                </div>
+
+
+                <!---->
+            </div>
+
+            <script>
+
+                mapboxgl.accessToken = 'pk.eyJ1IjoiY2FzeTciLCJhIjoiY2s1aWl5MXV4MGI5dDNvbW41bm82OGpmdyJ9.t3Er5THaXs9H0hH2JSp-Ww';
+                var osm_map = new mapboxgl.Map({
+                    container: 'osm_map',
+                    style: 'mapbox://styles/casy7/ck8delv4d0zgm1io4178mjhbn',
+                    center: [3.420253241560829, 46.124064037019906],
+                    zoom: 13
+                });
+                // osm_map.resize()
+                var customData = {
+                    features: [
+
+                    ],
+                    type: "FeatureCollection"
+                };
+
+                function resize() {
+                    i = 0
+                    try {
+                        osm_map.resize();
+                        i++;
+                        console.log('map was resized');
+                    }
+                    catch (e) {
+                        i++;
+                        console.log('error with_resizing');
+                    }
+
+
+                }
+                // resize();
+                function forwardGeocoder(query) {
+                    var matchingFeatures = [];
+                    for (var i = 0; i < customData.features.length; i++) {
+                        var feature = customData.features[i];
+                        // handle queries with different capitalization than the source data by calling toLowerCase()
+                        if (
+                            feature.properties.title.toLowerCase().search(query.toLowerCase()) !== -1
+                        ) {
+                            // add a tree emoji as a prefix for custom data results
+                            // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
+                            feature["place_name"] = "🌲 " + feature.properties.title;
+                            feature["center"] = feature.geometry.coordinates;
+                            feature["place_type"] = ["park"];
+                            matchingFeatures.push(feature);
+                        }
+                    }
+                    return matchingFeatures;
+                }
+                osm_map.addControl(
+                    new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken,
+                        localGeocoder: forwardGeocoder,
+                        zoom: 14,
+                        placeholder: "Введите адрес",
+                        mapboxgl: mapboxgl
+                    })
+                );
+
+
+                // osm_map.addControl(new mapboxgl.NavigationControl());
+                // osm_map.update();
+
+                coordinates = eval('{{ coordinates | safe }}');
+                var elements = [];
+                var markers = [];
+                for (i = 0; i < coordinates.length; i++) {
+                    var el = document.createElement('div');
+                    el.id = 'marker' + i.toString();
+                    el.content = coordinates[i][0];
+                    el.textContent = coordinates[i][0];
+                    el.className = 'marker';
+                    el.style.backgroundImage = "url({% static 'icons/marker.png' %})";
+                    el.x = coordinates[i][1][0];
+                    el.y = coordinates[i][1][1];
+                    var id = el.id;
+                    var marker = new mapboxgl.Marker(el, { draggable: true }).setLngLat([el.x, el.y]).addTo(osm_map);
+
+                    elements.push({
+                        element: el,
+                        marker: marker
+                    });
+
+                    markers.push({
+                        day: coordinates[i][0],
+                        marker: marker,
+                        id: id,
+                    })
+
+
+                }
+
+                elements.forEach(function (item, index) {
+                    var el = item.element;
+                    var marker = item.marker;
+                    item.element.addEventListener('contextmenu', function () {
+                        cord_del.push(el.id);
+                        document.getElementById("del_coords").value = cord_del;
+                        marker.remove();
+                    });
+                });
+
+            </script>
+
+
+            Выберите день:
+            <select id="day" , value="1" class="form-control" style="width: 20%;display: inline-block;">
+                {% for day in days %}
+                <option value="{{day.id}}" id="{{day.name}}">{{day.name}}</option>
+                {% endfor %}
+            </select>
+            <button type="button" class="btn btn-outline-secondary" style="float: right;"
+                class="btn btn-outline-secondary" onclick="change_mode()">Создать
+                достопримечательность</button>
+            <div class="card" id="days_list" style="display: unset;">
+
+                {% for day in days %}
+
+                <div class="day_card" id="{{day.label}}_card">
+                    <h3>{{day.name}}</h3>
+                    <label>Заголовок дня</label>
+                    <input type="text" class="form-control" name="{{day.label}}_caption" placeholder="Заголовок дня"
+                        value='{{day.caption}}'>
+                    <label>Описание дня</label>
+                    <textarea class="form-control" name="{{day.label}}_description" placeholder="Описание дня"
+                        style="font-size: 13px;">{{day.description}}</textarea>
+                </div>
+
+                {% endfor %}
+
+
+
+
+
+
+            </div>
+
+            <script>
+
+                //osm_map.resize()
+                if (eval('{{ coordinates | safe }}') != []) {
+                    var coordinates = eval('{{ coordinates | safe  }}');
+                }
+                else {
+                    var coordinates = []
+                }
+                var was_click = false
+                var landmarks = [];
+                var landmarks_mode = false;
+                var icon = "url({% static 'icons/marker.png' %})";
+                var icon_m = "url({% static 'icons/marker.png' %})";
+                var icon_l = "url({% static 'icons/mountain.png' %})";
+
+                function change_mode() {
+                    if (landmarks_mode) {
+                        landmarks_mode = false;
+                        icon = icon_m;
+                        byId("new_landmark").style.display = "none";
+                    }
+                    else {
+                        icon = icon_l;
+                        byId('del_lmk').style.display = 'none'
+                        byId("new_landmark").style.display = "block";
+                        landmarks_mode = true;
+                    }
+                }
+
+                osm_map.on('load', function () {
+                    //osm_map.resize()
+                    cord_del = []
+
+                    // byId("new_landmark").style.display = "block";
+
+                    was_click = false
+                    osm_map.on('click', function (e) {
+                        byId('del_lmk').style.display = 'none'
+
+                        if (landmarks_mode) {
+                            coords = e.lngLat.toArray();
+                            id = 1;
+                            while (osm_map.getLayer('lk_' + id) != undefined) {
+                                id += 1;
+                            }
+                            if (byId("lm_name").value != "") {
+
+                                // Создание достопримечательности
+                                osm_map.addLayer({
+                                    id: "lk_" + id,
+                                    type: "symbol",
+                                    source: {
+                                        type: "geojson",
+                                        data: {
+                                            type: "FeatureCollection",
+                                            features: [
+
+                                                {
+                                                    type: "Feature",
+                                                    properties: {
+                                                        description:
+                                                            `<p style='display:none'>` + id + `</p><strong>` + byId("lm_name").value + `</strong><p>` + byId("lm_desc").value + `</p>`,
+                                                        icon: "mountain"
+                                                    },
+                                                    geometry: {
+                                                        type: "Point",
+                                                        coordinates: coords
+                                                    }
+                                                },
+
+
+                                            ]
+                                        }
+                                    },
+                                    layout: {
+                                        "icon-image": "{icon}-15",
+                                        "icon-allow-overlap": true
+                                    }
+                                });
+                                osm_map.on("click", "lk_" + id, function (e) {
+
+                                    var coordinates = e.features[0].geometry.coordinates.slice();
+                                    var description = e.features[0].properties.description;
+
+                                    // Ensure that if the map is zoomed out such that multiple
+                                    // copies of the feature are visible, the popup appears
+                                    // over the copy being pointed to.
+                                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                                    }
+                                    new mapboxgl.Popup()
+                                        .setLngLat(coordinates)
+                                        .setHTML(description)
+                                        .addTo(osm_map);
+                                });
+                                name = byId("lm_name").value;
+                                desc = byId("lm_desc").value;
+                                add_lmk(id, name, desc, coords);
+                                change_mode();
+                            }
+                            else {
+                                alert("Пожалуйста, сначала введите название достопримечательности")
+                            }
+                        }
+                        else {
+                            var day = (document.getElementById("day").value)
+                            var el = document.createElement('div');
+                            el.id = 'marker' + markers.length.toString();
+                            el.content = day;
+                            el.className = 'marker';
+                            was_click = true
+                            el.textContent = day;
+                            el.style.backgroundImage = icon;
+                            coordinates.push(Array(Number(day), e.lngLat.toArray()));
+                            document.getElementById("coords").value = coordinates;
+                            var id = el.id;
+
+
+                            var marker = new mapboxgl.Marker(el, { draggable: true })
+                                .setLngLat(e.lngLat.wrap())
+                                .addTo(osm_map);
+
+                            markers.push({
+                                id: id,
+                                day: Number(day),
+                                marker: marker
+                            })
+
+                            el.addEventListener('contextmenu', function () {
+                                cord_del.push(el.id);
+                                document.getElementById("del_coords").value = cord_del;
+                                marker.remove();
+
+                            });
+                        }
+
+                    });
+
+                    osm_map.on('render', function (t) {
+                        osm_map.resize();
+                        // resize();
+                    });
+
+                    // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
+                    // {% for lk in landmarks %}
+                    osm_map.addLayer({
+                        id: "lk_{{lk.id}}",
+                        type: "symbol",
+                        source: {
+                            type: "geojson",
+                            data: {
+                                type: "FeatureCollection",
+                                features: [
+
+                                    {
+                                        type: "Feature",
+                                        properties: {
+                                            description:
+                                                `<p style='display:none'>{{lk.id}}</p><strong>{{lk.name}}</strong><p>{{lk.description}}</p>`,
+                                            icon: "mountain"
+                                        },
+                                        geometry: {
+                                            type: "Point",
+                                            coordinates: ["{{ lk.longitude }}", "{{ lk.latitude }}"]
+                                        }
+                                    },
+
+
+                                ]
+                            }
+                        },
+                        layout: {
+                            "icon-image": "{icon}-15",
+                            "icon-allow-overlap": true
+                        }
+                    });
+                    osm_map.on("contextmenu", "lk_{{lk.id}}", function (e) {
+
+                        desc = e.features[0].properties.description;
+
+                        lk = e.features[0].properties;
+                        id = desc.slice(desc.indexOf('>') + 1, desc.indexOf('</p>'));
+                        // alert(id);
+                        byId('lmk_name').innerHTML = desc.slice(desc.indexOf('<strong>') + 8, desc.indexOf('</strong>'));
+                        byId('lmk_desc').innerHTML = desc.slice(desc.lastIndexOf('<p>') + 4, desc.lastIndexOf('</p>'));
+                        byId('lmk_id').innerHTML = id;
+                        byId('new_landmark').style.display = 'none';
+                        byId('del_lmk').style.display = 'block';
+
+                    });
+                    osm_map.on("click", "lk_{{lk.id}}", function (e) {
+
+                        var coordinates = e.features[0].geometry.coordinates.slice();
+                        var description = e.features[0].properties.description;
+
+                        // Ensure that if the map is zoomed out such that multiple
+                        // copies of the feature are visible, the popup appears
+                        // over the copy being pointed to.
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                        }
+                        new mapboxgl.Popup()
+                            .setLngLat(coordinates)
+                            .setHTML(description)
+                            .addTo(osm_map);
+                    });
+                    // {% endfor %}
+
+
+
+
+
+
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    osm_map.on("mouseenter", "places", function () {
+                        osm_map.getCanvas().style.cursor = "pointer";
+                    });
+
+                    // Change it back to a pointer when it leaves.
+                    osm_map.on("mouseleave", "places", function () {
+                        osm_map.getCanvas().style.cursor = "";
+                    });
+
+                });
+
+                function save_info() {
+
+                    coordinates = []
+
+                    markers.forEach(function (item, index) {
+                        var day = item.day;
+                        var lngLat = item.marker.getLngLat();
+                        var lng = lngLat.lng;
+                        var lat = lngLat.lat;
+                        var id = item.id;
+
+                        coordinates.push(id, day, lng, lat)
+
+                    });
+                    debugger;
+                    document.getElementById("coords").value = coordinates;
+                    document.getElementById("del_coords").value = cord_del;
+                }
+
+            </script>
+
+            <input name="coordinates" id="coords" type="hidden">
+            <input name="cord_del" id="del_coords" type="hidden">
+            <input name="days_info" id="days_info" type="hidden">
+            <!-- <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
                 style="display: inline-block"> -->
 
 
 
-        <!--END OF CODE -->
-    </div>
+            <!--END OF CODE -->
+        </div>
     </div>
     <div class='row'>
         <div class='col'>

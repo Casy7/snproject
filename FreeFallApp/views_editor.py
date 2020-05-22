@@ -26,7 +26,7 @@ class HikeEditor(View, LoginRequiredMixin):
 
             user_list = []
 
-            ptcs = result = map(lambda x: x[2], hike.participants.all())
+            # ptcs = result = map(lambda x: x[2], hike.participants.all())
             for user in User.objects.all().exclude(notification__hike=hike).exclude(hike=hike):
                 user_details = [user.username, full_name(user)]
                 if len(Profile.objects.filter(user=user)) and  user.profile.avatar.name != '' and  os.path.isfile(user.profile.avatar.path):
@@ -34,7 +34,9 @@ class HikeEditor(View, LoginRequiredMixin):
                     user_details.append(user.profile.avatar)
                 else:
                     user_details.append('')
+                user_details.append(user.id)
                 user_list.append(user_details)
+                
 
             context['user_list'] = user_list
 

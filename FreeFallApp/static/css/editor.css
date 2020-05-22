@@ -243,3 +243,13 @@ li.usr_first_line.joined {
 .selected_user{
     border: 1px solid indigo;
 }
+
+#mCSB_1 {
+    min-height: 400px;
+   }
+
+#join_ptc{
+    height: max-content;
+    max-height: 500px;
+}
+   
