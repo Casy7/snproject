@@ -1,12 +1,57 @@
 .ck-editor__editable_inline {
-    min-height: 400px;
+    min-height: 150px;
 }
 
 /* .mapboxgl-map {
     padding: 15px;
 } */
 
-.mapboxgl-popup-content{
+.content {
+    display: block;
+    position: initial;
+    padding-right: 17%;
+    padding-left: 17%;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 3px white;
+    /* transition: linear 0.3s; */
+}
+
+.nav-tabs .nav-link:hover, :checked {
+    border: none;
+    border-bottom: 3px white;
+}
+
+.nav-tabs .nav-link.active {
+    border: none;
+    border-bottom: 3px solid indigo;
+}
+
+label {
+    /* font-family: Roboto; */
+    font-style: normal;
+    padding-bottom: 5px;
+    line-height: 19px;
+}
+
+/* .active_tab_line {
+    width: 35%;
+    position: center;
+    color: indigo;
+    display: inline-block;
+    transition: cubic-bezier(1, 0, 0, 1); 
+} */
+
+.active_tab_line {
+    width: 35%;
+    position: center;
+    color: indigo;
+    display: inline-block;
+}
+
+.mapboxgl-popup-content {
     box-sizing: content-box;
     max-width: 700px;
     padding: 5px;
@@ -16,12 +61,17 @@ td {
     overflow: hidden;
 }
 
-#myimg {
-    width: 350px;
-    height: auto;
-    border: 1px solid grey;
-    border-radius: 2px;
-    background-color: rgb(241, 241, 241);
+#result_image_show {
+    /* height: 241px;
+    margin-left: 23.9436px;
+    margin-top: -30.1945px; */
+    /* padding-top: 3%; */
+    /* width: 430px;
+    height: 240px;
+    overflow: hidden; */
+    /* border: 1px solid grey; */
+    /* border-radius: 2px; */
+    /* background-color: rgb(241, 241, 241); */
 }
 
 .map-overlay-container {
@@ -41,30 +91,172 @@ td {
     background-color: rgba(216, 216, 216, 0.445);
 }
 
-
-.day_card{
+.day_card {
     border: 1px solid rgb(187, 187, 187);
     border-radius: 2px;
     padding: 5px;
     margin: 5px;
 }
 
-.red-border{
+.red-border {
     border: 1px solid red;
     background-color: rgb(211, 211, 211);
 }
-.gray-border{
+
+.gray-border {
     border: 1px solid rgb(224, 224, 224);
 }
 
-label.upload-btn{
+label.upload-btn {
     margin-top: 0px;
     margin-bottom: 0px;
     font-weight: 300;
 }
 
-/* Тут начинаются пробемы */
-/* .mapboxgl-canvas{
-    width: 100% !important;
-    height: 500px !important;
+.hike_diff_btns, .hike_type_btns {
+    min-width: 50px;
+}
+
+.hike_diff_btns.indigo.outline, .hike_type_btns.indigo.outline, .add_to_group_type.indigo.outline {
+    border: 2px ridge rgb(154, 67, 255);
+}
+
+.avt::after {
+    display: block;
+    position: relative;
+    background-image: linear-gradient(to bottom, transparent 0%, rgb(0, 0, 0) 100%);
+    margin-top: -70px;
+    height: 70px;
+    width: 100%;
+    content: '';
+}
+
+#photo_edit_menu {
+    position: absolute;
+    color: white;
+    bottom: 5px;
+    right: 5px;
+}
+
+.photo_edit_menu>i {
+    padding-right: 15px;
+}
+
+#upload_label {
+    border: none;
+    background-color: transparent;
+    padding-right: 5px;
+}
+
+/* .modal-backdrop.fade.show {
+    display: none;
 } */
+/* .modal-backdrop.show {
+    display: none;
+} */
+
+.modal-backdrop {
+    z-index: 1;
+  }
+
+#cropper_photo {
+    overflow: auto;
+    /* top: 20%; */
+}
+
+.modal-dialog {
+    max-width: 700px;
+}
+
+.img-container {
+    max-width: 900px;
+}
+
+#image_to_crop {
+    display: block;
+    min-height: 600px;
+    min-width: 600px;
+    max-width: 100%;
+}
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.counter {
+    border: 1px solid indigo;
+    border-radius: 3px;
+    width: max-content;
+}
+
+.counter>* {
+    background-color: transparent;
+}
+
+.counter button {
+    width: 40px;
+    font-size: 1.2rem;
+    background-color: white;
+}
+
+.counter input {
+    height: inherit;
+    text-align: center;
+}
+
+.del_user {
+    background: none;
+    border: none;
+    color: gray;
+    padding: 0px;
+    right: 15px;
+    position: absolute;
+    bottom: 5px;
+}
+
+.usr_first_line {
+    padding-top: 0.7em;
+}
+
+li.usr_first_line {
+    padding-top: 0.7em;
+    list-style: revert;
+    color: #31719F;
+}
+
+li.usr_first_line.joined {
+    color: #319F49;
+}
+
+.usr_snd_line {
+    color: gray;
+    line-height: 0em;
+}
+
+.usr_status>* {
+    margin-right: 0px;
+    float: right;
+}
+
+.selected_user{
+    border: 1px solid indigo;
+}
+
+#mCSB_1 {
+    min-width: 700px;
+   }
+
+#join_ptc{
+    height: max-content;
+    max-height: 500px;
+}
+   

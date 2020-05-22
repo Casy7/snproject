@@ -50,3 +50,8 @@ label.custom-control-label{
 .img_container {
     height: 500px !important;
 }
+
+.inner.show{
+    max-width: none;
+    overflow: hidden;
+}

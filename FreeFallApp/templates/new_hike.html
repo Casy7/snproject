@@ -37,7 +37,7 @@
         <div class="img-container">
             <img src="{% static 'icons/default.jpg' %}" id='default_img' class="card-img-top" style="height: initial;">
             <div id='cropper_div' style="display: none;">
-                <img src="{% static 'icons/default.jpg' %}" id="myimg" class="card-img-top" default="Фото не выбрано"
+                <img src="{% static 'icons/default.jpg' %}" id="image_to_crop" class="card-img-top" default="Фото не выбрано"
                     style="display: none;">
                 <input type="hidden" id='resize_photo' name='resize_coordinates'>
             </div>
@@ -184,16 +184,26 @@
 </div>
 
 
-<script>
-    var users_del = []
-
-</script>
-
-
 
 <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
 <script src="{% static 'js/cropper.js' %}"></script>
 <script>
+document.querySelector('#myfile').addEventListener('change', function () {
+    byId('cropper_div').style.display = 'block';
+    byId('image_to_crop').style.display = 'block';
+    byId('default_img').style.display = 'none';
+    document.getElementsByClassName('img-container')[0].style.height = '500px';
+
+    readURL();
+    cropper.destroy();
+    cropper.replace(byId('image_to_crop').src);
+
+    del_avatar_button();
+    create_del_button();
+
+
+    // cropper.reset();
+});
 
 function add_ptc() {
 
@@ -249,7 +259,7 @@ $.ajax({
                 img.src = 'data:image/gif;base64,' + data;
             }
             else {
-                img.src = "{% static 'icons/logo_grey.png' %}";
+                img.src = "{% static 'icons/default_user.png' %}";
             }
             span = document.createElement("span");
             span.style = "text-align:center";

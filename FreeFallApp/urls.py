@@ -23,11 +23,16 @@ urlpatterns = [
     path('account/<str:username>/', Account.as_view(), name="account"),
     path("hike_filter/", HikeFilter.as_view(), name="hike_filter"),
     url('does_user_exist/', DoesUserExist.as_view(), name='does_user_exist'),
-    url('send_notification_choice/', NotificationResult.as_view(), name='send_notification_choice'),
-    url('get_user_notifications/', SendNotifications.as_view(), name='get_user_notifications'),
+    url('send_notification_choice/', NotificationResult.as_view(),
+        name='send_notification_choice'),
+    url('get_user_notifications/', SendNotifications.as_view(),
+        name='get_user_notifications'),
     url('change_map/', ChangeMap.as_view(), name='change_map'),
     url('get_filtered_hikes', FilterHikes.as_view(), name='get_filtered_hikes'),
     url('send_comment', AddComment.as_view(), name='send_comment'),
+    url('upload_hike_image/', UploadHikeImage.as_view(), name='upload_hike_image'),
+    url('invite_users/', InviteUsers.as_view(), name='invite_users'),
+    
     path('account_editor/', AccountEditor.as_view(), name="account_editor"),
 
 

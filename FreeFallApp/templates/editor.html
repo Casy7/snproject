@@ -5,19 +5,17 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
-
+<link href="{% static 'libs/modules/scrollbar/scrollbar.css' %}" rel="stylesheet">
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 
-<script src="{% static 'js/editor.js' %}"></script>
-<script src="{% static 'js/my_account.js' %}"></script>
-<script>
 
+<link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
-</script>
+<img id='test_rs' src='' alt='nothing' style="display: none;">
 <form method="POST" enctype="multipart/form-data">
     {%csrf_token%}
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="basic_parameters_nav" data-toggle="tab" href="#basic_parameters_content"
                 role="tab" aria-controls="basic_parameters_content" aria-selected="true">Базовые параметры</a>
@@ -31,129 +29,202 @@
                 aria-controls="map_content" aria-selected="false">Карта</a>
         </li>
     </ul>
-
+    <!-- <hr class="active_tab_line" style=""> -->
     <div class="tab-content" id="myTabContent">
         <!-- БАЗОВЫЕ ПАРАМЕТЫ -->
         <div class="tab-pane fade show active" id="basic_parameters_content" role="tabpanel" aria-labelledby="home-tab">
             <!--БЛОК БАЗОВЫХ ПАРАМЕТРОВ-->
             <br>
             <div class="col-md" id="custom-file-input">
-                <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
-                    accept=".jpg, .jpeg, .png">
+                <input type="file" class="file-upload" style="display: none;" id="myfile" accept=".jpg, .jpeg, .png">
             </div>
-            <table class="form-row" style="padding-left: 1%;">
-                <tr class="col">
-                    <td class="img-container" style="padding: 0px;margin:0px;width: 350px;">
-                        <div class="row" style="padding: 0px;margin:0px;width: 350px;">
+
+            <div class="col" style="padding-right: 0px;">
+                <div class="row">
+                    <div class="col" style="flex-grow: 0;
+                    flex-basis: 0;">
+                        <div class="row avt" id='place_for_image' style="overflow: hidden;height: 270px; width: 480px;">
                             {% if image == '' %}
-                            <img src="{% static 'icons/default.jpg' %}" id="myimg" class="avatar"
-                                default="Фото не выбрано" style="width: 350px;"></img>
+                            <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
+                                default="Фото не выбрано"></img>
                             {% else %}
-                            <img src="{{ image.url }}" id="myimg" class="avatar" default="Фото не выбрано"
-                                style="width: 350px;height: auto;"></img>
+                            <img src="{{ image.url }}" id="result_image_show" class="avatar preview"
+                                default="Фото не выбрано" style="height: auto;"></img>
                             {% endif %}
                         </div>
-                        <div class="row" style="padding: 0px; margin: 0px;">
-                            <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 350px;">
-                                <label type="button" for="myfile" class="upload-btn"
-                                    style="display: block;text-align: center;width: 100%;">Загрузить
-                                </label>
-                            </div>
-                            <div class="col-sm" id="del_button" style="padding: 0px;">
-                                <!-- Сюда добавляется кнопка удаления -->
+                        <div id="photo_edit_menu">
+                            <label id='upload_label' type="button" for="myfile"><i class="fas fa-plus"></i></label>
+                            <a type="button" id="del_button" onclick="delete_avatar()"><i
+                                    class="far fa-trash-alt"></i></a>
+                        </div>
 
-                                {% if image.name != '' %}
-                                <script>
-                                    del_without_replacing();
-                                </script>
-                                {% endif %}
 
+                    </div>
+
+                    {% if image.name != '' %}
+                    <!-- <script>
+                        del_without_replacing();
+                    </script> -->
+                    {% endif %}
+
+
+
+
+
+
+                    <div class="col">
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleFormControlInput1">Название похода</label>
                             </div>
                         </div>
-                        <script src="{% static 'js/upload_photo.js' %}"></script>
-                        </script>
-                    </td>
-
-
-                    <td style="float: left;min-width: 60%;width: 600px;margin-left: 5%; max-width: 90%;">
-                        <table class="col-bg">
-                            <tr class="row" style="width: 20%;">
-                                <label for="exampleFormControlInput1">Название</label>
+                        <div class="row">
+                            <div class="col">
                                 <input type="text" class="form-control" name="name" placeholder=" "
-                                    style="width: 65%;font-size: 18px;" value="{{name}}">
-                            </tr>
+                                    style="font-size: 18px;" value="{{name}}"></div>
+                        </div>
 
-                            <tr class="row" style="max-width: 70%;">
-                                <label for="exampleFormControlInput1">Краткое описание</label>
-                                <span>
-                                    <textarea id="sh_desc" class="form-control" name="short_description"
-                                        placeholder="Пару строк о походе"
-                                        style="font-size: 14px; height: 140px;width: 100%; max-width: 100%;">{{short_description}}</textarea>
-                                </span>
-                            </tr class="row">
-                            <div class="row" id="hidden_fields">
-                                <input type="hidden" name="landmarks" id="lm_list">
-                            </div>
-                        </table>
+                        <div class="row">
+                            <div class="col">
+                                <label for="">Краткое описание</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <textarea id="sh_desc" class="form-control" name="short_description"
+                                    placeholder="Несколько строк о походе" style="font-size: 14px; height: 140px;">{{short_description}}
+                            </textarea></div>
+                        </div>
+                    </div>
 
 
-                        <!-- Полное имя и описание -->
-                    </td>
-                </tr>
-            </table>
-            <!--END-->
+                    <!-- Полное имя и описание -->
 
-            <label for="exampleFormControlInput2">Временные рамки</label>
-            <div class="form-row">
-                <div class="col">
-                    <input type="date" name="start" class="form-control" value={{start_date}}>
-                </div>
-                <div class="col">
-                    <input type="date" name="end" class="form-control" value={{end_date}}>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col">
-                    <label for="exampleFormControlInput2">Сложность</label>
-                    <span>
-                        <select name="difficulty" class="form-control" id="difficulty" value="II">
-                            <option value="none" id="none">Без категории</option>
-                            <option value="I" id="I">I</option>
-                            <option value="II" id="II">II</option>
-                            <option value="III" id="III_">III</option>
-                            <option value="IV" id="IV">IV</option>
-                            <option value="V" id="V">V</option>
-                            <option value="VI" id="VI">VI</option>
-                        </select>
-                    </span>
-                </div>
-                <div class="col">
-                    <label for="exampleFormControlInput2">Тип</label>
-                    <span>
-                        <select name="type" class="form-control" id="type_of_hike">
-                            <option value="Пеший" id="wlk_type">Пеший</option>
-                            <option value="Горный" id="mnt_type">Горный</option>
-                            <option value="Водный" id="wtr_type">Водный</option>
-                            <option value="Вело" id="bck_type">Вело</option>
-                            <option value="Спелео" id="cv_type">Спелео</option>
-                        </select>
-                    </span>
-                </div>
+            <!--END-->
+            <div class="row" id="hidden_fields" style="display: none;">
+                <input type="hidden" name="landmarks" id="lm_list">
+            </div>
 
+
+
+
+            <div class="col">
+
+                <div class="row" style="width: 60%;">
+
+                    <div class="col-sm">
+                        <div class="row">
+                            <label for="">Дата начала похода</label>
+                        </div>
+                        <div class="row">
+                            <input type="date" name="start" class="form-control" value={{start_date}}>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="row">
+                            <p></p>
+                        </div>
+                        <div class="row">
+                            <p style="vertical-align: middle;text-align: center;"> </p>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="row">
+                            <label for="">Дата окончания похода</label>
+                        </div>
+                        <div class="row">
+                            <input type="date" name="end" class="form-control" value={{end_date}}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="">Сложность</label><br>
+
+                    <button type="button" onclick="select_difficulty('none')" value="none"
+                        class='btn btn-outline-secondary hike_diff_btns'>Без категории</button>
+                    <button type="button" onclick="select_difficulty('I')" value="I"
+                        class='btn btn-outline-secondary hike_diff_btns'>I</button>
+                    <button type="button" onclick="select_difficulty('II')" value="II"
+                        class='btn btn-outline-secondary hike_diff_btns'>II</button>
+                    <button type="button" onclick="select_difficulty('III')" value="III"
+                        class='btn btn-outline-secondary hike_diff_btns'>III</button>
+                    <button type="button" onclick="select_difficulty('IV')" value="IV"
+                        class='btn btn-outline-secondary hike_diff_btns'>IV</button>
+                    <button type="button" onclick="select_difficulty('V')" value="V"
+                        class='btn btn-outline-secondary hike_diff_btns'>V</button>
+                    <button type="button" onclick="select_difficulty('VI')" value="VI"
+                        class='btn btn-outline-secondary hike_diff_btns'>VI</button>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="">Тип</label><br>
+                    <button type="button" onclick="select_type('Пеший')" value="Пеший" id="wlk_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Пеший</button>
+                    <button type="button" onclick="select_type('Горный')" value="Горный" id="mnt_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Горный</button>
+                    <button type="button" onclick="select_type('Водный')" value="Водный" id="wtr_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Водный</button>
+                    <button type="button" onclick="select_type('Вело')" value="Вело" id="bck_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Вело</button>
+                    <button type="button" onclick="select_type('Спелео')" value="Спелео" id="cv_type"
+                        class='btn btn-outline-secondary hike_type_btns'>Спелео</button>
+                </div>
             </div>
             <script>
+                function select_type(type) {
+                    byId('set_type').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('hike_type_btns')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary hike_type_btns indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary hike_type_btns';
+                        }
+                    })
+                }
+                function select_difficulty(type) {
+                    byId('set_difficulty').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('hike_diff_btns')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary hike_diff_btns indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary hike_diff_btns';
+                        }
+                    })
+                }
+            </script>
+
+
+            <input type="hidden" name='type' id='set_type'>
+            <input type="hidden" name='difficulty' id='set_difficulty'>
+
+            <script>
                 document.getElementById("sh_desc").value = `{{short_description}}`;
-                document.getElementById("difficulty").value = "{{difficulty}}";
-                document.getElementById("type_of_hike").value = "{{type_of_hike}}";
+                select_difficulty("{{difficulty}}");
+                select_type("{{type_of_hike}}");
             </script>
             <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
 
-            <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-                <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
+
+
+            <label for="exampleFormControlInput1">Подробное описание</label>
+            <div class="card-body" style="padding:0px;padding-bottom:5px;padding-left: 0px;padding-right: 0px;">
 
                 <textarea id="editor" name="description">
                     {{description|safe}}
                 </textarea>
+                <div id="toolbar-container" class="edtor" style="width: 90px;"></div>
                 <script>
                     ClassicEditor
                         .create(document.querySelector('#editor'))
@@ -165,121 +236,201 @@
                         });
                 </script>
             </div>
-            <input type="submit" class="btn btn-secondary btn-block" value="Сохранить">
+            <br>
+
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
+
+
+
+
+        <div class="modal" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
+            aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: max-content;">
+                <div class="modal-content" style="width: max-content;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Обрезать фотографию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="width: max-content;">
+                        <div class="img-container" style="width: max-content;">
+                            <img id="image_to_crop" src="{% static 'icons/default.jpg' %}" alt="Oops..." class="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary indigo outline"
+                            data-dismiss="modal">Отменить</button>
+                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal"
+                            onclick="get_cropper_data()">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="resize_photo" id="resize_photo">
+        <!-- <script src="{% static 'js/new_hike.js' %}"></script> -->
+        <script>
+            byId('image_to_crop').src = byId('result_image_show').src;
+        </script>
+        <script src="{% static 'libs/modules/cropper/cropper.min.js' %}"></script>
+        <!-- <script src="{% static 'js/cropper.js' %}"></script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
         <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
 
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
             aria-labelledby="participants_content">
             <label for="">Максимальное количество участников</label><br>
-            <input type="number" class='btn btn-outline-secondary' value={{limit_of_members}} id="limit_of_members"
-                name="limit_of_members" min="1" max="1000">
-            <br>
-
-
-            <label for="">Как пользователи могут присоединиться к группе</label><br>
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="open" name="can_users_join" value="open">
-                <label class="custom-control-label" for="open" style="font-weight: 300;">Свободное добавление</label>
+            <div class="input-group form-group counter">
+                <div class="input-group-prepend indigo outline">
+                    <button type="button" class="input-group-text indigo outline"
+                        onclick="byId('limit_of_members').value--">-</button>
+                </div>
+                <input type="number" required="" class='btn form-control indigo outline' value={{limit_of_members}}
+                    class="" id="limit_of_members" name="limit_of_members" min="1" step="1" max="1000">
+                <div class="input-group-append">
+                    <button type="button" class="input-group-text indigo outline"
+                        onclick="byId('limit_of_members').value++">+</button>
+                </div>
             </div>
 
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="request" name="can_users_join" value="request"
-                    checked>
-                <label class="custom-control-label" for="request" style="font-weight: 300;">По запросу</label>
+
+            <input id='users_join_ability' type="hidden" name='can_users_join' value='{{join_to_group}}'>
+            <div class="row">
+                <div class="col">
+                    <label for="">Как пользователи могут присоединиться к группе</label><br>
+                    <button type="button" onclick="set_join_ability('open')" value="open"
+                        class='btn btn-outline-secondary add_to_group_type'>Свободное добавление</button>
+                    <button type="button" onclick="set_join_ability('request')" value="request"
+                        class='btn btn-outline-secondary add_to_group_type'>По запросу</button>
+                    <button type="button" onclick="set_join_ability('close')" value="close"
+                        class='btn btn-outline-secondary add_to_group_type'>Только по приглашению</button>
+
+                </div>
             </div>
 
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" id="close" name="can_users_join" value="close">
-                <label class="custom-control-label" for="close" style="font-weight: 300;">Только по приглашению</label>
-            </div>
-            <br><br>
             <script>
-                byId('{{join_to_group}}').checked = 'checked';
+                function set_join_ability(type) {
+                    byId('users_join_ability').value = type;
+                    // alert(byId('set_type').value);
+                    Object.values(document.getElementsByClassName('add_to_group_type')).forEach(btn => {
+                        if (btn.value == type) {
+                            btn.className = 'btn btn-outline-secondary add_to_group_type indigo outline';
+                        }
+                        else {
+                            btn.className = 'btn btn-outline-secondary add_to_group_type';
+                        }
+                    })
+                }
+                set_join_ability('{{join_to_group}}');
             </script>
-            <input type="submit" class="btn btn-outline-secondary btn-block" value="Сохранить эти настройки">
+
             <br>
-            <h2 style="text-align: center;">Добавление участников</h2>
+
+            <h2 class="new_header" style="padding-bottom: 0px;font-size: 1.5rem;">Добавление участников<a type="button"
+                    class='unstyled' onclick="$('#invite_user').modal();$('.modal-backdrop').appendTo('#content');"> <svg style="width: 25px;display: table-header-group;
+                        align-self: unsafe;
+                        vertical-align: middle;
+                        float: inline-end;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M19 11.5V12.5C19 12.7761 18.7761 13 18.5 13H13V18.5C13 18.7761 12.7761 19 12.5 19H11.5C11.2239 19 11 18.7761 11 18.5V13H5.5C5.22386 13 5 12.7761 5 12.5V11.5C5 11.2239 5.22386 11 5.5 11H11V5.5C11 5.22386 11.2239 5 11.5 5H12.5C12.7761 5 13 5.22386 13 5.5V11H18.5C18.7761 11 19 11.2239 19 11.5Z"
+                            fill="#72319F" />
+                        <circle cx="12" cy="12" r="11.25" stroke="#72319F" stroke-width="1.5" />
+                    </svg></a>
+            </h2>
+            <hr>
+
+
             <select class="selectpicker" data-live-search="true" id="select_ptc">
-                {% for user in user_list %}
-                <option data-tokens="{{user.0}}" value="{{user.0}}">{{user.1}}</option>
-                {% endfor %}
+
 
             </select>
-            <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
+            <!-- <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button> -->
             <input type="hidden" id='hike_id' value="{{hike_id}}">
-            <div class="row">
-
-
-
-                <div class="col-sm">
-                    <label>Приглашённые пользователи</label>
-                </div>
-                <div class="col-sm" style="">
-                    <label>Вступившие пользователи</label>
-                </div>
-
-            </div>
 
             <div class="row">
-                <div class="col-sm" style="overflow-y: scroll; min-height: 300px; width: 70%;">
+                <div id='users_select_col' class="col-sm custom-scrollbar-js" style="min-height: 300px; width: 70%;">
+                    <div class="card" id="joined_ptc">
+                        {% for user in participants %}
+                        <div class="card" id='user_{{user.2}}'
+                            style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                            <div class="row" style="padding: 5px;">
+                                <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
+                                <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
+                                    {% if user.1 != '' %}
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
+                                    {% else %}
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                        {{user.0}}</p>
+                                    <p class="snd_line" style="">@{{user.2}}</p>
+                                </div>
+
+
+                                <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+                                    <div class="row">
+                                        <li class="usr_first_line joined">Вступивший участник</li>
+                                    </div>
+                                    <div class="row">{% if user.2 != username %}
+                                        <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
+                                            class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt"
+                                                style="padding-right: 3px;"></i> Удалить</button>{% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                     <div class="card" id="potential_ptc">
                         {% for user in potential_ptc %}
                         <div class="card" id='user_{{user.2}}'
-                            style="border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;">
+                            style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='{{user.3}}'>
-                                <div class="col-sm-2" style="vertical-align: middle;">
+                                <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
+                                <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                     {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_grey.png' %}" style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p style="padding-top:0.7em; letter-spacing: 0.084em;">{{user.0}}</p>
-                                    <p style="color: gray;line-height: 0em;">@{{user.2}}</p>
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                        {{user.0}}</p>
+                                    <p class='snd_line'>@{{user.2}}</p>
                                 </div>
-                                <div class="col-sm-3" style="height: 60px;vertical-align: bottom">
-                                    <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
-                                        class="btn btn-light" style="height: 60px;width: 100%;">Удалить</button>
+                                <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+                                    <div class="row">
+                                        <li class='usr_first_line'>Ожидает подтверждения</li>
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
+                                            class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt"
+                                                style="padding-right: 3px;"></i>Удалить</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                </div>
 
-                <div class="col-sm" style="overflow-y: scroll; min-height: 300px;width: 70%;max-height: 300px;">
-                    <div class="card" id="potential_ptc">
-                        {% for user in participants %}
-                        <div class="card" id='user_{{user.2}}'
-                            style="border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;">
-                            <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='{{user.3}}'>
-                                <div class="col-sm-2" style="vertical-align: middle;">
-                                    {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" style="width: 60px; height: 60px;">
-                                    {% else %}
-                                    <img src="{% static 'icons/logo_grey.png' %}" style="width: 60px;height: 60px;">
-                                    {% endif %}
-                                </div>
-                                <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p style="padding-top:0.7em; letter-spacing: 0.084em;">{{user.0}}</p>
-                                    <p style="color: gray;line-height: 0em;">@{{user.2}}</p>
-                                </div>
-                                {% if user.2 != username %}
-                                <div class="col-sm-3" style="height: 60px;vertical-align: bottom">
-                                    <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
-                                        class="btn btn-light" style="height: 60px;width: 100%;">Удалить</button>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
                 </div>
 
 
@@ -287,22 +438,81 @@
 
         </div>
 
-        <!-- DO NOT EDIT BLOCK -->
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
 
-        <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
 
-        <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
 
-        <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
 
-        <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
-        <!-- END OF DO-NOT-EDIT BLOCK -->
+        <div class="modal fade" id="invite_user" tabindex="-1" role="dialog" aria-labelledby="invite_user"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: max-content;">
+                <div class="modal-content" style="width: max-content;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Добавление участников</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="width: max-content;height: max-content;">
+                        <div class="custom-scrollbar-js card" id="join_ptc">
+
+
+
+                            <!-- user = [   username,  full_name,   avatar,   id   ] -->
+                            {% for user in user_list %}
+                            <div type="button" class="card standart_user join_user" id='join_user_{{user.0}}'
+                                onclick="select_user('{{user.0}}')">
+                                <a class="row" style="padding: 5px;">
+                                    <input type='hidden' id="user_hidden_id_{{user.0}}" value='{{user.3}}'>
+                                    <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
+                                        {% if user.2 != '' %}
+                                        <img id='join_usr_avatar_{{user.0}}' src="{{user.2.url}}"
+                                            style="width: 60px; height: 60px;">
+                                        {% else %}
+                                        <img id='join_usr_avatar_{{user.0}}' src="{% static 'icons/default_user.png' %}"
+                                            style="width: 60px;height: 60px;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                        <p class='usr_first_line' id='join_usr_fname_{{user.0}}'
+                                            style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                            {{user.1}}</p>
+                                        <p class="snd_line" style="">@{{user.0}}</p>
+                                    </div>
+
+
+                                    <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+
+                                    </div>
+
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary indigo" data-dismiss="modal"
+                            onclick="send_invites()" id='send_invite_button'>Отправить приглашения (0)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="{% static 'libs/modules/scrollbar/scrollbar.js' %}"></script>
+
+
+
 
 
         <script>
+
+            function send_invites() {
+                add_ptc();
+            }
+
             async function add_user() {
 
                 if (byId("user_" + byId('select_ptc').value) == undefined) {
@@ -325,14 +535,17 @@
 
             }
             function add_ptc() {
-                // list = str_to_list(document.getElementById('list-usrs').value);
-                user = document.getElementById('select_ptc').value;
+                userlist = []
+                users_to_join = document.getElementsByClassName('selected_user');
+                Object.values(users_to_join).forEach(user => {
+                    userlist.push(user.id.substr(10));
+                })
                 hike_id = byId('hike_id').value;
                 //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
                 $.ajax({
-                    url: "/does_user_exist/",
+                    url: "invite_users/",
                     type: 'POST',
-                    data: { 'username': user, 'add_to_hike': true, 'hike_id': hike_id },
+                    data: { 'userlist': userlist.toString(), 'add_to_hike': true, 'hike_id': hike_id },
                     beforeSend: function (xhr, settings) {
                         function getCookie(name) {
                             var cookieValue = null;
@@ -357,85 +570,38 @@
                     success: function a(json) {
                         // alert(json);
                         // alert(json.exist);
-                        if (json.exist === "True") {
-                            var user_exists = true;
-                            // list.push(user);
-                            // document.getElementById('list-usrs').value = list;
-                            // alert(document.getElementById('list-usrs').value);
+                        if (json.status == "success") {
 
-                            user_card = document.createElement("li");
+                            Object.values(users_to_join).forEach(user => {
 
-                            user_card.className = "card";
-                            user_card.style = "border: 1px solid rgb(224, 224, 224);border-radius:0px;margin-bottom: 4px;";
-                            user_card.id = 'user_' + user;
+                                username = user.id.substr(10);
+                                $(
 
+                                    `<div class="card" id='user_` + username + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                                        <div class="row" style="padding: 5px;">
+                                            <input type='hidden' id="user_hidden_id_`+ username +`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                            <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
 
-                            id_field = document.createElement('input')
-                            id_field.type = 'hidden';
-                            id_field.value = json.id;
-                            id_field.className = "user_hidden_id"
+                                                <img id="`+'img_user_'+username+`" src="`+ byId('join_usr_avatar_' + username).src + `" style="width: 60px; height: 60px;">
 
 
-
-
-                            byId('potential_ptc').appendChild(user_card);
-
-                            row = document.createElement('div');
-                            row.className = 'row';
-                            row.style = "padding: 5px;";
-                            user_card.appendChild(row);
-                            row.appendChild(id_field);
-
-                            col2 = document.createElement('div');
-                            col2.className = "col-sm-2";
-                            col2.style = "vertical-align: middle;";
-                            row.appendChild(col2)
-
-                            img = document.createElement("img");
-                            img.style = "width: 60px;height:60px";
-                            if (json.exist_image) {
-                                data = json.image
-                                img.src = 'data:image/gif;base64,' + data;
-                            }
-                            else {
-                                img.src = "{%static 'icons/logo_grey.png'%}";
-                            }
-                            col2.appendChild(img);
-
-                            col1 = document.createElement('div');
-                            col1.className = "col-sm";
-                            col1.style = "vertical-align: bottom;height: 60px;";
-                            row.appendChild(col1);
-
-                            p = document.createElement('p');
-                            p.style = "padding-top:0.7em; letter-spacing: 0.084em;";
-                            p.innerHTML = json.full_name;
-
-                            col1.appendChild(p)
-
-                            p_username = document.createElement('p');
-                            p_username.style = "color: gray;line-height: 0em;";
-                            p_username.innerHTML = '@' + user;
-                            col1.appendChild(p_username);
-
-                            col3 = document.createElement('div');
-                            col3.className = "col-sm-3";
-                            col3.style = "height: 60px;vertical-align: bottom";
-                            row.appendChild(col3);
-
-                            button = document.createElement('button');
-                            button.type = 'button';
-                            button.className = "btn btn-light";
-                            button.style = "height: 60px;width: 100%;";
-                            button.innerHTML = 'Удалить';
-
-                            button.onclick = function () {
-                                del_pot_user(this.parentNode.parentNode.childNodes[2].childNodes[1].innerHTML.replace("@", ""),
-                                    this.parentNode.parentNode.childNodes[0].value
-                                )
-                            }
-                            col3.appendChild(button);
-
+                                            </div>
+                                            <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                                <p class='usr_first_line' id = "fname_user_`+username+`" style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ byId('join_usr_fname_' + username).innerHTML + `</p>
+                                                <p class='snd_line' style="">@`+ username + `</p>
+                                            </div>
+                                            <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+                                                <div class="row">
+                                                    <li class='usr_first_line'>Ожидает подтверждения</li>
+                                                </div>
+                                                <div class="row">
+                                                    <button type="button" onclick="del_pot_user('`+ username + `','` + byId('user_hidden_id_'+username).value + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`).appendTo($('#potential_ptc'));
+                                user.remove();
+                            });
                         }
 
                     }
@@ -449,11 +615,108 @@
 
             }
             function delete_avatar() {
-                document.getElementById("myimg").src = "{% static 'icons/default.jpg' %}";
+                $('#result_image_show').remove();
+
+                jQuery(`<img src="{% static 'icons/default.jpg' %}" id='result_image_show' class="avatar preview" style='height: auto;'>`).appendTo($('#place_for_image'));
+                // img_canvas.id = '';
+                // document.getElementById("myimg").src = "";
                 clearInputFile(document.getElementById("myfile"));
                 del_avatar_button();
-            }                
+            }
+
+            function del_pot_user(username, user_id) {
+                hike_id = byId('hike_id').value;
+                
+                send_data = {}
+                send_data['code'] = user_id.toString() + '-' + hike_id.toString() + '-' + 'invite_to_hike';
+                send_data['result'] = 'delete';
+                console.log(send_data);
+
+
+                $.ajax({
+                    url: "/send_notification_choice/",
+                    type: 'POST',
+                    data: send_data,
+                    beforeSend: function (xhr, settings) {
+                        function getCookie(name) {
+                            var cookieValue = null;
+                            if (document.cookie && document.cookie != '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = jQuery.trim(cookies[i]);
+                                    // Does this cookie string begin with the name we want?
+                                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                }
+                            }
+                            return cookieValue;
+                        }
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    },
+                    success: function a(json) {
+                        card = byId('user_' + username)
+                        $(
+                            `<div type="button" class="card standart_user join_user" id='join_user_`+username+`' onclick="select_user('`+username+`')">
+                                <a class="row" style="padding: 5px;">
+                                    <input type='hidden' id="user_hidden_id_`+username+`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                    <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
+                                        <img id='join_usr_avatar_`+username+`' src="`+byId('img_user_'+username).src+`" style="width: 60px; height: 60px;">
+                                    </div>
+                                    <div class="col-sm" style="vertical-align: bottom;height: 60px;">
+                                        <p class='usr_first_line' id='join_usr_fname_`+username+`'
+                                            style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+
+                                            byId('fname_user_'+username).innerHTML+`</p>
+                                        <p class="snd_line" style="">@`+username+`</p>
+                                    </div>
+
+
+                                    <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
+
+                                    </div>
+
+                                </a>
+                            </div>`).appendTo($('#mCSB_1_container')
+                        );
+                        // alert('success')
+                        byId('user_' + username).parentNode.removeChild(byId('user_' + username));
+                    }
+                });
+            }
+
         </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- КАРТА -->
         <div class="tab-pane fade" id="map_content" role="tabpanel" aria-labelledby="map-tab">
 
@@ -531,7 +794,7 @@
                     center: [3.420253241560829, 46.124064037019906],
                     zoom: 13
                 });
-                osm_map.resize()
+                // osm_map.resize()
                 var customData = {
                     features: [
 
@@ -541,20 +804,19 @@
 
                 function resize() {
                     i = 0
-                    while (document.getElementsByClassName('mapboxgl-canvas')[0].style.width == '400px' && i < 10) {
-                        try {
-                            osm_map.resize();
-                            i++;
-                            console.log(1);
-                        }
-                        catch (e) {
-                            i++;
-                            console.log(0);
-                        }
-
+                    try {
+                        osm_map.resize();
+                        i++;
+                        console.log('map was resized');
                     }
+                    catch (e) {
+                        i++;
+                        console.log('error with_resizing');
+                    }
+
+
                 }
-                resize();
+                // resize();
                 function forwardGeocoder(query) {
                     var matchingFeatures = [];
                     for (var i = 0; i < customData.features.length; i++) {
@@ -638,7 +900,7 @@
             <button type="button" class="btn btn-outline-secondary" style="float: right;"
                 class="btn btn-outline-secondary" onclick="change_mode()">Создать
                 достопримечательность</button>
-            <div class="card" id="days_list">
+            <div class="card" id="days_list" style="display: unset;">
 
                 {% for day in days %}
 
@@ -741,7 +1003,7 @@
                                         "icon-allow-overlap": true
                                     }
                                 });
-                                osm_map.on("click", "lk_"+id, function (e) {
+                                osm_map.on("click", "lk_" + id, function (e) {
 
                                     var coordinates = e.features[0].geometry.coordinates.slice();
                                     var description = e.features[0].properties.description;
@@ -778,30 +1040,31 @@
                             coordinates.push(Array(Number(day), e.lngLat.toArray()));
                             document.getElementById("coords").value = coordinates;
                             var id = el.id;
-                        
 
-                        var marker = new mapboxgl.Marker(el, { draggable: true })
-                            .setLngLat(e.lngLat.wrap())
-                            .addTo(osm_map);
 
-                        markers.push({
-                            id: id,
-                            day: Number(day),
-                            marker: marker
-                        })
+                            var marker = new mapboxgl.Marker(el, { draggable: true })
+                                .setLngLat(e.lngLat.wrap())
+                                .addTo(osm_map);
 
-                        el.addEventListener('contextmenu', function () {
-                            cord_del.push(el.id);
-                            document.getElementById("del_coords").value = cord_del;
-                            marker.remove();
+                            markers.push({
+                                id: id,
+                                day: Number(day),
+                                marker: marker
+                            })
 
-                        });}
+                            el.addEventListener('contextmenu', function () {
+                                cord_del.push(el.id);
+                                document.getElementById("del_coords").value = cord_del;
+                                marker.remove();
+
+                            });
+                        }
 
                     });
 
                     osm_map.on('render', function (t) {
                         osm_map.resize();
-                        resize();
+                        // resize();
                     });
 
                     // ДОСТОПРИМЕЧАТЕЛЬНОСТИ
@@ -910,17 +1173,25 @@
             <input name="coordinates" id="coords" type="hidden">
             <input name="cord_del" id="del_coords" type="hidden">
             <input name="days_info" id="days_info" type="hidden">
-            <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
-                style="display: inline-block">
+            <!-- <input type="submit" class="btn btn-secondary btn-block" onclick="save_info()" value="Сохранить"
+                style="display: inline-block"> -->
 
 
 
             <!--END OF CODE -->
         </div>
     </div>
-
+    <div class='row'>
+        <div class='col'>
+            <a href="/editor/{{ id }}" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
+                изменения</a></div>
+        <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
+                value="Сохранить изменения">
+        </div>
+    </div>
 </form>
 
-<script src="{% static '/js/editor.js' %}" type="text/javascript"></script>
-
+<!-- <script src="{% static '/js/editor.js' %}" type="text/javascript"></script> -->
+<script src="{% static 'js/editor.js' %}"></script>
+<script src="{% static 'js/my_account.js' %}"></script>
 {% endblock %}

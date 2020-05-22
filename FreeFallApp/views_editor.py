@@ -7,8 +7,8 @@ class HikeEditor(View, LoginRequiredMixin):
         hike = Hike.objects.get(id=id)
 
         context = base_context(
-            request, title='Track', header='Изменение похода: '+hike.name)
-
+            request, title='Track')
+        context['id'] = hike.id
         if hike.image.name is not None:
             context['image'] = hike.image
         else:
@@ -17,36 +17,40 @@ class HikeEditor(View, LoginRequiredMixin):
         if context['username'] != '' and request.user == hike.creator:
             participants = []
             for user in hike.participants.all():
-                if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '':
-                    participants.append((full_name(user), user.profile.avatar, user.username, user.id))
+                if len(Profile.objects.filter(user=user)) and user.profile.avatar.name != '' and  os.path.isfile(user.profile.avatar.path):
+                    participants.append(
+                        (full_name(user), user.profile.avatar, user.username, user.id))
                 else:
-                    participants.append((full_name(user), '', user.username, user.id))
+                    participants.append(
+                        (full_name(user), '', user.username, user.id))
 
             user_list = []
-            for user in User.objects.all():
-                if user.last_name != '' and user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name+' '+user.last_name))
-                elif user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name))
-                elif user.last_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.last_name))
+
+            # ptcs = result = map(lambda x: x[2], hike.participants.all())
+            for user in User.objects.all().exclude(notification__hike=hike).exclude(hike=hike):
+                user_details = [user.username, full_name(user)]
+                if len(Profile.objects.filter(user=user)) and  user.profile.avatar.name != '' and  os.path.isfile(user.profile.avatar.path):
+                    
+                    user_details.append(user.profile.avatar)
                 else:
-                    user_list.append((user.username, user.username))
+                    user_details.append('')
+                user_details.append(user.id)
+                user_list.append(user_details)
+                
+
             context['user_list'] = user_list
 
-            
-            
-            pot_ptc_list = Notification.objects.filter(hike = hike).filter(type_of_notification = 'invite_to_hike')
+            pot_ptc_list = Notification.objects.filter(
+                hike=hike).filter(type_of_notification='invite_to_hike')
             pot_users = []
             for nt in pot_ptc_list:
-                if len(Profile.objects.filter(user = nt.user)) and nt.user.profile.avatar.name != '':
-                    pot_users.append((full_name(nt.user), nt.user.profile.avatar, nt.user.username, nt.user.id))
+                if len(Profile.objects.filter(user=nt.user)) and nt.user.profile.avatar.name != '':
+                    pot_users.append(
+                        (full_name(nt.user), nt.user.profile.avatar, nt.user.username, nt.user.id))
                 else:
-                    pot_users.append((full_name(nt.user), '', nt.user.username, nt.user.id))
-            
+                    pot_users.append(
+                        (full_name(nt.user), '', nt.user.username, nt.user.id))
+
             context['potential_ptc'] = pot_users
             days = []
 
@@ -73,9 +77,6 @@ class HikeEditor(View, LoginRequiredMixin):
 
             days = sorted(days, key=lambda x: x['idn'])
 
-
-
-
             context.update({
                 'name': hike.name,
                 'hike_id': hike.id,
@@ -90,7 +91,7 @@ class HikeEditor(View, LoginRequiredMixin):
                 'description': hike.description,
                 'days': days,
                 'coordinates': hike.coordinates,
-                'join_to_group':hike.join_to_group
+                'join_to_group': hike.join_to_group
             })
 
             return render(request, "editor.html", context)
@@ -144,7 +145,7 @@ class HikeEditor(View, LoginRequiredMixin):
         hike.end_date = form['end']
         hike.difficulty = form['difficulty']
         hike.type_of_hike = form['type']
-
+        hike.join_to_group = form['can_users_join']
         coordinates = str(form['coordinates'])
         data = coordinates.split(',')
         coordinates = []
@@ -153,11 +154,10 @@ class HikeEditor(View, LoginRequiredMixin):
                 [str(data[i*4]), int(data[i*4+1]), [float(data[i*4+2]), float(data[i*4+3])]])
 
         delete = str(form['cord_del'])
-        print(delete)
+        # print(delete)
         data = delete.split(',')
-        print(data)
+        # print(data)
         delete = []
-
 
         end_coordinates = []
 
@@ -170,16 +170,7 @@ class HikeEditor(View, LoginRequiredMixin):
         for el in coordinates:
             end_coordinates.append([el[1], el[2]])
 
-
-
-
         hike.coordinates = end_coordinates
-        print(end_coordinates, delete)
-        if 'image' in request.FILES.keys():
-            hike.image = request.FILES['image']
-        elif 'delete_photo' in form.keys():
-            hike.image = None
-
         hike.save()
 
         for day in Day.objects.filter(hike=hike):

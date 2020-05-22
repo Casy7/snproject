@@ -3,31 +3,72 @@ x.setAttribute("type", "image");
 var days = document.getElementsByName("day");
 var i = 1;
 
-function del_user(user) {
-    $('#' + user).remove();
+var image = document.querySelector('#image_to_crop');
+var cropper = new Cropper(image, {
+    aspectRatio: 16 / 9,
+    viewMode: 1,
+
+    minContainerWidth: 500,
+    minContainerHeight: 500,
+
+});
+
+document.querySelector('#myfile').addEventListener('change', function () {
+
+    $('#cropper_photo').modal();
+    $('.modal-backdrop').appendTo("#content");
+    read_image_URL();
+
+});
+
+$(function () {
+    $("#join_ptc").mCustomScrollbar({
+        theme: "dark-thin"
+    });
+});
+$(function () {
+    $("#users_select_col").mCustomScrollbar({
+        theme: "dark-thin"
+    });
+});
+
+
+// $('#cropper_photo').appendTo("body").modal('show');
+
+
+function select_user(username){
+    card = byId('join_user_'+username)
+    if (card.className.indexOf('selected_user')==-1){
+    $('#join_user_'+username).addClass('selected_user');}
+        else{
+            $('#join_user_'+username).removeClass('selected_user');
+        }
+    byId('send_invite_button').innerHTML = 'Отправить приглашения ('+document.getElementsByClassName('selected_user').length+')'
 }
 
-function str_to_list(str_el) {
-    str_el = str_el.replace('[', '');
-    str_el = str_el.replace(']', '');
-    list = str_el.split(", ");
-    return list
-}
+
+function get_cropper_data() {
+    $('#result_image_show').remove();
+    img_canvas = cropper.getCroppedCanvas({ width: 720, height: 405 });
+    img_canvas.id = 'result_image_show';
+    jQuery(img_canvas).appendTo($('#place_for_image'));
+
+    var url = img_canvas.toDataURL();
+    var blobBin = atob(url.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+        array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
 
 
-function del_pot_user(username, user_id) {
-    hike_id = byId('hike_id').value;
-    byId('user_' + username).parentNode.removeChild(byId('user_' + username));
-    send_data = {}
-    send_data['code'] = user_id.toString() + '-' + hike_id.toString() + '-' + 'invite_to_hike';
-    send_data['result'] = 'delete';
-    console.log(send_data);
-
-
+    var formdata = { "myNewFileName": file };
+    base64 = url.substr(url.indexOf(',') + 1)
+    // base64 = url;
     $.ajax({
-        url: "/send_notification_choice/",
-        type: 'POST',
-        data: send_data,
+        url: "upload_hike_image/",
+        type: "POST",
+        data: { 'base64img': base64 },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -50,66 +91,57 @@ function del_pot_user(username, user_id) {
             }
         },
         success: function a(json) {
-            if (json.exist === "True") {
-                var user_exists = true;
-                str_of_users = str_of_users + ',' + user;
-                //alert(list);
-                document.getElementById('list-usrs').value = str_of_users;
-                // alert(document.getElementById('list-usrs').value);
 
-                user_card = document.createElement("li");
-                user_card.className = "card";
-                if (user_exists) {
-                    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fcfcfc";
-                }
-                else {
-                    user_card.style = "width:70px; border: .6px solid rgb(221, 221, 221);background-color:#fffffc";
-                }
-                img = document.createElement("img");
-                img.className = "card-img-top";
-                img.style = "width: 100%;height:70px";
-                if (json.exist_image) {
-                    data = json.image
-                    img.src = 'data:image/gif;base64,' + data;
-                }
-                else {
-                    img.src = "{%static 'icons/logo_grey.png'%}"
-                }
-                span = document.createElement("span");
-                span.style = "text-align:center";
-                span.value = user;
-                span.text = user;
-                span.appendChild(document.createTextNode(user));
-                button = document.createElement("button");
-                button.className = "form-control";
-                button.type = "button";
-                button.onclick = function add_this_user() { del_user(user) };
-                button.style = "height:20px; border: none;";
-                button.innerHTML = "-";
-
-                user_card.appendChild(img);
-                user_card.appendChild(span);
-                user_card.appendChild(button);
-
-                li = document.createElement("li");
-                li.className = "list-inline-item";
-                li.name = user;
-                li.id = user;
-
-                li.appendChild(user_card);
-                document.getElementById('inline-userlist').insertBefore(li, document.getElementById("add-user"));
-
-
-            }
-            else {
-                var user_exists = false;
-            }
         }
-
     });
 
-
 }
+
+
+function each(arr, callback) {
+    var length = arr.length;
+    var i;
+
+    for (i = 0; i < length; i++) {
+        callback.call(arr, arr[i], i, arr);
+    }
+
+    return arr;
+}
+
+
+function read_image_URL() {
+    var myimg = document.getElementById("image_to_crop");
+    var input = document.getElementById("myfile");
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            src = e.target.result;
+            cropper.replace(src);
+            create_del_button();
+            return e.target.result;
+        }
+
+        reader.readAsDataURL(input.files[0]);
+
+    }
+}
+
+
+function del_user(user) {
+    $('#' + user).remove();
+}
+
+
+function str_to_list(str_el) {
+    str_el = str_el.replace('[', '');
+    str_el = str_el.replace(']', '');
+    list = str_el.split(", ");
+    return list
+}
+
+
+
 
 
 function add_new_day() {
@@ -159,6 +191,7 @@ function add_new_day() {
 
 }
 
+
 function del_lmk() {
     id = byId('lmk_id').innerHTML;
     $.ajax({
@@ -199,13 +232,15 @@ function del_lmk() {
 
     });
 }
+
+
 function add_lmk(id, name, desc, coords) {
     id = byId('lmk_id').innerHTML;
 
     $.ajax({
         url: "/change_map/",
         type: 'POST',
-        data: { 'lmk_id': id, 'lmk_name': name, 'lmk_desc': desc, 'lat': coords[0], 'lon':coords[1], 'operation': 'add_landmark'},
+        data: { 'lmk_id': id, 'lmk_name': name, 'lmk_desc': desc, 'lat': coords[0], 'lon': coords[1], 'operation': 'add_landmark' },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -239,4 +274,17 @@ function add_lmk(id, name, desc, coords) {
         }
 
     });
-}    
+}
+
+
+function create_del_button() {
+    if (byId('del_button') == undefined) {
+        jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));
+    }
+}
+
+function del_avatar_button() {
+    for (i = 0; i < 3; i++) {
+        byId('#del_button').parentNode.removeChild(byId('del_button'));
+    }
+}

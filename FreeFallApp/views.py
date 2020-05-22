@@ -130,28 +130,21 @@ class NewHike(View, LoginRequiredMixin):
         context = base_context(
             request, title='Создать поход', header='Создать поход', error=0)
         user_list = []
-        for user in User.objects.all():
-            if user != request.user:
-                if user.last_name != '' and user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name+' '+user.last_name))
-                elif user.first_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.first_name))
-                elif user.last_name != '':
-                    user_list.append(
-                        (user.username, user.username+", "+user.last_name))
-                else:
-                    user_list.append((user.username, user.username))
+
+
+        for user in User.objects.all().exclude(username = request.user.username):
+            user_list.append((user.username, user.username+', '+full_name(user)))
+
+
         context['user_list'] = user_list
         context['form'] = HikeForm()
-        # context['photo_form'] = photo_form
+        
+
+
         if context['username'] != '':
             return render(request, "new_hike.html", context)
         else:
             context['error'] = 2
-
-            # context['form'] = self.form_class()
 
             return render(request, "login.html", context)
 
@@ -652,14 +645,8 @@ class AccountEditor(View):
         else:
             profile = Profile.objects.get(user=user)
 
-        if first_name != '' and last_name != '':
-            full_name = last_name+" "+first_name
-        elif first_name != '':
-            full_name = first_name
-        else:
-            full_name = username
 
-        context = base_context(request, title=full_name, header=username)
+        context = base_context(request, title=full_name(user), header=username)
         context['user'] = user
         context['profile'] = profile
         context['full_name'] = full_name
