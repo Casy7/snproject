@@ -20,6 +20,28 @@ document.querySelector('#myfile').addEventListener('change', function () {
 
 });
 
+$(function () {
+    $("#join_ptc").mCustomScrollbar({
+        theme: "dark-thin"
+    });
+});
+$(function () {
+    $("#users_select_col").mCustomScrollbar({
+        theme: "dark-thin"
+    });
+});
+
+
+function select_user(username){
+    card = byId('join_user_'+username)
+    if (card.className.indexOf('selected_user')==-1){
+    $('#join_user_'+username).addClass('selected_user');}
+        else{
+            $('#join_user_'+username).removeClass('selected_user');
+        }
+    byId('send_invite_button').innerHTML = 'Отправить приглашения ('+document.getElementsByClassName('selected_user').length+')'
+}
+
 
 function get_cropper_data() {
     $('#result_image_show').remove();
@@ -346,8 +368,9 @@ function add_lmk(id, name, desc, coords) {
 
 
 function create_del_button() {
-    if (byId('del_button')==undefined){
-    jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));}
+    if (byId('del_button') == undefined) {
+        jQuery(`<a type="button" id="del_button" onclick="delete_avatar()"><i class="far fa-trash-alt"></i></a>`).appendTo($('#photo_edit_menu'));
+    }
 }
 
 function del_avatar_button() {

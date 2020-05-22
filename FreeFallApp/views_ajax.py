@@ -75,6 +75,33 @@ class NotificationResult(View):
         )
 
 
+class InviteUsers(View, LoginRequiredMixin):
+    def post(self, request):
+
+        form = request.POST
+        result = {}
+        hike = Hike.objects.get(id=form['hike_id'])
+        successful_invited = []
+        for user in form['userlist'].split(','):
+
+            user = User.objects.get(username=user)
+        
+            
+            if len(Notification.objects.filter(hike=hike).filter(user=user).filter(type_of_notification='invite_to_hike')) == 0:
+                nt = Notification(user=user,
+                                hike=hike,
+                                type_of_notification='invite_to_hike',
+                                from_user=request.user)
+                nt.save()
+                successful_invited.append(user.username)
+        result['status'] = 'success'
+        result['successful_invited'] = successful_invited
+        return HttpResponse(
+            json.dumps(result),
+            content_type="application/json"
+        )
+
+
 class DoesUserExist(View):
     def post(self, request):
         req = request
@@ -95,14 +122,6 @@ class DoesUserExist(View):
 
             result['full_name'] = full_name(user)
             result['id'] = user.id
-            if 'add_to_hike' in form.keys() and form['add_to_hike'] == 'true':
-                hike_id = form['hike_id']
-                if len(Notification.objects.filter(hike=Hike.objects.get(id=hike_id)).filter(user=user).filter(type_of_notification='invite_to_hike')) == 0:
-                    nt = Notification(user=user,
-                                      hike=Hike.objects.get(id=hike_id),
-                                      type_of_notification='invite_to_hike',
-                                      from_user=request.user)
-                    nt.save()
         else:
             result['exist'] = 'False'
         return HttpResponse(
@@ -295,7 +314,6 @@ class UploadHikeImage(View, LoginRequiredMixin):
         data = request.POST
         hike_id = int(request.path[8:request.path.find('upload_hike_image')-1])
         hike = Hike.objects.get(id=hike_id)
-
 
         hike.image = decode_base64_file(data['base64img'])
         hike.save()

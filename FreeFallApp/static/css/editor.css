@@ -239,3 +239,7 @@ li.usr_first_line.joined {
     margin-right: 0px;
     float: right;
 }
+
+.selected_user{
+    border: 1px solid indigo;
+}

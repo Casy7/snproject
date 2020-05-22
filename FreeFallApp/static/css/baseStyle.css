@@ -243,9 +243,59 @@ a.dropdown-menu-header {
     box-shadow: none;
     background-color: transparent;
     border: none;
-    
 }
 
+.modern-scrollbar {
+    position: relative;
+    width: 800px;
+    height: 200px;
+    overflow: auto;
+}
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+.custom-scrollbar-js, .custom-scrollbar-css {
+    height: 200px;
+}
+
+/* Custom Scrollbar using CSS */
+
+.custom-scrollbar-css {
+    overflow-y: scroll;
+}
+
+/* scrollbar width */
+
+.custom-scrollbar-css::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* scrollbar track */
+
+.custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+.standart_user {
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 8px;
+    margin-bottom: 4px;
+    min-width: 400px;
+}
+
+/* scrollbar handle */
+
+/* .custom-scrollbar-css::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #00d2ff;
+  background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+} */
 
 /*
 .sidebar {
@@ -550,19 +600,18 @@ a.article, a.article:hover {
     /* top: 50px; */
 }
 
-#main_navbar_ul{
+#main_navbar_ul {
     position: relative;
     /* right: 14px;
     top: 0px; */
     /* position: absolute;
     top: 50%;
     transform: translateY(-50%);     */
-
 }
 
-#main_navbar_ul >*{
+#main_navbar_ul>* {
     display: inline-flex;
-    vertical-align:middle;
+    vertical-align: middle;
     top: 50%;
     /* position: relative; */
     /* transform: translateY(-50%); */
@@ -593,7 +642,6 @@ a.article, a.article:hover {
     /* top: 2px; */
 }
 
-
 #create_hike_button {
     border-radius: 13px;
     color: #72319f;
@@ -618,7 +666,7 @@ a.article, a.article:hover {
     /* top: -2px; */
 }
 
-#create_hike_button >* {
+#create_hike_button>* {
     display: inline list-item;
     color: #72319f;
     font-weight: 600;
@@ -650,30 +698,30 @@ a.article, a.article:hover {
     color: #72319f;
 }
 
-.indigo{
+.indigo {
     color: indigo;
 }
 
-.btn.indigo{
+.btn.indigo {
     background-color: #72319F;
     color: white;
     border-color: indigo;
     transition: 0.2s;
 }
 
-.btn.indigo:hover,.btn.indigo:active{
+.btn.indigo:hover, .btn.indigo:active {
     background-color: indigo;
     color: white;
     border-color: #72319F;
 }
 
-.btn.indigo.outline{
+.btn.indigo.outline {
     background-color: transparent;
     color: indigo;
     border-color: #72319F;
 }
 
-.btn.indigo.outline:hover,.btn.indigo.outline:active{
+.btn.indigo.outline:hover, .btn.indigo.outline:active {
     background-color: rgb(244, 238, 255);
     color: indigo;
     border-color: indigo;

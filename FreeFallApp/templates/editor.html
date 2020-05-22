@@ -5,7 +5,7 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 <link href="{% static 'css/editor.css' %}" rel='stylesheet' />
-
+<link href="{% static 'libs/modules/scrollbar/scrollbar.css' %}" rel="stylesheet">
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 
 
@@ -358,11 +358,11 @@
 
 
             </select>
-            <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button>
+            <!-- <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button> -->
             <input type="hidden" id='hike_id' value="{{hike_id}}">
 
             <div class="row">
-                <div class="col-sm" style="overflow-y: scroll; min-height: 300px; width: 70%;">
+                <div id='users_select_col' class="col-sm custom-scrollbar-js" style="min-height: 300px; width: 70%;">
                     <div class="card" id="joined_ptc">
                         {% for user in participants %}
                         <div class="card" id='user_{{user.2}}'
@@ -442,9 +442,6 @@
 
 
 
-
-
-
         <div class="modal fade" id="invite_user" tabindex="-1" role="dialog" aria-labelledby="invite_user"
             aria-hidden="true">
             <div class="modal-dialog" role="document" style="width: max-content;">
@@ -456,108 +453,65 @@
                         </button>
                     </div>
                     <div class="modal-body" style="width: max-content;">
-                        <div class="card" id="joined_ptc">
+                        <div class="custom-scrollbar-js card" id="join_ptc">
+
+
 
                             <!-- user = [   username,  full_name,   avatar   ] -->
                             {% for user in user_list %}
-                            <div class="card" id='user_{{user.0}}'
-                                style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;min-width: 400px;">
-                                <div class="row" style="padding: 5px;">
+                            <div type="button" class="card standart_user join_user" id='join_user_{{user.0}}'
+                                onclick="select_user('{{user.0}}')">
+                                <a class="row" style="padding: 5px;">
                                     <input type='hidden' class="user_hidden_id" value='{{user.0}}'>
                                     <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                         {% if user.2 != '' %}
-                                        <img src="{{user.2.url}}" style="width: 60px; height: 60px;">
+                                        <img id='join_usr_avatar_{{user.0}}' src="{{user.2.url}}" style="width: 60px; height: 60px;">
                                         {% else %}
-                                        <img src="{% static 'icons/default_user.png' %}" style="width: 60px;height: 60px;">
+                                        <img id='join_usr_avatar_{{user.0}}' src="{% static 'icons/default_user.png' %}"
+                                            style="width: 60px;height: 60px;">
                                         {% endif %}
                                     </div>
                                     <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                        <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                        <p class='usr_first_line' id='join_usr_fname_{{user.0}}'
+                                            style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
                                             {{user.1}}</p>
                                         <p class="snd_line" style="">@{{user.0}}</p>
                                     </div>
-    
-    
+
+
                                     <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
-                                        <!-- <div class="row">
-                                            <li class="usr_first_line joined">Вступивший участник</li>
-                                        </div>
-                                        <div class="row">{% if user.2 != username %}
-                                            <button type="button" onclick="del_pot_user('{{user.2}}','{{user.3}}')"
-                                                class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt"
-                                                    style="padding-right: 3px;"></i> Удалить</button>{% endif %}
-                                        </div> -->
+
                                     </div>
-    
-                                </div>
+
+                                </a>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary indigo outline"
-                            data-dismiss="modal">Отменить</button>
+
                         <button type="button" class="btn btn-secondary indigo" data-dismiss="modal"
-                            onclick="get_cropper_data()">Сохранить</button>
+                            onclick="send_invites()" id='send_invite_button'>Отправить приглашения (0)</button>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="modal fade" id="invite6_user" tabindex="-1" role="dialog" aria-labelledby="croppe6r_photo"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document" style="width: max-content;">
-                <div class="modal-content" style="width: max-content;">
-                    <div class="modal-header">
-
-                        <h5 class="modal-title" id="modalLabel">Добавление участников</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
 
 
-                    </div>
-                </div>
-                <div class="modal-body" style="">
-                    <!-- <div class="input-group form-group counter">
-                        <input type="text" class='btn form-control outline' id="limit_of_members"
-                            name="limit_of_members">
-                        <div class="input-group-append">
-                            <button type="button" class="input-group-text indigo outline" onclick="">+</button>
-                        </div>
-                    </div> -->
-                    <!--Все не вступившие и не приглашённые участники -->
-                    hj
-                    uyjtk
+    <script src="{% static 'libs/modules/scrollbar/scrollbar.js' %}"></script>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary indigo outline"
-                        data-dismiss="modal">Отменить</button>
-                    <button type="button" class="btn btn-secondary indigo" data-dismiss="modal"
-                        onclick="get_cropper_data()">Сохранить</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- DO NOT EDIT BLOCK -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
 
-    <script src="{% static 'libs/modules/bootstrap/js/bootstrap.min.js' %}"></script>
-
-    <script src="{% static 'libs/modules/bootstrap-select/js/bootstrap-select.min.js' %}"></script>
-
-    <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
-
-    <script src="{% static '/libs/modules/bootstrap/js/bootstrap.js' %}"></script>
-    <!-- END OF DO-NOT-EDIT BLOCK -->
 
 
     <script>
+
+        function send_invites() {
+            add_ptc();
+        }
+
         async function add_user() {
 
             if (byId("user_" + byId('select_ptc').value) == undefined) {
@@ -580,14 +534,17 @@
 
         }
         function add_ptc() {
-            // list = str_to_list(document.getElementById('list-usrs').value);
-            user = document.getElementById('select_ptc').value;
+            userlist = []
+            users_to_join = document.getElementsByClassName('selected_user');
+            Object.values(users_to_join).forEach(user => {
+                userlist.push(user.id.substr(10));
+            })
             hike_id = byId('hike_id').value;
             //СЮДЫТЬ ВСТАВИТЬ AJAX-ЗАПРОС
             $.ajax({
-                url: "/does_user_exist/",
+                url: "invite_users/",
                 type: 'POST',
-                data: { 'username': user, 'add_to_hike': true, 'hike_id': hike_id },
+                data: { 'userlist': userlist.toString(), 'add_to_hike': true, 'hike_id': hike_id },
                 beforeSend: function (xhr, settings) {
                     function getCookie(name) {
                         var cookieValue = null;
@@ -612,41 +569,38 @@
                 success: function a(json) {
                     // alert(json);
                     // alert(json.exist);
-                    if (json.exist === "True") {
+                    if (json.status == "success") {
 
-                        if (json.exist_image) {
-                            data = json.image
-                            img = 'data:image/gif;base64,' + data;
-                        }
-                        else {
-                            img = "{%static 'icons/default_user.png'%}";
-                        }
-
-
-                        $(
-                            `<div class="card" id='user_` + user + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
+                        Object.values(users_to_join).forEach(user => {
+                            
+                            id = user.id.substr(10);
+                            $(
+                                
+                                `<div class="card" id='user_` + id + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                             <div class="row" style="padding: 5px;">
-                                <input type='hidden' class="user_hidden_id" value='`+ user + `'>
+                                <input type='hidden' class="user_hidden_id" value='`+ id + `'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
 
-                                    <img src="`+ img + `" style="width: 60px; height: 60px;">
+                                    <img src="`+ byId('join_usr_avatar_'+id).src + `" style="width: 60px; height: 60px;">
 
 
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ json.full_name + `</p>
-                                    <p class='snd_line' style="">@`+ user + `</p>
+                                    <p class='usr_first_line' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ byId('join_usr_fname_'+id).innerHTML + `</p>
+                                    <p class='snd_line' style="">@`+ id + `</p>
                                 </div>
                                 <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
                                     <div class="row">
                                         <li class='usr_first_line'>Ожидает подтверждения</li>
                                     </div>
                                     <div class="row">
-                                        <button type="button" onclick="del_pot_user('`+ user + `','` + hike_id + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                        <button type="button" onclick="del_pot_user('`+ id + `','` + hike_id + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
                                     </div>
                                 </div>
                             </div>
                         </div>`).appendTo($('#potential_ptc'));
+                        user.remove();
+                        });
                     }
 
                 }
