@@ -244,9 +244,9 @@
 
 
 
-        <div class="modal fade" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document" style="width: max-content;">
+        <div class="modal" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
+            aria-hidden="false">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: max-content;">
                 <div class="modal-content" style="width: max-content;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Обрезать фотографию</h5>
@@ -341,7 +341,7 @@
             <br>
 
             <h2 class="new_header" style="padding-bottom: 0px;font-size: 1.5rem;">Добавление участников<a type="button"
-                    class='unstyled' onclick="$('#invite_user').modal();"> <svg style="width: 25px;display: table-header-group;
+                    class='unstyled' onclick="$('#invite_user').modal();$('.modal-backdrop').appendTo('#content');"> <svg style="width: 25px;display: table-header-group;
                         align-self: unsafe;
                         vertical-align: middle;
                         float: inline-end;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -444,7 +444,7 @@
 
         <div class="modal fade" id="invite_user" tabindex="-1" role="dialog" aria-labelledby="invite_user"
             aria-hidden="true">
-            <div class="modal-dialog" role="document" style="width: max-content;">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width: max-content;">
                 <div class="modal-content" style="width: max-content;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Добавление участников</h5>

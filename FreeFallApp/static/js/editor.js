@@ -16,6 +16,7 @@ var cropper = new Cropper(image, {
 document.querySelector('#myfile').addEventListener('change', function () {
 
     $('#cropper_photo').modal();
+    $('.modal-backdrop').appendTo("#content");
     read_image_URL();
 
 });
@@ -30,6 +31,9 @@ $(function () {
         theme: "dark-thin"
     });
 });
+
+
+// $('#cropper_photo').appendTo("body").modal('show');
 
 
 function select_user(username){

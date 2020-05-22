@@ -148,13 +148,20 @@ label.upload-btn {
     padding-right: 5px;
 }
 
-.modal-backdrop.fade.show {
+/* .modal-backdrop.fade.show {
     display: none;
-}
+} */
+/* .modal-backdrop.show {
+    display: none;
+} */
+
+.modal-backdrop {
+    z-index: 1;
+  }
 
 #cropper_photo {
-    overflow: hidden;
-    top: 20%;
+    overflow: auto;
+    /* top: 20%; */
 }
 
 .modal-dialog {
@@ -245,7 +252,7 @@ li.usr_first_line.joined {
 }
 
 #mCSB_1 {
-    min-height: 400px;
+    min-width: 700px;
    }
 
 #join_ptc{
