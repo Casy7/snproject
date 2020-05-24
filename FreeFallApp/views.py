@@ -550,6 +550,92 @@ class SetHike(View):
         return HttpResponseRedirect("/hike/"+str(hike.id))
 
 
+class SetPost(View):
+    def get(self, request, id):
+
+        post = Post.objects.get(id=id)
+        context = base_context(request, title="Пост")
+
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+
+        ct = {}
+        ct['content'] = post.content
+        ct['author'] = post.post_author
+        ct['author_fullname'] = post.post_author.last_name+" "+post.post_author.first_name
+        ct['author_username'] = post.post_author.username
+
+        ct['avatar'] = ''
+        if post.post_author.profile.avatar.name != '':
+            ct['avatar'] = post.post_author.profile.avatar.url
+
+        published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
+        ct['time_published'] = published_time
+        ct['hike'] = post.hike.id
+
+        context = ct
+
+
+        return render(request, "post.html", context)
+
+
+class About(View):
+    def get(self, request, id):
+
+        hike = Hike.objects.get(id=id)
+        context = base_context(request, title=hike.name)
+
+        posts = Post.objects.filter(hike=hike).order_by('creation_datetime')
+
+
+        all_posts = []
+
+        months = ['января', 'февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря']
+
+        for post in posts:
+            ct = {}
+            ct['link'] = "/post/" + str(post.id)
+            ct['content'] = post.content
+            ct['author'] = post.post_author
+            ct['author_fullname'] = post.post_author.last_name+" "+post.post_author.first_name
+            ct['author_username'] = post.post_author.username
+
+            ct['avatar'] = ''
+            if post.post_author.profile.avatar.name != '':
+                ct['avatar'] = post.post_author.profile.avatar.url
+
+            published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
+            ct['time_published'] = published_time
+            all_posts.insert(0, ct)
+            print(ct)
+        context['all_posts'] = all_posts
+
+        usernames = []
+
+
+        for participant in hike.participants.all():
+            usernames.append(participant.username)
+
+        context['usernames'] = usernames
+        return render(request, "about.html", context)
+
+    def post(self, request, id):
+        form = request.POST
+        hike = Hike.objects.get(id=id)
+
+        print("ETwas", request.user, hike)
+
+        post = Post(
+            post_author = request.user,
+            hike = hike,
+            content = form['post_content'],
+            creation_datetime = datetime.now()
+        )
+            
+        post.save()
+
+        return HttpResponseRedirect("/hike/" + str(id) + "/about")
+
+
 class Account(View):
 
     def get(self, request, username):
@@ -609,8 +695,10 @@ class Account(View):
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
+            ct['hike'] = post.hike.id
             users_posts.insert(0, ct)
         context['users_posts'] = users_posts
+        
 
         return render(request, "account.html", context)
 

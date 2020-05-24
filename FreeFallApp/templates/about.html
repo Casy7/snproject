@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<body>
+<div style="width: 70%; margin: auto;">
+
+    {% if user.username in usernames %}
+
+    <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
+
+    <style>
+        .ck-editor__editable_inline {
+        height: 200px;
+    }
+        </style>
+
+
+        <form method="POST">
+            {% csrf_token %}
+
+        <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
+            <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
+
+            <textarea id="editor" name="post_content" placeholder="Напишите что-нибудь...">
+                
+            </textarea>
+            <script>
+                ClassicEditor
+                    .create(document.querySelector('#editor'), {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload']
+                } )
+                    .then(editor => {
+                        console.log(editor);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            </script>
+
+        <input type="submit" class="btn btn-secondary btn-block" style="float: right; margin-top: 20px; width: 150px; background: #72319f" value="Сохранить"></input>
+
+        </form>
+        
+
+    </div>
+
+    {% endif %}
+
+    {% if all_posts %}
+
+
+    <div style="padding-top: 50px">
+        <hr>
+        {% for post in all_posts %}
+
+        <div class="card post_card">
+            <a href = {{post.link}}>
+
+            <div class="row">
+                <div class="col-1">
+                    {% if post.avatar != '' %}
+                    <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+                    {% else %}
+                    <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
+                    {% endif %}
+                </div>
+                <div class="col-9">
+                    <p class='user_full_name' style="display: inline;
+                        line-height: 2em;
+                        font-weight: 800;
+                        letter-spacing: 0.084em;
+                        font-size: 14px;
+                        padding-top: 2px;">{{ post.author_fullname }}</p>
+                    <br>
+                    <small>{{ post.author_username }}</small>     
+                </div>
+                <div class="col-2">
+                    <div>
+                        <small style="color: gray;float: right;">{{ post.time_published }}</small>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;     
+            max-height: 200px; overflow: hidden;">
+                {{post.content|safe}}
+            </div>    
+            
+ 
+        </div>
+    </a>
+
+        <hr>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+</body>
+{% endblock %}

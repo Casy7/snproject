@@ -105,6 +105,15 @@ hr{
     text-decoration: underline;
 }
 
+.details_about_link {
+    color: white;
+}
+
+.details_about_link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 .join_to_group {
     text-align: center;
     padding-bottom: 3%;

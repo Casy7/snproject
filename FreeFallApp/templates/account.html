@@ -96,47 +96,11 @@
 
 {%if user == cur_user %}
 
-<hr>
-
 <!-- 
 
-<div id="darkness">
-    <div id="window">
-        <form style="width: 100%; height: 85%;" method="POST">
-            {% csrf_token %} 
-        <textarea class="form-control" maxlength="75"  style="width: 100%; height: 35px; resize: none; margin-bottom: 15px;" id="post_name" name = "post_name"
-        placeholder="Введите заголовок..."></textarea>
-        <textarea class="form-control" maxlength="10000"  style="width: 100%; resize: none; height: 80%; margin-bottom: 25px;" id="post_content" name = "post_content"
-        placeholder="Напишите сообщение..."></textarea>
-
-        <tr>
-            <td>
-                <div>
-            <a href="" class="close"><button type="submit" class="btn btn-secondary btn-block" style="width: 150px; background: #72319f" id="send_comment">
-                Добавить запись</button></a>
-            </td> 
-        </div>
-            
-        <div style="position: absolute">
-            <td>
-            <a href="#" class="close"><button type="button" class="btn btn-secondary btn-block" style="width: 150px; background: #72319f" id="send_comment">
-                Отмена</button></a>
-            </td>
-        </tr>
-    </div>
-
-</form>
+<hr>
 
 
-        
-    </div>
-  </div>
-   
-  <a href="#darkness"><button type="button" class="btn btn-secondary btn-block" style="width: 150px; background: #72319f">
-    Создать пост</button></a>
-
-
- -->
 
     <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
 
@@ -177,6 +141,8 @@
 
 {% endif %}
 
+-->
+
 
   <div class="posts" style="padding-top: 50px" id='posts_list'>
     <hr style="padding-bottom: 20px">
@@ -216,6 +182,9 @@
         <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
             {{post.content|safe}}
         </div>
+        <p>
+            Пост описывает <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline">этот</a> поход. Чтобы узнать больше, перейдите по ссылке.
+        </p>
     
     </div>
 

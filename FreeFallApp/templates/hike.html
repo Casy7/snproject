@@ -165,6 +165,20 @@
                 Редактировать поход</a>
         </div>
         {% endif %}
+
+        {% if user.username in content.usernames %}
+
+        <div style="display: inline;">
+            <a class="details_edittor_link" href=about style="float: right; padding-right: 120px;">Рассказать о походе</a>
+        </div>
+
+        {% else %}
+
+        <div style="display: inline;">
+            <a class="details_edittor_link" href=about style="float: right; padding-right: 120px;">Узнать о походе</a>
+        </div>
+
+        {% endif %}
     </div>
 </div>
 

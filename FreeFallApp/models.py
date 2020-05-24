@@ -52,13 +52,7 @@ class Landmark(models.Model):
     description = models.CharField(max_length=200000, default='desc')
     longitude = models.FloatField(default=0.0)
     is_public = models.BooleanField(default=True)
-    latitude = models.FloatField(default=0.0)
-
-
-class Post(models.Model):
-    post_author = models.ForeignKey(User, null=True, default=None, related_name="post_author", on_delete=models.CASCADE)
-    content = models.CharField(max_length=20000, default='')
-    creation_datetime = models.DateTimeField(auto_now=True)    
+    latitude = models.FloatField(default=0.0)  
 
 
 
@@ -85,6 +79,14 @@ class Hike(models.Model):
     creation_datetime = models.DateTimeField(auto_now=True)
 
     image = models.ImageField(null=True, blank=True, upload_to='hikes/')
+
+
+class Post(models.Model):
+    post_author = models.ForeignKey(User, null=True, default=None, related_name="post_author", on_delete=models.CASCADE)
+    hike = models.ForeignKey(
+        Hike, default='', null=True, on_delete=models.CASCADE)
+    content = models.CharField(max_length=20000, default='')
+    creation_datetime = models.DateTimeField(auto_now=True) 
 
 
 class Message(models.Model):
