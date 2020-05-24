@@ -319,6 +319,7 @@ class Posts(View):
 
         for post in posts:
             ct = {}
+            ct['link'] = "/post/" + str(post.id)
             ct['content'] = post.content
             ct['author'] = post.post_author
             ct['author_fullname'] = full_name(post.post_author)

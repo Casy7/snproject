@@ -8,19 +8,17 @@
         {% for post in all_posts %}
 
         <div class="card post_card">
+            <a href = {{post.link}}>
 
             <div class="row">
                 <div class="col-1">
-                    <a href="/account/{{ post.author_username }}">
                     {% if post.avatar != '' %}
                     <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
                     {% else %}
                     <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
                     {% endif %}
-                    </a>
                 </div>
                 <div class="col-9">
-                    <a href="/account/{{ post.author_username }}">
                     <p class='user_full_name' style="display: inline;
                         line-height: 2em;
                         font-weight: 800;
@@ -28,8 +26,7 @@
                         font-size: 14px;
                         padding-top: 2px;">{{ post.author_fullname }}</p>
                     <br>
-                    <small>{{ post.author_username }}</small>
-                    </a>       
+                    <small>{{ post.author_username }}</small>     
                 </div>
                 <div class="col-2">
                     <div>
@@ -38,14 +35,21 @@
                 </div>
             </div>
 
-            <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
+            
+            <div style="word-wrap: break-word;     
+            max-height: 200px; overflow: hidden;">
                 {{post.content|safe}}
-            </div>
-        
+
+                <p>
+                    <a></a>Пост описывает <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline" >этот</a> поход. Чтобы узнать больше, перейдите по ссылке.
+                </p>
+            </div>    
+            
+ 
         </div>
+    </a>
 
         <hr>
-
         {% endfor %}
 
     </div>
