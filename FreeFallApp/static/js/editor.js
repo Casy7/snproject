@@ -49,11 +49,11 @@ function select_user(username){
 
 function get_cropper_data() {
     $('#result_image_show').remove();
-    img_canvas = cropper.getCroppedCanvas({ width: 720, height: 405 });
+    img_canvas = cropper.getCroppedCanvas({ width: 444, height: 250 });
     img_canvas.id = 'result_image_show';
     jQuery(img_canvas).appendTo($('#place_for_image'));
 
-    var url = img_canvas.toDataURL();
+    var url = cropper.getCroppedCanvas({ width: 800, height: 450 }).toDataURL();
     var blobBin = atob(url.split(',')[1]);
     var array = [];
     for (var i = 0; i < blobBin.length; i++) {
