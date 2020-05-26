@@ -59,13 +59,18 @@
             </td>
 
 
-            <td style="float: left;min-width: 70%;width: 600px;">
+            <td style="float: left; margin-left: 20px; min-width: 70%;width: 600px;">
                 <table class="col-bg">
                     <div>
-                        <h2 class="h2">{{user.first_name}} {{user.last_name}}</h2>
+                        <h2 class="h2" style = "margin-top: 40px">{{user.first_name}} {{user.last_name}}</h2>
                     </div>
                     <div>
-                    {{profile.about}}
+                        <h4>Никнейм: {{user.username}}</h4>
+                    </div>
+                    <div>
+                        {% if profile.about %}
+                            {{profile.about}}
+                        {% endif %}
                     </div>
                 </table>
 
