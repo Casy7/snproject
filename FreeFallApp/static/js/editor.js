@@ -33,17 +33,23 @@ $(function () {
 });
 
 
+
+
+
+
+
 // $('#cropper_photo').appendTo("body").modal('show');
 
 
-function select_user(username){
-    card = byId('join_user_'+username)
-    if (card.className.indexOf('selected_user')==-1){
-    $('#join_user_'+username).addClass('selected_user');}
-        else{
-            $('#join_user_'+username).removeClass('selected_user');
-        }
-    byId('send_invite_button').innerHTML = 'Отправить приглашения ('+document.getElementsByClassName('selected_user').length+')'
+function select_user(username) {
+    card = byId('join_user_' + username)
+    if (card.className.indexOf('selected_user') == -1) {
+        $('#join_user_' + username).addClass('selected_user');
+    }
+    else {
+        $('#join_user_' + username).removeClass('selected_user');
+    }
+    byId('send_invite_button').innerHTML = 'Отправить приглашения (' + document.getElementsByClassName('selected_user').length + ')'
 }
 
 
