@@ -8,8 +8,8 @@ var cropper = new Cropper(image, {
     aspectRatio: 16 / 9,
     viewMode: 1,
 
-    minContainerWidth: 500,
-    minContainerHeight: 500,
+    minContainerWidth: 300,
+    minContainerHeight: 300,
 
 });
 
@@ -33,27 +33,33 @@ $(function () {
 });
 
 
+
+
+
+
+
 // $('#cropper_photo').appendTo("body").modal('show');
 
 
-function select_user(username){
-    card = byId('join_user_'+username)
-    if (card.className.indexOf('selected_user')==-1){
-    $('#join_user_'+username).addClass('selected_user');}
-        else{
-            $('#join_user_'+username).removeClass('selected_user');
-        }
-    byId('send_invite_button').innerHTML = 'Отправить приглашения ('+document.getElementsByClassName('selected_user').length+')'
+function select_user(username) {
+    card = byId('join_user_' + username)
+    if (card.className.indexOf('selected_user') == -1) {
+        $('#join_user_' + username).addClass('selected_user');
+    }
+    else {
+        $('#join_user_' + username).removeClass('selected_user');
+    }
+    byId('send_invite_button').innerHTML = 'Отправить приглашения (' + document.getElementsByClassName('selected_user').length + ')'
 }
 
 
 function get_cropper_data() {
     $('#result_image_show').remove();
-    img_canvas = cropper.getCroppedCanvas({ width: 720, height: 405 });
+    img_canvas = cropper.getCroppedCanvas({ width: 444, height: 250 });
     img_canvas.id = 'result_image_show';
     jQuery(img_canvas).appendTo($('#place_for_image'));
 
-    var url = img_canvas.toDataURL();
+    var url = cropper.getCroppedCanvas({ width: 800, height: 450 }).toDataURL();
     var blobBin = atob(url.split(',')[1]);
     var array = [];
     for (var i = 0; i < blobBin.length; i++) {

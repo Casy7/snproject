@@ -17,7 +17,7 @@
             hidden_field.type = "hidden";
             hidden_field.name = "delete_photo";
             hidden_field.value = "0";
-            document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+            document.getElementById("myimg").src = "{% static 'icons/default_user.png' %}";
             byId('hidden_fields').appendChild(hidden_field);
             del_avatar_button();
         }
@@ -25,7 +25,7 @@
     }
 
     function delete_avatar() {
-        document.getElementById("myimg").src = "{% static 'icons/logo_grey.png' %}";
+        document.getElementById("myimg").src = "{% static 'icons/default_user.png' %}";
         clearInputFile(document.getElementById("myfile"));
         del_avatar_button();
         // 
@@ -46,7 +46,7 @@
 
                 <div class="row">
                     {% if avatar == '' %}
-                    <img src="{% static 'icons/logo_grey.png' %}" width="250" id="myimg" class="avatar"
+                    <img src="{% static 'icons/default_user.png' %}" width="250" id="myimg" class="avatar"
                         default="Фото не выбрано"></img>
                     {% else %}
                     <img src="{{profile.avatar.url}}" width="250" id="myimg" class="avatar" default="Фото не выбрано"></img>

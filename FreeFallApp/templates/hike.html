@@ -147,9 +147,9 @@
             <div style="display: inline;">
                 {% if content.creator.profile.avatar.name != '' %}
                 <img src={{content.creator.profile.avatar.url}} class='creator_icon'
-                    alt="{% static 'icons/logo_grey.png' %}">
+                    alt="{% static 'icons/default_user.png' %}">
                 {% else %}
-                <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon' alt="Responsive image">
+                <img src="{% static 'icons/default_user.png' %}" class='creator_icon' alt="Responsive image">
                 {% endif %}
                 <p class="details_username">{{ author_full_name }}</p>
             </div>
@@ -206,7 +206,7 @@
                             {% if pt.2 != ''%}
                             <img src="{{ pt.2.url }}" class="sidebar-avatar">
                             {% else %}
-                            <img src="{% static 'icons/logo_grey.png' %}" class="sidebar-avatar">
+                            <img src="{% static 'icons/default_user.png' %}" class="sidebar-avatar">
                             {% endif %}
                         </div>
                         <div class="col user_col">
@@ -251,9 +251,9 @@
 
         <div class="comment_box">
             {% if ct.avatar != '' %}
-            <img src='{{ ct.avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+            <img src='{{ ct.avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
             {% else %}
-            <img src="{% static 'icons/logo_grey.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
+            <img src="{% static 'icons/default_user.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
             {% endif %}
             <p class='user_full_name' style="display: inline;">{{ ct.author }}</p>
             <small>{{ ct.author_username }}</small>
@@ -276,7 +276,7 @@
     {% endif %}
 
 </div>
-<img id='logo_grey' style="display: none;" src = "{% static 'icons/logo_grey.png' %}">
+<img id='logo_grey' style="display: none;" src = "{% static 'icons/default_user.png' %}">
 
 <!-- <form method="POST">
     {%csrf_token%}
@@ -396,7 +396,7 @@
                     comment = `
                     <div class="comment_box">
                     <img src='`+ document.getElementsByClassName('navbar-avatar')[1].src + `' class='creator_icon user_icon_small'
-                        alt="{% static 'icons/logo_grey.png' %}">
+                        alt="{% static 'icons/default_user.png' %}">
                     <p class='user_full_name' style="display: inline;">`+ json.author + `</p>
                     <small>`+ '{{username}}' + `</small>
                     <small style="color: gray;float: right;">`+ json.time_published + `</small>

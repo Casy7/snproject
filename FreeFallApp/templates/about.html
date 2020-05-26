@@ -59,9 +59,9 @@
             <div class="row">
                 <div class="col-1">
                     {% if post.avatar != '' %}
-                    <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/logo_grey.png' %}">
+                    <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
                     {% else %}
-                    <img src="{% static 'icons/logo_grey.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
+                    <img src="{% static 'icons/default_user.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
                     {% endif %}
                 </div>
                 <div class="col-9">

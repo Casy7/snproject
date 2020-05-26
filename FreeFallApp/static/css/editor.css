@@ -174,7 +174,7 @@ label.upload-btn {
 
 #image_to_crop {
     display: block;
-    min-height: 600px;
+    height: 600px;
     min-width: 600px;
     max-width: 100%;
 }

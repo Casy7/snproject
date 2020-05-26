@@ -10,7 +10,7 @@
 
         <div class="card hike_card" style="display: inline-flex;">
             <a href="{{hike.link}}">
-                <div class='img_hike'>
+                <div class='img_hike' style="width: 100%;">
                     {% if hike.image != '' %}
                     <img class="card-img-top" src={{hike.image.url}} alt="Card image cap"
                         style="height: auto; border-radius: 3px;">
@@ -35,4 +35,5 @@
         {% endfor %}
     </div>
 </body>
+<!-- <script src="{% static 'js/hikes.js' %}"></script> -->
 {% endblock %}
