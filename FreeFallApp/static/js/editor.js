@@ -8,8 +8,8 @@ var cropper = new Cropper(image, {
     aspectRatio: 16 / 9,
     viewMode: 1,
 
-    minContainerWidth: 500,
-    minContainerHeight: 500,
+    minContainerWidth: 300,
+    minContainerHeight: 300,
 
 });
 
