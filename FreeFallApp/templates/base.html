@@ -133,7 +133,7 @@
                         {% if avatar != ''%}
                         <img src="{{ avatar.url }}" class="sidebar-avatar">
                         {% else %}
-                        <img src="{% static 'icons/logo_white.png' %}" class="sidebar-avatar">
+                        <img src="{% static 'icons/default_user.png' %}" class="sidebar-avatar">
                         {% endif %}
                     </a>
 
@@ -378,7 +378,7 @@
                                                 if (notification[5] != '') {
                                                     img.src = 'data:image/gif;base64,' + notification[5];
                                                 } else {
-                                                    img.src = "{%static 'icons/logo_grey.png'%}";
+                                                    img.src = "{%static 'icons/default_user.png'%}";
                                                 }
                                                 img_col.appendChild(img);
 
@@ -545,7 +545,7 @@
 
                                     <img src="{{ avatar.url }}" class="navbar-avatar">
                                     {% else %}
-                                    <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar">
+                                    <img src="{% static 'icons/default_user.png' %}" class="navbar-avatar">
                                     <!--style="width: 35px;height: 35px;">-->
                                     {% endif %}
                                 </a>
