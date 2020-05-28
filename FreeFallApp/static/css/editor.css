@@ -151,13 +151,14 @@ label.upload-btn {
 /* .modal-backdrop.fade.show {
     display: none;
 } */
+
 /* .modal-backdrop.show {
     display: none;
 } */
 
 .modal-backdrop {
     z-index: 1;
-  }
+}
 
 #cropper_photo {
     overflow: auto;
@@ -172,12 +173,7 @@ label.upload-btn {
     max-width: 900px;
 }
 
-#image_to_crop {
-    display: block;
-    height: 600px;
-    min-width: 600px;
-    max-width: 100%;
-}
+
 
 /* Chrome, Safari, Edge, Opera */
 
@@ -247,16 +243,31 @@ li.usr_first_line.joined {
     float: right;
 }
 
-.selected_user{
+.selected_user {
     border: 1px solid indigo;
 }
 
 #mCSB_1 {
     min-width: 700px;
-   }
+}
 
-#join_ptc{
+#join_ptc {
     height: max-content;
     max-height: 500px;
 }
-   
+
+
+#image_to_crop {
+    display: block;
+    height: 60vh;
+    width: 50vw;
+    max-width: 100%;
+}
+
+
+.crop-box {
+    position: fixed;
+    top: 10vh;
+    height: 80vh;
+    left: 25vw;
+}

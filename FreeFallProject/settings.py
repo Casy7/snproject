@@ -81,14 +81,14 @@ WSGI_APPLICATION = 'FreeFallProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'FreeFallDB',
-        'USER': 'FreeFallAdmin@freefall',
-        'PASSWORD': 'liceuMFr$$F@ll$$',
-        'HOST': 'freefall.postgres.database.azure.com',
-        'PORT': 5432, 
-    },
-    'local': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'FreeFallDB',
+    #     'USER': 'FreeFallAdmin@freefall',
+    #     'PASSWORD': 'liceuMFr$$F@ll$$',
+    #     'HOST': 'freefall.postgres.database.azure.com',
+    #     'PORT': 5432, 
+    # },
+    # 'local': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'FreeFallLocalDB',
         'USER': 'postgres',
@@ -96,14 +96,14 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 5432, 
     },
-    'azure': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'FreeFallDB',
-        'USER': 'FreeFallAdmin@freefall',
-        'PASSWORD': 'liceuMFr$$F@ll$$',
-        'HOST': 'freefall.postgres.database.azure.com',
-        'PORT': 5432, 
-    }
+    # 'azure': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'FreeFallDB',
+    #     'USER': 'FreeFallAdmin@freefall',
+    #     'PASSWORD': 'liceuMFr$$F@ll$$',
+    #     'HOST': 'freefall.postgres.database.azure.com',
+    #     'PORT': 5432, 
+    # }
 }
 
 
