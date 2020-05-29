@@ -331,6 +331,8 @@ class Posts(View):
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
+            ct['hike'] = post.hike.id
+            ct['hike_name'] = post.hike.name
             all_posts.insert(0, ct)
         context['all_posts'] = all_posts
 
@@ -572,6 +574,7 @@ class SetPost(View):
         published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
         ct['time_published'] = published_time
         ct['hike'] = post.hike.id
+        ct['hike_name'] = post.hike.name
 
         context = ct
 
@@ -606,8 +609,9 @@ class About(View):
 
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
+            ct['hike'] = post.hike.id
+            ct['hike_name'] = post.hike.name
             all_posts.insert(0, ct)
-            print(ct)
         context['all_posts'] = all_posts
 
         usernames = []
@@ -698,6 +702,7 @@ class Account(View):
             published_time = post.creation_datetime.strftime('%H:%M, %d ')+months[post.creation_datetime.month-1]
             ct['time_published'] = published_time
             ct['hike'] = post.hike.id
+            ct['hike_name'] = post.hike.name
             users_posts.insert(0, ct)
         context['users_posts'] = users_posts
         

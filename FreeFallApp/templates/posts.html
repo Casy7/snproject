@@ -8,25 +8,27 @@
         {% for post in all_posts %}
 
         <div class="card post_card">
-            <a href = {{post.link}}>
 
             <div class="row">
-                <div class="col-1">
+                
+                <div class="col-1"><a href="/account/{{ post.author_username }}">
                     {% if post.avatar != '' %}
                     <img src='{{ post.avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
                     {% else %}
                     <img src="{% static 'icons/default_user.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
                     {% endif %}
-                </div>
+                </div></a>
                 <div class="col-9">
+                    <a href="/account/{{ post.author_username }}">
                     <p class='user_full_name' style="display: inline;
                         line-height: 2em;
                         font-weight: 800;
                         letter-spacing: 0.084em;
                         font-size: 14px;
                         padding-top: 2px;">{{ post.author_fullname }}</p>
+                        </a>
                     <br>
-                    <small>{{ post.author_username }}</small>     
+                    <p style="font-family: Roboto;font-style: normal;">Поход: <a href = /hike/{{post.hike}} style="color:  #72319f; text-decoration: underline">{{post.hike_name}}</a></p>    
                 </div>
                 <div class="col-2">
                     <div>
@@ -35,14 +37,14 @@
                 </div>
             </div>
 
+            <a href = {{post.link}}>
+
             
             <div style="word-wrap: break-word;     
             max-height: 200px; overflow: hidden;">
                 {{post.content|safe}}
 
-                <p>
-                    <a></a>Пост описывает <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline" >этот</a> поход. Чтобы узнать больше, перейдите по ссылке.
-                </p>
+            
             </div>    
             
  

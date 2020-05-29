@@ -4,49 +4,47 @@
 <body>
 <div style="width: 70%; margin: auto;">
 
-        <div class="card post_card">
+    <div class="card post_card">
 
-            <div class="row">
-                <div class="col-1">
-                    <a href="/account/{{ post.author_username }}">
-                    {% if avatar != '' %}
-                    <img src='{{ avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
-                    {% else %}
-                    <img src="{% static 'icons/default_user.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
-                    {% endif %}
-                    </a>
-                </div>
-                <div class="col-9">
-                    <a href="/account/{{ author_username }}">
-                    <p class='user_full_name' style="display: inline;
-                        line-height: 2em;
-                        font-weight: 800;
-                        letter-spacing: 0.084em;
-                        font-size: 14px;
-                        padding-top: 2px;">{{ author_fullname }}</p>
-                    <br>
-                    <small>{{ author_username }}</small>
-                    </a>       
-                </div>
-                <div class="col-2">
-                    <div>
-                        <small style="color: gray;float: right;">{{ time_published }}</small>
-                    </div>
-                </div>
-            </div>
-
-            <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
-                {{content|safe}} 
-            </div>
-            <p>
-                Пост описывает <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline" >этот</a> поход. Чтобы узнать больше, перейдите по ссылке.
-            </p>
+        <div class="row">
             
-        
+            <div class="col-1"><a href="/account/{{ author_username }}">
+                {% if avatar != '' %}
+                <img src='{{ avatar }}' width="60" class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
+                {% else %}
+                <img src="{% static 'icons/default_user.png' %}" width="60" class='creator_icon user_icon_small' alt="Responsive image">
+                {% endif %}
+            </div></a>
+            <div class="col-9">
+                <a href="/account/{{ author_username }}">
+                <p class='user_full_name' style="display: inline;
+                    line-height: 2em;
+                    font-weight: 800;
+                    letter-spacing: 0.084em;
+                    font-size: 14px;
+                    padding-top: 2px;">{{ author_fullname }}</p>
+                    </a>
+                <br>
+                <p style="font-family: Roboto;font-style: normal;">Поход: <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline">{{hike_name}}</a></p>    
+            </div>
+            <div class="col-2">
+                <div>
+                    <small style="color: gray;float: right;">{{ time_published }}</small>
+                </div>
+            </div>
         </div>
 
+        
+        <div style="word-wrap: break-word;     
+        max-height: 200px; overflow: hidden;">
+            {{content|safe}}
+
+        
+        </div>    
+        
 
     </div>
+
 
 </body>
 {% endblock %}
