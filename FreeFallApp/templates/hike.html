@@ -121,7 +121,7 @@
             {% endif %}
         </div>
     </h3>
-    <input type="hidden" id = "join_to_group" value="{{ content.join_to_group }}">
+    <input type="hidden" id="join_to_group" value="{{ content.join_to_group }}">
     <div class='join_to_group'>
         {% if content.free_plases != "Nope" and user.is_anonymous != True and content.vacancies > 0 %}
         {% if user.username not in content.usernames and content.creator.username != username %}
@@ -169,7 +169,8 @@
         {% if user.username in content.usernames %}
 
         <div style="display: inline;">
-            <a class="details_edittor_link" href=about style="float: right; padding-right: 120px;">Рассказать о походе</a>
+            <a class="details_edittor_link" href=about style="float: right; padding-right: 120px;">Рассказать о
+                походе</a>
         </div>
 
         {% else %}
@@ -251,9 +252,11 @@
 
         <div class="comment_box">
             {% if ct.avatar != '' %}
-            <img src='{{ ct.avatar.url }}' class='creator_icon user_icon_small' alt="{% static 'icons/default_user.png' %}">
+            <img src='{{ ct.avatar.url }}' class='creator_icon user_icon_small'
+                alt="{% static 'icons/default_user.png' %}">
             {% else %}
-            <img src="{% static 'icons/default_user.png' %}" class='creator_icon user_icon_small' alt="Responsive image">
+            <img src="{% static 'icons/default_user.png' %}" class='creator_icon user_icon_small'
+                alt="Responsive image">
             {% endif %}
             <p class='user_full_name' style="display: inline;">{{ ct.author }}</p>
             <small>{{ ct.author_username }}</small>
@@ -271,12 +274,13 @@
     {% if username != '' %}
     <textarea class="form-control" style="width: 100%; margin-bottom: 25px;" id="comment_fuild"
         placeholder="Напишите сообщение..."></textarea>
-    <button type="button" class="btn btn-secondary btn-block" id="send_comment" style='margin-bottom: 20px' onclick="send_comment()">Отправить
+    <button type="button" class="btn btn-secondary btn-block" id="send_comment" style='margin-bottom: 20px'
+        onclick="send_comment()">Отправить
         сообщение</button>
     {% endif %}
 
 </div>
-<img id='logo_grey' style="display: none;" src = "{% static 'icons/default_user.png' %}">
+<img id='logo_grey' style="display: none;" src="{% static 'icons/default_user.png' %}">
 
 <!-- <form method="POST">
     {%csrf_token%}
@@ -325,34 +329,34 @@
 
                     byId('append_user').className += ' disabled';
 
-                    if (byId('join_to_group').value == 'request'){
+                    if (byId('join_to_group').value == 'request') {
                         byId('append_user').value = 'Заявка отправлена';
 
 
                     }
-                    else if (byId('join_to_group').value == 'open'){
+                    else if (byId('join_to_group').value == 'open') {
                         byId('append_user').value = 'Вы теперь в группе';
+                        user_ptc_li = `                
+                            <a href="/account/{{ username }}">
+                                <li class='row user_card'>
+                                    <div class="col user_col avatar_col">
+                                        <img src=`+ document.getElementsByClassName('navbar-avatar')[1].src + ` class="sidebar-avatar">
+                                    </div>
+                                    <div class="col user_col">
+                                        <p class='user_full_name'>{{ full_name }}</p>
+                                        <small>{{ username }}</small>
+                                    </div>
+                                </li>
+                            </a>`
 
+                        jQuery(user_ptc_li).appendTo($('#ptc_list'));
 
                     }
 
-                    user_ptc_li = `                
-                    <a href="/account/{{ username }}">
-                        <li class='row user_card'>
-                            <div class="col user_col avatar_col">
-                                <img src=`+ document.getElementsByClassName('navbar-avatar')[1].src + ` class="sidebar-avatar">
-                            </div>
-                            <div class="col user_col">
-                                <p class='user_full_name'>{{ full_name }}</p>
-                                <small>{{ username }}</small>
-                            </div>
-                        </li>
-                    </a>`
 
-                    jQuery(user_ptc_li).appendTo($('#ptc_list'));
 
                 } else {
-                    alert('Так делать низя');
+                    alert('Server Error');
                     count_notifications();
                 }
             }
