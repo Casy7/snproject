@@ -14,12 +14,25 @@ var cropper = new Cropper(image, {
 });
 
 document.querySelector('#myfile').addEventListener('change', function () {
+    
+    show_cropper();
+});
+
+async function show_cropper(){
+    read_image_URL();
+    
+    // sleep(2000);
 
     $('#cropper_photo').modal();
     $('.modal-backdrop').appendTo("#content");
-    read_image_URL();
+}
 
-});
+byId('cropper_photo').addEventListener('ready', function () {
+    // console.log(this.cropper === cropper);
+    // > true
+  });
+  
+
 
 $(function () {
     $("#join_ptc").mCustomScrollbar({
