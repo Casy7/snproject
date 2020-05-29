@@ -99,54 +99,6 @@
 
 </form>
 
-{%if user == cur_user %}
-
-<!-- 
-
-<hr>
-
-
-
-    <script src="{% static 'libs/modules/ckeditor/ckeditor.js' %}"></script>
-
-  <style>
-      .ck-editor__editable_inline {
-    height: 200px;
-}
-    </style>
-
-
-    <form method="POST">
-        {% csrf_token %}
-
-    <div class="card-body" style="padding-left: 0px;padding-right: 0px;">
-        <div id="toolbar-container" class="edtor" style="width: 300px;"></div>
-
-        <textarea id="editor" name="post_content" placeholder="Напишите что-нибудь...">
-            
-        </textarea>
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#editor'), {
-                toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload']
-            } )
-                .then(editor => {
-                    console.log(editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
-
-    <input type="submit" class="btn btn-secondary btn-block" style="float: right; margin-top: 20px; width: 150px; background: #72319f" value="Сохранить"></input>
-
-    </form>
-
-</div>
-
-{% endif %}
-
--->
 
 
   <div class="posts" style="padding-top: 50px" id='posts_list'>
@@ -174,7 +126,7 @@
                     font-size: 14px;
                     padding-top: 2px;">{{ post.author_fullname }}</p>
                 <br>
-                <small>{{ post.author_username }}</small>
+                <p style="font-family: Roboto;font-style: normal;">Поход: <a href = /hike/{{post.hike}} style="color:  #72319f; text-decoration: underline">{{post.hike_name}}</a></p>
                 </a>       
             </div>
             <div class="col-2">
@@ -187,9 +139,6 @@
         <div style="font-family: Roboto;font-style: normal;font-weight: normal;font-size: 24px;line-height: 36px; word-wrap: break-word;">
             {{post.content|safe}}
         </div>
-        <p>
-            Пост описывает <a href = /hike/{{hike}} style="color:  #72319f; text-decoration: underline">этот</a> поход. Чтобы узнать больше, перейдите по ссылке.
-        </p>
     
     </div>
 

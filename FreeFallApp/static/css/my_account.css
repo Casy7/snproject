@@ -1,0 +1,24 @@
+label.upload-btn {
+    margin-top: 0px;
+}
+
+#myimg {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+}
+
+#avatar_edit {
+    position: fixed;
+}
+
+.avatar_col {
+    padding: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.content{
+    margin-left: 10vw;
+    margin-right: 10vw;
+}

@@ -12,7 +12,7 @@
 <link href="{% static 'libs/modules/cropper/cropper.css' %}" rel="stylesheet">
 
 <img id='test_rs' src='' alt='nothing' style="display: none;">
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" id='editor_form'>
     {%csrf_token%}
 
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -43,7 +43,8 @@
                 <div class="row">
                     <div class="col" style="flex-grow: 0;
                     flex-basis: 0;">
-                        <div class="row avt" id='place_for_image' style="overflow: hidden;height: 250px; width: 444.4px;">
+                        <div class="row avt" id='place_for_image'
+                            style="overflow: hidden;height: 250px; width: 444.4px;">
                             {% if image == '' %}
                             <img src="{% static 'icons/default.jpg' %}" id="result_image_show" class="avatar preview"
                                 default="Фото не выбрано"></img>
@@ -107,7 +108,7 @@
                 <input type="hidden" name="landmarks" id="lm_list">
             </div>
 
-
+            <hr>
 
 
             <div class="col">
@@ -127,7 +128,8 @@
                             <p></p>
                         </div>
                         <div class="row">
-                            <p style="vertical-align: middle;text-align: center;"> </p>
+                            <p style="vertical-align: middle;text-align: center;padding-top: 30px;padding-left: 50%;">-
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm">
@@ -237,7 +239,7 @@
                 </script>
             </div>
             <br>
-
+            <input type='hidden' id='is_photo_deleted' value="false">
             <!--КОНЕЦ БЛОКА БАЗОВЫХ ПАРАМЕТРОВ-->
         </div>
 
@@ -247,7 +249,7 @@
         <div class="modal" id="cropper_photo" tabindex="-1" role="dialog" aria-labelledby="cropper_photo"
             aria-hidden="false">
             <div class="modal-dialog modal-dialog-centered" role="document" style="width: max-content;">
-                <div class="modal-content" style="width: max-content;">
+                <div class="modal-content crop-box" style="width: max-content;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLabel">Обрезать фотографию</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -279,16 +281,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-        <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet">
+        <!-- <link href="{% static 'libs/modules/bootstrap-select/css/bootstrap-select.min.css'%}" rel="stylesheet"> -->
 
         <!-- УЧАСТНИКИ -->
         <div class="tab-pane show fade" id="participants_content" role="tabpanel"
@@ -340,8 +333,9 @@
 
             <br>
 
-            <h2 class="new_header" style="padding-bottom: 0px;font-size: 1.5rem;">Добавление участников<a type="button" style="float: right;"
-                    class='unstyled' onclick="$('#invite_user').modal();$('.modal-backdrop').appendTo('#content');"> <svg style="width: 25px;display: table-header-group;
+            <h2 class="new_header" style="padding-bottom: 0px;font-size: 1.5rem;">Добавление участников<a type="button"
+                    style="float: right;" class='unstyled'
+                    onclick="$('#invite_user').modal();$('.modal-backdrop').appendTo('#content');"> <svg style="width: 25px;display: table-header-group;
                         align-self: unsafe;
                         vertical-align: middle;
                         float: inline-end;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -358,7 +352,7 @@
 
 
             </select>
-            <!-- <button class="btn btn-outline-secondary" type="button" onclick="add_user()">Добавить</button> -->
+            
             <input type="hidden" id='hike_id' value="{{hike_id}}">
 
             <div class="row">
@@ -371,13 +365,16 @@
                                 <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                     {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}'
+                                        style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}'
+                                        style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}'
+                                        style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
                                         {{user.0}}</p>
                                     <p class="snd_line" style="">@{{user.2}}</p>
                                 </div>
@@ -406,13 +403,16 @@
                                 <input type='hidden' id="user_hidden_id_{{user.2}}" value='{{user.3}}'>
                                 <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
                                     {% if user.1 != '' %}
-                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}' style="width: 60px; height: 60px;">
+                                    <img src="{{user.1.url}}" id='img_user_{{user.2}}'
+                                        style="width: 60px; height: 60px;">
                                     {% else %}
-                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}' style="width: 60px;height: 60px;">
+                                    <img src="{% static 'icons/default_user.png' %}" id='img_user_{{user.2}}'
+                                        style="width: 60px;height: 60px;">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                    <p class='usr_first_line' id='fname_user_{{user.2}}' style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
+                                    <p class='usr_first_line' id='fname_user_{{user.2}}'
+                                        style="font-family: 'Roboto-Bold';margin-bottom: 3px;">
                                         {{user.0}}</p>
                                     <p class='snd_line'>@{{user.2}}</p>
                                 </div>
@@ -513,6 +513,7 @@
                 add_ptc();
             }
 
+
             async function add_user() {
 
                 if (byId("user_" + byId('select_ptc').value) == undefined) {
@@ -534,6 +535,8 @@
                 }
 
             }
+            
+            
             function add_ptc() {
                 userlist = []
                 users_to_join = document.getElementsByClassName('selected_user');
@@ -579,15 +582,15 @@
 
                                     `<div class="card" id='user_` + username + `' style="border: 1px solid rgb(224, 224, 224);border-radius:8px;margin-bottom: 4px;">
                                         <div class="row" style="padding: 5px;">
-                                            <input type='hidden' id="user_hidden_id_`+ username +`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                            <input type='hidden' id="user_hidden_id_`+ username + `" value='` + byId('user_hidden_id_' + username).value + `'>
                                             <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
 
-                                                <img id="`+'img_user_'+username+`" src="`+ byId('join_usr_avatar_' + username).src + `" style="width: 60px; height: 60px;">
+                                                <img id="`+ 'img_user_' + username + `" src="` + byId('join_usr_avatar_' + username).src + `" style="width: 60px; height: 60px;">
 
 
                                             </div>
                                             <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                                <p class='usr_first_line' id = "fname_user_`+username+`" style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+ byId('join_usr_fname_' + username).innerHTML + `</p>
+                                                <p class='usr_first_line' id = "fname_user_`+ username + `" style="font-family: 'Roboto-Bold';margin-bottom: 3px;">` + byId('join_usr_fname_' + username).innerHTML + `</p>
                                                 <p class='snd_line' style="">@`+ username + `</p>
                                             </div>
                                             <div class="col-sm-3 usr_status" style="height: 60px;vertical-align: bottom">
@@ -595,7 +598,7 @@
                                                     <li class='usr_first_line'>Ожидает подтверждения</li>
                                                 </div>
                                                 <div class="row">
-                                                    <button type="button" onclick="del_pot_user('`+ username + `','` + byId('user_hidden_id_'+username).value + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
+                                                    <button type="button" onclick="del_pot_user('`+ username + `','` + byId('user_hidden_id_' + username).value + `')" class="btn btn-light usr_snd_line del_user"><i class="far fa-trash-alt" style="padding-right: 3px;"></i>Удалить</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -614,19 +617,21 @@
 
 
             }
+            
+            
             function delete_avatar() {
                 $('#result_image_show').remove();
 
                 jQuery(`<img src="{% static 'icons/default.jpg' %}" id='result_image_show' class="avatar preview" style='height: auto;'>`).appendTo($('#place_for_image'));
-                // img_canvas.id = '';
-                // document.getElementById("myimg").src = "";
+                byId('is_photo_deleted').value = 'true'
                 clearInputFile(document.getElementById("myfile"));
                 del_avatar_button();
             }
 
+
             function del_pot_user(username, user_id) {
                 hike_id = byId('hike_id').value;
-                
+
                 send_data = {}
                 send_data['code'] = user_id.toString() + '-' + hike_id.toString() + '-' + 'invite_to_hike';
                 send_data['result'] = 'delete';
@@ -661,17 +666,17 @@
                     success: function a(json) {
                         card = byId('user_' + username)
                         $(
-                            `<div type="button" class="card standart_user join_user" id='join_user_`+username+`' onclick="select_user('`+username+`')">
+                            `<div type="button" class="card standart_user join_user" id='join_user_` + username + `' onclick="select_user('` + username + `')">
                                 <a class="row" style="padding: 5px;">
-                                    <input type='hidden' id="user_hidden_id_`+username+`" value='`+byId('user_hidden_id_'+username).value+`'>
+                                    <input type='hidden' id="user_hidden_id_`+ username + `" value='` + byId('user_hidden_id_' + username).value + `'>
                                     <div class="col-sm-2" style="vertical-align: middle;width: inherit;flex:none">
-                                        <img id='join_usr_avatar_`+username+`' src="`+byId('img_user_'+username).src+`" style="width: 60px; height: 60px;">
+                                        <img id='join_usr_avatar_`+ username + `' src="` + byId('img_user_' + username).src + `" style="width: 60px; height: 60px;">
                                     </div>
                                     <div class="col-sm" style="vertical-align: bottom;height: 60px;">
-                                        <p class='usr_first_line' id='join_usr_fname_`+username+`'
+                                        <p class='usr_first_line' id='join_usr_fname_`+ username + `'
                                             style="font-family: 'Roboto-Bold';margin-bottom: 3px;">`+
-                                            byId('fname_user_'+username).innerHTML+`</p>
-                                        <p class="snd_line" style="">@`+username+`</p>
+                            byId('fname_user_' + username).innerHTML + `</p>
+                                        <p class="snd_line" style="">@`+ username + `</p>
                                     </div>
 
 
@@ -681,7 +686,7 @@
 
                                 </a>
                             </div>`).appendTo($('#mCSB_1_container')
-                        );
+                            );
                         // alert('success')
                         byId('user_' + username).parentNode.removeChild(byId('user_' + username));
                     }
@@ -689,28 +694,6 @@
             }
 
         </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1149,24 +1132,6 @@
 
                 });
 
-                function save_info() {
-
-                    coordinates = []
-
-                    markers.forEach(function (item, index) {
-                        var day = item.day;
-                        var lngLat = item.marker.getLngLat();
-                        var lng = lngLat.lng;
-                        var lat = lngLat.lat;
-                        var id = item.id;
-
-                        coordinates.push(id, day, lng, lat)
-
-                    });
-                    debugger;
-                    document.getElementById("coords").value = coordinates;
-                    document.getElementById("del_coords").value = cord_del;
-                }
 
             </script>
 
@@ -1185,7 +1150,7 @@
         <div class='col'>
             <a href="/editor/{{ id }}" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
                 изменения</a></div>
-        <div class='col'><input type="submit" onclick="save_info()" class="btn btn-secondary btn-block btn-lg indigo"
+        <div class='col'><input type="button" onclick="send_croped_photo()" class="btn btn-secondary btn-block btn-lg indigo"
                 value="Сохранить изменения">
         </div>
     </div>

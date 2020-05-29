@@ -14,12 +14,25 @@ var cropper = new Cropper(image, {
 });
 
 document.querySelector('#myfile').addEventListener('change', function () {
+    
+    show_cropper();
+});
+
+async function show_cropper(){
+    read_image_URL();
+    
+    // sleep(2000);
 
     $('#cropper_photo').modal();
     $('.modal-backdrop').appendTo("#content");
-    read_image_URL();
+}
 
-});
+byId('cropper_photo').addEventListener('ready', function () {
+    // console.log(this.cropper === cropper);
+    // > true
+  });
+  
+
 
 $(function () {
     $("#join_ptc").mCustomScrollbar({
@@ -58,23 +71,33 @@ function get_cropper_data() {
     img_canvas = cropper.getCroppedCanvas({ width: 444, height: 250 });
     img_canvas.id = 'result_image_show';
     jQuery(img_canvas).appendTo($('#place_for_image'));
+    byId('is_photo_deleted').value = 'false';
+}
 
-    var url = cropper.getCroppedCanvas({ width: 800, height: 450 }).toDataURL();
-    var blobBin = atob(url.split(',')[1]);
-    var array = [];
-    for (var i = 0; i < blobBin.length; i++) {
-        array.push(blobBin.charCodeAt(i));
+
+function send_croped_photo() {
+    delete_photo = (byId('is_photo_deleted').value == 'true')
+    if (!delete_photo) {
+        var url = cropper.getCroppedCanvas({ width: 800, height: 450 }).toDataURL();
+        var blobBin = atob(url.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+
+
+        var formdata = { "myNewFileName": file };
+        base64 = url.substr(url.indexOf(',') + 1)
     }
-    var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
 
-
-    var formdata = { "myNewFileName": file };
-    base64 = url.substr(url.indexOf(',') + 1)
-    // base64 = url;
+    else{
+        base64 = ''
+    }
     $.ajax({
         url: "upload_hike_image/",
         type: "POST",
-        data: { 'base64img': base64 },
+        data: { 'base64img': base64, 'delete_photo': delete_photo },
         beforeSend: function (xhr, settings) {
             function getCookie(name) {
                 var cookieValue = null;
@@ -97,8 +120,26 @@ function get_cropper_data() {
             }
         },
         success: function a(json) {
+            coordinates = [];
 
-        }
+            markers.forEach(function (item, index) {
+                var day = item.day;
+                var lngLat = item.marker.getLngLat();
+                var lng = lngLat.lng;
+                var lat = lngLat.lat;
+                var id = item.id;
+
+                coordinates.push(id, day, lng, lat);
+
+            });
+            debugger;
+            document.getElementById("coords").value = coordinates;
+            document.getElementById("del_coords").value = cord_del;
+            byId('editor_form').submit();
+        },
+        error: function err(json) {
+            alert('Server Error');
+        },
     });
 
 }
@@ -145,9 +186,6 @@ function str_to_list(str_el) {
     list = str_el.split(", ");
     return list
 }
-
-
-
 
 
 function add_new_day() {
