@@ -310,12 +310,14 @@ class AddComment(View, LoginRequiredMixin):
 class UploadHikeImage(View, LoginRequiredMixin):
     def post(self, request):
         result = {}
-
         data = request.POST
         hike_id = int(request.path[8:request.path.find('upload_hike_image')-1])
         hike = Hike.objects.get(id=hike_id)
-
-        hike.image = decode_base64_file(data['base64img'])
-        hike.save()
-
+        if data['delete_photo'] == 'false':
+            
+            hike.image = decode_base64_file(data['base64img'])
+            hike.save()
+        else:
+            hike.image.delete()
+            hike.save()
         return HttpResponse(json.dumps(result), content_type="application/json")
