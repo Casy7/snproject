@@ -3,6 +3,192 @@
 {% load static %}
 
 <link href="{% static 'css/my_account.css'%}" rel="stylesheet">
+
+<script src="{% static 'js/my_account.js'%}"></script>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md" id="custom-file-input">
+        <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
+            accept=".jpg, .jpeg, .png">
+    </div>
+    <!-- <h2 style="border-top: 1px solid rgb(199, 199, 199);">Профиль</h2> -->
+
+    <div class="row" style="margin-left: 0px;">
+        <!-- style="width: 250px;"> -->
+        <div class="img-container" style="padding: 0px;width: 250px;">
+
+            <div class="col avatar_col">
+                {% if avatar == '' %}
+                <img src="{% static 'icons/default_user.png' %}" width="250" id="myimg" class="avatar"
+                    default="Фото не выбрано"></img>
+                {% else %}
+                <img src="{{profile.avatar.url}}" width="250" id="myimg" class="avatar" default="Фото не выбрано"></img>
+                {% endif %}
+            </div>
+            <div class="col">
+                <div class="row avatar_edit" style="padding: 0px;width: 250px;">
+                    <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 250px;">
+                        <label type="button" for="myfile" class="upload-btn"
+                            style="display: block;text-align: center;width: 100%;margin-top: 0px;">Загрузить
+                        </label>
+                    </div>
+                    <div class="col-sm" id="del_button" style="padding: 0px;">
+                        <!-- Сюда добавляется кнопка удаления -->
+
+                        {% if avatar != '' %}
+
+                        <script>
+                            del_without_replacing();
+                        </script>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            <script src="{% static 'js/upload_photo.js' %}"></script>
+            </script>
+        </div>
+
+
+        <div class="col" style="float: left;min-width: 70%;width: 600px;">
+
+            <tr class="row" style="width: 20%;">
+                <label for="exampleFormControlInput1">Фамилия</label>
+                <input type="text" class="form-control" name="last_name" placeholder=" "
+                    style="width: 45%;font-size: 18px;" value="{{user.last_name}}">
+            </tr>
+            <tr class="row" style="width: 20%;">
+                <label for="exampleFormControlInput1">Имя</label>
+                <input type="text" class="form-control" name="first_name" placeholder=" "
+                    style="width: 45%;font-size: 18px;" value="{{user.first_name}}">
+            </tr>
+            <tr class="row" style="width: 70%;">
+                <label for="exampleFormControlInput1">О себе</label>
+                <span>
+                    <textarea class="form-control" name="about" placeholder=""
+                        style="font-size: 14px; height: 140px;">{{profile.about}}</textarea>
+                </span>
+            </tr class="row" style="width: 20%;">
+            <div class="row" id="hidden_fields">
+
+                <!-- <input type="text" class="form-control"> -->
+            </div>
+
+
+
+            <!-- Полное имя и описание -->
+        </div>
+    </div>
+
+
+
+    <label for="contacts">Контакты</label>
+    <div id="contacts" style="width: 65%;">
+
+
+        <!--Тут должно быть начало блока цикла темплейта-->
+
+
+        {% for contact in contacts %}
+
+        <div class="row" name="day" id="contact_{{contact.id}}" style="padding-top:20px;">
+            <div class="col-sm" id="contact_name_{{contact.id}}">
+                {% if contact.name in list_of_alowed_positions %}
+                <select class="form-control" name="contact_name_{{contact.id}}" id="contact_select_name_{{contact.id}}"
+                    style="height: 40px;font-size: 14px;">
+                    <option value="email">Email</option>
+                    <option value="phone">Телефон</option>
+                    <option value="telegram">Telegram</option>
+                    <option value="other" onclick="other_contact_type(this.parentNode.parentNode.parentNode.id)">Другое
+                    </option>
+                </select>
+                <script>
+                    byId('contact_select_name_{{contact.id}}').value = "{{contact.name}}";
+                </script>
+                {% else %}
+                <input type="text" id="contact_name_{{contact.id}}" class="form-control"
+                    name="contact_name_{{contact.id}}" style="height: 40px;font-size: 14px;" value="{{contact.name}}">
+                {% endif %}
+
+            </div>
+
+            <div class="col-sm">
+                <input type="text" id="contact_value_1" class="form-control" name="contact_value_{{contact.id}}"
+                    style="height: 40px;font-size: 14px;" value="{{contact.value}}">
+            </div>
+            <div class="col-sm">
+                <select name="contact_visibility_{{contact.id}}" class="form-control"
+                    style="height: 40px;font-size: 14px;" id="visible_cond_{{contact.id}}">
+                    <option value="noone">Виден только мне</option>
+                    <option value="all">Виден всем</option>
+                    <option value="friends">Виден друзьям</option>
+                </select>
+            </div>
+            <script>
+                byId('visible_cond_{{contact.id}}').value = "{{contact.visible_for}}";
+            </script>
+            <div class="col-sm-1">
+                <button type="button" class="form-control" style="height: 40px;font-size: 14px;"
+                    onclick="del_contact_field(this.parentNode.parentNode.id)">-</button>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+
+
+        <!-- Тут должен быть конец этого блока -->
+
+    </div> <br>
+    <input type="button" class="form-control" value="+" onclick="add_contact_field()" value=""
+        style="height: 40px;font-size: 14px; width: 65%;">
+    <br>
+
+    <div style="display: none;">
+
+        <h2 style="border-top: 1px solid rgb(199, 199, 199);">Приватность</h2>
+        <label for="exampleFormControlInput1">Кто может отправлять Вам запросы на участие</label>
+        <select class="form-control select" name="request" style="height: 40px;font-size: 14px;" id="request">
+            <option value="noone">Никто</option>
+            <option value="friends">Друзья</option>
+            <option value="all">Все</option>
+        </select>
+        <label for="exampleFormControlInput1">Кто может добавлять Вас в походы</label>
+        <select class="form-control select" name="add_to_ptc" style="height: 40px;font-size: 14px;" id="add_to_ptc">
+            <option value="noone">Никто</option>
+            <option value="friends">Друзья</option>
+            <option value="all">Все</option>
+        </select>
+        <label for="exampleFormControlInput1">Кто видит Ваши походы</label>
+        <select class="form-control select" name="can_see_hikes" style="height: 40px;font-size: 14px;"
+            id="can_see_hikes">
+            <option value="noone">Никто</option>
+            <option value="friends">Друзья</option>
+            <option value="all">Все</option>
+        </select>
+        <script>
+            byId('request').value = "{{profile.request_for_participation}}";
+            byId('add_to_ptc').value = "{{profile.add_to_participation}}";
+            byId('can_see_hikes').value = "{{profile.see_hikes}}";
+        </script>
+        <!-- <input type="text" class="form-control" name="first_name" placeholder=" "
+    style="width: 45%;font-size: 18px;"> -->
+        <div class="col-sm-2">
+        </div>
+
+    </div>
+    <br>
+    <div class='row'>
+        <div class='col'>
+            <a href="/account_editor/" class="btn btn-outline-secondary btn-block btn-lg indigo outline">Отменить
+                изменения</a></div>
+        <div class='col'><input type="submit" class="btn btn-secondary btn-block btn-lg indigo"
+                value="Сохранить изменения">
+        </div>
+    </div>
+</form>
+
 <script>
     function del_without_replacing() {
         button = document.createElement("button");
@@ -31,175 +217,4 @@
         // 
     }
 </script>
-<script src="{% static 'js/my_account.js'%}"></script>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="col-md" id="custom-file-input">
-        <input type="file" class="file-upload" name="image" style="display: none;" id="myfile"
-            accept=".jpg, .jpeg, .png">
-    </div>
-    <!-- <h2 style="border-top: 1px solid rgb(199, 199, 199);">Профиль</h2> -->
-    <table class="form-row">
-        <tr class="col">
-            <!-- style="width: 250px;"> -->
-            <td class="img-container" style="padding: 0px;width: 250px;">
-
-                <div class="row">
-                    {% if avatar == '' %}
-                    <img src="{% static 'icons/default_user.png' %}" width="250" id="myimg" class="avatar"
-                        default="Фото не выбрано"></img>
-                    {% else %}
-                    <img src="{{profile.avatar.url}}" width="250" id="myimg" class="avatar" default="Фото не выбрано"></img>
-                    {% endif %}
-                </div>
-                <div class="row" style="padding: 0px;width: 250px;">
-                    <div class="col-sm" id="custom-file-input" style="padding: 0px;width: 250px;">
-                        <label type="button" for="myfile" class="upload-btn"
-                            style="display: block;text-align: center;width: 100%;">Загрузить
-                        </label>
-                    </div>
-                    <div class="col-sm" id="del_button" style="padding: 0px;">
-                        <!-- Сюда добавляется кнопка удаления -->
-
-                        {% if avatar != '' %}
-
-                        <script>
-                            del_without_replacing();
-                        </script>
-                        {% endif %}
-
-                    </div>
-                </div>
-                <script src="{% static 'js/upload_photo.js' %}"></script>
-                </script>
-            </td>
-
-
-            <td style="float: left;min-width: 70%;width: 600px;">
-                <table class="col-bg">
-                    <tr class="row" style="width: 20%;">
-                        <label for="exampleFormControlInput1">Фамилия</label>
-                        <input type="text" class="form-control" name="last_name" placeholder=" "
-                            style="width: 45%;font-size: 18px;" value="{{user.last_name}}">
-                    </tr>
-                    <tr class="row" style="width: 20%;">
-                        <label for="exampleFormControlInput1">Имя</label>
-                        <input type="text" class="form-control" name="first_name" placeholder=" "
-                            style="width: 45%;font-size: 18px;" value="{{user.first_name}}">
-                    </tr>
-                    <tr class="row" style="width: 70%;">
-                        <label for="exampleFormControlInput1">О себе</label>
-                        <span>
-                            <textarea class="form-control" name="about" placeholder=""
-                                style="font-size: 14px; height: 140px;">{{profile.about}}</textarea>
-                        </span>
-                    </tr class="row" style="width: 20%;">
-                    <div class="row" id="hidden_fields">
-
-                        <!-- <input type="text" class="form-control"> -->
-                    </div>
-                </table>
-
-
-                <!-- Полное имя и описание -->
-            </td>
-        </tr>
-    </table>
-
-
-    <label for="contacts">Контакты</label>
-    <div id="contacts" style="width: 65%;">
-
-
-        <!--Тут должно быть начало блока цикла темплейта-->
-
-
-        {% for contact in contacts %}
-
-        <div class="row" name="day" id="contact_{{contact.id}}" style="padding-top:20px;">
-            <div class="col-sm" id="contact_name_{{contact.id}}">
-                {% if contact.name in list_of_alowed_positions %}
-                <select class="form-control" name="contact_name_{{contact.id}}" id="contact_select_name_{{contact.id}}" style="height: 40px;font-size: 14px;">
-                    <option value="email">Email</option>
-                    <option value="phone">Телефон</option>
-                    <option value="telegram">Telegram</option>
-                    <option value="other" onclick="other_contact_type(this.parentNode.parentNode.parentNode.id)">Другое
-                    </option>
-                </select>
-                <script>
-                    byId('contact_select_name_{{contact.id}}').value = "{{contact.name}}";
-                </script>
-                {% else %}
-                <input type="text" id="contact_name_{{contact.id}}" class="form-control" name="contact_name_{{contact.id}}"
-                style="height: 40px;font-size: 14px;" value="{{contact.name}}">
-                {% endif %}
-
-            </div>
-
-            <div class="col-sm">
-                <input type="text" id="contact_value_1" class="form-control" name="contact_value_{{contact.id}}"
-                    style="height: 40px;font-size: 14px;" value="{{contact.value}}">
-            </div>
-            <div class="col-sm">
-                <select name="contact_visibility_{{contact.id}}" class="form-control" style="height: 40px;font-size: 14px;" id="visible_cond_{{contact.id}}">
-                    <option value="noone">Виден только мне</option>
-                    <option value="all">Виден всем</option>
-                    <option value="friends">Виден друзьям</option>
-                </select>
-            </div>
-            <script>
-            byId('visible_cond_{{contact.id}}').value = "{{contact.visible_for}}";
-            </script>
-            <div class="col-sm-1">
-                <button type="button" class="form-control" style="height: 40px;font-size: 14px;"
-                    onclick="del_contact_field(this.parentNode.parentNode.id)">-</button>
-            </div>
-        </div>
-
-        {% endfor %}
-
-
-
-
-        <!-- Тут должен быть конец этого блока -->
-
-    </div>
-    <br>
-    <input type="button" class="form-control" value="+" onclick="add_contact_field()" value=""
-        style="height: 40px;font-size: 14px; width: 65%;">
-    <br>
-    <h2 style="border-top: 1px solid rgb(199, 199, 199);">Приватность</h2>
-    <label for="exampleFormControlInput1">Кто может отправлять Вам запросы на участие</label>
-    <select class="form-control select" name="request" style="height: 40px;font-size: 14px;" id="request">
-        <option value="noone">Никто</option>
-        <option value="friends">Друзья</option>
-        <option value="all">Все</option>
-    </select>
-    <label for="exampleFormControlInput1">Кто может добавлять Вас в походы</label>
-    <select class="form-control select" name="add_to_ptc" style="height: 40px;font-size: 14px;" id="add_to_ptc">
-        <option value="noone">Никто</option>
-        <option value="friends">Друзья</option>
-        <option value="all">Все</option>
-    </select>
-    <label for="exampleFormControlInput1">Кто видит Ваши походы</label>
-    <select class="form-control select" name="can_see_hikes" style="height: 40px;font-size: 14px;" id="can_see_hikes">
-        <option value="noone">Никто</option>
-        <option value="friends">Друзья</option>
-        <option value="all">Все</option>
-    </select>
-    <script>
-        byId('request').value = "{{profile.request_for_participation}}";
-        byId('add_to_ptc').value = "{{profile.add_to_participation}}";
-        byId('can_see_hikes').value = "{{profile.see_hikes}}";
-    </script>
-    <!-- <input type="text" class="form-control" name="first_name" placeholder=" "
-    style="width: 45%;font-size: 18px;"> -->
-    <div class="col-sm-2">
-
-
-    </div>
-    <br>
-    <input type="submit" class="form-control btn btn-secondary" value="Сохранить" >
-</form>
-
 {% endblock %}
