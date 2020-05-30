@@ -107,9 +107,13 @@
 
     {% else %}
 
+    {% if user.username not in usernames %}
+
     <h2 style = "color: gray; position: relative;
     left: 35%;
   ">Здесь пока ничего нет...</h2>
+
+    {% endif %}
 
     {% endif %}
 
