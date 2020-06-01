@@ -284,7 +284,7 @@
                                             }
                                             );
 
-
+                                            // count_notifications();
                                             $.ajax({
                                                 url: "/get_user_notifications/",
                                                 type: 'POST',
@@ -320,7 +320,7 @@
                                                     if (json.result === "success") {
                                                         update_notifications(json.notifications);
                                                         // console.log(json.notifications);
-                                                        count_notifications();
+                                                        // count_notifications();
 
                                                     } else {
                                                         // byId(id_code).parentNode.removeChild(byId(id_code));
@@ -328,7 +328,8 @@
                                                     }
                                                 }
                                             });
-                                            await sleep(10000);
+                                            count_notifications();
+                                            await sleep(5000);
                                         }
 
                                     }
@@ -503,7 +504,7 @@
                                         byId('nt_counter').innerText = notifications_counter;
                                         if (notifications_counter >= 1) {
                                             byId('no_notifications').style.display = 'none';
-                                            byId('nt_counter').style.display = 'visible';
+                                            byId('nt_counter').style.display = 'initial';
                                             byId('nt_counter').className = "badge badge-danger";
                                             return notifications_counter;
 
