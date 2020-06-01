@@ -27,7 +27,11 @@
             <script>
                 ClassicEditor
                     .create(document.querySelector('#editor'), {
-                    toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload']
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', '|', 'imageUpload'],
+                    cloudServices: {
+            tokenUrl: 'https://71936.cke-cs.com/token/dev/7KBskikVGLUfXIEblF7DhRkj3Oea9oCTstVZncUfxHKe7kQjj3E8KOcpzLAp',
+            uploadUrl: 'https://71936.cke-cs.com/easyimage/upload/'
+        }
                 } )
                     .then(editor => {
                         console.log(editor);
@@ -88,7 +92,7 @@
 
             
             <div style="word-wrap: break-word;     
-            max-height: 200px; overflow: hidden;">
+            max-height: 200px; max-width: 100%; overflow: hidden;">
                 {{post.content|safe}}
 
             
