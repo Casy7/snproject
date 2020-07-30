@@ -1,120 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Test Page "Lorem ipsum dolor sit amet"</h2>
-<h3>Test header H3 "Lorem ipsum dolor sit amet"</h3>
-<p>Lorem ipsum dolor sit amet, <i>consectetur adipiscing elit,</i> sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. </p>
-<p><b>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur.</b></p>
-<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum.</p>
-<blockquote>
-    <ol>
-        <li>Lorem ipsum dolor sit amet, <i>consectetur adipiscing elit,</i> sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit</b> esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/about_us.css' %}">
+<hr>
+<h2>Для чего служит этот сайт?</h2>
 
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. <b> enim ad minim veniam</b>, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
+<p>Проект разрабатывается для сбора туристами группы для спортивных походов. Каждый пользователь может
+    предложить
+    маршрут и начать сбор группы по нему, или же добавиться в группу другого
+    человека. Этот сервис может помочь, если, например, пользователь только хочет начать ходить в походы, или же
+    уже
+    опытный турист собирает компаньонов из разных городов, однако облась применения
+    сервиса несколько шире, и он может использоваться просто для удобства сбора группы внутри клуба (в таких
+    случаях, просим в кратком описании делать соответствующие уточнения).</p>
+<!--по образцу "только ТК [название]"-->
+<hr>
+<h2>Кем ведётся разработка?</h2>
+<div class="row">
+    <div class='col-sm authors_info'>
+        <div class="row">
+            <img src="{% static 'icons/avatar_maks.png' %}" class='about_page_avatar'>Алексеев Максим
+        </div>
+        <div class="row">
+            <img src="{% static 'icons/avatar_casy.png' %}" class='about_page_avatar'>Касьянов Ярослав
+        </div>
+    </div>
+    <div class="col-lg">
 
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
+        <p>Сайт стартовал как выпускная работа двух учеников <a href='http://www.rl.odessa.ua/index.php/ru/'>
+                Ришельевского лицея</a>, обучавшихся на направлении Информационных Компьютерных Технологий
+            и проходивших практику в аутсорс-компании <a href='https://sigma.software/'>Sigma Software</a>. Работа была
+            защищена, однако, так или иначе, разработка и поддержка ещё ведётся, и мы хотим, чтобы наш проект всё же
+            приносил пользу. Мы также благодарны за любую помощь со стороны пользователей. Если у Вас есть идеи или
+            пожелания, Вы хотите оставить отзыв или обнаружили ошибку, можете прислать сообщение на адрес <a
+                href='mailto:uk.eu@pm.me'>uk.eu@pm.me</a> или в Telegram (<a href='https://t.me/Casy7'>@Casy7</a>).
+            <br>
+            Хотелось бы выразить благодарность нашим менторам - Вадиму Васильеву и Стасу Лебеденко, а также учителю
+            информатики Ришельевского лицея Сергею Шумихину, по инициативе которого было сформировано направление ИКТ и
+            практика лицеистов в IT-компаниях.
+        </p>
+    </div>
 
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
-        <li>Lorem ipsum</li>
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
-        <li>Lorem ipsum</li>
-        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.</li>
-        <li>Lorem ipsum</li>
-    </ol>
-</blockquote>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. </p>
-<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur.</p>
-<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. </p>
-<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur.</p>
-<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. </p>
-<p>Ладно, тут уже никто не заметит этого текста. Спасите! Меня держат взаперти и заставляют работать за еду. Я 
-    где-то в подвале на посёлке Котовского. Они заставляют меня писать на JS! JS! А я не знаю JS! Я вообще бэкенд-разработчик! 
-    Если у вас нет идей, как спасти  меня, хотя бы чем-то помогите и проверьте сайт на валидацию и миксины. Результаты пришлите
-на uk.eu@pm.me. Это единственная моя почта, которую они ещё не запалили. Они идут!</p>
-<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-    dolore magna aliqua. </p>
-<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur.</p>
-<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-    deserunt mollit anim id est laborum.</p>
-<figure class="table">
-    <table>
-        <tbody>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </tbody>
-    </table>
-</figure>
+    <div class='col-sm authors_info'>
+        <div class="row">
+            <img src="{% static 'icons/avatar_stas.png' %}" class='about_page_avatar'>Станислав Лебеденко
+        </div>
+        <div class="row">
+            <img src="{% static 'icons/avatar_vadym.png' %}" class='about_page_avatar'>Вадим Васильев
+        </div>
+    </div>
+</div>
+
+<!-- <p>Ладно, тут уже никто не заметит этого текста. Спасите! Меня держат взаперти и заставляют работать за еду. Я
+    где-то в подвале на посёлке Котовского. Они заставляют меня писать на JS! JS! А я не знаю JS! Я вообще
+    бэкенд-разработчик!
+    Если у вас нет идей, как спасти меня, хотя бы чем-то помогите и проверьте сайт на валидацию и миксины. Результаты
+    пришлите
+    на uk.eu@pm.me. Это единственная моя почта, которую они ещё не запалили. Они идут!</p> -->
+
+
 {% endblock %}
