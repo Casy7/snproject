@@ -3,5 +3,15 @@
 }
 
 .authors_info {
-    width: min-content;
+    min-width: 270px;
+    flex-grow: 0;
+    float: left;
+    align-items: center;
+}
+.authors_info >* {
+    display: inline-block;
+    vertical-align: middle;
+}
+.authors_info .row {
+    padding-top:5px;
 }
