@@ -60,14 +60,17 @@
             font-family: "Roboto-Light";
             src: url("{% static 'libs/fonts/roboto/Roboto-Light.ttf' %}") format("truetype");
         }
+
         @font-face {
             font-family: "Roboto-Medium";
             src: url("{% static 'libs/fonts/roboto/Roboto-Medium.ttf' %}") format("truetype");
-        }        
+        }
+
         @font-face {
             font-family: "Roboto-Bold";
             src: url("{% static 'libs/fonts/roboto/Roboto-Bold.ttf' %}") format("truetype");
         }
+
         /*
         @font-face {
             font-family: "Roboto-Black-Italic";
@@ -211,16 +214,8 @@
                     <!--HEADER BUTTONS-->
 
                     <a href='/'>
-                        <div class=row style="position: absolute; left: 45%; top: 7%;">
-                            <div class=col>
-                                <img src="{% static 'icons/logo_white.png' %}" class="navbar-avatar">
-                            </div>
-
-                            <div class=col>
-                                <p
-                                    style="font-family: 'Roboto'; color: white; font-style: normal; font-size: 24px; margin-left: -20px;">
-                                    FreeFall</p>
-                            </div>
+                        <div class=row style="position: absolute; top:-1px">
+                            <img src="{% static 'icons/FreeFallModernLogo.svg' %}" alt="FreeFall" height="49" style="color: white;border-radius: 25px;">
                         </div>
                     </a>
 
@@ -522,8 +517,7 @@
                                 {% endif %}
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link main-navbar round" href="/posts"><i
-                                        class="fas fa-inbox"></i></a>
+                                <a class="nav-link main-navbar round" href="/posts"><i class="fas fa-inbox"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link main-navbar round" href="/hike_filter"><i

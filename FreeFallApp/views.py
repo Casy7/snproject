@@ -27,7 +27,7 @@ from FreeFallApp.views_editor import *
 
 class HomePage(View):
     def get(self, request):
-        context = base_context(request, title='Home', header='О сайте')
+        context = base_context(request, title='Home')
         return render(request, "main.html", context)
 
 
