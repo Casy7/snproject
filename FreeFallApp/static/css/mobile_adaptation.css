@@ -2,20 +2,27 @@
     #free_fall_nav_logo_link {
         display: none;
     }
-    #create_hike_button {
-        /* width: 34px;
-        border-radius: 50%; */
-        display: none;
+    #navbar_create_hike_button {
+        display: none !important;
     }
+    #create_hike_button {
+
+        display: none;
+    }  
     #create_hike_button p {
         display: none !important;
     }
     #main_navbar_ul {
-        display: contents;
-        right: 12rem;
+        display: flex;
+        width: 100%;
+        /* flex-grow: 1; */
     }
     #main_navbar_ul li {
-        padding-left: 15%;
+        display: contents;
+        margin-right: auto;
+        margin-left: auto;
+        /* flex-grow: 1; */
+        display: inline-flex;
     }
     #home_nav_button {
         display: initial;
@@ -28,6 +35,19 @@
     }
     #navbarSupportedContent {
         position: relative;
-        width: inherit;
+        width: 100%;
+    }
+    #navbar_logout_button {
+        display: none !important;
+    }
+    #mobileSidebarCollapse {
+        display: inline-flex;
+    }
+    #sidebarCollapse {
+        display: none;
+    }
+    .navbar-container {
+        margin-right: auto;
+        margin-left: auto;
     }
 }
