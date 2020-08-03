@@ -222,15 +222,14 @@
                         </div>
                     </a>
 
-
+          <style>
+                                #mobileSidebarCollapse {
+                                    display: none;
+                                }
+                            </style>
 
                     <div class="" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto main-nav" id='main_navbar_ul'>
-                            {% if username != ''%}
-
-                            <!-- onclick="byId('notification_menu').style.display='none' -->
-
-                            {% endif %}
 
 
                             <li class="nav-item" id='mobileSidebarCollapse'>
@@ -238,7 +237,7 @@
                             </li>
 
                             {% if username != ''%}
-                            <li class="nav-item active" id = 'navbar_create_hike_button' style="vertical-align: middle;">
+                            <li class="nav-item active" id='navbar_create_hike_button' style="vertical-align: middle;">
                                 <a class="nav-link main-navbar" id='create_hike_button' href="/new_hike"><i
                                         class="fas fa-plus" style="vertical-align: middle;"></i>
                                     <p style="display: initial;">Добавить поход</p>
