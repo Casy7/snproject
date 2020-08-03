@@ -1,0 +1,33 @@
+@media screen and (max-width: 481px) {
+    #free_fall_nav_logo_link {
+        display: none;
+    }
+    #create_hike_button {
+        /* width: 34px;
+        border-radius: 50%; */
+        display: none;
+    }
+    #create_hike_button p {
+        display: none !important;
+    }
+    #main_navbar_ul {
+        display: contents;
+        right: 12rem;
+    }
+    #main_navbar_ul li {
+        padding-left: 15%;
+    }
+    #home_nav_button {
+        display: initial;
+    }
+    .nav-link.main-navbar.round {
+        display: initial !important;
+    }
+    #container {
+        column-count: 1;
+    }
+    #navbarSupportedContent {
+        position: relative;
+        width: inherit;
+    }
+}
