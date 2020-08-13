@@ -83,9 +83,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'FreeFallDB',
-        'USER': 'FreeFallAdmin@freefall',
-        'PASSWORD': 'liceuMFr$$F@ll$$',
-        'HOST': 'freefall.postgres.database.azure.com',
+        'USER': os.environ.get('user', ''),
+        'PASSWORD': os.environ.get('password', ''),
+        'HOST': os.environ.get('host', ''),
         'PORT': 5432, 
     },
     'local': {
@@ -99,9 +99,9 @@ DATABASES = {
     'azure': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'FreeFallDB',
-        'USER': 'FreeFallAdmin@freefall',
-        'PASSWORD': 'liceuMFr$$F@ll$$',
-        'HOST': 'freefall.postgres.database.azure.com',
+        'USER': os.environ.get('user', ''),
+        'PASSWORD': os.environ.get('password', ''),
+        'HOST': os.environ.get('host', ''),
         'PORT': 5432, 
     }
 }
