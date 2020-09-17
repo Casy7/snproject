@@ -125,6 +125,7 @@ a.dropdown-menu-header {
     background-color: #db5565;
 }
 
+
 .dropdown-menu {
     width: 30%;
     float: right;
@@ -251,6 +252,10 @@ a.dropdown-menu-header {
     height: 200px;
     overflow: auto;
 }
+
+/* MOBILE */
+
+
 
 /*
 *
@@ -615,6 +620,10 @@ a.article, a.article:hover {
     top: 50%;
     /* position: relative; */
     /* transform: translateY(-50%); */
+}
+
+#mobileSidebarCollapse {
+    display: none;
 }
 
 /* .nav-item .nav-link.main-navbar {
