@@ -30,7 +30,15 @@
 
     <!-- SCRIPTS -->
     <script src="{% static 'libs/modules/jquery/jquery.js' %}" type="text/javascript"></script>
+    <script>
 
+        function show_mobile_sidebar() {
+
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+
+        }
+    </script>
 
 
     <!-- UNUSED AT THIS MOMENT BUT IMPORTANT IMPORTS -->
@@ -222,18 +230,19 @@
                         </div>
                     </a>
 
-          <style>
-                                #mobileSidebarCollapse {
-                                    display: none;
-                                }
-                            </style>
+                    <style>
+                        #mobileSidebarCollapse {
+                            display: none;
+                        }
+                    </style>
 
                     <div class="" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto main-nav" id='main_navbar_ul'>
 
 
                             <li class="nav-item" id='mobileSidebarCollapse'>
-                                <a class="nav-link main-navbar round" href="/"><i class="fas fa-bars"></i></a>
+                                <a class="nav-link main-navbar round" href="#" onclick="show_mobile_sidebar()"><i
+                                        class="fas fa-bars"></i></a>
                             </li>
 
                             {% if username != ''%}
@@ -271,6 +280,7 @@
 
                                     autoupdate_notifications()
                                     // count_notifications()
+
 
                                     function sleep(ms) {
                                         return new Promise(resolve => setTimeout(resolve, ms));
